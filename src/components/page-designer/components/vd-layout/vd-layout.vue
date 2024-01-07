@@ -1,14 +1,11 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-06 23:03:03
+ * @Date: 2024-01-07 11:09:33
  * @Description:
 -->
-
 <script setup lang="ts">
-import { PageDesigner } from '@/components'
-
 </script>
 
 <template>
-  <PageDesigner />
+  布局
 </template>
