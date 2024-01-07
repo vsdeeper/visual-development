@@ -13,7 +13,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'select', val: OptionItem, data: unknown): void
+  (e: 'select', val: OptionItem): void
 }>()
 
 const searchRef = ref<InputInstance>()
@@ -35,7 +35,7 @@ watch(word, throttle(word => {
 
 function select(val: OptionItem) {
   show.value = false
-  emit('select', val, { test: 111 })
+  emit('select', val)
 }
 
 function open() {

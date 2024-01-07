@@ -4,3 +4,4 @@
  * @Description:
  */
 export * from './capitalize-first-letter'
+export * from './uncapitalize-first-letter'

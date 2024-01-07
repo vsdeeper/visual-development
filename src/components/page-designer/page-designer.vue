@@ -6,9 +6,10 @@
 
 <script setup lang="ts">
 import { useGlobal } from '@/stores'
-import { KeyOfPageDesignerConfigData, SubComponentsOfPageDesigner, SubComponentsTypeOfPageDesigner } from '.'
+import { KeyOfPageDesignerDataModel, SubComponentsOfPageDesigner, SubComponentsTypeOfPageDesigner, addComponentOptions } from '.'
 import { AddComponent, AddComponentOptionItem } from '@/components'
-import { capitalizeFirstLetter } from '@/utils'
+import { capitalizeFirstLetter, uncapitalizeFirstLetter } from '@/utils'
+import { AsideConfigData } from './components/vd-aside'
 
 withDefaults(defineProps<{
   width?: string
@@ -16,21 +17,11 @@ withDefaults(defineProps<{
   width: '100%'
 })
 
-console.log('SubComponentsOfPageDesigner', SubComponentsOfPageDesigner)
+console.log('SubComponentsOfPageDesigner 表单设计子组件', SubComponentsOfPageDesigner)
 
 const { pageDesignerData, setPageDesignerData } = useGlobal()
 const addComponentRef = ref<InstanceType<typeof AddComponent>>()
 const key = ref('')
-const options = ref<AddComponentOptionItem[]>([
-  { label: '视图', value: 'View' },
-  { label: '主体', value: 'Main' },
-  { label: '路由', value: 'RouterView' },
-  { label: '容器', value: 'Container' },
-  { label: '侧栏', value: 'Aside' },
-  { label: '头部', value: 'Header' },
-  { label: '底部', value: 'Footer' },
-  { label: '布局', value: 'Layout' },
-])
 
 function handleKeydown(e: KeyboardEvent) {
   key.value += e.key.toUpperCase()
@@ -44,12 +35,31 @@ function handleKeyup() {
   if (key.value.includes('VD')) key.value = ''
 }
 
-function selectComponent(item: AddComponentOptionItem, data: unknown) {
-  setPageDesignerData(item.value.toLowerCase() as KeyOfPageDesignerConfigData, data)
+function selectComponent(item: AddComponentOptionItem) {
+  setPageDesignerData(uncapitalizeFirstLetter(item.value) as KeyOfPageDesignerDataModel, createPageDesignerData(item))
 }
 
-function transKey(key: KeyOfPageDesignerConfigData) {
+function transKey(key: KeyOfPageDesignerDataModel) {
   return capitalizeFirstLetter(key) as SubComponentsTypeOfPageDesigner
+}
+
+function createPageDesignerData(item: AddComponentOptionItem) {
+  switch (item.value) {
+    case 'Aside': {
+      return {
+        id: item.value.toLowerCase(),
+        label: item.label,
+        options: {}
+      } as AsideConfigData
+    }
+    case 'FormDesigner': {
+      return {
+        id: item.value.toLowerCase(),
+        label: item.label,
+        options: {}
+      }
+    }
+  }
 }
 
 onMounted(() => {
@@ -70,7 +80,7 @@ onUnmounted(() => {
       <component :is="SubComponentsOfPageDesigner[`${transKey(key)}`]" :config="val"></component>
     </template>
   </div>
-  <AddComponent ref="addComponentRef" :options="options" @select="selectComponent"></AddComponent>
+  <AddComponent ref="addComponentRef" :options="addComponentOptions" @select="selectComponent"></AddComponent>
 </template>
 
 <style lang="scss" scoped>

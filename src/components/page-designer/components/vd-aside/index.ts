@@ -4,6 +4,11 @@
  * @Description:
  */
 export interface AsideConfigData {
-  test?: string
+  id: string
+  label: string
+  options?: {
+    width?: string
+    children?: unknown[]
+  }
 }
 export { default as Aside } from './vd-aside.vue'

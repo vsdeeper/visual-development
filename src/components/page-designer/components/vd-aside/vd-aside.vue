@@ -6,11 +6,16 @@
 <script setup lang="ts">
 import { AsideConfigData } from '.'
 
-defineProps<{
+const props = defineProps<{
   config: AsideConfigData
 }>()
+
+const _config = toRef(props, 'config')
 </script>
 
 <template>
-  侧栏{{ config }}
+  <el-aside :width="_config.options?.width">
+    <!-- Aside content -->
+    侧栏
+  </el-aside>
 </template>
