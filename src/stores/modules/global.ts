@@ -3,28 +3,30 @@
  * @Date: 2024-01-07 12:23:49
  * @Description:
  */
-import { KeyOfPageDesignerDataModel, PageDesignerConfigDataModel } from '@/components'
+import { ActiveConfigData, PageDesignerConfigDataModel, SubComponentsTypeOfPageDesigner } from '@/components'
 import { defineStore } from 'pinia'
 
 const useGlobal = defineStore('global', () => {
-  /** 页面设计数据 */
-  const pageDesignerData = ref<PageDesignerConfigDataModel>({})
-  /** 当前被选中（设计中）的页面设计子组件数据 */
-  const activeSubComponentDataOfPageDesigner = ref<unknown>()
+  /** 页面配置数据，最外层 */
+  const configData = ref<PageDesignerConfigDataModel>({})
+  /** 当前被选中（设计中）的组件配置数据，只有容器组件会被选中 */
+  const activeConfigData = ref<ActiveConfigData>()
 
-  function setPageDesignerData(key: KeyOfPageDesignerDataModel, data: unknown) {
-    pageDesignerData.value[key] = data
-    console.log('pageDesignerData 更新', pageDesignerData.value)
+  function setConfigData(key: SubComponentsTypeOfPageDesigner, data: unknown) {
+    configData.value[key] = data
+    console.log('setConfigData', configData.value)
+
   }
 
-  function setActiveSubComponentDataOfPageDesigner(data: unknown) {
-    activeSubComponentDataOfPageDesigner.value = data
+  function setActiveConfigData(data: ActiveConfigData) {
+    activeConfigData.value = data
+    console.log('setActiveConfigData', activeConfigData.value)
   }
   return {
-    pageDesignerData,
-    setPageDesignerData,
-    activeSubComponentDataOfPageDesigner,
-    setActiveSubComponentDataOfPageDesigner
+    configData,
+    setConfigData,
+    activeConfigData,
+    setActiveConfigData
   }
 })
 

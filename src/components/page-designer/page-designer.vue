@@ -6,9 +6,8 @@
 
 <script setup lang="ts">
 import { useGlobal } from '@/stores'
-import { KeyOfPageDesignerDataModel, SubComponentsOfPageDesigner, SubComponentsTypeOfPageDesigner, addComponentOptions } from '.'
+import { SubComponentsOfPageDesigner, addComponentOptions } from '.'
 import { AddComponent, AddComponentOptionItem } from '@/components'
-import { capitalizeFirstLetter, uncapitalizeFirstLetter } from '@/utils'
 import { AsideConfigData } from './components/vd-aside'
 
 withDefaults(defineProps<{
@@ -19,7 +18,7 @@ withDefaults(defineProps<{
 
 console.log('SubComponentsOfPageDesigner 表单设计子组件', SubComponentsOfPageDesigner)
 
-const { pageDesignerData, setPageDesignerData } = useGlobal()
+const { configData, setConfigData, setActiveConfigData } = useGlobal()
 const addComponentRef = ref<InstanceType<typeof AddComponent>>()
 const key = ref('')
 
@@ -36,25 +35,34 @@ function handleKeyup() {
 }
 
 function selectComponent(item: AddComponentOptionItem) {
-  setPageDesignerData(uncapitalizeFirstLetter(item.value) as KeyOfPageDesignerDataModel, createPageDesignerData(item))
+  const data = createConfigData(item)
+  const { activeConfigData } = useGlobal()
+  if (!activeConfigData) {
+    // 当前不存在配置中的组件
+    setConfigData(item.value, data)
+    setActiveConfigData(data)
+  } else {
+    if (!activeConfigData.options!.children) {
+      activeConfigData.options!.children = []
+    }
+    activeConfigData.options!.children!.push(data!)
+  }
 }
 
-function transKey(key: KeyOfPageDesignerDataModel) {
-  return capitalizeFirstLetter(key) as SubComponentsTypeOfPageDesigner
-}
 
-function createPageDesignerData(item: AddComponentOptionItem) {
+
+function createConfigData(item: AddComponentOptionItem) {
   switch (item.value) {
     case 'Aside': {
       return {
-        id: item.value.toLowerCase(),
+        id: item.value,
         label: item.label,
         options: {}
       } as AsideConfigData
     }
     case 'FormDesigner': {
       return {
-        id: item.value.toLowerCase(),
+        id: item.value,
         label: item.label,
         options: {}
       }
@@ -75,9 +83,9 @@ onUnmounted(() => {
 
 <template>
   <div id="page-designer" :style="{ width }">
-    <span v-if="!Object.keys(pageDesignerData).length" class="placeholder">按 V + D 键添加组件</span>
-    <template v-for="(val, key) in pageDesignerData" :key="key">
-      <component :is="SubComponentsOfPageDesigner[`${transKey(key)}`]" :config="val"></component>
+    <span v-if="!Object.keys(configData).length" class="placeholder">按 V + D 键添加组件</span>
+    <template v-for="(val, key) in configData" :key="key">
+      <component :is="SubComponentsOfPageDesigner[key]" :config="val"></component>
     </template>
   </div>
   <AddComponent ref="addComponentRef" :options="addComponentOptions" @select="selectComponent"></AddComponent>

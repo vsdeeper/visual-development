@@ -5,6 +5,7 @@
 -->
 <script setup lang="ts">
 import { AsideConfigData } from '.'
+import { SubComponentsOfPageDesigner } from '@/components'
 
 const props = defineProps<{
   config: AsideConfigData
@@ -15,7 +16,9 @@ const _config = toRef(props, 'config')
 
 <template>
   <el-aside :width="_config.options?.width">
-    <!-- Aside content -->
-    侧栏
+    <span v-if="!_config.options?.children?.length" class="placeholder">按 V + D 键添加组件</span>
+    <template v-for="item in _config.options?.children" :key="item.id">
+      <component :is="SubComponentsOfPageDesigner[item.id]" :config="item"></component>
+    </template>
   </el-aside>
 </template>

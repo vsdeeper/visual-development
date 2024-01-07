@@ -6,8 +6,21 @@
  */
 import type { AsyncComponentLoader } from 'vue'
 import { capitalizeFirstLetter } from '@/utils'
+import { type AsideConfigData } from './vd-aside'
 
-export type SubComponentsTypeOfPageDesigner = 'Aside' | 'Container' | 'Footer' | 'Header' | 'Main' | 'Layout' | 'RouterView' | 'View' | 'FormDesigner'
+export type SubComponentsTypeOfPageDesigner =
+/** 布局容器 */'Aside' | 'Container' | 'Footer' | 'Header' | 'Main' | 'Layout' | 'RouterView' | 'View' |
+/** 视图组件 */'FormDesigner' | 'Search' | 'Table' |
+/** 导航组件 */'Menu'
+
+/** 基础配置数据类型 */
+export type BaseConfigData<T = Record<string, any>> = {
+  id: SubComponentsTypeOfPageDesigner
+  label: string
+  options?: T & { children?: BaseConfigData<T>[] }
+}
+/** 当前配置数据类型 */
+export type ActiveConfigData = AsideConfigData | undefined
 
 const SubComponentsOfPageDesigner: { [K in SubComponentsTypeOfPageDesigner]?: any } = {}
 const vueModules = import.meta.glob('./*/*.vue')
