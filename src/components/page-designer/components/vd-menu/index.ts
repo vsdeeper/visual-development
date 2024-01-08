@@ -5,6 +5,6 @@
  */
 import { BaseDesignData } from '@/components'
 
-export type AsideDesignData = BaseDesignData<{
-  width?: string
+export type MenuDesignData = BaseDesignData<{
+  mode?: 'horizontal' | 'vertical'
 }>

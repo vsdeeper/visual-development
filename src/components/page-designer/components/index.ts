@@ -9,9 +9,11 @@ import { capitalizeFirstLetter } from '@/utils'
 import { type AsideDesignData } from './vd-aside'
 
 export type SubComponentsTypeOfPageDesigner =
-/** 布局容器 */'Aside' | 'Container' | 'Footer' | 'Header' | 'Main' | 'Layout' | 'RouterView' | 'View' |
+/** 布局容器 */'Aside' | 'Container' | 'Footer' | 'Header' | 'Main' | 'RowCol' | 'RouterView' | 'View' |
+/** 导航组件 */'Menu' |
 /** 视图组件 */'FormDesigner' | 'Search' | 'Table' |
-/** 导航组件 */'Menu'
+/** 基础组件 */'Button' | 'Icon' |
+/** 数据展示组件 */'Image'
 
 /** 基础设计数据类型 */
 export type BaseDesignData<T = Record<string, any>> = {
@@ -22,9 +24,9 @@ export type BaseDesignData<T = Record<string, any>> = {
 /** 当前配置数据类型 */
 export type ActiveDesignData = AsideDesignData | undefined
 
+/** 导出所有子组件 */
 const SubComponentsOfPageDesigner: { [K in SubComponentsTypeOfPageDesigner]?: any } = {}
 const vueModules = import.meta.glob('./*/*.vue')
-
 for (const path in vueModules) {
   if (path.includes('vd-')) {
     const key = path
@@ -40,4 +42,4 @@ for (const path in vueModules) {
   }
 }
 
-export { SubComponentsOfPageDesigner /** 导出页面设计器子组件 */ }
+export { SubComponentsOfPageDesigner }

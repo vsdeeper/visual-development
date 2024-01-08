@@ -25,6 +25,7 @@ declare module 'vue' {
     VdHeader: typeof import('./src/components/page-designer/components/vd-header/vd-header.vue')['default']
     VdLayout: typeof import('./src/components/page-designer/components/vd-layout/vd-layout.vue')['default']
     VdMain: typeof import('./src/components/page-designer/components/vd-main/vd-main.vue')['default']
+    VdMenu: typeof import('./src/components/page-designer/components/vd-menu/vd-menu.vue')['default']
     VdRouterView: typeof import('./src/components/page-designer/components/vd-router-view/vd-router-view.vue')['default']
     VdView: typeof import('./src/components/page-designer/components/vd-view/vd-view.vue')['default']
   }
