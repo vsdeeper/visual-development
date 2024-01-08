@@ -8,15 +8,11 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AddComponent: typeof import('./src/components/add-component/add-component.vue')['default']
-    Container: typeof import('./src/components/page-designer/components/container.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElDialog: typeof import('element-plus/es')['ElDialog']
-    ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
-    Main: typeof import('./src/components/page-designer/components/main.vue')['default']
     PageDesigner: typeof import('./src/components/page-designer/page-designer.vue')['default']
     VdAside: typeof import('./src/components/page-designer/components/vd-aside/vd-aside.vue')['default']
     VdContainer: typeof import('./src/components/page-designer/components/vd-container/vd-container.vue')['default']
