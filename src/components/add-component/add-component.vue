@@ -5,7 +5,6 @@
 -->
 <script setup lang="ts">
 import { InputInstance } from 'element-plus'
-import { throttle } from 'lodash-es'
 import { AddComponentOptionItem, AddComponentGroupOptionItem } from '.'
 
 const props = defineProps<{
@@ -29,13 +28,13 @@ watch(() => props.options, options => {
   }
 }, { immediate: true })
 
-watch(word, throttle(word => {
+watch(word, word => {
   const copySourceOptions: AddComponentGroupOptionItem[] = JSON.parse(JSON.stringify(sourceOptions.value))
   renderOptions.value = copySourceOptions.filter(groupItem => {
     groupItem.children = groupItem.children.filter(e => e.label.includes(word ?? '') || e.value.toLowerCase().includes((word ?? '').toLowerCase()))
     return !!groupItem.children.length
   })
-}, 500))
+})
 
 function select(val: AddComponentOptionItem) {
   show.value = false

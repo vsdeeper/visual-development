@@ -4,13 +4,14 @@
  * @Date: 2024-01-06 23:44:27
  * @Description:
  */
+import { useGlobal } from '@/stores'
 import { AddComponentGroupOptionItem } from '..'
 import { SubComponentsTypeOfPageDesigner } from './components'
 
 export * from './components'
 export { default as PageDesigner } from './page-designer.vue'
 
-export type PageDesignerConfigDataModel = { [K in SubComponentsTypeOfPageDesigner]?: any }
+export type PageDesignDataModel = { [K in SubComponentsTypeOfPageDesigner]?: any }
 
 export const addComponentOptions = ref<AddComponentGroupOptionItem[]>([
   {
@@ -44,3 +45,13 @@ export const addComponentOptions = ref<AddComponentGroupOptionItem[]>([
     ]
   }
 ])
+
+/**
+ * 判断组件是否在设计中
+ * @param type
+ * @returns
+ */
+export function isActiveDesign(type: SubComponentsTypeOfPageDesigner) {
+  const { activeDesignData } = useGlobal()
+  return activeDesignData && activeDesignData.id === type
+}

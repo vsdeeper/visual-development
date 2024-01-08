@@ -8,7 +8,7 @@
 import { useGlobal } from '@/stores'
 import { SubComponentsOfPageDesigner, addComponentOptions } from '.'
 import { AddComponent, AddComponentOptionItem } from '@/components'
-import { AsideConfigData } from './components/vd-aside'
+import { AsideDesignData } from './components/vd-aside'
 
 withDefaults(defineProps<{
   width?: string
@@ -18,7 +18,7 @@ withDefaults(defineProps<{
 
 console.log('SubComponentsOfPageDesigner 表单设计子组件', SubComponentsOfPageDesigner)
 
-const { configData, setConfigData, setActiveConfigData } = useGlobal()
+const { designData, setDesignData, setActiveDesignData } = useGlobal()
 const addComponentRef = ref<InstanceType<typeof AddComponent>>()
 const key = ref('')
 
@@ -36,16 +36,14 @@ function handleKeyup() {
 
 function selectComponent(item: AddComponentOptionItem) {
   const data = createConfigData(item)
-  const { activeConfigData } = useGlobal()
-  if (!activeConfigData) {
-    // 当前不存在配置中的组件
-    setConfigData(item.value, data)
-    setActiveConfigData(data)
+  const { activeDesignData } = useGlobal()
+  if (!activeDesignData) {
+    // 当前不存在设计中的组件
+    setDesignData(item.value, data)
+    setActiveDesignData(data)
   } else {
-    if (!activeConfigData.options!.children) {
-      activeConfigData.options!.children = []
-    }
-    activeConfigData.options!.children!.push(data!)
+    !activeDesignData.options!.children && (activeDesignData.options!.children = [])
+    activeDesignData.options!.children!.push(data!)
   }
 }
 
@@ -58,7 +56,7 @@ function createConfigData(item: AddComponentOptionItem) {
         id: item.value,
         label: item.label,
         options: {}
-      } as AsideConfigData
+      } as AsideDesignData
     }
     case 'FormDesigner': {
       return {
@@ -83,8 +81,8 @@ onUnmounted(() => {
 
 <template>
   <div id="page-designer" :style="{ width }">
-    <span v-if="!Object.keys(configData).length" class="placeholder">按 V + D 键添加组件</span>
-    <template v-for="(val, key) in configData" :key="key">
+    <span v-if="!Object.keys(designData).length" class="placeholder">按 V + D 键添加组件</span>
+    <template v-for="(val, key) in designData" :key="key">
       <component :is="SubComponentsOfPageDesigner[key]" :config="val"></component>
     </template>
   </div>
@@ -96,11 +94,11 @@ onUnmounted(() => {
   position: relative;
   height: 100%;
 
-  .placeholder {
+  :deep .placeholder {
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -70%);
   }
 }
 </style>
