@@ -1,0 +1,1 @@
+export { default as ShortcutKeyTip } from './shortcut-key-tip.vue'

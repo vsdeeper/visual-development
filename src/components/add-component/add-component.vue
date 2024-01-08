@@ -43,6 +43,7 @@ function select(val: AddComponentOptionItem) {
 
 function open() {
   show.value = true
+  word.value = undefined
 }
 
 function opened() {

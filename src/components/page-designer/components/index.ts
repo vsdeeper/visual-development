@@ -7,6 +7,7 @@
 import type { AsyncComponentLoader } from 'vue'
 import { capitalizeFirstLetter } from '@/utils'
 import { type AsideDesignData } from './vd-aside'
+import { MenuDesignData } from './vd-menu'
 
 export type SubComponentsTypeOfPageDesigner =
 /** 布局容器 */'Aside' | 'Container' | 'Footer' | 'Header' | 'Main' | 'RowCol' | 'RouterView' | 'View' |
@@ -19,10 +20,10 @@ export type SubComponentsTypeOfPageDesigner =
 export type BaseDesignData<T = Record<string, any>> = {
   id: SubComponentsTypeOfPageDesigner
   label: string
-  options?: T & { children?: BaseDesignData<T>[] }
+  options?: T & { components?: BaseDesignData<T>[] }
 }
 /** 当前配置数据类型 */
-export type ActiveDesignData = AsideDesignData | undefined
+export type ActiveDesignData = AsideDesignData | MenuDesignData | undefined
 
 /** 导出所有子组件 */
 const SubComponentsOfPageDesigner: { [K in SubComponentsTypeOfPageDesigner]?: any } = {}

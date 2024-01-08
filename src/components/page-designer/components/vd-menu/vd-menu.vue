@@ -5,6 +5,7 @@
 -->
 <script setup lang='ts'>
 import { MenuDesignData } from '.'
+import MenuItem from './menu-item.vue'
 
 const props = defineProps<{
   config: MenuDesignData
@@ -15,17 +16,8 @@ const _config = toRef(props, 'config')
 
 <template>
   <div class="vd-menu">
-    <el-menu :mode="_config.options.mode" :default-active="_config.options.defaultActive">
-      <!-- <el-sub-menu
-        :index="index + 1"
-        :key="submenus.key">
-        <template #title>{{ submenus.title }}</template>
-        <el-menu-item v-for="(item, subIndex) in submenus.menus"
-          :index="(index + 1) + '-' + (subIndex + 1)"
-          :key="item.key">
-            {{ item.title }}
-        </el-menu-item>
-      </el-submenu> -->
+    <el-menu :mode="_config.options?.mode" :collapse='_config.options?.collapse' :default-active="_config.options?.defaultActive">
+      <MenuItem :data="_config.options?.menuData" />
     </el-menu>
   </div>
 </template>
