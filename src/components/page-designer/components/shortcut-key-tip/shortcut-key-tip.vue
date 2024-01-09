@@ -8,12 +8,12 @@
 defineProps<{
   label: string
   keys?: [string, string]
-  active?: boolean
+  isActive?: boolean
 }>()
 </script>
 
 <template>
-  <div class='shortcut-key-tip' :class="{ active }">
+  <div class='shortcut-key-tip' :class="{ 'is-active': isActive }">
     <div class="label">{{ label }}</div>
     <div class="key" v-for="key in keys" :key="key">{{ key.toUpperCase() }}</div>
   </div>
@@ -27,7 +27,7 @@ defineProps<{
   padding: 5px;
 
   .label {
-    font-size: 12px;
+    font-size: 14px;
     color: var(--el-text-color-placeholder);
     margin-right: 5px;
   }
@@ -35,10 +35,9 @@ defineProps<{
   .key {
     display: inline-flex;
     align-items: center;
-    font-size: 10px;
-    font-weight: bold;
+    font-size: 12px;
     line-height: 1;
-    height: 16px;
+    height: 18px;
     padding: 0 5px;
     border-radius: 4px;
     color: #fff;

@@ -5,4 +5,4 @@
  */
 
 export * from './page-designer'
-export * from './add-component'
+export * from './page-designer/components/add-component'

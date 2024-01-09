@@ -3,7 +3,7 @@
  * @Date: 2024-01-07 17:27:02
  * @Description:
  */
-import { type SubComponentsTypeOfPageDesigner } from '..'
+import { type SubComponentsTypeOfPageDesigner } from '../../..'
 
 
 export interface AddComponentOptionItem {

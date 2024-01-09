@@ -8,10 +8,10 @@
 import { useGlobal } from '@/stores'
 import { ActiveDesignData, SubComponentsOfPageDesigner, SubComponentsTypeOfPageDesigner, addComponentOptions } from '.'
 import { AddComponent, AddComponentOptionItem } from '@/components'
-import { AsideDesignData } from './components/vd-aside'
-import { MenuDesignData } from './components/vd-menu'
+import { AsideDesignData } from './vd-components/vd-aside'
+import { MenuDesignData } from './vd-components/vd-menu'
 import { isPageDesignModeSymbol } from '@/utils/constants'
-import { ContainerDesignData } from './components/vd-container'
+import { ContainerDesignData } from './vd-components/vd-container'
 
 console.log('SubComponentsOfPageDesigner 表单设计子组件', SubComponentsOfPageDesigner)
 
@@ -130,7 +130,7 @@ onUnmounted(() => {
   <div id="page-designer">
     <ShortcutKeyTip v-if="!Object.keys(designData).length" :keys='["A", "C"]' label='添加组件' active />
     <template v-for="(val, key) in designData" :key="key">
-      <component :is="SubComponentsOfPageDesigner[key]" :data="val"></component>
+      <component :is="SubComponentsOfPageDesigner[key]" :data="val" ></component>
     </template>
   </div>
   <AddComponent ref="addComponentRef" :options="addComponentOptions" @select="selectComponent"></AddComponent>
@@ -141,6 +141,8 @@ onUnmounted(() => {
   position: relative;
   width: 100%;
   height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
 
   .shortcut-key-tip {
     position: absolute;

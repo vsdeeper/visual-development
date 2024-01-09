@@ -6,9 +6,10 @@
  */
 import { useGlobal } from '@/stores'
 import { AddComponentGroupOptionItem } from '..'
-import { SubComponentsTypeOfPageDesigner } from './components'
+import { SubComponentsTypeOfPageDesigner } from './vd-components'
 
 export * from './components'
+export * from './vd-components'
 export { default as PageDesigner } from './page-designer.vue'
 
 export type PageDesignDataModel = { [K in SubComponentsTypeOfPageDesigner]?: any }

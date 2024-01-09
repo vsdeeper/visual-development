@@ -12,11 +12,11 @@ defineProps<{
 </script>
 
 <template>
-  <div class="vd-container" :class="{ 'is-vertical': data.options?.direction === 'vertical', active: true }">
+  <div class="vd-container" :class="{ 'is-vertical': data.options?.direction === 'vertical', 'is-active': true }">
     <div class="header">
       <label>Container</label>
     </div>
-    <div class="main">内容</div>
+    <div class="main"></div>
     <div class="footer">
       <ShortcutKeyTip :keys="['A', 'C']" label="添加组件"></ShortcutKeyTip>
     </div>
@@ -40,6 +40,10 @@ defineProps<{
     }
   }
 
+  .main {
+    padding: 10px;
+  }
+
   .footer {
     line-height: 1;
     display: flex;
@@ -47,10 +51,10 @@ defineProps<{
   }
 
   &.is-vertical {
-    // flex-direction: column;
+    flex-direction: column;
   }
 
-  &.active {
+  &.is-active {
     border: 5px solid var(--el-color-primary);
 
     .header label {
