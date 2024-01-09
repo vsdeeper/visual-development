@@ -6,12 +6,14 @@
 
 <script setup lang="ts">
 import { useGlobal } from '@/stores'
-import { ActiveDesignData, SubComponentsOfPageDesigner, SubComponentsTypeOfPageDesigner, addComponentOptions } from '.'
+import { SubComponentsOfPageDesigner } from '.'
 import { AddComponent, AddComponentOptionItem } from '@/components'
 import { AsideDesignData } from './vd-components/vd-aside'
 import { MenuDesignData } from './vd-components/vd-menu'
 import { isPageDesignModeSymbol } from '@/utils/constants'
 import { ContainerDesignData } from './vd-components/vd-container'
+import { isLayoutContainer } from './util'
+import { addComponentOptions } from './constants'
 
 console.log('SubComponentsOfPageDesigner 表单设计子组件', SubComponentsOfPageDesigner)
 
@@ -37,43 +39,46 @@ function handleKeyup() {
 function selectComponent(item: AddComponentOptionItem) {
   const data = createConfigData(item)
   const { activeDesignData } = useGlobal()
+  console.log('activeDesignData', activeDesignData)
   if (!activeDesignData) {
-    // 当前不存在设计中的组件
-    setDesignData(item.value, data)
+    /**
+     * 当前不存在设计中的组件，说明是初始设计
+     * 此时需要设置最外层的设计数据
+     */
+    setDesignData(data)
     setActiveDesignData(data)
   } else {
-    if (isLayoutContainer(activeDesignData)) {
-      // 布局容器，可以挂载子组件
+    /**
+     * 当前存在设计中的组件
+     * 此时只需要设置活动组件的设计数据
+     */
+    if (isLayoutContainer(data)) {
+      /**
+       * 布局容器，可以挂载子组件
+       * 子组件挂载后将活动设计数据设置为子组件
+       */
       !activeDesignData.options!.components && (activeDesignData.options!.components = [])
       activeDesignData.options!.components!.push(data!)
+      setActiveDesignData(data)
     }
   }
 }
 
-/**
- * 判断是否布局容器组件
- * @param data
- */
-function isLayoutContainer(data: ActiveDesignData) {
-  const list: SubComponentsTypeOfPageDesigner[] = ['Aside', 'Container']
-  return data?.id && list.includes(data.id)
-}
-
 function createConfigData(item: AddComponentOptionItem) {
   switch (item.value) {
-    case 'Aside': {
-      return {
-        id: item.value,
-        label: item.label,
-        options: {}
-      } as AsideDesignData
-    }
     case 'Container': {
       return {
         id: item.value,
         label: item.label,
         options: {}
       } as ContainerDesignData
+    }
+    case 'Aside': {
+      return {
+        id: item.value,
+        label: item.label,
+        options: {}
+      } as AsideDesignData
     }
     case 'Menu': {
       return {
@@ -112,6 +117,13 @@ function createConfigData(item: AddComponentOptionItem) {
         options: {}
       }
     }
+    default: {
+      return {
+        id: item.value,
+        label: item.label,
+        options: {}
+      } as ContainerDesignData
+    }
   }
 }
 
@@ -129,9 +141,7 @@ onUnmounted(() => {
 <template>
   <div id="page-designer">
     <ShortcutKeyTip v-if="!Object.keys(designData).length" :keys='["A", "C"]' label='添加组件' active />
-    <template v-for="(val, key) in designData" :key="key">
-      <component :is="SubComponentsOfPageDesigner[key]" :data="val" ></component>
-    </template>
+    <component v-for="item in designData" :key="item.id" :is="SubComponentsOfPageDesigner[item.id]" :data="item"></component>
   </div>
   <AddComponent ref="addComponentRef" :options="addComponentOptions" @select="selectComponent"></AddComponent>
 </template>
@@ -149,6 +159,14 @@ onUnmounted(() => {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -100%);
+
+    :deep(.label) {
+      color: var(--el-color-primary);
+    }
+
+    :deep(.key) {
+      background-color: var(--el-color-primary);
+    }
   }
 
   .vd-container {

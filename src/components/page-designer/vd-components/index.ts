@@ -26,7 +26,7 @@ export type BaseDesignData<T = Record<string, any>> = {
   }
 }
 /** 当前配置数据类型 */
-export type ActiveDesignData = AsideDesignData | MenuDesignData | ContainerDesignData | undefined
+export type ActiveDesignData = AsideDesignData | MenuDesignData | ContainerDesignData
 
 /** 导出所有子组件 */
 const SubComponentsOfPageDesigner: { [K in SubComponentsTypeOfPageDesigner]?: any } = {}

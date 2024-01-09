@@ -7,25 +7,25 @@
 import { AsideDesignData } from '.'
 
 defineProps<{
-  config: AsideDesignData
+  data: AsideDesignData
+  isActive?: boolean
 }>()
 </script>
 
 <template>
-  <div class="vd-aside">
-    <div class="header">
-      <span>Aside</span>
-    </div>
-    <div class="footer">
-      <ShortcutKeyTip :keys="['A', 'C']" label="添加组件"></ShortcutKeyTip>
-    </div>
-  </div>
+  {{ data }}
+  <VdSkeleton
+    :class="['vd-aside']"
+    label="Aside"
+    :is-active="isActive"
+    :shortcut-key-tip-map="{ label: '添加组件', keys: ['A', 'C'] }">
+  </VdSkeleton>
 </template>
 
 <style lang="scss" scoped>
 .vd-aside {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  &.vd-skeleton {
+    border-width: 4px;
+  }
 }
 </style>

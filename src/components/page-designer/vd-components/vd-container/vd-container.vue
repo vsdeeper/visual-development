@@ -5,6 +5,8 @@
 -->
 <script setup lang="ts">
 import { ContainerDesignData } from '.'
+import { SubComponentsOfPageDesigner } from '../..'
+import { isActiveDesign } from '../../util'
 
 defineProps<{
   data: ContainerDesignData
@@ -12,62 +14,30 @@ defineProps<{
 </script>
 
 <template>
-  <div class="vd-container" :class="{ 'is-vertical': data.options?.direction === 'vertical', 'is-active': true }">
-    <div class="header">
-      <label>Container</label>
-    </div>
-    <div class="main"></div>
-    <div class="footer">
-      <ShortcutKeyTip :keys="['A', 'C']" label="添加组件"></ShortcutKeyTip>
-    </div>
-  </div>
+  {{ data }}
+  <VdSkeleton
+    :class="['vd-container', { 'is-vertical': data.options?.direction === 'vertical' }]"
+    label="Container"
+    :is-active="isActiveDesign(data.id)"
+    :shortcut-key-tip-map="{ label: '添加组件', keys: ['A', 'C'] }">
+    <component
+      v-for="item in data.options?.components"
+      :key="item.id"
+      :is="SubComponentsOfPageDesigner[item.id]"
+      :data="item"
+      :is-active="isActiveDesign(item.id)"
+    ></component>
+  </VdSkeleton>
 </template>
 
 <style lang="scss" scoped>
 .vd-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100px;
-  box-sizing: border-box;
-  justify-content: space-between;
-
-  .header {
-    line-height: 1;
-
-    label {
-      font-size: 12px;
-      color: var(--el-text-color-placeholder);
-    }
-  }
-
-  .main {
-    padding: 10px;
-  }
-
-  .footer {
-    line-height: 1;
-    display: flex;
-    justify-content: flex-end;
-  }
-
   &.is-vertical {
     flex-direction: column;
   }
 
-  &.is-active {
-    border: 5px solid var(--el-color-primary);
-
-    .header label {
-      color: var(--el-color-primary);
-    }
-
-    :deep(.shortcut-key-tip .label) {
-      color: var(--el-color-primary);
-    }
-
-    :deep(.shortcut-key-tip .key) {
-      background-color: var(--el-color-primary);
-    }
+  &.vd-skeleton {
+    border-width: 5px;
   }
 }
 </style>

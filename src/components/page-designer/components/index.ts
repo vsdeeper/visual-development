@@ -5,3 +5,4 @@
  */
 export * from './add-component'
 export * from './shortcut-key-tip'
+export * from './vd-skeleton'

@@ -1,0 +1,1 @@
+export { default as VdSkeleton } from './vd-skeleton.vue'
