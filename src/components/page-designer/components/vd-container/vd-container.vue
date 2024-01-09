@@ -4,8 +4,66 @@
  * @Description:
 -->
 <script setup lang="ts">
+import { ContainerDesignData } from '.'
+
+defineProps<{
+  data: ContainerDesignData
+}>()
 </script>
 
 <template>
-  容器
+  <div class="vd-container" :class="{ 'is-vertical': data.options?.direction === 'vertical', active: true }">
+    <div class="header">
+      <label>Container</label>
+    </div>
+    <div class="main">内容</div>
+    <div class="footer">
+      <ShortcutKeyTip :keys="['A', 'C']" label="添加组件"></ShortcutKeyTip>
+    </div>
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.vd-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100px;
+  box-sizing: border-box;
+  justify-content: space-between;
+
+  .header {
+    line-height: 1;
+
+    label {
+      font-size: 12px;
+      color: var(--el-text-color-placeholder);
+    }
+  }
+
+  .footer {
+    line-height: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &.is-vertical {
+    // flex-direction: column;
+  }
+
+  &.active {
+    border: 5px solid var(--el-color-primary);
+
+    .header label {
+      color: var(--el-color-primary);
+    }
+
+    :deep(.shortcut-key-tip .label) {
+      color: var(--el-color-primary);
+    }
+
+    :deep(.shortcut-key-tip .key) {
+      background-color: var(--el-color-primary);
+    }
+  }
+}
+</style>

@@ -5,26 +5,27 @@
 -->
 <script setup lang="ts">
 import { AsideDesignData } from '.'
-import { SubComponentsOfPageDesigner, isActiveDesign } from '@/components'
 
-const props = defineProps<{
+defineProps<{
   config: AsideDesignData
 }>()
-
-const _config = toRef(props, 'config')
 </script>
 
 <template>
-  <el-aside :class="{ active: isActiveDesign('Aside') }" :width="_config.options?.width">
-    <ShortcutKeyTip  v-if="!_config.options?.components?.length" keys='V + D' description='添加组件' />
-    <template v-for="item in _config.options?.components" :key="item.id">
-      <component :is="SubComponentsOfPageDesigner[item.id]" :config="item"></component>
-    </template>
-  </el-aside>
+  <div class="vd-aside">
+    <div class="header">
+      <span>Aside</span>
+    </div>
+    <div class="footer">
+      <ShortcutKeyTip :keys="['A', 'C']" label="添加组件"></ShortcutKeyTip>
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 .vd-aside {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 </style>

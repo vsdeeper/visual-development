@@ -5,6 +5,8 @@
  */
 import { BaseDesignData } from '@/components'
 
-export type AsideDesignData = BaseDesignData<{
-  width?: string
-}>
+interface Options {
+  width ?: string
+  components?: BaseDesignData<Options>[]
+}
+export type AsideDesignData = BaseDesignData<Options>

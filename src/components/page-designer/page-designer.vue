@@ -6,17 +6,12 @@
 
 <script setup lang="ts">
 import { useGlobal } from '@/stores'
-import { SubComponentsOfPageDesigner, addComponentOptions } from '.'
+import { ActiveDesignData, SubComponentsOfPageDesigner, SubComponentsTypeOfPageDesigner, addComponentOptions } from '.'
 import { AddComponent, AddComponentOptionItem } from '@/components'
 import { AsideDesignData } from './components/vd-aside'
 import { MenuDesignData } from './components/vd-menu'
 import { isPageDesignModeSymbol } from '@/utils/constants'
-
-withDefaults(defineProps<{
-  width?: string
-}>(), {
-  width: '100%'
-})
+import { ContainerDesignData } from './components/vd-container'
 
 console.log('SubComponentsOfPageDesigner 表单设计子组件', SubComponentsOfPageDesigner)
 
@@ -29,14 +24,14 @@ provide(isPageDesignModeSymbol, ref(true))
 
 function handleKeydown(e: KeyboardEvent) {
   key.value += e.key.toUpperCase()
-  if (key.value.includes('VD')) {
-    // v+d键，打开组件选择弹框
+  if (key.value.includes('AC')) {
+    // A+C 键，打开组件选择弹框
     addComponentRef.value?.open()
   }
 }
 
 function handleKeyup() {
-  if (key.value.includes('VD')) key.value = ''
+  if (key.value.includes('AC')) key.value = ''
 }
 
 function selectComponent(item: AddComponentOptionItem) {
@@ -47,12 +42,22 @@ function selectComponent(item: AddComponentOptionItem) {
     setDesignData(item.value, data)
     setActiveDesignData(data)
   } else {
-    !activeDesignData.options!.components && (activeDesignData.options!.components = [])
-    activeDesignData.options!.components!.push(data!)
+    if (isLayoutContainer(activeDesignData)) {
+      // 布局容器，可以挂载子组件
+      !activeDesignData.options!.components && (activeDesignData.options!.components = [])
+      activeDesignData.options!.components!.push(data!)
+    }
   }
 }
 
-
+/**
+ * 判断是否布局容器组件
+ * @param data
+ */
+function isLayoutContainer(data: ActiveDesignData) {
+  const list: SubComponentsTypeOfPageDesigner[] = ['Aside', 'Container']
+  return data?.id && list.includes(data.id)
+}
 
 function createConfigData(item: AddComponentOptionItem) {
   switch (item.value) {
@@ -62,6 +67,13 @@ function createConfigData(item: AddComponentOptionItem) {
         label: item.label,
         options: {}
       } as AsideDesignData
+    }
+    case 'Container': {
+      return {
+        id: item.value,
+        label: item.label,
+        options: {}
+      } as ContainerDesignData
     }
     case 'Menu': {
       return {
@@ -93,7 +105,7 @@ function createConfigData(item: AddComponentOptionItem) {
         }
       } as MenuDesignData
     }
-    case 'FormDesigner': {
+    case 'Form': {
       return {
         id: item.value,
         label: item.label,
@@ -115,10 +127,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div id="page-designer" :style="{ width }">
-    <ShortcutKeyTip  v-if="!Object.keys(designData).length" keys='V + D' description='添加组件' />
+  <div id="page-designer">
+    <ShortcutKeyTip v-if="!Object.keys(designData).length" :keys='["A", "C"]' label='添加组件' active />
     <template v-for="(val, key) in designData" :key="key">
-      <component :is="SubComponentsOfPageDesigner[key]" :config="val"></component>
+      <component :is="SubComponentsOfPageDesigner[key]" :data="val"></component>
     </template>
   </div>
   <AddComponent ref="addComponentRef" :options="addComponentOptions" @select="selectComponent"></AddComponent>
@@ -126,36 +138,22 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 #page-designer {
-  display: flex;
   position: relative;
+  width: 100%;
   height: 100%;
 
-  :deep {
-    .el-aside {
-      position: relative;
-
-      &.active {
-        border: 3px solid var(--el-color-primary);
-      }
-    }
-
-    .vd-menu {
-      position: relative;
-
-      &.active {
-        box-sizing: border-box;
-        border: 3px solid var(--el-color-primary);
-      }
-    }
-  }
-
-
-  :deep .shortcut-key-tip {
+  .shortcut-key-tip {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -100%);
-    white-space: nowrap;
+  }
+
+  .vd-container {
+
+    &.active {
+      border: 5px solid var(--el-color-primary);
+    }
   }
 }
 </style>

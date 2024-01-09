@@ -4,4 +4,4 @@
  * @Description:
 -->
 <script setup lang='ts'></script>
-<template>表单设计器</template>
+<template>表单</template>

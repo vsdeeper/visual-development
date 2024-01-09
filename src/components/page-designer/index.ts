@@ -41,7 +41,7 @@ export const addComponentOptions = ref<AddComponentGroupOptionItem[]>([
     children: [
       { label: '搜索', value: 'Search' },
       { label: '表格', value: 'Table' },
-      { label: '表单', value: 'FormDesigner' },
+      { label: '表单', value: 'Form' },
     ]
   },
   {
