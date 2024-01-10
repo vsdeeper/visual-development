@@ -19,7 +19,7 @@ defineProps<{
     :class-list="['vd-menu']"
     :is-active="isActive"
     :data="data"
-    :shortcut-key-tip-map="{ label: '设计组件', keys: ['D', 'C'] }">
+    :shortcut-key-tip-options="[{ label: '设计组件', keys: ['V', 'D'] }]">
     <component
       v-for="item in data.options?.components"
       :key="item.id"

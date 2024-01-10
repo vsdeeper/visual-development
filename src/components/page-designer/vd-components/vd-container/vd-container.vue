@@ -18,7 +18,7 @@ defineProps<{
     :class-list="['vd-container', { 'is-vertical': data.options?.direction === 'vertical' }]"
     :is-active="isActiveDesign(data.id)"
     :data="data"
-    :shortcut-key-tip-map="{ label: '添加组件', keys: ['A', 'C'] }">
+    :shortcut-key-tip-options="[{ label: '添加组件', keys: ['V', 'A'] }, { label: '设计组件', keys: ['V', 'D'] }]">
     <component
       v-for="item in data.options?.components"
       :key="item.id"

@@ -1,3 +1,8 @@
+/*
+ * @Author: vsdeeper vsdeeper@qq.com
+ * @Date: 2024-01-10 18:52:53
+ * @Description:
+ */
 import { useGlobal } from '@/stores'
 import { ActiveDesignData, SubComponentsTypeOfPageDesigner } from '.'
 
@@ -7,7 +12,6 @@ import { ActiveDesignData, SubComponentsTypeOfPageDesigner } from '.'
  */
 export function isLayoutContainer(data: ActiveDesignData) {
   const list: SubComponentsTypeOfPageDesigner[] = ['Container', 'Aside', 'Header', 'Main', 'Footer', 'RouterView', 'View']
-  console.log(333, data.type)
   return list.includes(data.type)
 }
 

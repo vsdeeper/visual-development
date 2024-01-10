@@ -5,7 +5,7 @@ defineProps<{
   data: ActiveDesignData
   classList?: unknown[]
   isActive?: boolean
-  shortcutKeyTipMap?: { keys?: [string, string]; label: string; }
+  shortcutKeyTipOptions?: { keys?: [string, string]; label: string; }[]
 }>()
 
 function mergeClass(classList?: unknown[], myClassList?: unknown[]) {
@@ -30,7 +30,7 @@ function toLabel(data: ActiveDesignData) {
       <slot></slot>
     </div>
     <div class="footer">
-      <ShortcutKeyTip :keys="shortcutKeyTipMap?.keys" :label="shortcutKeyTipMap?.label ?? '添加组件'"></ShortcutKeyTip>
+      <ShortcutKeyTip :options="shortcutKeyTipOptions"></ShortcutKeyTip>
     </div>
   </div>
 </template>
@@ -38,7 +38,7 @@ function toLabel(data: ActiveDesignData) {
 <style lang="scss" scoped>
 .code {
   font-size: 10px;
-  color: var(--el-text-color-placeholder);
+  color: var(--el-text-color-secondary);
 }
 
 .vd-skeleton {

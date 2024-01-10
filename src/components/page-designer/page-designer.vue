@@ -27,20 +27,27 @@ provide(isPageDesignModeSymbol, ref(true))
 
 function handleKeydown(e: KeyboardEvent) {
   key.value += e.key.toUpperCase()
-  if (key.value.includes('AC')) {
-    // A+C 键，打开组件选择弹框
-    addComponentRef.value?.open()
+  if (key.value.includes('VA')) {
+    // V+A 键
+    const { activeDesignData } = useGlobal()
+    if (!activeDesignData || isLayoutContainer(activeDesignData)) {
+      // 当前不存在设计中的组件或当前设计组件是布局容器类组件
+      addComponentRef.value?.open()
+    }
+  }
+  if (key.value.includes('VD')) {
+    // V+D 键，设计组件
+    console.log('设计组件')
   }
 }
 
 function handleKeyup() {
-  if (key.value.includes('AC')) key.value = ''
+  if (key.value.includes('VA') || key.value.includes('VD')) key.value = ''
 }
 
 function selectComponent(item: AddComponentOptionItem) {
   const data = createDesignData(item)
   const { activeDesignData } = useGlobal()
-  console.log(1111, activeDesignData)
   if (!activeDesignData) {
     /**
      * 当前不存在设计中的组件，说明是初始设计
@@ -131,8 +138,8 @@ onUnmounted(() => {
 
 <template>
   <div id="page-designer">
-    <ShortcutKeyTip v-if="!Object.keys(designData).length" :keys='["A", "C"]' label='添加组件' />
-    <component v-for="item in designData" :key="item.id" :is="SubComponentsOfPageDesigner[item.type]" :data="item"></component>
+    <ShortcutKeyTip v-if="!Object.keys(designData).length" :options="[{ label: '添加组件', keys: ['V', 'A'] }]" />
+    <component v-for=" item  in  designData " :key="item.id" :is="SubComponentsOfPageDesigner[item.type]" :data="item"></component>
   </div>
   <AddComponent ref="addComponentRef" :options="addComponentOptions" @select="selectComponent"></AddComponent>
 </template>
