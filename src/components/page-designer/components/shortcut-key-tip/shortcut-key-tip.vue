@@ -26,7 +26,7 @@ defineProps<{
   padding: 5px;
 
   .label {
-    font-size: 14px;
+    font-size: 12px;
     color: var(--el-text-color-placeholder);
     margin-right: 5px;
   }
@@ -35,7 +35,7 @@ defineProps<{
     display: inline-flex;
     align-items: center;
     justify-content: space-around;
-    font-size: 12px;
+    font-size: 10px;
     line-height: 1;
     height: 18px;
     width: 18px;

@@ -19,7 +19,8 @@ export type SubComponentsTypeOfPageDesigner =
 
 /** 基础设计数据类型 */
 export type BaseDesignData<T = Record<string, any>> = {
-  id: SubComponentsTypeOfPageDesigner
+  id: string
+  type: SubComponentsTypeOfPageDesigner
   label: string
   options?: T & {
     components?: BaseDesignData<T>[]

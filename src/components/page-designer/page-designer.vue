@@ -6,7 +6,8 @@
 
 <script setup lang="ts">
 import { useGlobal } from '@/stores'
-import { SubComponentsOfPageDesigner } from '.'
+import { nanoid } from 'nanoid'
+import { SubComponentsOfPageDesigner, SubComponentsTypeOfPageDesigner } from '.'
 import { AddComponent, AddComponentOptionItem } from '@/components'
 import { AsideDesignData } from './vd-components/vd-aside'
 import { MenuDesignData } from './vd-components/vd-menu'
@@ -37,9 +38,9 @@ function handleKeyup() {
 }
 
 function selectComponent(item: AddComponentOptionItem) {
-  const data = createConfigData(item)
+  const data = createDesignData(item)
   const { activeDesignData } = useGlobal()
-  console.log('activeDesignData', activeDesignData)
+  console.log(1111, activeDesignData)
   if (!activeDesignData) {
     /**
      * 当前不存在设计中的组件，说明是初始设计
@@ -52,74 +53,64 @@ function selectComponent(item: AddComponentOptionItem) {
      * 当前存在设计中的组件
      * 此时只需要设置活动组件的设计数据
      */
-    if (isLayoutContainer(data)) {
+    if (isLayoutContainer(activeDesignData)) {
       /**
        * 布局容器，可以挂载子组件
        * 子组件挂载后将活动设计数据设置为子组件
        */
       !activeDesignData.options!.components && (activeDesignData.options!.components = [])
-      activeDesignData.options!.components!.push(data!)
+      activeDesignData.options!.components!.push(data)
       setActiveDesignData(data)
     }
   }
 }
 
-function createConfigData(item: AddComponentOptionItem) {
+/**
+ * 生成设计数据id
+ * @param type
+ */
+function toId(type: SubComponentsTypeOfPageDesigner) {
+  return `${type}${nanoid(5)}`.toLowerCase()
+}
+
+function createDesignData(item: AddComponentOptionItem) {
   switch (item.value) {
     case 'Container': {
       return {
-        id: item.value,
+        id: toId(item.value),
+        type: item.value,
         label: item.label,
         options: {}
       } as ContainerDesignData
     }
     case 'Aside': {
       return {
-        id: item.value,
+        id: toId(item.value),
+        type: item.value,
         label: item.label,
         options: {}
       } as AsideDesignData
     }
     case 'Menu': {
       return {
-        id: item.value,
+        id: toId(item.value),
+        type: item.value,
         label: item.label,
-        options: {
-          menuData: [
-            {
-              id: '1',
-              name: '一级菜单',
-              children: [
-                {
-                  id: '1-1',
-                  name: '二级菜单',
-                  children: [
-                    {
-                      id: '1-1-1',
-                      name: '三级菜单'
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              id: '2',
-              name: '一级菜单'
-            }
-          ]
-        }
+        options: {}
       } as MenuDesignData
     }
     case 'Form': {
       return {
-        id: item.value,
+        id: toId(item.value),
+        type: item.value,
         label: item.label,
         options: {}
       }
     }
     default: {
       return {
-        id: item.value,
+        id: toId(item.value),
+        type: item.value,
         label: item.label,
         options: {}
       } as ContainerDesignData
@@ -140,8 +131,8 @@ onUnmounted(() => {
 
 <template>
   <div id="page-designer">
-    <ShortcutKeyTip v-if="!Object.keys(designData).length" :keys='["A", "C"]' label='添加组件' active />
-    <component v-for="item in designData" :key="item.id" :is="SubComponentsOfPageDesigner[item.id]" :data="item"></component>
+    <ShortcutKeyTip v-if="!Object.keys(designData).length" :keys='["A", "C"]' label='添加组件' />
+    <component v-for="item in designData" :key="item.id" :is="SubComponentsOfPageDesigner[item.type]" :data="item"></component>
   </div>
   <AddComponent ref="addComponentRef" :options="addComponentOptions" @select="selectComponent"></AddComponent>
 </template>
@@ -154,17 +145,21 @@ onUnmounted(() => {
   padding: 10px;
   box-sizing: border-box;
 
-  .shortcut-key-tip {
+  &>.shortcut-key-tip {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -100%);
 
     :deep(.label) {
+      font-size: 18px;
       color: var(--el-color-primary);
     }
 
     :deep(.key) {
+      font-size: 14px;
+      width: 25px;
+      height: 25px;
       background-color: var(--el-color-primary);
     }
   }

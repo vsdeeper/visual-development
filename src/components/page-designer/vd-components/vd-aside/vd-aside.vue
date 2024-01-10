@@ -5,6 +5,8 @@
 -->
 <script setup lang="ts">
 import { AsideDesignData } from '.'
+import { SubComponentsOfPageDesigner } from '..'
+import { isActiveDesign } from '../../util'
 
 defineProps<{
   data: AsideDesignData
@@ -13,19 +15,17 @@ defineProps<{
 </script>
 
 <template>
-  {{ data }}
   <VdSkeleton
-    :class="['vd-aside']"
-    label="Aside"
+    :class-list="['vd-aside']"
     :is-active="isActive"
+    :data="data"
     :shortcut-key-tip-map="{ label: '添加组件', keys: ['A', 'C'] }">
+    <component
+      v-for="item in data.options?.components"
+      :key="item.id"
+      :is="SubComponentsOfPageDesigner[item.type]"
+      :data="item"
+      :is-active="isActiveDesign(item.id)"
+    ></component>
   </VdSkeleton>
 </template>
-
-<style lang="scss" scoped>
-.vd-aside {
-  &.vd-skeleton {
-    border-width: 4px;
-  }
-}
-</style>

@@ -6,8 +6,9 @@ import { ActiveDesignData, SubComponentsTypeOfPageDesigner } from '.'
  * @param data
  */
 export function isLayoutContainer(data: ActiveDesignData) {
-  const list: SubComponentsTypeOfPageDesigner[] = ['Container', 'Aside']
-  return data?.id && list.includes(data.id)
+  const list: SubComponentsTypeOfPageDesigner[] = ['Container', 'Aside', 'Header', 'Main', 'Footer', 'RouterView', 'View']
+  console.log(333, data.type)
+  return list.includes(data.type)
 }
 
 /**
@@ -15,7 +16,7 @@ export function isLayoutContainer(data: ActiveDesignData) {
  * @param type
  * @returns
  */
-export function isActiveDesign(type: SubComponentsTypeOfPageDesigner) {
+export function isActiveDesign(id: string) {
   const { activeDesignData } = useGlobal()
-  return activeDesignData && activeDesignData.id === type
+  return activeDesignData && activeDesignData.id === id
 }
