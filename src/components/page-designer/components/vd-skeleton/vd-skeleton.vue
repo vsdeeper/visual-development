@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { ActiveDesignData } from '../..'
+import { ShortcutKeyOptionItem } from '@/components'
 
 defineProps<{
   data: ActiveDesignData
   classList?: unknown[]
   isActive?: boolean
-  shortcutKeyTipOptions?: { keys?: [string, string]; label: string; }[]
+  shortcutKeyTipOptions: ShortcutKeyOptionItem[]
 }>()
+
+const skeletonRef = ref<HTMLDivElement>()
 
 function mergeClass(classList?: unknown[], myClassList?: unknown[]) {
   let _class = []
@@ -18,11 +21,21 @@ function mergeClass(classList?: unknown[], myClassList?: unknown[]) {
 function toLabel(data: ActiveDesignData) {
   return `${data.label}-${data.type}`
 }
+
+function mouseoverSkeleton(e: MouseEvent) {
+  e.stopPropagation()
+  skeletonRef.value?.classList.add('hover')
+}
+
+function mouseoutSkeleton(e: MouseEvent) {
+  e.stopPropagation()
+  skeletonRef.value?.classList.remove('hover')
+}
 </script>
 
 <template>
   <span class="code">{{ data }}</span>
-  <div class="vd-skeleton" :class="mergeClass(classList, [{ 'is-active': isActive }])">
+  <div ref="skeletonRef" class="vd-skeleton" :class="mergeClass(classList, [{ 'is-active': isActive }])" @mouseover="mouseoverSkeleton" @mouseout="mouseoutSkeleton">
     <div class="header">
       <label>{{ toLabel(data) }}</label>
     </div>
@@ -30,7 +43,7 @@ function toLabel(data: ActiveDesignData) {
       <slot></slot>
     </div>
     <div class="footer">
-      <ShortcutKeyTip :options="shortcutKeyTipOptions"></ShortcutKeyTip>
+      <ShortcutKeyTip :options="shortcutKeyTipOptions" :active-design-data="data"></ShortcutKeyTip>
     </div>
   </div>
 </template>
@@ -50,6 +63,11 @@ function toLabel(data: ActiveDesignData) {
   border-width: 2px;
   border-style: solid;
   border-color: var(--el-text-color-placeholder);
+  transition: border-color 0.2s ease-in-out 0s;
+
+  &.hover {
+    border-color: var(--el-color-warning);
+  }
 
   .header {
     line-height: 1;

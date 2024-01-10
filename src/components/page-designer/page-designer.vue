@@ -7,23 +7,26 @@
 <script setup lang="ts">
 import { useGlobal } from '@/stores'
 import { nanoid } from 'nanoid'
-import { SubComponentsOfPageDesigner, SubComponentsTypeOfPageDesigner } from '.'
+import { ActiveDesignData, SubComponentsOfPageDesigner, SubComponentsTypeOfPageDesigner } from '.'
 import { AddComponent, AddComponentOptionItem } from '@/components'
 import { AsideDesignData } from './vd-components/vd-aside'
 import { MenuDesignData } from './vd-components/vd-menu'
-import { isPageDesignModeSymbol } from '@/utils/constants'
+import { isPageDesignModeSymbol, addComponentRefSymbol } from '@/utils/constants'
 import { ContainerDesignData } from './vd-components/vd-container'
 import { isLayoutContainer } from './util'
 import { addComponentOptions } from './constants'
 
+export type AddComponentInstance = InstanceType<typeof AddComponent>
+
 console.log('SubComponentsOfPageDesigner 表单设计子组件', SubComponentsOfPageDesigner)
 
-const { designData, setDesignData, setActiveDesignData } = useGlobal()
-const addComponentRef = ref<InstanceType<typeof AddComponent>>()
+const { designData, setDesignData, setActiveDesignData, activeDesignData } = useGlobal()
+const addComponentRef = ref<AddComponentInstance>()
 const key = ref('')
 
 // provide
 provide(isPageDesignModeSymbol, ref(true))
+provide(addComponentRefSymbol, addComponentRef)
 
 function handleKeydown(e: KeyboardEvent) {
   key.value += e.key.toUpperCase()
@@ -31,7 +34,7 @@ function handleKeydown(e: KeyboardEvent) {
     // V+A 键
     const { activeDesignData } = useGlobal()
     if (!activeDesignData || isLayoutContainer(activeDesignData)) {
-      // 当前不存在设计中的组件或当前设计组件是布局容器类组件
+      // 当前不存在设计中的组件或当前设计组件是布局容器类组件，进行添加组件操作
       addComponentRef.value?.open()
     }
   }
@@ -138,8 +141,12 @@ onUnmounted(() => {
 
 <template>
   <div id="page-designer">
-    <ShortcutKeyTip v-if="!Object.keys(designData).length" :options="[{ label: '添加组件', keys: ['V', 'A'] }]" />
-    <component v-for=" item  in  designData " :key="item.id" :is="SubComponentsOfPageDesigner[item.type]" :data="item"></component>
+    <ShortcutKeyTip
+      v-if="!Object.keys(designData).length"
+      :options="[{ label: '添加组件', keys: ['V', 'A'] }]"
+      :active-design-data="(activeDesignData as ActiveDesignData)"
+    />
+    <component v-for=" item in designData" :key="item.id" :is="SubComponentsOfPageDesigner[item.type]" :data="item"></component>
   </div>
   <AddComponent ref="addComponentRef" :options="addComponentOptions" @select="selectComponent"></AddComponent>
 </template>
@@ -159,14 +166,14 @@ onUnmounted(() => {
     transform: translate(-50%, -100%);
 
     :deep(.label) {
-      font-size: 18px;
+      font-size: 16px;
       color: var(--el-color-primary);
     }
 
     :deep(.key) {
-      font-size: 14px;
-      width: 25px;
-      height: 25px;
+      font-size: 11px;
+      width: 22px;
+      height: 22px;
       background-color: var(--el-color-primary);
     }
   }

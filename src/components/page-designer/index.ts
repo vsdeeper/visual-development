@@ -6,4 +6,5 @@
  */
 export * from './components'
 export * from './vd-components'
-export { default as PageDesigner } from './page-designer.vue'
+export { default as PageDesigner, type AddComponentInstance } from './page-designer.vue'
+
