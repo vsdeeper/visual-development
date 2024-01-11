@@ -4,5 +4,6 @@
  * @Description:
  */
 export * from './add-component'
+export * from './design-component'
 export * from './shortcut-key-tip'
 export * from './vd-skeleton'

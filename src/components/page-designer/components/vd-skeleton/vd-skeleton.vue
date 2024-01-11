@@ -34,7 +34,7 @@ function mouseoutSkeleton(e: MouseEvent) {
 </script>
 
 <template>
-  <span class="code">{{ data }}</span>
+  <!-- <span class="code">{{ data }}</span> -->
   <div ref="skeletonRef" class="vd-skeleton" :class="mergeClass(classList, [{ 'is-active': isActive }])" @mouseover="mouseoverSkeleton" @mouseout="mouseoutSkeleton">
     <div class="header">
       <label>{{ toLabel(data) }}</label>
@@ -63,7 +63,12 @@ function mouseoutSkeleton(e: MouseEvent) {
   border-width: 2px;
   border-style: solid;
   border-color: var(--el-text-color-placeholder);
+  background-color: #fff;
   transition: border-color 0.2s ease-in-out 0s;
+
+  &+.vd-skeleton {
+    margin-top: 15px;
+  }
 
   &.hover {
     border-color: var(--el-color-warning);
@@ -74,7 +79,6 @@ function mouseoutSkeleton(e: MouseEvent) {
 
     label {
       font-size: 10px;
-      font-weight: bold;
       margin-left: 5px;
       color: var(--el-text-color-secondary);
     }

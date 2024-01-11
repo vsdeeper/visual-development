@@ -8,8 +8,7 @@
 import { useGlobal } from '@/stores'
 import { ActiveDesignData, AddComponentInstance } from '../..'
 import { type ShortcutKeyOptionItem } from '.'
-import { addComponentRefSymbol } from '@/utils/constants'
-import { isLayoutContainer } from '../../util'
+import { addComponentRefSymbol, designComponentRefSymbol } from '@/utils/constants'
 
 defineProps<{
   options: ShortcutKeyOptionItem[]
@@ -20,14 +19,21 @@ const emit = defineEmits<{
   (e: 'click-shortcut-key', item: ShortcutKeyOptionItem, data: ActiveDesignData): void
 }>()
 
-const { setActiveDesignData } = useGlobal()
+const { setIsPageDesignerActive, setActiveDesignData } = useGlobal()
 const addComponentRef = inject<Ref<AddComponentInstance>>(addComponentRefSymbol)
+const designComponentRef = inject<Ref<AddComponentInstance>>(designComponentRefSymbol)
 
 function clickShortcutKey(item: ShortcutKeyOptionItem, data: ActiveDesignData) {
-  setActiveDesignData(data)
-  if (isLayoutContainer(data)) {
-    // 当前不存在设计中的组件或当前设计组件是布局容器类组件，进行添加组件操作
-    addComponentRef?.value.open()
+  if (item && data) {
+    setIsPageDesignerActive(false)
+    setActiveDesignData(data)
+    if (item.keys?.join('') === 'VA') {
+      // 添加组件
+      addComponentRef?.value.open()
+    } else if (item.keys?.join('') === 'VD') {
+      // 设计组件
+      designComponentRef?.value.open()
+    }
   }
   emit('click-shortcut-key', item, data)
 }

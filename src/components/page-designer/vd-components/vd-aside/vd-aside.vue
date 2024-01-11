@@ -10,14 +10,13 @@ import { isActiveDesign } from '../../util'
 
 defineProps<{
   data: AsideDesignData
-  isActive?: boolean
 }>()
 </script>
 
 <template>
   <VdSkeleton
     :class-list="['vd-aside']"
-    :is-active="isActive"
+    :is-active="isActiveDesign(data.id)"
     :data="data"
     :shortcut-key-tip-options="[{ label: '添加组件', keys: ['V', 'A'] }, { label: '设计组件', keys: ['V', 'D'] }]">
     <component

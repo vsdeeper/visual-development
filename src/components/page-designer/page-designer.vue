@@ -7,26 +7,29 @@
 <script setup lang="ts">
 import { useGlobal } from '@/stores'
 import { nanoid } from 'nanoid'
-import { ActiveDesignData, SubComponentsOfPageDesigner, SubComponentsTypeOfPageDesigner } from '.'
+import { ActiveDesignData, DesignComponent, SubComponentsOfPageDesigner, SubComponentsTypeOfPageDesigner } from '.'
 import { AddComponent, AddComponentOptionItem } from '@/components'
 import { AsideDesignData } from './vd-components/vd-aside'
 import { MenuDesignData } from './vd-components/vd-menu'
-import { isPageDesignModeSymbol, addComponentRefSymbol } from '@/utils/constants'
+import { isPageDesignModeSymbol, addComponentRefSymbol, designComponentRefSymbol } from '@/utils/constants'
 import { ContainerDesignData } from './vd-components/vd-container'
 import { isLayoutContainer } from './util'
 import { addComponentOptions } from './constants'
 
 export type AddComponentInstance = InstanceType<typeof AddComponent>
+export type DesignComponentInstance = InstanceType<typeof DesignComponent>
 
 console.log('SubComponentsOfPageDesigner 表单设计子组件', SubComponentsOfPageDesigner)
 
-const { designData, setDesignData, setActiveDesignData, activeDesignData } = useGlobal()
+const { setIsPageDesignerActive, designData, setDesignData, setActiveDesignData, activeDesignData } = useGlobal()
 const addComponentRef = ref<AddComponentInstance>()
+const designComponentRef = ref<DesignComponentInstance>()
 const key = ref('')
 
 // provide
 provide(isPageDesignModeSymbol, ref(true))
 provide(addComponentRefSymbol, addComponentRef)
+provide(designComponentRefSymbol, designComponentRef)
 
 function handleKeydown(e: KeyboardEvent) {
   key.value += e.key.toUpperCase()
@@ -40,7 +43,7 @@ function handleKeydown(e: KeyboardEvent) {
   }
   if (key.value.includes('VD')) {
     // V+D 键，设计组件
-    console.log('设计组件')
+    designComponentRef.value?.open()
   }
 }
 
@@ -56,6 +59,7 @@ function selectComponent(item: AddComponentOptionItem) {
      * 当前不存在设计中的组件，说明是初始设计
      * 此时需要设置最外层的设计数据
      */
+    setIsPageDesignerActive(false)
     setDesignData(data)
     setActiveDesignData(data)
   } else {
@@ -137,27 +141,100 @@ onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown)
   window.removeEventListener('keyup', handleKeyup)
 })
+
+function clickShortcutKey() {
+  setIsPageDesignerActive(true)
+  setActiveDesignData(undefined)
+  addComponentRef.value?.open()
+}
 </script>
 
 <template>
-  <div id="page-designer">
+  <div id="page-designer" :class="{ 'has-design-content': designData.length, 'active': !useGlobal().activeDesignData }">
+    <el-scrollbar view-class="scroll-view" height="100%">
+      <component v-for=" item in designData" :key="item.id" :is="SubComponentsOfPageDesigner[item.type]" :data="item"></component>
+    </el-scrollbar>
+    <div class="version">Page Designer 1.0.0</div>
     <ShortcutKeyTip
-      v-if="!Object.keys(designData).length"
       :options="[{ label: '添加组件', keys: ['V', 'A'] }]"
       :active-design-data="(activeDesignData as ActiveDesignData)"
+      @click-shortcut-key="clickShortcutKey"
     />
-    <component v-for=" item in designData" :key="item.id" :is="SubComponentsOfPageDesigner[item.type]" :data="item"></component>
   </div>
   <AddComponent ref="addComponentRef" :options="addComponentOptions" @select="selectComponent"></AddComponent>
+  <DesignComponent ref="designComponentRef" :data="(useGlobal().activeDesignData as ActiveDesignData)"></DesignComponent>
 </template>
 
 <style lang="scss" scoped>
 #page-designer {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  padding: 10px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding: 30px 10px;
+  overflow: hidden;
   box-sizing: border-box;
+
+  :deep(.scroll-view) {
+    padding: 0 15px;
+  }
+
+  .version {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, calc(-100% - 40px));
+    font-size: 10px;
+    font-weight: bold;
+    color: var(--el-color-primary);
+  }
+
+  &.active {
+    &>.shortcut-key-tip {
+
+
+      :deep(.label) {
+        color: var(--el-color-primary);
+      }
+
+      :deep(.key) {
+        background-color: var(--el-color-primary);
+      }
+    }
+  }
+
+  &.has-design-content {
+
+    .version {
+      position: fixed;
+      left: unset;
+      left: 10px;
+      top: unset;
+      top: 5px;
+      color: var(--el-text-color-secondary);
+      transform: unset;
+    }
+
+    &>.shortcut-key-tip {
+      position: fixed;
+      left: unset;
+      right: 5px;
+      top: unset;
+      bottom: 0;
+      transform: unset;
+
+      :deep(.label) {
+        font-size: 12px;
+      }
+
+      :deep(.key) {
+        font-size: 10px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
 
   &>.shortcut-key-tip {
     position: absolute;
@@ -167,14 +244,15 @@ onUnmounted(() => {
 
     :deep(.label) {
       font-size: 16px;
-      color: var(--el-color-primary);
+      font-weight: bold;
+      color: var(--el-text-color-placeholder);
     }
 
     :deep(.key) {
       font-size: 11px;
       width: 22px;
       height: 22px;
-      background-color: var(--el-color-primary);
+      background-color: var(--el-text-color-placeholder);
     }
   }
 
