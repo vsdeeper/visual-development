@@ -40,7 +40,9 @@ function mouseoutSkeleton(e: MouseEvent) {
       <label>{{ toLabel(data) }}</label>
     </div>
     <div class="main">
-      <slot></slot>
+      <el-scrollbar view-class="scroll-view">
+        <slot></slot>
+      </el-scrollbar>
     </div>
     <div class="footer">
       <ShortcutKeyTip :options="shortcutKeyTipOptions" :active-design-data="data"></ShortcutKeyTip>
@@ -56,19 +58,18 @@ function mouseoutSkeleton(e: MouseEvent) {
 
 .vd-skeleton {
   display: flex;
+  flex: 1;
   flex-direction: column;
   min-height: 100px;
+  min-width: 300px;
   box-sizing: border-box;
+  margin: 10px;
   justify-content: space-between;
   border-width: 2px;
   border-style: solid;
   border-color: var(--el-text-color-placeholder);
   background-color: #fff;
   transition: border-color 0.2s ease-in-out 0s;
-
-  &+.vd-skeleton {
-    margin-top: 15px;
-  }
 
   &.hover {
     border-color: var(--el-color-warning);
@@ -86,6 +87,11 @@ function mouseoutSkeleton(e: MouseEvent) {
 
   .main {
     padding: 10px;
+
+    :deep(.el-scrollbar__view) {
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   .footer {

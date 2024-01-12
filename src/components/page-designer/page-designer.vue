@@ -154,15 +154,17 @@ function clickShortcutKey() {
     <el-scrollbar view-class="scroll-view" height="100%">
       <component v-for=" item in designData" :key="item.id" :is="SubComponentsOfPageDesigner[item.type]" :data="item"></component>
     </el-scrollbar>
-    <div class="version">Page Designer 1.0.0</div>
+    <div class="version">
+      Page Designer 1.0.0
+    </div>
     <ShortcutKeyTip
-      :options="[{ label: '添加组件', keys: ['V', 'A'] }]"
+      :options="designData.length ? [{ keys: ['V', 'A'] }] : [{ label: '添加组件', keys: ['V', 'A'] }]"
       :active-design-data="(activeDesignData as ActiveDesignData)"
       @click-shortcut-key="clickShortcutKey"
     />
   </div>
   <AddComponent ref="addComponentRef" :options="addComponentOptions" @select="selectComponent"></AddComponent>
-  <DesignComponent ref="designComponentRef" :data="(useGlobal().activeDesignData as ActiveDesignData)"></DesignComponent>
+  <DesignComponent ref="designComponentRef" :form-data="(useGlobal().activeDesignData as ActiveDesignData)"></DesignComponent>
 </template>
 
 <style lang="scss" scoped>
@@ -175,10 +177,6 @@ function clickShortcutKey() {
   padding: 30px 10px;
   overflow: hidden;
   box-sizing: border-box;
-
-  :deep(.scroll-view) {
-    padding: 0 15px;
-  }
 
   .version {
     position: absolute;
@@ -211,7 +209,7 @@ function clickShortcutKey() {
       left: unset;
       left: 10px;
       top: unset;
-      top: 5px;
+      top: 7px;
       color: var(--el-text-color-secondary);
       transform: unset;
     }

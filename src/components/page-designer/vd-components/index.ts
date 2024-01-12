@@ -10,6 +10,8 @@ import { type AsideDesignData } from './vd-aside'
 import { MenuDesignData } from './vd-menu'
 import { ContainerDesignData } from './vd-container'
 
+export * from './vd-container'
+
 export type SubComponentsTypeOfPageDesigner =
 /** 布局容器 */'Aside' | 'Container' | 'Footer' | 'Header' | 'Main' | 'RowCol' | 'RouterView' | 'View' |
 /** 导航组件 */'Menu' |
@@ -22,6 +24,7 @@ export type BaseDesignData<T = Record<string, any>> = {
   id: string
   type: SubComponentsTypeOfPageDesigner
   label: string
+  projectName?: string
   options?: T & {
     components?: BaseDesignData<T>[]
   }
@@ -29,22 +32,22 @@ export type BaseDesignData<T = Record<string, any>> = {
 /** 当前配置数据类型 */
 export type ActiveDesignData = AsideDesignData | MenuDesignData | ContainerDesignData
 
+export type MergeDesignData = AsideDesignData & MenuDesignData & ContainerDesignData
+
 /** 导出所有子组件 */
 const SubComponentsOfPageDesigner: { [K in SubComponentsTypeOfPageDesigner]?: any } = {}
-const vueModules = import.meta.glob('./*/*.vue')
+const vueModules = import.meta.glob('./vd-*/vd-*.vue')
 for (const path in vueModules) {
-  if (path.includes('vd-')) {
-    const key = path
-      .substring(path.lastIndexOf('/') + 1)
-      .replace('.vue', '')
-      .replace('vd-', '')
-      .split('-')
-      .map(str => capitalizeFirstLetter(str))
-      .join('') as SubComponentsTypeOfPageDesigner
-    SubComponentsOfPageDesigner[key] = defineAsyncComponent({
-      loader: vueModules[path] as AsyncComponentLoader<any>,
-    })
-  }
+  const key = path
+    .substring(path.lastIndexOf('/') + 1)
+    .replace('.vue', '')
+    .replace('vd-', '')
+    .split('-')
+    .map(str => capitalizeFirstLetter(str))
+    .join('') as SubComponentsTypeOfPageDesigner
+  SubComponentsOfPageDesigner[key] = defineAsyncComponent({
+    loader: vueModules[path] as AsyncComponentLoader<any>,
+  })
 }
 
 export { SubComponentsOfPageDesigner }

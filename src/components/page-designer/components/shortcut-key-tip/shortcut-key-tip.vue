@@ -41,7 +41,7 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data: ActiveDesignData) {
 
 <template>
   <div class='shortcut-key-tip'>
-    <div class="item" v-for="(item, index) in options" :key="item.label + index" @click="clickShortcutKey(item, activeDesignData)">
+    <div class="item" v-for="(item, index) in options" :key="index" @click="clickShortcutKey(item, activeDesignData)">
       <div class="label">{{ item.label }}</div>
       <div class="key" v-for="key in item.keys" :key="key">{{ key.toUpperCase() }}</div>
     </div>

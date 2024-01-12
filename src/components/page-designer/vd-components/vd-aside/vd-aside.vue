@@ -18,7 +18,7 @@ defineProps<{
     :class-list="['vd-aside']"
     :is-active="isActiveDesign(data.id)"
     :data="data"
-    :shortcut-key-tip-options="[{ label: '添加组件', keys: ['V', 'A'] }, { label: '设计组件', keys: ['V', 'D'] }]">
+    :shortcut-key-tip-options="[{ keys: ['V', 'A'] }, { keys: ['V', 'D'] }]">
     <component
       v-for="item in data.options?.components"
       :key="item.id"

@@ -1,0 +1,21 @@
+<script setup lang="ts">
+import { ActiveDesignData } from '@/components'
+
+const props = defineProps<{
+  formData: ActiveDesignData
+}>()
+
+const _formData = toRef(props, 'formData')
+</script>
+
+<template>
+  <el-form-item
+    label="唯一标识"
+    prop="id"
+    :rules="[
+      { required: true, message: '必填项' }
+    ]"
+  >
+    <el-input v-model="_formData.id" readonly></el-input>
+  </el-form-item>
+</template>

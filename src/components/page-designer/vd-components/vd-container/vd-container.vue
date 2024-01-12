@@ -15,10 +15,10 @@ defineProps<{
 
 <template>
   <VdSkeleton
-    :class-list="['vd-container', { 'is-vertical': data.options?.direction === 'vertical' }]"
+    :class-list="['vd-container', { 'is-vertical': data.options?.direction === 'vertical', 'is-horizontal': data.options?.direction === 'horizontal' }]"
     :is-active="isActiveDesign(data.id)"
     :data="data"
-    :shortcut-key-tip-options="[{ label: '添加组件', keys: ['V', 'A'] }, { label: '设计组件', keys: ['V', 'D'] }]">
+    :shortcut-key-tip-options="[{ keys: ['V', 'A'] }, { keys: ['V', 'D'] }]">
     <component
       v-for="item in data.options?.components"
       :key="item.id"
@@ -32,7 +32,15 @@ defineProps<{
 <style lang="scss" scoped>
 .vd-container {
   &.is-vertical {
-    flex-direction: column;
+    :deep(.main .el-scrollbar__view) {
+      flex-direction: column;
+    }
+  }
+
+  &.is-horizontal {
+    :deep(.main .el-scrollbar__view) {
+      flex-direction: row;
+    }
   }
 }
 </style>
