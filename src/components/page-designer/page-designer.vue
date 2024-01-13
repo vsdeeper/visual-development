@@ -8,7 +8,7 @@
 import { useGlobal } from '@/stores'
 import { nanoid } from 'nanoid'
 import { ActiveDesignData, DesignComponent, SubComponentsOfPageDesigner, SubComponentsTypeOfPageDesigner } from '.'
-import { AddComponent, AddComponentOptionItem } from '@/components'
+import { AddComponent, AddComponentOptionItem, ListOfShortcutKeys } from '@/components'
 import { AsideDesignData } from './vd-components/vd-aside'
 import { MenuDesignData } from './vd-components/vd-menu'
 import { isPageDesignModeSymbol, addComponentRefSymbol, designComponentRefSymbol } from '@/utils/constants'
@@ -18,12 +18,14 @@ import { addComponentOptions } from './constants'
 
 export type AddComponentInstance = InstanceType<typeof AddComponent>
 export type DesignComponentInstance = InstanceType<typeof DesignComponent>
+export type ListOfShortcutKeysInstance = InstanceType<typeof ListOfShortcutKeys>
 
 console.log('SubComponentsOfPageDesigner 表单设计子组件', SubComponentsOfPageDesigner)
 
 const { setIsPageDesignerActive, designData, setDesignData, setActiveDesignData, activeDesignData } = useGlobal()
 const addComponentRef = ref<AddComponentInstance>()
 const designComponentRef = ref<DesignComponentInstance>()
+const listOfShortcutKeysRef = ref<ListOfShortcutKeysInstance>()
 const key = ref('')
 
 // provide
@@ -147,10 +149,14 @@ function clickShortcutKey() {
   setActiveDesignData(undefined)
   addComponentRef.value?.open()
 }
+
+function showMoreShortcutKey() {
+  listOfShortcutKeysRef.value?.open()
+}
 </script>
 
 <template>
-  <div id="page-designer" :class="{ 'has-design-content': designData.length, 'active': !useGlobal().activeDesignData }">
+  <div id="page-designer" :class="{ 'has-design-content': designData.length, 'active': !designData.length || !useGlobal().activeDesignData }">
     <el-scrollbar view-class="scroll-view" height="100%">
       <component v-for=" item in designData" :key="item.id" :is="SubComponentsOfPageDesigner[item.type]" :data="item"></component>
     </el-scrollbar>
@@ -160,11 +166,14 @@ function clickShortcutKey() {
     <ShortcutKeyTip
       :options="designData.length ? [{ keys: ['V', 'A'] }] : [{ label: '添加组件', keys: ['V', 'A'] }]"
       :active-design-data="(activeDesignData as ActiveDesignData)"
+      show-more
       @click-shortcut-key="clickShortcutKey"
+      @show-more="showMoreShortcutKey"
     />
   </div>
   <AddComponent ref="addComponentRef" :options="addComponentOptions" @select="selectComponent"></AddComponent>
   <DesignComponent ref="designComponentRef" :form-data="(useGlobal().activeDesignData as ActiveDesignData)"></DesignComponent>
+  <ListOfShortcutKeys ref="listOfShortcutKeysRef"></ListOfShortcutKeys>
 </template>
 
 <style lang="scss" scoped>
@@ -228,8 +237,8 @@ function clickShortcutKey() {
 
       :deep(.key) {
         font-size: 10px;
-        width: 18px;
         height: 18px;
+        padding: 0 6px;
       }
     }
   }
@@ -248,8 +257,8 @@ function clickShortcutKey() {
 
     :deep(.key) {
       font-size: 11px;
-      width: 22px;
       height: 22px;
+      padding: 0 8px;
       background-color: var(--el-text-color-placeholder);
     }
   }

@@ -6,4 +6,5 @@
 export * from './add-component'
 export * from './design-component'
 export * from './shortcut-key-tip'
+export * from './list-of-shortcut-keys'
 export * from './vd-skeleton'

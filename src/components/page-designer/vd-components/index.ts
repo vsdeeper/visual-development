@@ -24,14 +24,17 @@ export type BaseDesignData<T = Record<string, any>> = {
   id: string
   type: SubComponentsTypeOfPageDesigner
   label: string
-  projectName?: string
+  projectName?: string // 最外层组件配置
+  componentPath?: string // 子组件配置
   options?: T & {
     components?: BaseDesignData<T>[]
   }
 }
+
 /** 当前配置数据类型 */
 export type ActiveDesignData = AsideDesignData | MenuDesignData | ContainerDesignData
 
+/** 设计数据的合并类型 */
 export type MergeDesignData = AsideDesignData & MenuDesignData & ContainerDesignData
 
 /** 导出所有子组件 */

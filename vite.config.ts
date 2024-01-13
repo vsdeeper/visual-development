@@ -20,7 +20,11 @@ export default defineConfig({
       eslintrc: {
         enabled: true,
       },
-      resolvers: [ElementPlusResolver()],
+      resolvers: [
+        ElementPlusResolver({
+          importStyle: 'sass',
+        }),
+      ],
     }),
     Components({
       resolvers: [ElementPlusResolver()],

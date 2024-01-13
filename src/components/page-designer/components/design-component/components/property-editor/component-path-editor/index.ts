@@ -1,0 +1,1 @@
+export { default as ComponentPathEditor } from './component-path-editor.vue'
