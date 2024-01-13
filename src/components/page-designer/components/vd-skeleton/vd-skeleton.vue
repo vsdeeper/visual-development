@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ActiveDesignData } from '../..'
+import { MergeDesignData } from '../..'
 import { ShortcutKeyOptionItem } from '@/components'
 
 defineProps<{
-  data: ActiveDesignData
+  data: MergeDesignData
   classList?: unknown[]
   isActive?: boolean
   shortcutKeyTipOptions: ShortcutKeyOptionItem[]
@@ -18,7 +18,7 @@ function mergeClass(classList?: unknown[], myClassList?: unknown[]) {
   return _class
 }
 
-function toLabel(data: ActiveDesignData) {
+function toLabel(data: MergeDesignData) {
   return `${data.label}-${data.type}`
 }
 
@@ -35,12 +35,23 @@ function mouseoutSkeleton(e: MouseEvent) {
 
 <template>
   <!-- <span class="code">{{ data }}</span> -->
-  <div ref="skeletonRef" class="vd-skeleton" :class="mergeClass(classList, [{ 'is-active': isActive }])" @mouseover="mouseoverSkeleton" @mouseout="mouseoutSkeleton">
+  <div
+    ref="skeletonRef"
+    class="vd-skeleton"
+    :class="mergeClass(classList, [{ 'is-active': isActive }])"
+    :style="{
+      flex: `0 0 ${data.options?.width}`,
+      width: data.options?.width,
+      minHeight: data.options?.height
+    }"
+    @mouseover="mouseoverSkeleton"
+    @mouseout="mouseoutSkeleton"
+    >
     <div class="header">
       <label>{{ toLabel(data) }}</label>
     </div>
     <div class="main">
-      <el-scrollbar view-class="scroll-view">
+      <el-scrollbar>
         <slot></slot>
       </el-scrollbar>
     </div>
@@ -60,7 +71,7 @@ function mouseoutSkeleton(e: MouseEvent) {
   display: flex;
   flex: 1;
   flex-direction: column;
-  min-height: 100px;
+  min-height: 0;
   min-width: 300px;
   box-sizing: border-box;
   margin: 10px;
@@ -86,18 +97,34 @@ function mouseoutSkeleton(e: MouseEvent) {
   }
 
   .main {
-    padding: 10px;
-
-    :deep(.el-scrollbar__view) {
-      display: flex;
-      flex-direction: column;
-    }
+    // padding: 10px;
   }
 
   .footer {
     line-height: 1;
     display: flex;
     justify-content: flex-end;
+  }
+
+
+  :deep(.el-scrollbar__view) {
+    display: flex;
+  }
+
+  &.is-vertical {
+    :deep {
+      &>.header+.main>.el-scrollbar>.el-scrollbar__wrap>.el-scrollbar__view {
+        flex-direction: column;
+      }
+    }
+  }
+
+  &.is-horizontal {
+    :deep {
+      &>.header+.main>.el-scrollbar>.el-scrollbar__wrap>.el-scrollbar__view {
+        flex-direction: row;
+      }
+    }
   }
 
   &.vd-container {

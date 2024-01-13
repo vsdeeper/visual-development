@@ -13,6 +13,6 @@ const _formData = toRef(props, 'formData')
     label="组件路径"
     prop="componentPath"
   >
-    <el-input v-model="_formData.componentPath"></el-input>
+    <el-input v-model="_formData.componentPath" readonly></el-input>
   </el-form-item>
 </template>

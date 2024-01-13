@@ -10,12 +10,9 @@ const _formData = toRef(props, 'formData')
 
 <template>
   <el-form-item
-    label="关联项目名称"
-    prop="projectName"
-    :rules="[
-      { required: true, message: '必填项' }
-    ]"
+    label="宽度"
+    prop="width"
   >
-    <el-input v-model="_formData.projectName" clearable></el-input>
+    <el-input v-model="_formData.options!.width" clearable></el-input>
   </el-form-item>
 </template>

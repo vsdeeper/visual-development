@@ -46,6 +46,8 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data: ActiveDesignData) {
       if (!designData.length || isRootComponent(data.id, designData)) {
         // 如果没有设计组存在或删除的根组件，则不存在当前设计组件
         setActiveDesignData(undefined)
+      } else {
+        // TODO 还存在设计组件，找到删除组件的父级组件
       }
     }
   } else {
@@ -102,7 +104,7 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data: ActiveDesignData) {
       }
 
       &+div.key {
-        margin-left: 1px;
+        margin-left: 2px;
       }
     }
   }

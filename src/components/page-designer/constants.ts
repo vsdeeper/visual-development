@@ -8,14 +8,20 @@ export const addComponentOptions = [
     id: 'LayoutContainer',
     name: '布局容器',
     children: [
-      { label: '视图', value: 'View' },
-      { label: '路由', value: 'RouterView' },
-      { label: '分栏', value: 'RowCol' },
-      { label: '主体', value: 'Main' },
       { label: '容器', value: 'Container' },
       { label: '侧栏', value: 'Aside' },
       { label: '头部', value: 'Header' },
+      { label: '主体', value: 'Main' },
       { label: '底部', value: 'Footer' },
+      { label: '分栏', value: 'RowCol' },
+    ]
+  },
+  {
+    id: 'MainContainer',
+    name: '主体容器',
+    children: [
+      { label: '路由', value: 'RouterView' },
+      { label: '视图', value: 'View' },
     ]
   },
   {

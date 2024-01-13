@@ -30,17 +30,17 @@ defineProps<{
 </template>
 
 <style lang="scss" scoped>
-.vd-container {
-  &.is-vertical {
-    :deep(.main .el-scrollbar__view) {
-      flex-direction: column;
-    }
-  }
+// .vd-container {
+//   &.is-vertical {
+//     :deep(.main .el-scrollbar__view) {
+//       flex-direction: column;
+//     }
+//   }
 
-  &.is-horizontal {
-    :deep(.main .el-scrollbar__view) {
-      flex-direction: row;
-    }
-  }
-}
+//   &.is-horizontal {
+//     :deep(.main .el-scrollbar__view) {
+//       flex-direction: row;
+//     }
+//   }
+// }
 </style>

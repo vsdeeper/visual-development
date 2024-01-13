@@ -9,6 +9,8 @@ import { capitalizeFirstLetter } from '@/utils'
 import { type AsideDesignData } from './vd-aside'
 import { MenuDesignData } from './vd-menu'
 import { ContainerDesignData } from './vd-container'
+import { HeaderDesignData } from './vd-header'
+import { FooterDesignData } from './vd-footer'
 
 export * from './vd-container'
 
@@ -32,10 +34,10 @@ export type BaseDesignData<T = Record<string, any>> = {
 }
 
 /** 当前配置数据类型 */
-export type ActiveDesignData = AsideDesignData | MenuDesignData | ContainerDesignData
+export type ActiveDesignData = ContainerDesignData | AsideDesignData | HeaderDesignData | FooterDesignData | MenuDesignData
 
 /** 设计数据的合并类型 */
-export type MergeDesignData = AsideDesignData & MenuDesignData & ContainerDesignData
+export type MergeDesignData = ContainerDesignData & AsideDesignData & HeaderDesignData & FooterDesignData & MenuDesignData
 
 /** 导出所有子组件 */
 const SubComponentsOfPageDesigner: { [K in SubComponentsTypeOfPageDesigner]?: any } = {}

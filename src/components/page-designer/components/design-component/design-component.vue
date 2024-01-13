@@ -21,7 +21,6 @@ defineExpose({
 
 <template>
   <el-dialog title="设计组件" v-model="show">
-    {{ formData }}
     <div class="design-component">
       <el-form :model="formData" ref="formRef" label-position="top">
         <component :is="DesignComponent[formData.type]" :form-data="formData"></component>

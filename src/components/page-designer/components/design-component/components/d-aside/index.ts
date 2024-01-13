@@ -1,1 +1,1 @@
-export { default as DContainer } from './d-container.vue'
+export { default as DAside } from './d-aside.vue'

@@ -157,12 +157,12 @@ function showMoreShortcutKey() {
 
 <template>
   <div id="page-designer" :class="{ 'has-design-content': designData.length, 'active': !designData.length || !useGlobal().activeDesignData }">
-    <el-scrollbar view-class="scroll-view" height="100%">
-      <component v-for=" item in designData" :key="item.id" :is="SubComponentsOfPageDesigner[item.type]" :data="item"></component>
-    </el-scrollbar>
     <div class="version">
       Page Designer 1.0.0
     </div>
+    <el-scrollbar view-class="scroll-view" height="100%">
+      <component v-for=" item in designData" :key="item.id" :is="SubComponentsOfPageDesigner[item.type]" :data="item"></component>
+    </el-scrollbar>
     <ShortcutKeyTip
       :options="designData.length ? [{ keys: ['V', 'A'] }] : [{ label: '添加组件', keys: ['V', 'A'] }]"
       :active-design-data="(activeDesignData as ActiveDesignData)"

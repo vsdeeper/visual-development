@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { MergeDesignData } from '@/components'
-import { IdEditor, ProjectNameEditor } from '../property-editor'
+import { IdEditor, ProjectNameEditor, ComponentPathEditor, WidthEditor } from '../property-editor'
 import { isRootComponent } from '@/components/page-designer/util'
+import { useGlobal } from '@/stores'
+import { RowGutter } from '../constants'
 
 defineProps<{
   formData: MergeDesignData
@@ -9,7 +11,18 @@ defineProps<{
 </script>
 
 <template>
-  <IdEditor :form-data="formData"></IdEditor>
-  <ProjectNameEditor v-if="isRootComponent(formData.id, useGlobal().designData)" :form-data="formData"></ProjectNameEditor>
-  <ComponentPathEditor v-else :form-data="formData"></ComponentPathEditor>
+  <el-row :gutter="RowGutter">
+    <ResponsiveCol>
+      <IdEditor :form-data="formData"></IdEditor>
+    </ResponsiveCol>
+    <ResponsiveCol v-if="isRootComponent(formData.id, useGlobal().designData)">
+      <ProjectNameEditor :form-data="formData"></ProjectNameEditor>
+    </ResponsiveCol>
+    <ResponsiveCol v-else>
+      <ComponentPathEditor :form-data="formData"></ComponentPathEditor>
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <WidthEditor :form-data="formData"></WidthEditor>
+    </ResponsiveCol>
+  </el-row>
 </template>

@@ -14,7 +14,7 @@ defineExpose({
 
 <template>
   <el-dialog
-    title="快捷键一览"
+    title="快捷键"
     v-model="show"
   >
     <template v-for="item in shortcutKeysOptions" :key="item.des">
@@ -45,7 +45,7 @@ defineExpose({
     background-color: var(--el-color-primary);
 
     &+.key {
-      margin-left: 1px;
+      margin-left: 2px;
     }
   }
 
