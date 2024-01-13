@@ -9,56 +9,52 @@ import { useGlobal } from '@/stores'
 import { ActiveDesignData, AddComponentInstance } from '../..'
 import { type ShortcutKeyOptionItem } from '.'
 import { addComponentRefSymbol, designComponentRefSymbol } from '@/utils/constants'
-import { findParentComponentsOfComponent, isRootComponent } from '../../util'
+import { deleteComponent } from '../../util'
 
-defineProps<{
+const props = defineProps<{
+  data?: ActiveDesignData
   options: ShortcutKeyOptionItem[]
-  activeDesignData: ActiveDesignData
   showMore?: boolean
+  isPageDesigner?: boolean
 }>()
 
 const emit = defineEmits<{
-  (e: 'click-shortcut-key', item?: ShortcutKeyOptionItem, data?: ActiveDesignData): void
   (e: 'show-more'): void
 }>()
 
-const { setIsPageDesignerActive, setActiveDesignData } = useGlobal()
+const { setActiveDesignData } = useGlobal()
 const addComponentRef = inject<Ref<AddComponentInstance>>(addComponentRefSymbol)
 const designComponentRef = inject<Ref<AddComponentInstance>>(designComponentRefSymbol)
 
-function clickShortcutKey(item: ShortcutKeyOptionItem, data: ActiveDesignData) {
-  if (item && data) {
-    setIsPageDesignerActive(false)
-    setActiveDesignData(data)
+function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) {
+  if (props.isPageDesigner) {
+    // 来源于页面设计器
+    setActiveDesignData(undefined)
+    addComponentRef?.value.open()
+  } else {
+    const { activeDesignData } = useGlobal()
+    if (!data) return
     const _keysStr = item.keys?.join('').toUpperCase()
     if (_keysStr === 'VA') {
       // 添加组件
+      if (activeDesignData?.id !== data?.id) setActiveDesignData(data)
       addComponentRef?.value.open()
     } else if (_keysStr === 'VD') {
       // 设计组件
+      if (activeDesignData?.id !== data?.id) setActiveDesignData(data)
       designComponentRef?.value.open()
     } else if (_keysStr === 'DELETE') {
       // 删除组件
       const { designData } = useGlobal()
-      const parentComponents = findParentComponentsOfComponent(data, designData)
-      const index = parentComponents?.findIndex(e => e.id === data.id)
-      parentComponents?.splice(index!, 1)
-      if (!designData.length || isRootComponent(data.id, designData)) {
-        // 如果没有设计组存在或删除的根组件，则不存在当前设计组件
-        setActiveDesignData(undefined)
-      } else {
-        // TODO 还存在设计组件，找到删除组件的父级组件
-      }
+      deleteComponent(data, designData)
     }
-  } else {
-    emit('click-shortcut-key')
   }
 }
 </script>
 
 <template>
   <div class='shortcut-key-tip'>
-    <div class="item" v-for="(item, index) in options" :key="index" @click="clickShortcutKey(item, activeDesignData)">
+    <div class="item" v-for="(item, index) in options" :key="index" @click="clickShortcutKey(item, data)">
       <div class="label">{{ item.label }}</div>
       <div class="key" v-for="key in item.keys" :key="key">{{ key }}</div>
       <el-tooltip v-if="showMore" content="快捷键" placement="right" effect="customized">

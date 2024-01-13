@@ -56,7 +56,7 @@ function mouseoutSkeleton(e: MouseEvent) {
       </el-scrollbar>
     </div>
     <div class="footer">
-      <ShortcutKeyTip :options="shortcutKeyTipOptions" :active-design-data="data"></ShortcutKeyTip>
+      <ShortcutKeyTip :options="shortcutKeyTipOptions" :data="data"></ShortcutKeyTip>
     </div>
   </div>
 </template>

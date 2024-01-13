@@ -13,7 +13,7 @@ import { AsideDesignData } from './vd-components/vd-aside'
 import { MenuDesignData } from './vd-components/vd-menu'
 import { isPageDesignModeSymbol, addComponentRefSymbol, designComponentRefSymbol } from '@/utils/constants'
 import { ContainerDesignData } from './vd-components/vd-container'
-import { isLayoutContainer } from './util'
+import { deleteComponent, isLayoutContainer } from './util'
 import { addComponentOptions } from './constants'
 
 export type AddComponentInstance = InstanceType<typeof AddComponent>
@@ -22,7 +22,7 @@ export type ListOfShortcutKeysInstance = InstanceType<typeof ListOfShortcutKeys>
 
 console.log('SubComponentsOfPageDesigner 表单设计子组件', SubComponentsOfPageDesigner)
 
-const { setIsPageDesignerActive, designData, setDesignData, setActiveDesignData, activeDesignData } = useGlobal()
+const { designData, setDesignData, setActiveDesignData } = useGlobal()
 const addComponentRef = ref<AddComponentInstance>()
 const designComponentRef = ref<DesignComponentInstance>()
 const listOfShortcutKeysRef = ref<ListOfShortcutKeysInstance>()
@@ -41,16 +41,18 @@ function handleKeydown(e: KeyboardEvent) {
     if (!activeDesignData || isLayoutContainer(activeDesignData)) {
       // 当前不存在设计中的组件或当前设计组件是布局容器类组件，进行添加组件操作
       addComponentRef.value?.open()
+      key.value = ''
     }
-  }
-  if (key.value.includes('VD')) {
+  } else if (key.value.includes('VD')) {
     // V+D 键，设计组件
     designComponentRef.value?.open()
+    key.value = ''
+  } else if (key.value.includes('DELETE')) {
+    // Delete 键，删除组件
+    const { designData, activeDesignData } = useGlobal()
+    deleteComponent(activeDesignData as ActiveDesignData, designData)
+    key.value = ''
   }
-}
-
-function handleKeyup() {
-  if (key.value.includes('VA') || key.value.includes('VD')) key.value = ''
 }
 
 function selectComponent(item: AddComponentOptionItem) {
@@ -61,7 +63,6 @@ function selectComponent(item: AddComponentOptionItem) {
      * 当前不存在设计中的组件，说明是初始设计
      * 此时需要设置最外层的设计数据
      */
-    setIsPageDesignerActive(false)
     setDesignData(data)
     setActiveDesignData(data)
   } else {
@@ -136,19 +137,11 @@ function createDesignData(item: AddComponentOptionItem) {
 
 onMounted(() => {
   window.addEventListener('keydown', handleKeydown)
-  window.addEventListener('keyup', handleKeyup)
 })
 
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown)
-  window.removeEventListener('keyup', handleKeyup)
 })
-
-function clickShortcutKey() {
-  setIsPageDesignerActive(true)
-  setActiveDesignData(undefined)
-  addComponentRef.value?.open()
-}
 
 function showMoreShortcutKey() {
   listOfShortcutKeysRef.value?.open()
@@ -165,9 +158,8 @@ function showMoreShortcutKey() {
     </el-scrollbar>
     <ShortcutKeyTip
       :options="designData.length ? [{ keys: ['V', 'A'] }] : [{ label: '添加组件', keys: ['V', 'A'] }]"
-      :active-design-data="(activeDesignData as ActiveDesignData)"
       show-more
-      @click-shortcut-key="clickShortcutKey"
+      is-page-designer
       @show-more="showMoreShortcutKey"
     />
   </div>

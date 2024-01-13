@@ -20,9 +20,8 @@ export function isLayoutContainer(data: ActiveDesignData) {
  * @param type
  * @returns
  */
-export function isActiveDesign(id: string) {
-  const { activeDesignData } = useGlobal()
-  return activeDesignData && activeDesignData.id === id
+export function isActiveDesign(targetId: string, activeDesignData?: ActiveDesignData) {
+  return activeDesignData?.id === targetId
 }
 
 /**
@@ -40,38 +39,41 @@ export function isRootComponent(id: string, designData: MergeDesignData[]) {
  * @param designData
  * @returns
  */
-export function findParentComponentsOfComponent(target: MergeDesignData, designData: MergeDesignData[]) {
-  let parent: MergeDesignData[] | undefined
+export function findParentComponentOfComponent(target: MergeDesignData, designData: MergeDesignData[]) {
+  let parent: MergeDesignData | MergeDesignData[] | undefined
   if (isRootComponent(target.id, designData)) {
     // 根组件
     parent = designData
-  }
-  // 子组件，先判断是否配置了组件路径
-  if (target.componentPath) {
-    // 配置了组件路径，根据路径找到根组件
-    const findRoot = designData.find(e => target.componentPath?.startsWith(e.projectName!))
-    forofForfindParentComponentsOfComponent(target.id, findRoot?.options?.components ?? [], parentData => {
-      parent = parentData
-    })
   } else {
+    // 子组件，先判断是否配置了组件路径
+    if (target.componentPath) {
+    // 配置了组件路径，根据路径找到根组件
+      const findRoot = designData.find(e => target.componentPath?.startsWith(e.projectName!))
+      if (findRoot) {
+        forofForfindParentComponentsOfComponent(target.id, findRoot, parentData => {
+          parent = parentData
+        })
+      }
+    } else {
     // 没有配置组件路径，全局查找
-    for (const item of designData) {
-      if (parent) break
-      forofForfindParentComponentsOfComponent(target.id, item?.options?.components ?? [], parentData => {
-        parent = parentData
-      })
+      for (const item of designData) {
+        if (parent) break
+        forofForfindParentComponentsOfComponent(target.id, item, parentData => {
+          parent = parentData
+        })
+      }
     }
   }
   return parent
 }
 
-function forofForfindParentComponentsOfComponent(id:string, data: MergeDesignData[], callback: (parentData: MergeDesignData[]) => void) {
-  for (const item of data) {
+function forofForfindParentComponentsOfComponent(id:string, data: MergeDesignData, callback: (parentData: MergeDesignData) => void) {
+  for (const item of data.options?.components ?? []) {
     if (item.id === id) {
       callback(data)
       break
     } else {
-      forofForfindParentComponentsOfComponent(id, item.options?.components ?? [], callback)
+      forofForfindParentComponentsOfComponent(id, item, callback)
     }
   }
 }
@@ -90,4 +92,32 @@ export function toFlattenComponents(data?: MergeDesignData[]) {
       ...(cur.options?.components ? toFlattenComponents(cur.options?.components) : [])
     ]
   }, [])
+}
+
+/**
+ * 删除组件操作
+ * @param activeDesignData
+ * @param designData
+ */
+export function deleteComponent(activeDesignData: ActiveDesignData, designData: MergeDesignData[]) {
+  const { setActiveDesignData } = useGlobal()
+  const parent = findParentComponentOfComponent(activeDesignData, designData)
+  if (!parent) return
+  if (Array.isArray(parent)) {
+    // 说明删除的组件是根组件
+    const index = parent.findIndex(e => e.id === activeDesignData.id)
+    parent.splice(index!, 1)
+    if (!parent.length) {
+      // 不存在设计组件
+      setActiveDesignData(undefined)
+    } else {
+      // 存在设计组件，将当前设计组件设置为删除组件的下一个组件
+      setActiveDesignData(parent[index])
+    }
+  } else {
+    // 说明删除的是子组件
+    const index = parent.options!.components!.findIndex(e => e.id === activeDesignData.id)
+    parent.options!.components!.splice(index!, 1)
+    setActiveDesignData(parent)
+  }
 }
