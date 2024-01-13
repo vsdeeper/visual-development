@@ -10,6 +10,6 @@ defineProps<{
 
 <template>
   <IdEditor :form-data="formData"></IdEditor>
-  <ProjectNameEditor v-if="isRootComponent(formData.id)" :form-data="formData"></ProjectNameEditor>
+  <ProjectNameEditor v-if="isRootComponent(formData.id, useGlobal().designData)" :form-data="formData"></ProjectNameEditor>
   <ComponentPathEditor v-else :form-data="formData"></ComponentPathEditor>
 </template>
