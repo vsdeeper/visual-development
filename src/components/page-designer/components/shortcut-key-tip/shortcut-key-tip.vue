@@ -13,10 +13,12 @@ import { addComponentRefSymbol, designComponentRefSymbol } from '@/utils/constan
 defineProps<{
   options: ShortcutKeyOptionItem[]
   activeDesignData: ActiveDesignData
+  showMore?: boolean
 }>()
 
 const emit = defineEmits<{
   (e: 'click-shortcut-key', item: ShortcutKeyOptionItem, data: ActiveDesignData): void
+  (e: 'show-more'): void
 }>()
 
 const { setIsPageDesignerActive, setActiveDesignData } = useGlobal()
@@ -44,6 +46,9 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data: ActiveDesignData) {
     <div class="item" v-for="(item, index) in options" :key="index" @click="clickShortcutKey(item, activeDesignData)">
       <div class="label">{{ item.label }}</div>
       <div class="key" v-for="key in item.keys" :key="key">{{ key.toUpperCase() }}</div>
+      <el-tooltip v-if="showMore" content="快捷键" placement="right" effect="customized">
+        <div class="key tip" @click.stop="emit('show-more')">?</div>
+      </el-tooltip>
     </div>
   </div>
 </template>
@@ -74,16 +79,32 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data: ActiveDesignData) {
       font-size: 10px;
       line-height: 1;
       height: 18px;
-      width: 18px;
+      padding: 0 6px;
       border-radius: 4px;
       color: #fff;
       background-color: var(--el-text-color-placeholder);
+
+      &.tip {
+        background-color: var(--el-text-color-placeholder) !important;
+      }
 
       &+div.key {
         margin-left: 2px;
       }
     }
   }
+}
+</style>
 
+<style>
+.el-popper.is-customized {
+  /* Set padding to ensure the height is 32px */
+  padding: 6px 12px;
+  background: linear-gradient(90deg, rgb(159, 229, 151), rgb(204, 229, 129));
+}
+
+.el-popper.is-customized .el-popper__arrow::before {
+  background: linear-gradient(45deg, #b2e68d, #bce689);
+  right: 0;
 }
 </style>
