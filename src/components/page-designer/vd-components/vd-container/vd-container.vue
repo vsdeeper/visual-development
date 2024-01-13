@@ -14,7 +14,7 @@ defineProps<{
 </script>
 
 <template>
-  <VdSkeleton
+  <DesignSkeleton
     :class-list="['vd-container', { 'is-vertical': data.options?.direction === 'vertical', 'is-horizontal': data.options?.direction === 'horizontal' }]"
     :is-active="isActiveDesign(data.id)"
     :data="data"
@@ -26,5 +26,5 @@ defineProps<{
       :data="item"
       :is-active="isActiveDesign(item.id)"
     ></component>
-  </VdSkeleton>
+  </DesignSkeleton>
 </template>

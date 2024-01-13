@@ -12,6 +12,7 @@ declare module 'vue' {
     DAside: typeof import('./src/components/page-designer/components/design-component/components/d-aside/d-aside.vue')['default']
     DContainer: typeof import('./src/components/page-designer/components/design-component/components/d-container/d-container.vue')['default']
     DesignComponent: typeof import('./src/components/page-designer/components/design-component/design-component.vue')['default']
+    DesignSkeleton: typeof import('./src/components/page-designer/components/design-skeleton/design-skeleton.vue')['default']
     DFooter: typeof import('./src/components/page-designer/components/design-component/components/d-footer/d-footer.vue')['default']
     DHeader: typeof import('./src/components/page-designer/components/design-component/components/d-header/d-header.vue')['default']
     DirectionEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/direction-editor/direction-editor.vue')['default']
@@ -51,8 +52,8 @@ declare module 'vue' {
     VdMenu: typeof import('./src/components/page-designer/vd-components/vd-menu/vd-menu.vue')['default']
     VdMenuItem: typeof import('./src/components/page-designer/components/vd-menu/vd-menu-item.vue')['default']
     VdRouterView: typeof import('./src/components/page-designer/vd-components/vd-router-view/vd-router-view.vue')['default']
-    VdSkeleton: typeof import('./src/components/page-designer/components/vd-skeleton/vd-skeleton.vue')['default']
-    VdSkeleton1: typeof import('./src/components/page-designer/components/vd-skeleton/vd-skeleton1.vue')['default']
+    VdSkeleton: typeof import('./src/components/page-designer/components/design-skeleton/vd-skeleton.vue')['default']
+    VdSkeleton1: typeof import('./src/components/page-designer/components/design-skeleton/vd-skeleton1.vue')['default']
     VdView: typeof import('./src/components/page-designer/vd-components/vd-view/vd-view.vue')['default']
     WidthEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/width-editor/width-editor.vue')['default']
   }

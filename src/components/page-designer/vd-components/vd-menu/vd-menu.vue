@@ -13,10 +13,10 @@ defineProps<{
 </script>
 
 <template>
-  <VdSkeleton
+  <DesignSkeleton
     :class-list="['vd-menu']"
     :is-active="isActiveDesign(data.id)"
     :data="data"
     :shortcut-key-tip-options="[{ label: '设计组件', keys: ['V', 'D'] }]">
-  </VdSkeleton>
+  </DesignSkeleton>
 </template>

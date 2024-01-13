@@ -96,10 +96,6 @@ function mouseoutSkeleton(e: MouseEvent) {
     }
   }
 
-  .main {
-    // padding: 10px;
-  }
-
   .footer {
     line-height: 1;
     display: flex;
