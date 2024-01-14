@@ -105,6 +105,7 @@ function mouseoutSkeleton(e: MouseEvent) {
 
   :deep(.el-scrollbar__view) {
     display: flex;
+    flex-direction: column;
   }
 
   &.is-vertical {

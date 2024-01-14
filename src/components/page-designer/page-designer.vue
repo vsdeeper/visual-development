@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import { useGlobal } from '@/stores'
 import { nanoid } from 'nanoid'
-import { ActiveDesignData, DesignComponent, SubComponentsOfPageDesigner, SubComponentsTypeOfPageDesigner } from '.'
+import { ActiveDesignData, DesignComponent, VdComponents, SubComponentsTypeOfPageDesigner } from '.'
 import { AddComponent, AddComponentOptionItem, ListOfShortcutKeys } from '@/components'
 import { AsideDesignData } from './vd-components/vd-aside'
 import { MenuDesignData } from './vd-components/vd-menu'
@@ -20,7 +20,7 @@ export type AddComponentInstance = InstanceType<typeof AddComponent>
 export type DesignComponentInstance = InstanceType<typeof DesignComponent>
 export type ListOfShortcutKeysInstance = InstanceType<typeof ListOfShortcutKeys>
 
-console.log('SubComponentsOfPageDesigner 表单设计子组件', SubComponentsOfPageDesigner)
+console.log('VdComponents 可视化设计组件', VdComponents)
 
 const { designData, setDesignData, setActiveDesignData } = useGlobal()
 const addComponentRef = ref<AddComponentInstance>()
@@ -154,7 +154,7 @@ function showMoreShortcutKey() {
       Page Designer 1.0.0
     </div>
     <el-scrollbar view-class="scroll-view" height="100%">
-      <component v-for=" item in designData" :key="item.id" :is="SubComponentsOfPageDesigner[item.type]" :data="item"></component>
+      <component v-for=" item in designData" :key="item.id" :is="VdComponents[item.type]" :data="item"></component>
     </el-scrollbar>
     <ShortcutKeyTip
       :options="designData.length ? [{ keys: ['V', 'A'] }] : [{ label: '添加组件', keys: ['V', 'A'] }]"

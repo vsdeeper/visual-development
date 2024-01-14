@@ -39,8 +39,8 @@ export type ActiveDesignData = ContainerDesignData | AsideDesignData | HeaderDes
 /** 设计数据的合并类型 */
 export type MergeDesignData = ContainerDesignData & AsideDesignData & HeaderDesignData & FooterDesignData & MenuDesignData
 
-/** 导出所有子组件 */
-const SubComponentsOfPageDesigner: { [K in SubComponentsTypeOfPageDesigner]?: any } = {}
+/** 导出所有可视化设计组件 */
+const VdComponents: { [K in SubComponentsTypeOfPageDesigner]?: any } = {}
 const vueModules = import.meta.glob('./vd-*/vd-*.vue')
 for (const path in vueModules) {
   const key = path
@@ -50,9 +50,9 @@ for (const path in vueModules) {
     .split('-')
     .map(str => capitalizeFirstLetter(str))
     .join('') as SubComponentsTypeOfPageDesigner
-  SubComponentsOfPageDesigner[key] = defineAsyncComponent({
+  VdComponents[key] = defineAsyncComponent({
     loader: vueModules[path] as AsyncComponentLoader<any>,
   })
 }
 
-export { SubComponentsOfPageDesigner }
+export { VdComponents }

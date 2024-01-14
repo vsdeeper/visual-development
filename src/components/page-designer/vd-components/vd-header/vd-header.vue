@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { useGlobal } from '@/stores'
 import { HeaderDesignData } from '.'
-import { SubComponentsOfPageDesigner } from '..'
+import { VdComponents } from '..'
 import { isActiveDesign } from '../../util'
 
 defineProps<{
@@ -25,7 +25,7 @@ const activeDesignData = toRef(useGlobal(), 'activeDesignData')
     <component
       v-for="item in data.options?.components"
       :key="item.id"
-      :is="SubComponentsOfPageDesigner[item.type]"
+      :is="VdComponents[item.type]"
       :data="item"
       :is-active="isActiveDesign(item.id, activeDesignData)"
     ></component>
