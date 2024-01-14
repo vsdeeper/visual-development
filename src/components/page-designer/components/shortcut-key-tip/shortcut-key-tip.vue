@@ -13,7 +13,7 @@ import { deleteComponent } from '../../util'
 
 const props = defineProps<{
   data?: ActiveDesignData
-  options: ShortcutKeyOptionItem[]
+  options?: ShortcutKeyOptionItem[]
   showMore?: boolean
   isPageDesigner?: boolean
 }>()
@@ -22,7 +22,7 @@ const emit = defineEmits<{
   (e: 'show-more'): void
 }>()
 
-const { setActiveDesignData } = useGlobal()
+const { setActiveDesignData, designData } = useGlobal()
 const addComponentRef = inject<Ref<AddComponentInstance>>(addComponentRefSymbol)
 const designComponentRef = inject<Ref<AddComponentInstance>>(designComponentRefSymbol)
 
@@ -57,7 +57,7 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) 
     <div class="item" v-for="(item, index) in options" :key="index" @click="clickShortcutKey(item, data)">
       <div class="label">{{ item.label }}</div>
       <div class="key" v-for="key in item.keys" :key="key">{{ key }}</div>
-      <el-tooltip v-if="showMore" content="快捷键" placement="right" effect="customized">
+      <el-tooltip v-if="showMore" content="快捷键" :placement="designData.length ? 'top' : 'right'" effect="customized">
         <div class="key tip" @click.stop="emit('show-more')">?</div>
       </el-tooltip>
     </div>

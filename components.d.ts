@@ -37,6 +37,7 @@ declare module 'vue' {
     IdEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/id-editor/id-editor.vue')['default']
     ListOfShortcutKeys: typeof import('./src/components/page-designer/components/list-of-shortcut-keys/list-of-shortcut-keys.vue')['default']
     MenuItem: typeof import('./src/components/page-designer/vd-components/vd-menu/menu-item.vue')['default']
+    NestedDraggable: typeof import('./src/components/page-designer/components/nested-draggable/nested-draggable.vue')['default']
     PageDesigner: typeof import('./src/components/page-designer/page-designer.vue')['default']
     ProjectNameEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/project-name-editor/project-name-editor.vue')['default']
     ResponsiveCol: typeof import('./src/components/page-designer/components/design-component/components/responsive-col/responsive-col.vue')['default']

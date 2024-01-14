@@ -6,7 +6,6 @@
 <script setup lang="ts">
 import { useGlobal } from '@/stores'
 import { ContainerDesignData } from '.'
-import { VdComponents } from '../..'
 import { isActiveDesign } from '../../util'
 
 defineProps<{
@@ -20,12 +19,5 @@ defineProps<{
     :is-active="isActiveDesign(data.id, useGlobal().activeDesignData)"
     :data="data"
     :shortcut-key-tip-options="[{ keys: ['Delete'] }, { keys: ['V', 'A'] }, { keys: ['V', 'D'] }]">
-    <component
-      v-for="item in data.options?.components"
-      :key="item.id"
-      :is="VdComponents[item.type]"
-      :data="item"
-      :is-active="isActiveDesign(item.id, useGlobal().activeDesignData)"
-    ></component>
   </DesignSkeleton>
 </template>

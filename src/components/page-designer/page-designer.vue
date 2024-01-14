@@ -5,16 +5,18 @@
 -->
 
 <script setup lang="ts">
+import draggable from 'vuedraggable'
 import { useGlobal } from '@/stores'
 import { nanoid } from 'nanoid'
-import { ActiveDesignData, DesignComponent, VdComponents, SubComponentsTypeOfPageDesigner } from '.'
-import { AddComponent, AddComponentOptionItem, ListOfShortcutKeys } from '@/components'
-import { AsideDesignData } from './vd-components/vd-aside'
-import { MenuDesignData } from './vd-components/vd-menu'
+import { ActiveDesignData, DesignComponent, VdComponents, SubComponentsTypeOfPageDesigner, MergeDesignData } from '.'
+import { AddComponent, AddComponentOptionItem, ContainerDesignData, ListOfShortcutKeys } from '@/components'
 import { isPageDesignModeSymbol, addComponentRefSymbol, designComponentRefSymbol } from '@/utils/constants'
-import { ContainerDesignData } from './vd-components/vd-container'
 import { deleteComponent, isLayoutContainer } from './util'
 import { addComponentOptions } from './constants'
+import { AsideDesignData } from './vd-components/vd-aside'
+import { HeaderDesignData } from './vd-components/vd-header'
+import { MenuDesignData } from './vd-components/vd-menu'
+import { FooterDesignData } from './vd-components/vd-footer'
 
 export type AddComponentInstance = InstanceType<typeof AddComponent>
 export type DesignComponentInstance = InstanceType<typeof DesignComponent>
@@ -97,7 +99,9 @@ function createDesignData(item: AddComponentOptionItem) {
         id: toId(item.value),
         type: item.value,
         label: item.label,
-        options: {}
+        options: {
+          components: []
+        }
       } as ContainerDesignData
     }
     case 'Aside': {
@@ -105,8 +109,30 @@ function createDesignData(item: AddComponentOptionItem) {
         id: toId(item.value),
         type: item.value,
         label: item.label,
-        options: {}
+        options: {
+          components: []
+        }
       } as AsideDesignData
+    }
+    case 'Header': {
+      return {
+        id: toId(item.value),
+        type: item.value,
+        label: item.label,
+        options: {
+          components: []
+        }
+      } as HeaderDesignData
+    }
+    case 'Footer': {
+      return {
+        id: toId(item.value),
+        type: item.value,
+        label: item.label,
+        options: {
+          components: []
+        }
+      } as FooterDesignData
     }
     case 'Menu': {
       return {
@@ -149,12 +175,29 @@ function showMoreShortcutKey() {
 </script>
 
 <template>
+  <!-- {{ designData }} -->
   <div id="page-designer" :class="{ 'has-design-content': designData.length, 'active': !designData.length || !useGlobal().activeDesignData }">
     <div class="version">
       Page Designer 1.0.0
     </div>
-    <el-scrollbar view-class="scroll-view" height="100%">
-      <component v-for=" item in designData" :key="item.id" :is="VdComponents[item.type]" :data="item"></component>
+    <el-scrollbar>
+      <draggable
+        :list="designData"
+        :component-data="{
+          type: 'transition-group'
+        }"
+        v-bind="{
+          animation: 300,
+          group: 'design-skeleton-draggable'
+        }"
+        item-key="id"
+      >
+        <template #item="{ element: item }">
+          <div class="group-item">
+            <component :is="VdComponents[(item as MergeDesignData).type]" :data="item"></component>
+          </div>
+        </template>
+      </draggable>
     </el-scrollbar>
     <ShortcutKeyTip
       :options="designData.length ? [{ keys: ['V', 'A'] }] : [{ label: '添加组件', keys: ['V', 'A'] }]"

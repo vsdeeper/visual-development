@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { MergeDesignData } from '../..'
+import draggable from 'vuedraggable'
+import { MergeDesignData, VdComponents } from '../..'
 import { ShortcutKeyOptionItem } from '@/components'
+import { isActiveDesign, isLayoutContainer } from '../../util'
+import { useGlobal } from '@/stores'
 
 defineProps<{
   data: MergeDesignData
@@ -34,7 +37,6 @@ function mouseoutSkeleton(e: MouseEvent) {
 </script>
 
 <template>
-  <!-- <span class="code">{{ data }}</span> -->
   <div
     ref="skeletonRef"
     class="vd-skeleton"
@@ -51,8 +53,28 @@ function mouseoutSkeleton(e: MouseEvent) {
       <label>{{ toLabel(data) }}</label>
     </div>
     <div class="main">
-      <el-scrollbar>
-        <slot></slot>
+      <el-scrollbar v-if="isLayoutContainer(data)">
+        <draggable
+          :list="data.options?.components"
+          :component-data="{
+            type: 'transition-group'
+          }"
+          v-bind="{
+            animation: 300,
+            group: 'design-skeleton-draggable'
+          }"
+          item-key="id"
+        >
+          <template #item="{ element: item }">
+            <div class="group-item">
+              <component
+                :is="VdComponents[(item as MergeDesignData).type]"
+                :data="item"
+                :is-active="isActiveDesign(item.id, useGlobal().activeDesignData)"
+              ></component>
+            </div>
+          </template>
+        </draggable>
       </el-scrollbar>
     </div>
     <div class="footer">

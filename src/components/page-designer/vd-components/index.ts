@@ -6,13 +6,12 @@
  */
 import type { AsyncComponentLoader } from 'vue'
 import { capitalizeFirstLetter } from '@/utils'
-import { type AsideDesignData } from './vd-aside'
-import { MenuDesignData } from './vd-menu'
-import { ContainerDesignData } from './vd-container'
-import { HeaderDesignData } from './vd-header'
-import { FooterDesignData } from './vd-footer'
 
 export * from './vd-container'
+export * from './vd-aside'
+export * from './vd-header'
+export * from './vd-footer'
+export * from './vd-menu'
 
 export type SubComponentsTypeOfPageDesigner =
 /** 布局容器 */'Aside' | 'Container' | 'Footer' | 'Header' | 'Main' | 'RowCol' | 'RouterView' | 'View' |
@@ -32,12 +31,6 @@ export type BaseDesignData<T = Record<string, any>> = {
     components?: BaseDesignData<T>[]
   }
 }
-
-/** 当前配置数据类型 */
-export type ActiveDesignData = ContainerDesignData | AsideDesignData | HeaderDesignData | FooterDesignData | MenuDesignData
-
-/** 设计数据的合并类型 */
-export type MergeDesignData = ContainerDesignData & AsideDesignData & HeaderDesignData & FooterDesignData & MenuDesignData
 
 /** 导出所有可视化设计组件 */
 const VdComponents: { [K in SubComponentsTypeOfPageDesigner]?: any } = {}
