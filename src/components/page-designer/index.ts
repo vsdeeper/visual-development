@@ -10,7 +10,9 @@ import {
   HeaderDesignData,
   MainDesignData,
   FooterDesignData,
-  MenuDesignData
+  RouterViewDesignData,
+  ViewDesignData,
+  MenuDesignData,
 } from './vd-components'
 
 export * from './components'
@@ -24,7 +26,16 @@ export type ActiveDesignData =
   HeaderDesignData |
   MainDesignData |
   FooterDesignData |
+  RouterViewDesignData |
+  ViewDesignData |
   MenuDesignData
 
 /** 设计数据的合并类型 */
-export type MergeDesignData = ContainerDesignData & AsideDesignData & HeaderDesignData & FooterDesignData & MenuDesignData
+export type MergeDesignData =
+  ContainerDesignData &
+  AsideDesignData &
+  HeaderDesignData &
+  FooterDesignData &
+  RouterViewDesignData &
+  ViewDesignData &
+  MenuDesignData

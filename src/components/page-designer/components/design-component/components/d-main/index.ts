@@ -1,1 +1,1 @@
-export { default as DAside } from './d-main.vue'
+export { default as DMain } from './d-main.vue'

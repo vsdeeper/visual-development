@@ -17,6 +17,8 @@ declare module 'vue' {
     DHeader: typeof import('./src/components/page-designer/components/design-component/components/d-header/d-header.vue')['default']
     DirectionEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/direction-editor/direction-editor.vue')['default']
     DMain: typeof import('./src/components/page-designer/components/design-component/components/d-main/d-main.vue')['default']
+    DRouterView: typeof import('./src/components/page-designer/components/design-component/components/d-router-view/d-router-view.vue')['default']
+    DView: typeof import('./src/components/page-designer/components/design-component/components/d-view/d-view.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCol: typeof import('element-plus/es')['ElCol']

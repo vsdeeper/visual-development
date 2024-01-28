@@ -8,7 +8,7 @@
 import draggable from 'vuedraggable'
 import { useGlobal } from '@/stores'
 import { nanoid } from 'nanoid'
-import { ActiveDesignData, DesignComponent, VdComponents, SubComponentsTypeOfPageDesigner, MergeDesignData, MainDesignData } from '.'
+import { ActiveDesignData, DesignComponent, VdComponents, SubComponentsTypeOfPageDesigner, MergeDesignData, MainDesignData, RouterViewDesignData } from '.'
 import { AddComponent, AddComponentOptionItem, ContainerDesignData, ListOfShortcutKeys } from '@/components'
 import { isPageDesignModeSymbol, addComponentRefSymbol, designComponentRefSymbol } from '@/utils/constants'
 import { deleteComponent, isActiveDesign, isLayoutContainer } from './util'
@@ -144,6 +144,16 @@ function createDesignData(item: AddComponentOptionItem) {
         }
       } as FooterDesignData
     }
+    case 'RouterView': {
+      return {
+        id: toId(item.value),
+        type: item.value,
+        label: item.label,
+        options: {
+          components: []
+        }
+      } as RouterViewDesignData
+    }
     case 'Menu': {
       return {
         id: toId(item.value),
@@ -189,7 +199,7 @@ function showMoreShortcutKey() {
     <div class="version">
       Page Designer 1.0.0
     </div>
-    {{ designData }}
+    <!-- {{ designData }} -->
     <el-scrollbar>
       <draggable
         class="transition-group-in-page-designer"
@@ -234,7 +244,7 @@ function showMoreShortcutKey() {
   right: 0;
   top: 0;
   bottom: 0;
-  padding: 30px 10px;
+  padding: 30px 0;
   overflow: hidden;
   box-sizing: border-box;
 
@@ -248,7 +258,15 @@ function showMoreShortcutKey() {
     color: var(--el-color-primary);
   }
 
+  :deep(.group-item) {
+    margin: 5px;
+  }
+
   .transition-group-in-page-designer {
+    .group-item {
+      margin: 0 10px;
+    }
+
     &>.design-skeleton {
       margin: 0;
     }

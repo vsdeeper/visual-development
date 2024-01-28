@@ -96,7 +96,6 @@ function genStyle(data: MergeDesignData) {
   flex-direction: column;
   min-height: 0;
   min-width: 200px;
-  margin: 5px;
   box-sizing: border-box;
   justify-content: space-between;
   border-width: 2px;

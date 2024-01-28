@@ -13,7 +13,7 @@ defineProps<{
 
 <template>
   <DesignSkeleton
-    :class-list="['vd-header']"
+    :class-list="['vd-main']"
     :data="data"
     :shortcut-key-tip-options="[{ keys: ['Delete'] }, { keys: ['V', 'A'] }, { keys: ['V', 'D'] }]">
   </DesignSkeleton>

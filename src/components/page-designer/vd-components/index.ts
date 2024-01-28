@@ -7,11 +7,15 @@
 import type { AsyncComponentLoader } from 'vue'
 import { capitalizeFirstLetter } from '@/utils'
 
+/** 容器组件 */
 export * from './vd-container'
 export * from './vd-aside'
 export * from './vd-header'
 export * from './vd-main'
 export * from './vd-footer'
+export * from './vd-router-view'
+export * from './vd-view'
+/** 常规组件 */
 export * from './vd-menu'
 
 export type SubComponentsTypeOfPageDesigner =
