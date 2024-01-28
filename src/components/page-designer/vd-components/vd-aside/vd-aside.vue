@@ -4,21 +4,16 @@
  * @Description:
 -->
 <script setup lang="ts">
-import { useGlobal } from '@/stores'
 import { AsideDesignData } from '.'
-import { isActiveDesign } from '../../util'
 
 defineProps<{
   data: AsideDesignData
 }>()
-
-const activeDesignData = toRef(useGlobal(), 'activeDesignData')
 </script>
 
 <template>
   <DesignSkeleton
     :class-list="['vd-aside']"
-    :is-active="isActiveDesign(data.id, activeDesignData)"
     :data="data"
     :shortcut-key-tip-options="[{ keys: ['Delete'] }, { keys: ['V', 'A'] }, { keys: ['V', 'D'] }]">
   </DesignSkeleton>

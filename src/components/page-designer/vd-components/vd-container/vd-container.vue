@@ -4,9 +4,7 @@
  * @Description:
 -->
 <script setup lang="ts">
-import { useGlobal } from '@/stores'
 import { ContainerDesignData } from '.'
-import { isActiveDesign } from '../../util'
 
 defineProps<{
   data: ContainerDesignData
@@ -16,7 +14,6 @@ defineProps<{
 <template>
   <DesignSkeleton
     :class-list="['vd-container', { 'is-vertical': data.options?.direction === 'vertical', 'is-horizontal': data.options?.direction === 'horizontal' }]"
-    :is-active="isActiveDesign(data.id, useGlobal().activeDesignData)"
     :data="data"
     :shortcut-key-tip-options="[{ keys: ['Delete'] }, { keys: ['V', 'A'] }, { keys: ['V', 'D'] }]">
   </DesignSkeleton>

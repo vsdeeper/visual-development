@@ -2,7 +2,7 @@
 import draggable from 'vuedraggable'
 import { MergeDesignData, VdComponents } from '../..'
 import { ShortcutKeyOptionItem } from '@/components'
-import { isActiveDesign, isLayoutContainer } from '../../util'
+import { isActiveDesign } from '../../util'
 import { useGlobal } from '@/stores'
 
 defineProps<{
@@ -34,6 +34,14 @@ function mouseoutSkeleton(e: MouseEvent) {
   e.stopPropagation()
   skeletonRef.value?.classList.remove('hover')
 }
+
+function genStyle(data: MergeDesignData) {
+  return {
+    'flex': data.options?.width ? `0 0 ${data.options?.width}` : '1',
+    'width': data.options?.width,
+    'minHeight': data.options?.height
+  }
+}
 </script>
 
 <template>
@@ -41,11 +49,6 @@ function mouseoutSkeleton(e: MouseEvent) {
     ref="skeletonRef"
     class="design-skeleton"
     :class="mergeClass(classList, [{ 'is-active': isActive }])"
-    :style="{
-      flex: `0 0 ${data.options?.width}`,
-      width: data.options?.width,
-      minHeight: data.options?.height
-    }"
     @mouseover="mouseoverSkeleton"
     @mouseout="mouseoutSkeleton"
     >
@@ -53,29 +56,27 @@ function mouseoutSkeleton(e: MouseEvent) {
       <label>{{ toLabel(data) }}</label>
     </div>
     <div class="main">
-      <el-scrollbar v-if="isLayoutContainer(data)">
-        <draggable
-          :list="data.options?.components"
-          :component-data="{
-            type: 'transition-group'
-          }"
-          v-bind="{
-            animation: 300,
-            group: 'design-skeleton-draggable'
-          }"
-          item-key="id"
-        >
-          <template #item="{ element: item }">
-            <div class="group-item">
-              <component
-                :is="VdComponents[(item as MergeDesignData).type]"
-                :data="item"
-                :is-active="isActiveDesign(item.id, useGlobal().activeDesignData)"
-              ></component>
-            </div>
-          </template>
-        </draggable>
-      </el-scrollbar>
+      <draggable
+        :list="data.options?.components"
+        :component-data="{
+          type: 'transition-group'
+        }"
+        v-bind="{
+          animation: 300,
+          group: 'design-skeleton-draggable'
+        }"
+        item-key="id"
+      >
+        <template #item="{ element: item }">
+          <div class="group-item" :style="genStyle(item)">
+            <component
+              :is="VdComponents[(item as MergeDesignData).type]"
+              :data="item"
+              :is-active="isActiveDesign(item.id, useGlobal().activeDesignData)"
+            ></component>
+          </div>
+        </template>
+      </draggable>
     </div>
     <div class="footer">
       <ShortcutKeyTip :options="shortcutKeyTipOptions" :data="data"></ShortcutKeyTip>
@@ -94,7 +95,8 @@ function mouseoutSkeleton(e: MouseEvent) {
   flex: 1;
   flex-direction: column;
   min-height: 0;
-  min-width: 300px;
+  min-width: 200px;
+  margin: 5px;
   box-sizing: border-box;
   justify-content: space-between;
   border-width: 2px;
@@ -117,6 +119,25 @@ function mouseoutSkeleton(e: MouseEvent) {
     }
   }
 
+  .main {
+    display: flex;
+    flex: 1;
+    overflow: auto;
+
+    div[type='transition-group'] {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      min-height: 30px;
+      padding: 5px;
+
+      .group-item {
+        display: inline-flex;
+        flex: 1;
+      }
+    }
+  }
+
   .footer {
     line-height: 1;
     display: flex;
@@ -126,12 +147,13 @@ function mouseoutSkeleton(e: MouseEvent) {
 
   :deep(.el-scrollbar__view) {
     display: flex;
+    flex: 1;
     flex-direction: column;
   }
 
   &.is-vertical {
     :deep {
-      &>.header+.main>.el-scrollbar>.el-scrollbar__wrap>.el-scrollbar__view {
+      &>.header+.main>div[type='transition-group'] {
         flex-direction: column;
       }
     }
@@ -139,7 +161,7 @@ function mouseoutSkeleton(e: MouseEvent) {
 
   &.is-horizontal {
     :deep {
-      &>.header+.main>.el-scrollbar>.el-scrollbar__wrap>.el-scrollbar__view {
+      &>.header+.main>div[type='transition-group'] {
         flex-direction: row;
       }
     }

@@ -8,6 +8,7 @@ import {
   ContainerDesignData,
   AsideDesignData,
   HeaderDesignData,
+  MainDesignData,
   FooterDesignData,
   MenuDesignData
 } from './vd-components'
@@ -17,7 +18,13 @@ export * from './vd-components'
 export { default as PageDesigner, type AddComponentInstance } from './page-designer.vue'
 
 /** 当前配置数据类型 */
-export type ActiveDesignData = ContainerDesignData | AsideDesignData | HeaderDesignData | FooterDesignData | MenuDesignData
+export type ActiveDesignData =
+  ContainerDesignData |
+  AsideDesignData |
+  HeaderDesignData |
+  MainDesignData |
+  FooterDesignData |
+  MenuDesignData
 
 /** 设计数据的合并类型 */
 export type MergeDesignData = ContainerDesignData & AsideDesignData & HeaderDesignData & FooterDesignData & MenuDesignData

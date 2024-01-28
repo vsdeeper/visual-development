@@ -8,10 +8,10 @@
 import draggable from 'vuedraggable'
 import { useGlobal } from '@/stores'
 import { nanoid } from 'nanoid'
-import { ActiveDesignData, DesignComponent, VdComponents, SubComponentsTypeOfPageDesigner, MergeDesignData } from '.'
+import { ActiveDesignData, DesignComponent, VdComponents, SubComponentsTypeOfPageDesigner, MergeDesignData, MainDesignData } from '.'
 import { AddComponent, AddComponentOptionItem, ContainerDesignData, ListOfShortcutKeys } from '@/components'
 import { isPageDesignModeSymbol, addComponentRefSymbol, designComponentRefSymbol } from '@/utils/constants'
-import { deleteComponent, isLayoutContainer } from './util'
+import { deleteComponent, isActiveDesign, isLayoutContainer } from './util'
 import { addComponentOptions } from './constants'
 import { AsideDesignData } from './vd-components/vd-aside'
 import { HeaderDesignData } from './vd-components/vd-header'
@@ -124,6 +124,16 @@ function createDesignData(item: AddComponentOptionItem) {
         }
       } as HeaderDesignData
     }
+    case 'Main': {
+      return {
+        id: toId(item.value),
+        type: item.value,
+        label: item.label,
+        options: {
+          components: []
+        }
+      } as MainDesignData
+    }
     case 'Footer': {
       return {
         id: toId(item.value),
@@ -175,13 +185,14 @@ function showMoreShortcutKey() {
 </script>
 
 <template>
-  <!-- {{ designData }} -->
   <div id="page-designer" :class="{ 'has-design-content': designData.length, 'active': !designData.length || !useGlobal().activeDesignData }">
     <div class="version">
       Page Designer 1.0.0
     </div>
+    {{ designData }}
     <el-scrollbar>
       <draggable
+        class="transition-group-in-page-designer"
         :list="designData"
         :component-data="{
           type: 'transition-group'
@@ -194,7 +205,12 @@ function showMoreShortcutKey() {
       >
         <template #item="{ element: item }">
           <div class="group-item">
-            <component :is="VdComponents[(item as MergeDesignData).type]" :data="item"></component>
+            <component
+              :key='item.name'
+              :is="VdComponents[(item as MergeDesignData).type]"
+              :is-active="isActiveDesign(item.id, useGlobal().activeDesignData)"
+              :data="item"
+            ></component>
           </div>
         </template>
       </draggable>
@@ -232,14 +248,11 @@ function showMoreShortcutKey() {
     color: var(--el-color-primary);
   }
 
-  :deep(div[type='transition-group']) {
-    padding: 10px;
-
-    .group-item+.group-item {
-      margin-top: 10px;
+  .transition-group-in-page-designer {
+    &>.design-skeleton {
+      margin: 0;
     }
   }
-
 
   &.active {
     &>.shortcut-key-tip {

@@ -10,6 +10,7 @@ import { capitalizeFirstLetter } from '@/utils'
 export * from './vd-container'
 export * from './vd-aside'
 export * from './vd-header'
+export * from './vd-main'
 export * from './vd-footer'
 export * from './vd-menu'
 
