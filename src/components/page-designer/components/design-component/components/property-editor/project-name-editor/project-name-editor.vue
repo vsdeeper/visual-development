@@ -6,6 +6,13 @@ const props = defineProps<{
 }>()
 
 const _formData = toRef(props, 'formData')
+
+function change(val: string) {
+  // TODO 自动设置子组件路径
+  // forEachHandlerOfComponents(_formData.value.options?.components ?? [], item => {
+  //   if (val) item.componentPath = `${val}/`
+  // })
+}
 </script>
 
 <template>
@@ -16,6 +23,6 @@ const _formData = toRef(props, 'formData')
       { required: true, message: '必填项' }
     ]"
   >
-    <el-input v-model="_formData.projectName" clearable></el-input>
+    <el-input v-model="_formData.projectName" clearable @change="change"></el-input>
   </el-form-item>
 </template>

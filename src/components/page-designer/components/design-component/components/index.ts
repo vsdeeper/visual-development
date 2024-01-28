@@ -3,7 +3,7 @@ import { SubComponentsTypeOfPageDesigner } from '@/components'
 import { capitalizeFirstLetter } from '@/utils'
 import { AsyncComponentLoader } from 'vue'
 
-/** 导出所有d-子组件 */
+/** 导出所有d-*子组件 */
 const DesignComponent: { [K in SubComponentsTypeOfPageDesigner]?: any } = {}
 const vueModules = import.meta.glob('./d-*/d-*.vue')
 for (const path in vueModules) {

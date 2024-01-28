@@ -95,6 +95,21 @@ export function toFlattenComponents(data?: MergeDesignData[]) {
 }
 
 /**
+ * 遍历组件列表
+ * @param data
+ * @param callback
+ */
+export function forEachHandlerOfComponents(data: MergeDesignData[], callback: (item: MergeDesignData) => void) {
+  const handler = (data: MergeDesignData[]) => {
+    data.forEach(item => {
+      callback(item)
+      if (item.options?.components?.length) handler(item.options.components)
+    })
+  }
+  handler(data)
+}
+
+/**
  * 删除组件操作
  * @param activeDesignData
  * @param designData

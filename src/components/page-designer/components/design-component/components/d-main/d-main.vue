@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { MergeDesignData } from '@/components'
-import { IdEditor, ProjectNameEditor, HeightEditor } from '../property-editor'
+import { IdEditor, ProjectNameEditor } from '../property-editor'
 import { isRootComponent } from '@/components/page-designer/util'
 import { useGlobal } from '@/stores'
 import { RowGutter } from '../constants'
@@ -17,9 +17,6 @@ defineProps<{
     </ResponsiveCol>
     <ResponsiveCol v-if="isRootComponent(formData.id, useGlobal().designData)">
       <ProjectNameEditor :form-data="formData"></ProjectNameEditor>
-    </ResponsiveCol>
-    <ResponsiveCol>
-      <HeightEditor :form-data="formData"></HeightEditor>
     </ResponsiveCol>
   </el-row>
 </template>

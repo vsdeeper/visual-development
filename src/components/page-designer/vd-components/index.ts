@@ -33,7 +33,7 @@ export type BaseDesignData<T = Record<string, any>> = {
   }
 }
 
-/** 导出所有可视化设计组件 */
+/** 导出所有vd-*可视化设计组件 */
 const VdComponents: { [K in SubComponentsTypeOfPageDesigner]?: any } = {}
 const vueModules = import.meta.glob('./vd-*/vd-*.vue')
 for (const path in vueModules) {

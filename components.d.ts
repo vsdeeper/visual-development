@@ -16,6 +16,7 @@ declare module 'vue' {
     DFooter: typeof import('./src/components/page-designer/components/design-component/components/d-footer/d-footer.vue')['default']
     DHeader: typeof import('./src/components/page-designer/components/design-component/components/d-header/d-header.vue')['default']
     DirectionEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/direction-editor/direction-editor.vue')['default']
+    DMain: typeof import('./src/components/page-designer/components/design-component/components/d-main/d-main.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCol: typeof import('element-plus/es')['ElCol']
