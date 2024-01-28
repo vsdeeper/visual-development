@@ -39,7 +39,7 @@ function mouseoutSkeleton(e: MouseEvent) {
 <template>
   <div
     ref="skeletonRef"
-    class="vd-skeleton"
+    class="design-skeleton"
     :class="mergeClass(classList, [{ 'is-active': isActive }])"
     :style="{
       flex: `0 0 ${data.options?.width}`,
@@ -89,14 +89,13 @@ function mouseoutSkeleton(e: MouseEvent) {
   color: var(--el-text-color-secondary);
 }
 
-.vd-skeleton {
+.design-skeleton {
   display: flex;
   flex: 1;
   flex-direction: column;
   min-height: 0;
   min-width: 300px;
   box-sizing: border-box;
-  margin: 10px;
   justify-content: space-between;
   border-width: 2px;
   border-style: solid;

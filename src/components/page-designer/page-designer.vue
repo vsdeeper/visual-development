@@ -232,6 +232,15 @@ function showMoreShortcutKey() {
     color: var(--el-color-primary);
   }
 
+  :deep(div[type='transition-group']) {
+    padding: 10px;
+
+    .group-item+.group-item {
+      margin-top: 10px;
+    }
+  }
+
+
   &.active {
     &>.shortcut-key-tip {
 
