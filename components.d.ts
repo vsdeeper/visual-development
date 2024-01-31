@@ -44,6 +44,7 @@ declare module 'vue' {
     PageDesigner: typeof import('./src/components/page-designer/page-designer.vue')['default']
     ProjectNameEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/project-name-editor/project-name-editor.vue')['default']
     ResponsiveCol: typeof import('./src/components/page-designer/components/design-component/components/responsive-col/responsive-col.vue')['default']
+    RowCol: typeof import('./src/components/page-designer/components/design-skeleton/components/row-col.vue')['default']
     ShortcutKeyTip: typeof import('./src/components/page-designer/components/shortcut-key-tip/shortcut-key-tip.vue')['default']
     VdAside: typeof import('./src/components/page-designer/vd-components/vd-aside/vd-aside.vue')['default']
     VdContainer: typeof import('./src/components/page-designer/vd-components/vd-container/vd-container.vue')['default']

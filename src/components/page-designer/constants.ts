@@ -13,7 +13,7 @@ export const addComponentOptions = [
       { label: '头部', value: 'Header' },
       { label: '主体', value: 'Main' },
       { label: '底部', value: 'Footer' },
-      { label: '分栏', value: 'RowCol' },
+      { label: '布局', value: 'RowCol' },
     ]
   },
   {

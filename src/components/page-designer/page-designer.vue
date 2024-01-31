@@ -17,6 +17,7 @@ import { AsideDesignData } from './vd-components/vd-aside'
 import { HeaderDesignData } from './vd-components/vd-header'
 import { MenuDesignData } from './vd-components/vd-menu'
 import { FooterDesignData } from './vd-components/vd-footer'
+import { RowColDesignData } from './vd-components/vd-row-col'
 
 export type AddComponentInstance = InstanceType<typeof AddComponent>
 export type DesignComponentInstance = InstanceType<typeof DesignComponent>
@@ -167,6 +168,22 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
         }
       } as ViewDesignData
     }
+    case 'RowCol': {
+      return {
+        id: toId(item.value),
+        type: item.value,
+        label: item.label,
+        options: {
+          components: [
+            {
+              id: toId(item.value),
+              type: item.value,
+              label: item.label,
+            }
+          ]
+        }
+      } as RowColDesignData
+    }
     case 'Menu': {
       return {
         id: toId(item.value),
@@ -271,13 +288,11 @@ function showMoreShortcutKey() {
     color: var(--el-color-primary);
   }
 
-  :deep(.group-item) {
-    margin: 5px;
-  }
-
   .transition-group-in-page-designer {
-    .group-item {
-      margin: 0 10px;
+    padding: 0 10px;
+
+    :deep(.group-item+.group-item) {
+      margin-top: 10px;
     }
 
     &>.design-skeleton {

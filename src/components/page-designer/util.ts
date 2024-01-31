@@ -11,7 +11,7 @@ import { ActiveDesignData, MergeDesignData, SubComponentsTypeOfPageDesigner } fr
  * @param data
  */
 export function isLayoutContainer(data: ActiveDesignData) {
-  const list: SubComponentsTypeOfPageDesigner[] = ['Container', 'Aside', 'Header', 'Main', 'Footer', 'RouterView', 'View']
+  const list: SubComponentsTypeOfPageDesigner[] = ['Container', 'Aside', 'Header', 'Main', 'Footer', 'RouterView', 'View', 'RowCol']
   return list.includes(data.type)
 }
 
@@ -47,7 +47,7 @@ export function findParentComponentOfComponent(target: MergeDesignData, designDa
   } else {
     // 子组件，先判断是否配置了组件路径
     if (target.componentPath) {
-    // 配置了组件路径，根据路径找到根组件
+      // 配置了组件路径，根据路径找到根组件
       const findRoot = designData.find(e => target.componentPath?.startsWith(e.projectName!))
       if (findRoot) {
         forofForfindParentComponentsOfComponent(target.id, findRoot, parentData => {

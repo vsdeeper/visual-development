@@ -2,8 +2,9 @@
 import draggable from 'vuedraggable'
 import { MergeDesignData, VdComponents } from '../..'
 import { ShortcutKeyOptionItem } from '@/components'
-import { isActiveDesign } from '../../util'
+import { findParentComponentOfComponent, isActiveDesign } from '../../util'
 import { useGlobal } from '@/stores'
+import RowCol from './components/row-col.vue'
 
 defineProps<{
   data: MergeDesignData
@@ -22,6 +23,18 @@ function mergeClass(classList?: unknown[], myClassList?: unknown[]) {
 }
 
 function toLabel(data: MergeDesignData) {
+  if (data.type === 'RowCol') {
+    const { designData } = useGlobal()
+    const findParent = findParentComponentOfComponent(data, designData)
+    if (Array.isArray(findParent)) {
+      // 说明当前组件是根组件，一定是row
+      return `${data.label}-Row`
+    } else {
+      // 不是根组件，判断父级组件是否是RowCol
+      if (findParent?.type === 'RowCol'/** 是RowCol，说明当前一定是col */) return `${data.label}-Col`
+      else return `${data.label}-Row`
+    }
+  }
   return `${data.label}-${data.type}`
 }
 
@@ -56,7 +69,13 @@ function genStyle(data: MergeDesignData) {
       <label>{{ toLabel(data) }}</label>
     </div>
     <div class="main">
+      <RowCol
+        v-if="data.type === 'RowCol'"
+        :data="data"
+        :is-active="isActive"
+      ></RowCol>
       <draggable
+        v-else
         :list="data.options?.components"
         :component-data="{
           type: 'transition-group'
@@ -123,16 +142,33 @@ function genStyle(data: MergeDesignData) {
     flex: 1;
     overflow: auto;
 
-    div[type='transition-group'] {
+    :deep(div[type='transition-group']) {
       display: flex;
       flex: 1;
       flex-direction: column;
       min-height: 30px;
-      padding: 5px;
+      padding: 10px;
 
-      .group-item {
+      :deep(.group-item) {
         display: inline-flex;
         flex: 1;
+      }
+    }
+
+    :deep(.el-row) {
+      flex: 1;
+      margin: 0 !important;
+
+      &>div[type='transition-group'] {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: unset;
+        flex: 1;
+        padding: 5px;
+
+        .el-col {
+          margin-top: 5px;
+        }
       }
     }
   }
