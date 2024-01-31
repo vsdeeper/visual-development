@@ -79,6 +79,9 @@ function selectComponent(item: AddComponentOptionItem) {
        * 子组件挂载后将活动设计数据设置为子组件
        */
       !activeDesignData.options!.components && (activeDesignData.options!.components = [])
+      if (activeDesignData.type === 'RowCol' && data.type === 'RowCol') {
+        data.options!.components = []
+      }
       activeDesignData.options!.components!.push(data)
       setActiveDesignData(data)
     }
@@ -179,6 +182,9 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
               id: toId(item.value),
               type: item.value,
               label: item.label,
+              options: {
+                components: []
+              }
             }
           ]
         }
