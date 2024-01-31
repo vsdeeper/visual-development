@@ -30,8 +30,9 @@ export type BaseDesignData<T = Record<string, any>> = {
   id: string
   type: SubComponentsTypeOfPageDesigner
   label: string
-  projectName?: string // 最外层组件配置
-  componentPath?: string // 子组件配置
+  projectName?: string // 项目名称，最外层组件配置
+  componentPath?: string // 组件路径，子组件配置
+  viewName?: string // 视图名称，视图组件专有，可以是路径
   options?: T & {
     components?: BaseDesignData<T>[]
   }

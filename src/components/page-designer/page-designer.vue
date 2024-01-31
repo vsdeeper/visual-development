@@ -8,7 +8,7 @@
 import draggable from 'vuedraggable'
 import { useGlobal } from '@/stores'
 import { nanoid } from 'nanoid'
-import { ActiveDesignData, DesignComponent, VdComponents, SubComponentsTypeOfPageDesigner, MergeDesignData, MainDesignData, RouterViewDesignData } from '.'
+import { ActiveDesignData, DesignComponent, VdComponents, SubComponentsTypeOfPageDesigner, MergeDesignData, MainDesignData, RouterViewDesignData, ViewDesignData } from '.'
 import { AddComponent, AddComponentOptionItem, ContainerDesignData, ListOfShortcutKeys } from '@/components'
 import { isPageDesignModeSymbol, addComponentRefSymbol, designComponentRefSymbol } from '@/utils/constants'
 import { deleteComponent, isActiveDesign, isLayoutContainer } from './util'
@@ -92,7 +92,10 @@ function toId(type: SubComponentsTypeOfPageDesigner) {
   return `${type}${nanoid(5)}`.toLowerCase()
 }
 
-function createDesignData(item: AddComponentOptionItem) {
+/**
+ * 创建初始设计数据
+ */
+function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
   switch (item.value) {
     case 'Container': {
       return {
@@ -153,6 +156,16 @@ function createDesignData(item: AddComponentOptionItem) {
           components: []
         }
       } as RouterViewDesignData
+    }
+    case 'View': {
+      return {
+        id: toId(item.value),
+        type: item.value,
+        label: item.label,
+        options: {
+          components: []
+        }
+      } as ViewDesignData
     }
     case 'Menu': {
       return {

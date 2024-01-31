@@ -56,9 +56,11 @@ declare module 'vue' {
     VdMenu: typeof import('./src/components/page-designer/vd-components/vd-menu/vd-menu.vue')['default']
     VdMenuItem: typeof import('./src/components/page-designer/components/vd-menu/vd-menu-item.vue')['default']
     VdRouterView: typeof import('./src/components/page-designer/vd-components/vd-router-view/vd-router-view.vue')['default']
+    VdRowCol: typeof import('./src/components/page-designer/vd-components/vd-row-col/vd-row-col.vue')['default']
     VdSkeleton: typeof import('./src/components/page-designer/components/design-skeleton/vd-skeleton.vue')['default']
     VdSkeleton1: typeof import('./src/components/page-designer/components/design-skeleton/vd-skeleton1.vue')['default']
     VdView: typeof import('./src/components/page-designer/vd-components/vd-view/vd-view.vue')['default']
+    ViewName: typeof import('./src/components/page-designer/components/design-component/components/property-editor/view-name/view-name.vue')['default']
     WidthEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/width-editor/width-editor.vue')['default']
   }
 }
