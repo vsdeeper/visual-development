@@ -136,3 +136,21 @@ export function deleteComponent(activeDesignData: ActiveDesignData, designData: 
     setActiveDesignData(parent)
   }
 }
+
+/**
+ * 判断当前组件是否是布局-Row组件
+ * @param activeDesignData
+ * @param designData
+ * @returns
+ */
+export function isRowComponent(activeDesignData: ActiveDesignData, designData: MergeDesignData[]) {
+  const findParent = findParentComponentOfComponent(activeDesignData, designData)
+  if (Array.isArray(findParent)) {
+    // 说明当前组件是根组件，一定是row
+    return true
+  } else {
+    // 不是根组件，判断父级组件是否是RowCol
+    if (findParent?.type === 'RowCol'/** 父级是RowCol，说明当前一定是col */) return false
+    else return true
+  }
+}
