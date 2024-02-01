@@ -177,6 +177,8 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
         type: item.value,
         label: item.label,
         options: {
+          rowGutter: 0,
+          rowJustify: 'start',
           components: [
             {
               id: toId(item.value),

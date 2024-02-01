@@ -5,8 +5,8 @@
 -->
 <script setup lang="ts">
 import { MergeDesignData } from '@/components'
-import { IdEditor, ViewNameEditor } from '../property-editor'
-import { RowGutter } from '../constants'
+import { IdEditor, ComponentPathEditor } from '../property-editor'
+import { ROW_GUTTER } from '../constants'
 
 defineProps<{
   formData: MergeDesignData
@@ -14,12 +14,12 @@ defineProps<{
 </script>
 
 <template>
-  <el-row :gutter="RowGutter">
+  <el-row :gutter="ROW_GUTTER">
     <ResponsiveCol>
       <IdEditor :form-data="formData"></IdEditor>
     </ResponsiveCol>
     <ResponsiveCol>
-      <ViewNameEditor :form-data="formData"></ViewNameEditor>
+      <ComponentPathEditor :form-data="formData" label="视图路径"></ComponentPathEditor>
     </ResponsiveCol>
   </el-row>
 </template>

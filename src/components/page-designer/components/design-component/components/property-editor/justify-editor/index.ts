@@ -1,0 +1,1 @@
+export { default as JustifyEditor } from './justify-editor.vue'

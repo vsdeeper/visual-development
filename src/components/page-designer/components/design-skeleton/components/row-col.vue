@@ -1,3 +1,10 @@
+<!--
+ * @Author: vsdeeper vsdeeper@qq.com
+ * @Date: 2024-01-31 22:31:39
+ * @LastEditTime: 2024-02-01 23:04:06
+ * @LastEditors: vsdeeper vsdeeper@qq.com
+ * @Description: 栅格设计骨架
+-->
 <script setup lang="ts">
 import draggable from 'vuedraggable'
 import { MergeDesignData, VdComponents } from '@/components'

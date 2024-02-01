@@ -3,7 +3,7 @@ import { MergeDesignData } from '@/components'
 import { IdEditor, ProjectNameEditor } from '../property-editor'
 import { isRootComponent } from '@/components/page-designer/util'
 import { useGlobal } from '@/stores'
-import { RowGutter } from '../constants'
+import { ROW_GUTTER } from '../constants'
 
 defineProps<{
   formData: MergeDesignData
@@ -11,7 +11,7 @@ defineProps<{
 </script>
 
 <template>
-  <el-row :gutter="RowGutter">
+  <el-row :gutter="ROW_GUTTER">
     <ResponsiveCol>
       <IdEditor :form-data="formData"></IdEditor>
     </ResponsiveCol>
