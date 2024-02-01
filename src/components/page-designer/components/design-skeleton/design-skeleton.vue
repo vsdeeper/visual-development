@@ -5,6 +5,7 @@ import { ShortcutKeyOptionItem } from '@/components'
 import { findParentComponentOfComponent, isActiveDesign } from '../../util'
 import { useGlobal } from '@/stores'
 import RowCol from './components/row-col.vue'
+import { genStyle } from './util'
 
 defineProps<{
   data: MergeDesignData
@@ -46,14 +47,6 @@ function mouseoverSkeleton(e: MouseEvent) {
 function mouseoutSkeleton(e: MouseEvent) {
   e.stopPropagation()
   skeletonRef.value?.classList.remove('hover')
-}
-
-function genStyle(data: MergeDesignData) {
-  return {
-    'flex': data.options?.width ? `0 0 ${data.options?.width}` : '1',
-    'width': data.options?.width,
-    'minHeight': data.options?.height
-  }
 }
 </script>
 
@@ -164,10 +157,13 @@ function genStyle(data: MergeDesignData) {
         flex-wrap: wrap;
         flex-direction: unset;
         flex: 1;
-        padding: 5px;
 
         .el-col {
           margin-top: 5px;
+
+          &+.group-item {
+            margin-top: 10px;
+          }
         }
       }
     }

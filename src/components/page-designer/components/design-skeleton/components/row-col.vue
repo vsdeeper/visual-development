@@ -1,7 +1,7 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-31 22:31:39
- * @LastEditTime: 2024-02-01 23:04:06
+ * @LastEditTime: 2024-02-01 23:17:27
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 栅格设计骨架
 -->
@@ -10,6 +10,7 @@ import draggable from 'vuedraggable'
 import { MergeDesignData, VdComponents } from '@/components'
 import { isActiveDesign } from '@/components/page-designer/util'
 import { useGlobal } from '@/stores'
+import { genStyle } from '../util'
 
 defineProps<{
   data: MergeDesignData
@@ -18,7 +19,7 @@ defineProps<{
 </script>
 
 <template>
-  <el-row :gutter="20">
+  <el-row :gutter="10">
     <draggable
       :list="data.options?.components"
       :component-data="{
@@ -38,7 +39,7 @@ defineProps<{
             :is-active="isActiveDesign(item.id, useGlobal().activeDesignData)"
           ></component>
         </el-col>
-        <div v-else class="group-item">
+        <div v-else class="group-item" :style="genStyle(item)">
           <component
             :is="VdComponents[(item as MergeDesignData).type]"
             :data="item"
