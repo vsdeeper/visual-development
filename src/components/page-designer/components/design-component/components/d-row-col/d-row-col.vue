@@ -4,6 +4,7 @@
  * @Description: 栅格设计器
 -->
 <script setup lang="ts">
+import { SemiSelect, Plus } from '@element-plus/icons-vue'
 import { MergeDesignData, RowColDesignData } from '@/components'
 import { IdEditor, RowGutterEditor, RowJustifyEditor, RowAlignEditor, ColSpanEditor } from '../property-editor'
 import { ROW_GUTTER } from '../constants'
@@ -25,6 +26,11 @@ function addCol(row: RowColDesignData) {
       colSpan: 24
     }
   })
+}
+
+function deleteCol(targetId: string, cols: RowColDesignData[]) {
+  const findIdx = cols.findIndex(e => e.id === targetId)
+  cols.splice(findIdx, 1)
 }
 </script>
 
@@ -48,7 +54,10 @@ function addCol(row: RowColDesignData) {
     </el-collapse-item>
     <el-collapse-item title="布局-Row-Cols" name="col">
       <template v-for="item in formData.options?.components" :key="item.id">
-        <el-divider content-position="left" border-style="dashed">布局-Col-{{ findIndexColInRow(item, useGlobal().designData)! + 1 }}</el-divider>
+        <div class="title">
+          <el-divider content-position="left" border-style="dashed">布局-Col-{{ findIndexColInRow(item, useGlobal().designData)! + 1 }}</el-divider>
+          <el-button type="danger" :icon="SemiSelect" circle size="small" @click="deleteCol(item.id, formData.options!.components!)"></el-button>
+        </div>
         <el-row :gutter="ROW_GUTTER">
           <ResponsiveCol>
             <IdEditor :form-data="item"></IdEditor>
@@ -58,7 +67,7 @@ function addCol(row: RowColDesignData) {
           </ResponsiveCol>
         </el-row>
       </template>
-      <el-button class="add-btn" type="primary" plain @click="addCol(formData)">+ 新增Col</el-button>
+      <el-button class="add-btn" type="primary" plain :icon="Plus" @click="addCol(formData)">新增</el-button>
     </el-collapse-item>
   </el-collapse>
 </template>
@@ -66,5 +75,10 @@ function addCol(row: RowColDesignData) {
 <style lang="scss" scoped>
 .add-btn {
   width: 100%;
+}
+
+.title {
+  display: flex;
+  align-items: center;
 }
 </style>
