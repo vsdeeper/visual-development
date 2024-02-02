@@ -2,7 +2,7 @@
 import draggable from 'vuedraggable'
 import { MergeDesignData, VdComponents } from '../..'
 import { ShortcutKeyOptionItem } from '@/components'
-import { findParentComponentOfComponent, isActiveDesign } from '../../util'
+import { isActiveDesign, isRowComponent, findIndexColInRow } from '../../util'
 import { useGlobal } from '@/stores'
 import RowCol from './components/row-col.vue'
 import { genStyle } from './util'
@@ -25,15 +25,11 @@ function mergeClass(classList?: unknown[], myClassList?: unknown[]) {
 
 function toLabel(data: MergeDesignData) {
   if (data.type === 'RowCol') {
-    const { designData } = useGlobal()
-    const findParent = findParentComponentOfComponent(data, designData)
-    if (Array.isArray(findParent)) {
-      // 说明当前组件是根组件，一定是row
-      return `${data.label}-Row`
-    } else {
-      // 不是根组件，判断父级组件是否是RowCol
-      if (findParent?.type === 'RowCol'/** 是RowCol，说明当前一定是col */) return `${data.label}-Col`
-      else return `${data.label}-Row`
+    if (isRowComponent(data)) return `${data.label}-Row`
+    else {
+      const { designData } = useGlobal()
+      const findIndex = findIndexColInRow(data, designData)
+      return `${data.label}-Col-${findIndex! + 1}`
     }
   }
   return `${data.label}-${data.type}`
@@ -159,7 +155,9 @@ function mouseoutSkeleton(e: MouseEvent) {
         flex: 1;
 
         .el-col {
-          margin-top: 5px;
+          &+.el-col {
+            margin-top: 5px;
+          }
 
           &+.group-item {
             margin-top: 10px;
@@ -198,19 +196,17 @@ function mouseoutSkeleton(e: MouseEvent) {
     }
   }
 
-  &.vd-container {
-    border-width: 5px;
-  }
-
+  &.vd-container,
   &.vd-aside,
   &.vd-header,
   &.vd-footer,
   &.vd-main {
-    border-width: 4px;
+    border-width: 5px;
   }
 
   &.vd-router-view,
-  &.vd-view {
+  &.vd-view,
+  &.vd-row-col {
     border-width: 3px;
   }
 

@@ -7,11 +7,10 @@
 <script setup lang="ts">
 import draggable from 'vuedraggable'
 import { useGlobal } from '@/stores'
-import { nanoid } from 'nanoid'
-import { ActiveDesignData, DesignComponent, VdComponents, SubComponentsTypeOfPageDesigner, MergeDesignData, MainDesignData, RouterViewDesignData, ViewDesignData } from '.'
+import { ActiveDesignData, DesignComponent, VdComponents, MergeDesignData, MainDesignData, RouterViewDesignData, ViewDesignData } from '.'
 import { AddComponent, AddComponentOptionItem, ContainerDesignData, ListOfShortcutKeys } from '@/components'
 import { isPageDesignModeSymbol, addComponentRefSymbol, designComponentRefSymbol } from '@/utils/constants'
-import { deleteComponent, isActiveDesign, isLayoutContainer } from './util'
+import { deleteComponent, genId, isActiveDesign, isLayoutContainer } from './util'
 import { addComponentOptions } from './constants'
 import { AsideDesignData } from './vd-components/vd-aside'
 import { HeaderDesignData } from './vd-components/vd-header'
@@ -79,21 +78,10 @@ function selectComponent(item: AddComponentOptionItem) {
        * 子组件挂载后将活动设计数据设置为子组件
        */
       !activeDesignData.options!.components && (activeDesignData.options!.components = [])
-      if (activeDesignData.type === 'RowCol' && data.type === 'RowCol') {
-        data.options!.components = []
-      }
       activeDesignData.options!.components!.push(data)
       setActiveDesignData(data)
     }
   }
-}
-
-/**
- * 生成设计数据id
- * @param type
- */
-function toId(type: SubComponentsTypeOfPageDesigner) {
-  return `${type}${nanoid(5)}`.toLowerCase()
 }
 
 /**
@@ -103,7 +91,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
   switch (item.value) {
     case 'Container': {
       return {
-        id: toId(item.value),
+        id: genId(item.value),
         type: item.value,
         label: item.label,
         options: {
@@ -113,7 +101,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
     }
     case 'Aside': {
       return {
-        id: toId(item.value),
+        id: genId(item.value),
         type: item.value,
         label: item.label,
         options: {
@@ -123,7 +111,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
     }
     case 'Header': {
       return {
-        id: toId(item.value),
+        id: genId(item.value),
         type: item.value,
         label: item.label,
         options: {
@@ -133,7 +121,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
     }
     case 'Main': {
       return {
-        id: toId(item.value),
+        id: genId(item.value),
         type: item.value,
         label: item.label,
         options: {
@@ -143,7 +131,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
     }
     case 'Footer': {
       return {
-        id: toId(item.value),
+        id: genId(item.value),
         type: item.value,
         label: item.label,
         options: {
@@ -153,7 +141,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
     }
     case 'RouterView': {
       return {
-        id: toId(item.value),
+        id: genId(item.value),
         type: item.value,
         label: item.label,
         options: {
@@ -163,7 +151,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
     }
     case 'View': {
       return {
-        id: toId(item.value),
+        id: genId(item.value),
         type: item.value,
         label: item.label,
         options: {
@@ -173,7 +161,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
     }
     case 'RowCol': {
       return {
-        id: toId(item.value),
+        id: genId(`${item.value}row`),
         type: item.value,
         label: item.label,
         options: {
@@ -181,11 +169,12 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
           rowJustify: 'start',
           components: [
             {
-              id: toId(item.value),
+              id: genId(`${item.value}col`),
               type: item.value,
               label: item.label,
               options: {
-                components: []
+                components: [],
+                colSpan: 24
               }
             }
           ]
@@ -194,7 +183,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
     }
     case 'Menu': {
       return {
-        id: toId(item.value),
+        id: genId(item.value),
         type: item.value,
         label: item.label,
         options: {}
@@ -202,7 +191,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
     }
     case 'Form': {
       return {
-        id: toId(item.value),
+        id: genId(item.value),
         type: item.value,
         label: item.label,
         options: {}
@@ -210,7 +199,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
     }
     default: {
       return {
-        id: toId(item.value),
+        id: genId(item.value),
         type: item.value,
         label: item.label,
         options: {}
@@ -299,12 +288,23 @@ function showMoreShortcutKey() {
   .transition-group-in-page-designer {
     padding: 0 10px;
 
-    :deep(.group-item+.group-item) {
-      margin-top: 10px;
+    &>.group-item {
+      margin-bottom: 10px;
     }
 
     &>.design-skeleton {
       margin: 0;
+    }
+  }
+
+  :deep {
+    .design-skeleton:not(.is-horizontal) .group-item+.group-item {
+      margin-top: 10px;
+    }
+
+    .design-skeleton.is-horizontal .group-item+.group-item {
+      margin-left: 10px;
+      margin-top: 0;
     }
   }
 

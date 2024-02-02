@@ -3,8 +3,9 @@
  * @Date: 2024-01-10 18:52:53
  * @Description:
  */
+import { nanoid } from 'nanoid'
 import { useGlobal } from '@/stores'
-import { ActiveDesignData, MergeDesignData, SubComponentsTypeOfPageDesigner } from '.'
+import { ActiveDesignData, MergeDesignData, RowColDesignData, SubComponentsTypeOfPageDesigner } from '.'
 
 /**
  * 判断是否布局容器组件
@@ -138,19 +139,39 @@ export function deleteComponent(activeDesignData: ActiveDesignData, designData: 
 }
 
 /**
- * 判断当前组件是否是布局-Row组件
- * @param activeDesignData
+ * 判断组件是否是布局-row组件
+ * @param data
+ * @returns
+ */
+export function isRowComponent(data: ActiveDesignData) {
+  return data.id.startsWith('rowcolrow')
+}
+
+/**
+ * 判断组件是否是布局-col组件
+ * @param data
+ * @returns
+ */
+export function isColComponent(data: ActiveDesignData) {
+  return data.id.startsWith('rowcolcol')
+}
+
+/**
+ * 找到col在row中的索引
+ * @param data
  * @param designData
  * @returns
  */
-export function isRowComponent(activeDesignData: ActiveDesignData, designData: MergeDesignData[]) {
-  const findParent = findParentComponentOfComponent(activeDesignData, designData)
-  if (Array.isArray(findParent)) {
-    // 说明当前组件是根组件，一定是row
-    return true
-  } else {
-    // 不是根组件，判断父级组件是否是RowCol
-    if (findParent?.type === 'RowCol'/** 父级是RowCol，说明当前一定是col */) return false
-    else return true
-  }
+export function findIndexColInRow(data: RowColDesignData, designData: MergeDesignData[]) {
+  const findParent = findParentComponentOfComponent(data, designData)
+  const cols = (findParent as RowColDesignData).options?.components?.filter(e => e.type === 'RowCol')
+  return cols?.findIndex(e => e.id === data.id)
+}
+
+/**
+ * 生成设计数据id
+ * @param type
+ */
+export function genId(type: string) {
+  return `${type}${nanoid(5)}`.toLowerCase()
 }
