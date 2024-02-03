@@ -5,6 +5,7 @@
 -->
 <script setup lang="ts">
 import { ContainerDesignData } from '.'
+import { SHORTCUR_KEY_TIP_OPTIONS } from '../constants'
 
 defineProps<{
   data: ContainerDesignData
@@ -15,6 +16,6 @@ defineProps<{
   <DesignSkeleton
     :class-list="['vd-container', { 'is-vertical': data.options?.direction === 'vertical', 'is-horizontal': data.options?.direction === 'horizontal' }]"
     :data="data"
-    :shortcut-key-tip-options="[{ keys: ['Delete'] }, { keys: ['V', 'A'] }, { keys: ['V', 'D'] }]">
+    :shortcut-key-tip-options="SHORTCUR_KEY_TIP_OPTIONS">
   </DesignSkeleton>
 </template>

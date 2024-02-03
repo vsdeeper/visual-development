@@ -5,6 +5,7 @@
 -->
 <script setup lang="ts">
 import { RowColDesignData } from '.'
+import { SHORTCUR_KEY_TIP_OPTIONS } from '../constants'
 
 defineProps<{
   data: RowColDesignData
@@ -15,6 +16,6 @@ defineProps<{
   <DesignSkeleton
     :class-list="['vd-row-col']"
     :data="data"
-    :shortcut-key-tip-options="[{ keys: ['Delete'] }, { keys: ['V', 'A'] }, { keys: ['V', 'D'] }]">
+    :shortcut-key-tip-options="SHORTCUR_KEY_TIP_OPTIONS">
   </DesignSkeleton>
 </template>
