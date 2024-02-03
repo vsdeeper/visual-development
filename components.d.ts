@@ -9,7 +9,12 @@ declare module 'vue' {
   export interface GlobalComponents {
     AddComponent: typeof import('./src/components/page-designer/components/add-component/add-component.vue')['default']
     AlignEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/row-align-editor/align-editor.vue')['default']
+    ColLgEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/col-lg-editor/col-lg-editor.vue')['default']
+    ColMdEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/col-md-editor/col-md-editor.vue')['default']
+    ColSmEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/col-sm-editor/col-sm-editor.vue')['default']
     ColSpanEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/col-span-editor/col-span-editor.vue')['default']
+    ColXlEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/col-xl-editor/col-xl-editor.vue')['default']
+    ColXsEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/col-xs-editor/col-xs-editor.vue')['default']
     ComponentPathEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/component-path-editor/component-path-editor.vue')['default']
     DAside: typeof import('./src/components/page-designer/components/design-component/components/d-aside/d-aside.vue')['default']
     DContainer: typeof import('./src/components/page-designer/components/design-component/components/d-container/d-container.vue')['default']

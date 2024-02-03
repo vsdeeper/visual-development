@@ -1,13 +1,13 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-31 22:31:39
- * @LastEditTime: 2024-02-02 11:36:11
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2024-02-03 15:46:25
+ * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 栅格设计骨架
 -->
 <script setup lang="ts">
 import draggable from 'vuedraggable'
-import { MergeDesignData, VdComponents } from '@/components'
+import { MergeDesignData, RowColDesignData, VdComponents } from '@/components'
 import { isActiveDesign, isRowComponent } from '@/components/page-designer/util'
 import { useGlobal } from '@/stores'
 import { genStyle } from '../util'
@@ -20,7 +20,7 @@ defineProps<{
 
 <template>
   <!-- 在布局-row组件中添加组件时 -->
-  <el-row v-if="isRowComponent(data)" :gutter="10">
+  <el-row v-if="isRowComponent(data)" :gutter="data.options?.rowGutter">
     <draggable
       :list="data.options?.components"
       :component-data="{
@@ -33,7 +33,14 @@ defineProps<{
       item-key="id"
     >
       <template #item="{ element: item }">
-        <el-col>
+        <el-col
+          :span="(item as RowColDesignData).options?.colSpan"
+          :xs="(item as RowColDesignData).options?.colXs"
+          :sm="(item as RowColDesignData).options?.colSm"
+          :md="(item as RowColDesignData).options?.colMd"
+          :lg="(item as RowColDesignData).options?.colLg"
+          :xl="(item as RowColDesignData).options?.colXl"
+        >
           <component
             :is ="VdComponents[(item as MergeDesignData).type]"
             :data="item"

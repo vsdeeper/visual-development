@@ -155,8 +155,8 @@ function mouseoutSkeleton(e: MouseEvent) {
         flex: 1;
 
         .el-col {
-          &+.el-col {
-            margin-top: 5px;
+          &>.vd-row-col {
+            border-style: dotted;
           }
 
           &+.group-item {

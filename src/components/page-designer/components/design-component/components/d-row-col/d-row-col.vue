@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { SemiSelect, Plus } from '@element-plus/icons-vue'
 import { MergeDesignData, RowColDesignData } from '@/components'
-import { IdEditor, RowGutterEditor, RowJustifyEditor, RowAlignEditor, ColSpanEditor } from '../property-editor'
+import { IdEditor, RowGutterEditor, RowJustifyEditor, RowAlignEditor, ColSpanEditor, ColXsEditor, ColSmEditor, ColMdEditor, ColLgEditor, ColXlEditor } from '../property-editor'
 import { ROW_GUTTER } from '../constants'
 import { findIndexColInRow, genId, isRowComponent } from '@/components/page-designer/util'
 import { useGlobal } from '@/stores'
@@ -64,6 +64,21 @@ function deleteCol(targetId: string, cols: RowColDesignData[]) {
           </ResponsiveCol>
           <ResponsiveCol>
             <ColSpanEditor :form-data="item"></ColSpanEditor>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <ColXsEditor :form-data="item"></ColXsEditor>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <ColSmEditor :form-data="item"></ColSmEditor>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <ColMdEditor :form-data="item"></ColMdEditor>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <ColLgEditor :form-data="item"></ColLgEditor>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <ColXlEditor :form-data="item"></ColXlEditor>
           </ResponsiveCol>
         </el-row>
       </template>
