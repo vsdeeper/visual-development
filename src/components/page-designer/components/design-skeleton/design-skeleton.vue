@@ -11,7 +11,7 @@ defineProps<{
   data: MergeDesignData
   classList?: unknown[]
   isActive?: boolean
-  shortcutKeyTipOptions: ShortcutKeyOptionItem[]
+  shortcutKeyOptions: ShortcutKeyOptionItem[]
 }>()
 
 const skeletonRef = ref<HTMLDivElement>()
@@ -87,7 +87,7 @@ function mouseoutSkeleton(e: MouseEvent) {
       </draggable>
     </div>
     <div class="footer">
-      <ShortcutKeyTip :options="shortcutKeyTipOptions" :data="data"></ShortcutKeyTip>
+      <ShortcutKeyTip :options="shortcutKeyOptions" :data="data"></ShortcutKeyTip>
     </div>
   </div>
 </template>

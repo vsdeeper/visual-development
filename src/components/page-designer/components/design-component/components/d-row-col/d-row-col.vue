@@ -85,6 +85,29 @@ function deleteCol(targetId: string, cols: RowColDesignData[]) {
       <el-button class="add-btn" type="primary" plain :icon="Plus" @click="addCol(formData)">新增</el-button>
     </el-collapse-item>
   </el-collapse>
+  <el-row v-else :gutter="ROW_GUTTER">
+    <ResponsiveCol>
+      <IdEditor :form-data="formData"></IdEditor>
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <ColSpanEditor :form-data="formData"></ColSpanEditor>
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <ColXsEditor :form-data="formData"></ColXsEditor>
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <ColSmEditor :form-data="formData"></ColSmEditor>
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <ColMdEditor :form-data="formData"></ColMdEditor>
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <ColLgEditor :form-data="formData"></ColLgEditor>
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <ColXlEditor :form-data="formData"></ColXlEditor>
+    </ResponsiveCol>
+  </el-row>
 </template>
 
 <style lang="scss" scoped>

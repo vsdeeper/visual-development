@@ -15,6 +15,6 @@ defineProps<{
   <DesignSkeleton
     :class-list="['vd-menu']"
     :data="data"
-    :shortcut-key-tip-options="[{ keys: ['Delete'] }, { keys: ['V', 'D'] }]">
+    :shortcut-key-options="[{ keys: ['Delete'] }, { keys: ['V', 'D'] }]">
   </DesignSkeleton>
 </template>

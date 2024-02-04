@@ -5,7 +5,7 @@
 -->
 <script setup lang="ts">
 import { HeaderDesignData } from '.'
-import { SHORTCUR_KEY_TIP_OPTIONS } from '../constants'
+import { SHORTCUR_KEY_OPTIONS_OF_CONTAINER_COMPONENT } from '../constants'
 
 defineProps<{
   data: HeaderDesignData
@@ -16,6 +16,6 @@ defineProps<{
   <DesignSkeleton
     :class-list="['vd-header']"
     :data="data"
-    :shortcut-key-tip-options="SHORTCUR_KEY_TIP_OPTIONS">
+    :shortcut-key-options="SHORTCUR_KEY_OPTIONS_OF_CONTAINER_COMPONENT">
   </DesignSkeleton>
 </template>

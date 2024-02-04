@@ -7,6 +7,8 @@
 import type { AsyncComponentLoader } from 'vue'
 import { capitalizeFirstLetter } from '@/utils'
 
+/** 自定义组件 */
+export * from './vd-logo'
 /** 容器组件 */
 export * from './vd-container'
 export * from './vd-aside'

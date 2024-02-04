@@ -1,8 +1,13 @@
+<!--
+ * @Author: vsdeeper vsdeeper@qq.com
+ * @Date: 2024-01-09 09:14:36
+ * @Description:
+-->
 <script setup lang="ts">
-import { MenuItemModel } from '.'
+import { MenuItem } from '.'
 
 defineProps<{
-  data?: MenuItemModel[]
+  data?: MenuItem[]
 }>()
 </script>
 

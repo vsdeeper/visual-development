@@ -4,17 +4,17 @@
  * @Description:
 -->
 <script setup lang="ts">
-import { RowColDesignData } from '.'
+import { MainDesignData } from '.'
 import { SHORTCUR_KEY_OPTIONS_OF_CONTAINER_COMPONENT } from '../constants'
 
 defineProps<{
-  data: RowColDesignData
+  data: MainDesignData
 }>()
 </script>
 
 <template>
   <DesignSkeleton
-    :class-list="['vd-row-col']"
+    :class-list="['vd-main']"
     :data="data"
     :shortcut-key-options="SHORTCUR_KEY_OPTIONS_OF_CONTAINER_COMPONENT">
   </DesignSkeleton>

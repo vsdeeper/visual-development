@@ -1,9 +1,24 @@
+/*
+ * @Author: vsdeeper vsdeeper@qq.com
+ * @Date: 2024-02-01 09:12:31
+ * @Description: 常量
+ */
 import { AddComponentGroupOptionItem } from '.'
 
 /**
  * 添加组件选项数据
  */
 export const addComponentOptions = [
+  {
+    id: 'CustomComponents',
+    name: '自定义组件',
+    children: [
+      { label: '标识', value: 'Logo' },
+      { label: '搜索', value: 'Search' },
+      { label: '表格', value: 'Table' },
+      { label: '表单', value: 'Form' },
+    ]
+  },
   {
     id: 'LayoutContainer',
     name: '布局容器',
@@ -29,15 +44,7 @@ export const addComponentOptions = [
     name: '导航组件',
     children: [
       { label: '菜单', value: 'Menu' },
-    ]
-  },
-  {
-    id: 'ViewComponents',
-    name: '视图组件',
-    children: [
-      { label: '搜索', value: 'Search' },
-      { label: '表格', value: 'Table' },
-      { label: '表单', value: 'Form' },
+      { label: '下拉菜单', value: 'Dropdown' }
     ]
   },
   {

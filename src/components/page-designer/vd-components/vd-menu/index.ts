@@ -6,16 +6,16 @@
  */
 import { BaseDesignData } from '@/components'
 
-export interface MenuItemModel {
+export interface MenuItem {
   id: string
   name: string
   icon?: any
-  children?: MenuItemModel[]
+  children?: MenuItem[]
 }
 
 export type MenuDesignData = BaseDesignData<{
   mode?: 'horizontal' | 'vertical';
   defaultActive?: string;
   collapse?: boolean
-  menuData?: MenuItemModel[]
+  menuData?: MenuItem[]
 }>;

@@ -71,6 +71,7 @@ declare module 'vue' {
     VdFormDesigner: typeof import('./src/components/page-designer/components/vd-form-designer/vd-form-designer.vue')['default']
     VdHeader: typeof import('./src/components/page-designer/vd-components/vd-header/vd-header.vue')['default']
     VdLayout: typeof import('./src/components/page-designer/vd-components/vd-layout/vd-layout.vue')['default']
+    VdLogo: typeof import('./src/components/page-designer/vd-components/vd-logo/vd-logo.vue')['default']
     VdMain: typeof import('./src/components/page-designer/vd-components/vd-main/vd-main.vue')['default']
     VdMenu: typeof import('./src/components/page-designer/vd-components/vd-menu/vd-menu.vue')['default']
     VdMenuItem: typeof import('./src/components/page-designer/components/vd-menu/vd-menu-item.vue')['default']
