@@ -1,13 +1,13 @@
 /*
  * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-06 23:03:03
+ * @Date: 2024-02-04 14:46:10
+ * @Description:
  * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-01-08 23:43:11
- * @FilePath: /visual-development/.eslintrc.cjs
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @LastEditTime: 2024-02-05 17:41:46
  */
+import { defineConfig } from 'eslint-define-config'
 
-module.exports = {
+module.exports = defineConfig({
   'env': {
     'browser': true,
     'es2021': true
@@ -16,6 +16,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:vue/vue3-essential',
+    'plugin:prettier/recommended',
     './.eslintrc-auto-import.json'
   ],
   'overrides': [
@@ -38,7 +39,8 @@ module.exports = {
   },
   'plugins': [
     '@typescript-eslint',
-    'vue'
+    'vue',
+    'pe'
   ],
   'rules': {
     'indent': [
@@ -55,4 +57,4 @@ module.exports = {
       'never'
     ]
   }
-}
+})

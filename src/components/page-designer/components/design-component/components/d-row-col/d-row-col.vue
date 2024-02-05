@@ -6,7 +6,18 @@
 <script setup lang="ts">
 import { SemiSelect, Plus } from '@element-plus/icons-vue'
 import { MergeDesignData, RowColDesignData } from '@/components'
-import { IdEditor, RowGutterEditor, RowJustifyEditor, RowAlignEditor, ColSpanEditor, ColXsEditor, ColSmEditor, ColMdEditor, ColLgEditor, ColXlEditor } from '../property-editor'
+import {
+  IdEditor,
+  RowGutterEditor,
+  RowJustifyEditor,
+  RowAlignEditor,
+  ColSpanEditor,
+  ColXsEditor,
+  ColSmEditor,
+  ColMdEditor,
+  ColLgEditor,
+  ColXlEditor,
+} from '../property-editor'
 import { ROW_GUTTER } from '../constants'
 import { findIndexColInRow, genId, isRowComponent } from '@/components/page-designer/util'
 import { useGlobal } from '@/stores'
@@ -23,8 +34,8 @@ function addCol(row: RowColDesignData) {
     label: row.label,
     options: {
       components: [],
-      colSpan: 24
-    }
+      colSpan: 24,
+    },
   })
 }
 
@@ -55,8 +66,16 @@ function deleteCol(targetId: string, cols: RowColDesignData[]) {
     <el-collapse-item title="布局-Row-Cols" name="col">
       <template v-for="item in formData.options?.components" :key="item.id">
         <div class="title">
-          <el-divider content-position="left" border-style="dashed">布局-Col-{{ findIndexColInRow(item, useGlobal().designData)! + 1 }}</el-divider>
-          <el-button type="danger" :icon="SemiSelect" circle size="small" @click="deleteCol(item.id, formData.options!.components!)"></el-button>
+          <el-divider content-position="left" border-style="dashed"
+            >布局-Col-{{ findIndexColInRow(item, useGlobal().designData)! + 1 }}</el-divider
+          >
+          <el-button
+            type="danger"
+            :icon="SemiSelect"
+            circle
+            size="small"
+            @click="deleteCol(item.id, formData.options!.components!)"
+          ></el-button>
         </div>
         <el-row :gutter="ROW_GUTTER">
           <ResponsiveCol>
