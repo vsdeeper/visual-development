@@ -4,8 +4,8 @@
  * @Description: 栅格设计器
 -->
 <script setup lang="ts">
-import { SemiSelect, Plus } from '@element-plus/icons-vue'
-import { MergeDesignData, RowColDesignData } from '@/components'
+import { SemiSelect, Plus } from "@element-plus/icons-vue";
+import { MergeDesignData, RowColDesignData } from "@/components";
 import {
   IdEditor,
   RowGutterEditor,
@@ -17,17 +17,23 @@ import {
   ColMdEditor,
   ColLgEditor,
   ColXlEditor,
-} from '../property-editor'
-import { ROW_GUTTER } from '../constants'
-import { findIndexColInRow, genId, isRowComponent } from '@/components/page-designer/util'
-import { useGlobal } from '@/stores'
+  InlineEditor,
+} from "../property-editor";
+import { ROW_GUTTER } from "../constants";
+import {
+  findIndexColInRow,
+  findParentComponentOfComponent,
+  genId,
+  isRowComponent,
+} from "@/components/page-designer/util";
+import { useGlobal } from "@/stores";
 
 defineProps<{
-  formData: MergeDesignData
-}>()
+  formData: MergeDesignData;
+}>();
 
 function addCol(row: RowColDesignData) {
-  !row.options?.components && (row.options!.components = [])
+  !row.options?.components && (row.options!.components = []);
   row.options!.components.push({
     id: genId(`${row.type}col`),
     type: row.type,
@@ -36,12 +42,16 @@ function addCol(row: RowColDesignData) {
       components: [],
       colSpan: 24,
     },
-  })
+  });
 }
 
 function deleteCol(targetId: string, cols: RowColDesignData[]) {
-  const findIdx = cols.findIndex(e => e.id === targetId)
-  cols.splice(findIdx, 1)
+  const findIdx = cols.findIndex((e) => e.id === targetId);
+  cols.splice(findIdx, 1);
+}
+
+function findRow(item: MergeDesignData, designData: MergeDesignData[]) {
+  return findParentComponentOfComponent(item, designData) as MergeDesignData;
 }
 </script>
 
@@ -61,13 +71,18 @@ function deleteCol(targetId: string, cols: RowColDesignData[]) {
         <ResponsiveCol>
           <RowAlignEditor :form-data="formData"></RowAlignEditor>
         </ResponsiveCol>
+        <ResponsiveCol>
+          <InlineEditor :form-data="formData"></InlineEditor>
+        </ResponsiveCol>
       </el-row>
     </el-collapse-item>
     <el-collapse-item title="布局-Row-Cols" name="col">
       <template v-for="item in formData.options?.components" :key="item.id">
         <div class="title">
           <el-divider content-position="left" border-style="dashed"
-            >布局-Col-{{ findIndexColInRow(item, useGlobal().designData)! + 1 }}</el-divider
+            >布局-Col-{{
+              findIndexColInRow(item, useGlobal().designData)! + 1
+            }}</el-divider
           >
           <el-button
             type="danger"
@@ -81,51 +96,62 @@ function deleteCol(targetId: string, cols: RowColDesignData[]) {
           <ResponsiveCol>
             <IdEditor :form-data="item"></IdEditor>
           </ResponsiveCol>
-          <ResponsiveCol>
-            <ColSpanEditor :form-data="item"></ColSpanEditor>
-          </ResponsiveCol>
-          <ResponsiveCol>
-            <ColXsEditor :form-data="item"></ColXsEditor>
-          </ResponsiveCol>
-          <ResponsiveCol>
-            <ColSmEditor :form-data="item"></ColSmEditor>
-          </ResponsiveCol>
-          <ResponsiveCol>
-            <ColMdEditor :form-data="item"></ColMdEditor>
-          </ResponsiveCol>
-          <ResponsiveCol>
-            <ColLgEditor :form-data="item"></ColLgEditor>
-          </ResponsiveCol>
-          <ResponsiveCol>
-            <ColXlEditor :form-data="item"></ColXlEditor>
-          </ResponsiveCol>
+          <template v-if="!formData.options?.inline">
+            <ResponsiveCol>
+              <ColSpanEditor :form-data="item"></ColSpanEditor>
+            </ResponsiveCol>
+            <ResponsiveCol>
+              <ColXsEditor :form-data="item"></ColXsEditor>
+            </ResponsiveCol>
+            <ResponsiveCol>
+              <ColSmEditor :form-data="item"></ColSmEditor>
+            </ResponsiveCol>
+            <ResponsiveCol>
+              <ColMdEditor :form-data="item"></ColMdEditor>
+            </ResponsiveCol>
+            <ResponsiveCol>
+              <ColLgEditor :form-data="item"></ColLgEditor>
+            </ResponsiveCol>
+            <ResponsiveCol>
+              <ColXlEditor :form-data="item"></ColXlEditor>
+            </ResponsiveCol>
+          </template>
         </el-row>
       </template>
-      <el-button class="add-btn" type="primary" plain :icon="Plus" @click="addCol(formData)">新增</el-button>
+      <el-button
+        class="add-btn"
+        type="primary"
+        plain
+        :icon="Plus"
+        @click="addCol(formData)"
+        >新增</el-button
+      >
     </el-collapse-item>
   </el-collapse>
   <el-row v-else :gutter="ROW_GUTTER">
     <ResponsiveCol>
       <IdEditor :form-data="formData"></IdEditor>
     </ResponsiveCol>
-    <ResponsiveCol>
-      <ColSpanEditor :form-data="formData"></ColSpanEditor>
-    </ResponsiveCol>
-    <ResponsiveCol>
-      <ColXsEditor :form-data="formData"></ColXsEditor>
-    </ResponsiveCol>
-    <ResponsiveCol>
-      <ColSmEditor :form-data="formData"></ColSmEditor>
-    </ResponsiveCol>
-    <ResponsiveCol>
-      <ColMdEditor :form-data="formData"></ColMdEditor>
-    </ResponsiveCol>
-    <ResponsiveCol>
-      <ColLgEditor :form-data="formData"></ColLgEditor>
-    </ResponsiveCol>
-    <ResponsiveCol>
-      <ColXlEditor :form-data="formData"></ColXlEditor>
-    </ResponsiveCol>
+    <template v-if="!findRow(formData, useGlobal().designData).options?.inline">
+      <ResponsiveCol>
+        <ColSpanEditor :form-data="formData"></ColSpanEditor>
+      </ResponsiveCol>
+      <ResponsiveCol>
+        <ColXsEditor :form-data="formData"></ColXsEditor>
+      </ResponsiveCol>
+      <ResponsiveCol>
+        <ColSmEditor :form-data="formData"></ColSmEditor>
+      </ResponsiveCol>
+      <ResponsiveCol>
+        <ColMdEditor :form-data="formData"></ColMdEditor>
+      </ResponsiveCol>
+      <ResponsiveCol>
+        <ColLgEditor :form-data="formData"></ColLgEditor>
+      </ResponsiveCol>
+      <ResponsiveCol>
+        <ColXlEditor :form-data="formData"></ColXlEditor>
+      </ResponsiveCol>
+    </template>
   </el-row>
 </template>
 

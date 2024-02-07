@@ -226,7 +226,7 @@ function showMoreShortcutKey() {
     <div class="version">
       Page Designer 1.0.0
     </div>
-    <!-- {{ designData }} -->
+    {{ designData }}
     <el-scrollbar>
       <draggable
         class="transition-group-in-page-designer"

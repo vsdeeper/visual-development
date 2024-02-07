@@ -31,6 +31,7 @@ export type SubComponentsTypeOfPageDesigner =
 /** 基础设计数据类型 */
 export type BaseDesignData<T = Record<string, any>> = {
   id: string
+  idAlias?: string
   type: SubComponentsTypeOfPageDesigner
   label: string
   projectName?: string // 项目名称，最外层组件配置

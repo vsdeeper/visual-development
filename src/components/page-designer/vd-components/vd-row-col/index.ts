@@ -9,6 +9,7 @@ interface Options {
   rowGutter?: number
   rowJustify?: 'start' | 'end' | 'center' | 'space-around' | 'space-between' | 'space-evenly'
   rowAlign?: 'top' | 'middle' | 'bottom'
+  inline?: boolean
   colSpan?: number
   colXs?: number
   colSm?: number

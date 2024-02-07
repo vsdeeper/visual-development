@@ -1,7 +1,7 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-11 23:47:19
- * @LastEditTime: 2024-02-03 16:09:27
+ * @LastEditTime: 2024-02-07 13:00:00
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description:
 -->
@@ -39,6 +39,10 @@ defineExpose({
 <style lang="scss" scoped>
 .design-component {
   :deep(.el-input-number) {
+    flex: 1;
+  }
+
+  :deep(.el-select) {
     flex: 1;
   }
 }

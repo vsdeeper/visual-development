@@ -4,11 +4,13 @@
  * @Description:
  */
 export * from './id-editor'
+export * from './id-alias-editor'
 export * from './project-name-editor'
 export * from './component-path-editor'
 export * from './direction-editor'
 export * from './width-editor'
 export * from './height-editor'
+export * from './inline-editor'
 export * from './row-gutter-editor'
 export * from './row-justify-editor'
 export * from './row-align-editor'
