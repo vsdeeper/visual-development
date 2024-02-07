@@ -1,7 +1,7 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-07 14:17:35
+ * @LastEditTime: 2024-02-07 19:25:15
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 颜色属性
 -->
@@ -18,18 +18,9 @@ const _formData = toRef(props, "formData");
 
 <template>
   <el-form-item label="颜色" :prop="['options', 'color']">
-    <el-color-picker
+    <my-color-picker
       v-model="_formData.options!.color"
       :show-alpha="showAlpha"
-    />
+    ></my-color-picker>
   </el-form-item>
 </template>
-
-<style lang="scss" scoped>
-:deep(.el-color-picker) {
-  flex: 1;
-}
-:deep(.el-color-picker__trigger) {
-  width: 100%;
-}
-</style>

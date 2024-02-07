@@ -63,6 +63,7 @@ declare module 'vue' {
     JustifyEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/row-justify-editor/justify-editor.vue')['default']
     ListOfShortcutKeys: typeof import('./src/components/page-designer/components/list-of-shortcut-keys/list-of-shortcut-keys.vue')['default']
     MenuItem: typeof import('./src/components/page-designer/components/vd-components/vd-menu/menu-item.vue')['default']
+    MyColorPicker: typeof import('./src/components/my-color-picker/my-color-picker.vue')['default']
     NameEditor: typeof import('./src/components/page-designer/components/design-component/components/property-editor/name-editor/name-editor.vue')['default']
     NestedDraggable: typeof import('./src/components/page-designer/components/nested-draggable/nested-draggable.vue')['default']
     PageDesigner: typeof import('./src/components/page-designer/page-designer.vue')['default']
