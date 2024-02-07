@@ -56,7 +56,6 @@ provide(ADD_COMPONENT_REF_SYMBOL, addComponentRef);
 provide(DESIGN_COMPONENT_REF_SYMBOL, designComponentRef);
 
 function handleKeydown(e: KeyboardEvent) {
-  console.log(1111, e);
   key.value += e.key.toUpperCase();
   if (key.value.includes("VA")) {
     // V+A 键
