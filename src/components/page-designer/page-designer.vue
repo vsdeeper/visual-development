@@ -34,7 +34,7 @@ import {
   isCustomComponent,
 } from "./util";
 import { ADD_COMPONENT_OPTIONS } from "./constants";
-import { RowColDesignData } from "./vd-components/vd-row-col";
+import { RowColDesignData } from "./components";
 
 export type AddComponentInstance = InstanceType<typeof AddComponent>;
 export type DesignComponentInstance = InstanceType<typeof DesignComponent>;
@@ -56,6 +56,7 @@ provide(ADD_COMPONENT_REF_SYMBOL, addComponentRef);
 provide(DESIGN_COMPONENT_REF_SYMBOL, designComponentRef);
 
 function handleKeydown(e: KeyboardEvent) {
+  console.log(1111, e);
   key.value += e.key.toUpperCase();
   if (key.value.includes("VA")) {
     // V+A 键

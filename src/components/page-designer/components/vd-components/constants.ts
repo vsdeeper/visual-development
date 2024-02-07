@@ -5,7 +5,7 @@
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description:
  */
-import { ShortcutKeyOptionItem } from '..'
+import { ShortcutKeyOptionItem } from '../..'
 
 // 容器组件的快捷键
 export const SHORTCUR_KEY_OPTIONS_OF_CONTAINER_COMPONENT: ShortcutKeyOptionItem[] = [

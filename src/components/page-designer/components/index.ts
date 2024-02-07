@@ -3,6 +3,7 @@
  * @Date: 2024-01-09 18:24:45
  * @Description:
  */
+export * from './vd-components'
 export * from './add-component'
 export * from './design-component'
 export * from './shortcut-key-tip'

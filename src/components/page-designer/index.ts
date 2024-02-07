@@ -15,10 +15,9 @@ import {
   RowColDesignData,
   LogoDesignData,
   MenuDesignData,
-} from './vd-components'
+} from './components'
 
 export * from './components'
-export * from './vd-components'
 export { default as PageDesigner, type AddComponentInstance } from './page-designer.vue'
 
 /** 当前配置数据类型 */
