@@ -1,48 +1,48 @@
 <script setup lang="ts">
-import draggable from 'vuedraggable'
-import { MergeDesignData, VdComponents } from '../..'
-import { ShortcutKeyOptionItem } from '@/components'
-import { isActiveDesign, isRowComponent, findIndexColInRow } from '../../util'
-import { useGlobal } from '@/stores'
-import RowCol from './components/row-col.vue'
-import { genStyle } from './util'
+import draggable from "vuedraggable";
+import { MergeDesignData, VdComponents } from "../..";
+import { ShortcutKeyOptionItem } from "@/components";
+import { isActiveDesign, isRowComponent, findIndexColInRow } from "../../util";
+import { useGlobal } from "@/stores";
+import RowCol from "./components/row-col.vue";
+import { genStyle } from "./util";
 
 defineProps<{
-  data: MergeDesignData
-  classList?: unknown[]
-  isActive?: boolean
-  shortcutKeyOptions: ShortcutKeyOptionItem[]
-}>()
+  data: MergeDesignData;
+  classList?: unknown[];
+  isActive?: boolean;
+  shortcutKeyOptions: ShortcutKeyOptionItem[];
+}>();
 
-const skeletonRef = ref<HTMLDivElement>()
+const skeletonRef = ref<HTMLDivElement>();
 
 function mergeClass(classList?: unknown[], myClassList?: unknown[]) {
-  let _class = []
-  if (classList) _class.push(classList)
-  if (myClassList) _class.push(myClassList)
-  return _class
+  let _class = [];
+  if (classList) _class.push(classList);
+  if (myClassList) _class.push(myClassList);
+  return _class;
 }
 
 function toLabel(data: MergeDesignData) {
-  if (data.type === 'RowCol') {
-    if (isRowComponent(data)) return `${data.label}-Row`
+  if (data.type === "RowCol") {
+    if (isRowComponent(data)) return `${data.label}-Row`;
     else {
-      const { designData } = useGlobal()
-      const findIndex = findIndexColInRow(data, designData)
-      return `${data.label}-Col-${findIndex! + 1}`
+      const { designData } = useGlobal();
+      const findIndex = findIndexColInRow(data, designData);
+      return `${data.label}-Col-${findIndex! + 1}`;
     }
   }
-  return `${data.label}-${data.type}`
+  return `${data.label}-${data.type}`;
 }
 
 function mouseoverSkeleton(e: MouseEvent) {
-  e.stopPropagation()
-  skeletonRef.value?.classList.add('hover')
+  e.stopPropagation();
+  skeletonRef.value?.classList.add("hover");
 }
 
 function mouseoutSkeleton(e: MouseEvent) {
-  e.stopPropagation()
-  skeletonRef.value?.classList.remove('hover')
+  e.stopPropagation();
+  skeletonRef.value?.classList.remove("hover");
 }
 </script>
 
@@ -53,7 +53,7 @@ function mouseoutSkeleton(e: MouseEvent) {
     :class="mergeClass(classList, [{ 'is-active': isActive }])"
     @mouseover="mouseoverSkeleton"
     @mouseout="mouseoutSkeleton"
-    >
+  >
     <div class="header">
       <label>{{ toLabel(data) }}</label>
     </div>
@@ -67,11 +67,11 @@ function mouseoutSkeleton(e: MouseEvent) {
         v-else
         :list="data.options?.components"
         :component-data="{
-          type: 'transition-group'
+          type: 'transition-group',
         }"
         v-bind="{
           animation: 300,
-          group: 'design-skeleton-draggable'
+          group: 'design-skeleton-draggable',
         }"
         item-key="id"
       >
@@ -87,7 +87,10 @@ function mouseoutSkeleton(e: MouseEvent) {
       </draggable>
     </div>
     <div class="footer">
-      <ShortcutKeyTip :options="shortcutKeyOptions" :data="data"></ShortcutKeyTip>
+      <ShortcutKeyTip
+        :options="shortcutKeyOptions"
+        :data="data"
+      ></ShortcutKeyTip>
     </div>
   </div>
 </template>
@@ -131,7 +134,7 @@ function mouseoutSkeleton(e: MouseEvent) {
     flex: 1;
     overflow: auto;
 
-    :deep(div[type='transition-group']) {
+    :deep(div[type="transition-group"]) {
       display: flex;
       flex: 1;
       flex-direction: column;
@@ -147,19 +150,37 @@ function mouseoutSkeleton(e: MouseEvent) {
     :deep(.el-row) {
       flex: 1;
       margin: 0 !important;
-
-      &>div[type='transition-group'] {
+      &.is-justify-space-between > div[type="transition-group"] {
+        justify-content: space-between;
+      }
+      &.is-justify-end > div[type="transition-group"] {
+        justify-content: flex-end;
+      }
+      &.is-justify-center > div[type="transition-group"] {
+        justify-content: center;
+      }
+      &.is-justify-space-around > div[type="transition-group"] {
+        justify-content: space-around;
+      }
+      &.is-justify-space-evenly > div[type="transition-group"] {
+        justify-content: space-evenly;
+      }
+      & > div[type="transition-group"] {
         display: flex;
         flex-wrap: wrap;
         flex-direction: unset;
         flex: 1;
 
         .el-col {
-          &>.vd-row-col {
+          &.col-inline {
+            max-width: unset;
+            flex: unset;
+          }
+          & > .vd-row-col {
             border-style: dotted;
           }
 
-          &+.group-item {
+          & + .group-item {
             margin-top: 10px;
           }
         }
@@ -173,7 +194,6 @@ function mouseoutSkeleton(e: MouseEvent) {
     justify-content: flex-end;
   }
 
-
   :deep(.el-scrollbar__view) {
     display: flex;
     flex: 1;
@@ -182,7 +202,7 @@ function mouseoutSkeleton(e: MouseEvent) {
 
   &.is-vertical {
     :deep {
-      &>.header+.main>div[type='transition-group'] {
+      & > .header + .main > div[type="transition-group"] {
         flex-direction: column;
       }
     }
@@ -190,7 +210,7 @@ function mouseoutSkeleton(e: MouseEvent) {
 
   &.is-horizontal {
     :deep {
-      &>.header+.main>div[type='transition-group'] {
+      & > .header + .main > div[type="transition-group"] {
         flex-direction: row;
       }
     }
@@ -213,15 +233,15 @@ function mouseoutSkeleton(e: MouseEvent) {
   &.is-active {
     border-color: var(--el-color-primary);
 
-    &>.header label {
+    & > .header label {
       color: var(--el-color-primary);
     }
 
-    &>:deep(.footer .shortcut-key-tip .label) {
+    & > :deep(.footer .shortcut-key-tip .label) {
       color: var(--el-color-primary);
     }
 
-    &>:deep(.footer .shortcut-key-tip .key) {
+    & > :deep(.footer .shortcut-key-tip .key) {
       background-color: var(--el-color-primary);
     }
   }

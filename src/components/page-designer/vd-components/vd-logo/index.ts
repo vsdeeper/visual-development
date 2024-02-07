@@ -7,9 +7,9 @@ import { BaseDesignData } from '@/components'
 import { Component } from 'vue'
 
 export type LogoDesignData = BaseDesignData<{
-  collapse?: boolean;
+  name?: string
+  color?: string
   height?: string
   fontSize?: string
-  color?: string
   suffixIcon?: string | Component
 }>;

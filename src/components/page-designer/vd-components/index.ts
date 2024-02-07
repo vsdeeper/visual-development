@@ -21,10 +21,11 @@ export * from './vd-row-col'
 /** 常规组件 */
 export * from './vd-menu'
 
-export type SubComponentsTypeOfPageDesigner =
-/** 布局容器 */'Aside' | 'Container' | 'Footer' | 'Header' | 'Main' | 'RowCol' | 'RouterView' | 'View' |
-/** 导航组件 */'Menu' |
-/** 视图组件 */'Form' | 'Search' | 'Table' |
+export type ComponentTypeOfPageDesigner =
+/** 自定义组件 */'Logo' | 'Search' | 'Table' | 'Form' |
+/** 主体容器 */'RouterView' | 'View' |
+/** 布局容器 */'Aside' | 'Container' | 'Footer' | 'Header' | 'Main' | 'RowCol' |
+/** 导航组件 */'Menu' | 'Dropdown' |
 /** 基础组件 */'Button' | 'Icon' |
 /** 数据展示组件 */'Image'
 
@@ -32,7 +33,7 @@ export type SubComponentsTypeOfPageDesigner =
 export type BaseDesignData<T = Record<string, any>> = {
   id: string
   idAlias?: string
-  type: SubComponentsTypeOfPageDesigner
+  type: ComponentTypeOfPageDesigner
   label: string
   projectName?: string // 项目名称，最外层组件配置
   componentPath?: string // 组件路径，子组件配置
@@ -42,7 +43,7 @@ export type BaseDesignData<T = Record<string, any>> = {
 }
 
 /** 导出所有vd-*可视化设计组件 */
-const VdComponents: { [K in SubComponentsTypeOfPageDesigner]?: any } = {}
+const VdComponents: { [K in ComponentTypeOfPageDesigner]?: any } = {}
 const vueModules = import.meta.glob('./vd-*/vd-*.vue')
 for (const path in vueModules) {
   const key = path
@@ -51,7 +52,7 @@ for (const path in vueModules) {
     .replace('vd-', '')
     .split('-')
     .map(str => capitalizeFirstLetter(str))
-    .join('') as SubComponentsTypeOfPageDesigner
+    .join('') as ComponentTypeOfPageDesigner
   VdComponents[key] = defineAsyncComponent({
     loader: vueModules[path] as AsyncComponentLoader<any>,
   })

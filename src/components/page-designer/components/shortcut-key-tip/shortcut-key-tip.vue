@@ -4,67 +4,87 @@
  * @Description:
 -->
 
-<script setup lang='ts'>
-import { useGlobal } from '@/stores'
-import { ActiveDesignData, AddComponentInstance } from '../..'
-import { type ShortcutKeyOptionItem } from '.'
-import { addComponentRefSymbol, designComponentRefSymbol } from '@/utils/constants'
-import { deleteComponent } from '../../util'
+<script setup lang="ts">
+import { useGlobal } from "@/stores";
+import { ActiveDesignData, AddComponentInstance } from "../..";
+import { type ShortcutKeyOptionItem } from ".";
+import {
+  ADD_COMPONENT_REF_SYMBOL,
+  DESIGN_COMPONENT_REF_SYMBOL,
+} from "@/utils/constants";
+import { deleteComponent } from "../../util";
 
 const props = defineProps<{
-  data?: ActiveDesignData
-  options?: ShortcutKeyOptionItem[]
-  showMore?: boolean
-  isPageDesigner?: boolean
-}>()
+  data?: ActiveDesignData;
+  options?: ShortcutKeyOptionItem[];
+  showMore?: boolean;
+  isPageDesigner?: boolean;
+}>();
 
 const emit = defineEmits<{
-  (e: 'show-more'): void
-}>()
+  (e: "show-more"): void;
+}>();
 
-const { setActiveDesignData, designData } = useGlobal()
-const addComponentRef = inject<Ref<AddComponentInstance>>(addComponentRefSymbol)
-const designComponentRef = inject<Ref<AddComponentInstance>>(designComponentRefSymbol)
+const { setActiveDesignData, designData } = useGlobal();
+const addComponentRef = inject<Ref<AddComponentInstance>>(
+  ADD_COMPONENT_REF_SYMBOL,
+);
+const designComponentRef = inject<Ref<AddComponentInstance>>(
+  DESIGN_COMPONENT_REF_SYMBOL,
+);
 
-function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) {
+function clickShortcutKey(
+  item: ShortcutKeyOptionItem,
+  data?: ActiveDesignData,
+) {
   if (props.isPageDesigner) {
     // 来源于页面设计器
-    setActiveDesignData(undefined)
-    addComponentRef?.value.open()
+    setActiveDesignData(undefined);
+    addComponentRef?.value.open();
   } else {
-    const { activeDesignData } = useGlobal()
-    if (!data) return
-    const _keysStr = item.keys?.join('').toUpperCase()
-    if (_keysStr === 'VA') {
+    const { activeDesignData } = useGlobal();
+    if (!data) return;
+    const _keysStr = item.keys?.join("").toUpperCase();
+    if (_keysStr === "VA") {
       // 添加组件
-      if (activeDesignData?.id !== data?.id) setActiveDesignData(data)
-      addComponentRef?.value.open()
-    } else if (_keysStr === 'VD') {
+      if (activeDesignData?.id !== data?.id) setActiveDesignData(data);
+      addComponentRef?.value.open();
+    } else if (_keysStr === "VD") {
       // 设计组件
-      if (activeDesignData?.id !== data?.id) setActiveDesignData(data)
-      designComponentRef?.value.open()
-    } else if (_keysStr === 'DELETE') {
+      if (activeDesignData?.id !== data?.id) setActiveDesignData(data);
+      designComponentRef?.value.open();
+    } else if (_keysStr === "DELETE") {
       // 删除组件
-      const { designData } = useGlobal()
-      deleteComponent(data, designData)
+      const { designData } = useGlobal();
+      deleteComponent(data, designData);
     }
   }
 }
 </script>
 
 <template>
-  <div class='shortcut-key-tip'>
-    <div class="item" v-for="(item, index) in options" :key="index" @click="clickShortcutKey(item, data)">
+  <div class="shortcut-key-tip">
+    <div
+      class="item"
+      v-for="(item, index) in options"
+      :key="index"
+      @click="clickShortcutKey(item, data)"
+    >
       <div class="label">{{ item.label }}</div>
       <div class="key" v-for="key in item.keys" :key="key">{{ key }}</div>
-      <el-tooltip v-if="showMore" content="快捷键" :placement="designData.length ? 'top' : 'right'" effect="customized">
+      <el-tooltip
+        v-if="showMore"
+        content="快捷键"
+        :placement="designData.length ? 'top' : 'right'"
+        effect="customized"
+      >
         <div class="key tip" @click.stop="emit('show-more')">?</div>
       </el-tooltip>
     </div>
   </div>
 </template>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .shortcut-key-tip {
   cursor: pointer;
   padding: 5px;
@@ -73,7 +93,7 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) 
     display: inline-flex;
     align-items: center;
 
-    &+.item {
+    & + .item {
       margin-left: 5px;
     }
 
@@ -99,7 +119,7 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) 
         background-color: var(--el-text-color-placeholder) !important;
       }
 
-      &+div.key {
+      & + div.key {
         margin-left: 2px;
       }
     }

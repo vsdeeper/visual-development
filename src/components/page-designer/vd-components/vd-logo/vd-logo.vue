@@ -4,18 +4,19 @@
  * @Description:
 -->
 <script setup lang="ts">
-import { MainDesignData } from '.'
-import { SHORTCUR_KEY_OPTIONS_OF_CONTAINER_COMPONENT } from '../constants'
+import { LogoDesignData } from ".";
+import { SHORTCUR_KEY_OPTIONS_OF_GENERAL_COMPONENT } from "../constants";
 
 defineProps<{
-  data: MainDesignData
-}>()
+  data: LogoDesignData;
+}>();
 </script>
 
 <template>
   <DesignSkeleton
-    :class-list="['vd-main']"
+    :class-list="['vd-logo']"
     :data="data"
-    :shortcut-key-options="SHORTCUR_KEY_OPTIONS_OF_CONTAINER_COMPONENT">
+    :shortcut-key-options="SHORTCUR_KEY_OPTIONS_OF_GENERAL_COMPONENT"
+  >
   </DesignSkeleton>
 </template>

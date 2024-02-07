@@ -3,12 +3,12 @@
  * @Date: 2024-01-07 17:27:02
  * @Description:
  */
-import { type SubComponentsTypeOfPageDesigner } from '../../..'
+import { type ComponentTypeOfPageDesigner } from '../../..'
 
 
 export interface AddComponentOptionItem {
   label: string
-  value: SubComponentsTypeOfPageDesigner
+  value: ComponentTypeOfPageDesigner
 }
 export interface AddComponentGroupOptionItem {
   id: string

@@ -1,34 +1,41 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-31 22:31:39
- * @LastEditTime: 2024-02-03 15:46:25
+ * @LastEditTime: 2024-02-07 15:12:53
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 栅格设计骨架
 -->
 <script setup lang="ts">
-import draggable from 'vuedraggable'
-import { MergeDesignData, RowColDesignData, VdComponents } from '@/components'
-import { isActiveDesign, isRowComponent } from '@/components/page-designer/util'
-import { useGlobal } from '@/stores'
-import { genStyle } from '../util'
+import draggable from "vuedraggable";
+import { MergeDesignData, RowColDesignData, VdComponents } from "@/components";
+import {
+  isActiveDesign,
+  isRowComponent,
+} from "@/components/page-designer/util";
+import { useGlobal } from "@/stores";
+import { genStyle } from "../util";
 
 defineProps<{
-  data: MergeDesignData
-  isActive?: boolean
-}>()
+  data: MergeDesignData;
+  isActive?: boolean;
+}>();
 </script>
 
 <template>
   <!-- 在布局-row组件中添加组件时 -->
-  <el-row v-if="isRowComponent(data)" :gutter="data.options?.rowGutter">
+  <el-row
+    v-if="isRowComponent(data)"
+    :gutter="data.options?.rowGutter"
+    :justify="data.options?.rowJustify"
+  >
     <draggable
       :list="data.options?.components"
       :component-data="{
-        type: 'transition-group'
+        type: 'transition-group',
       }"
       v-bind="{
         animation: 300,
-        group: 'design-skeleton-draggable'
+        group: 'design-skeleton-draggable',
       }"
       item-key="id"
     >
@@ -40,9 +47,10 @@ defineProps<{
           :md="(item as RowColDesignData).options?.colMd"
           :lg="(item as RowColDesignData).options?.colLg"
           :xl="(item as RowColDesignData).options?.colXl"
+          :class="{ 'col-inline': data.options?.inline }"
         >
           <component
-            :is ="VdComponents[(item as MergeDesignData).type]"
+            :is="VdComponents[(item as MergeDesignData).type]"
             :data="item"
             :is-active="isActiveDesign(item.id, useGlobal().activeDesignData)"
           ></component>
@@ -55,11 +63,11 @@ defineProps<{
     v-else
     :list="data.options?.components"
     :component-data="{
-      type: 'transition-group'
+      type: 'transition-group',
     }"
     v-bind="{
       animation: 300,
-      group: 'design-skeleton-draggable'
+      group: 'design-skeleton-draggable',
     }"
     item-key="id"
   >

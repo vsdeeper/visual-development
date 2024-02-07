@@ -5,81 +5,102 @@
 -->
 
 <script setup lang="ts">
-import draggable from 'vuedraggable'
-import { useGlobal } from '@/stores'
-import { ActiveDesignData, DesignComponent, VdComponents, MergeDesignData, MainDesignData, RouterViewDesignData, ViewDesignData } from '.'
-import { AddComponent, AddComponentOptionItem, ContainerDesignData, ListOfShortcutKeys } from '@/components'
-import { isPageDesignModeSymbol, addComponentRefSymbol, designComponentRefSymbol } from '@/utils/constants'
-import { deleteComponent, genId, isActiveDesign, isLayoutContainer } from './util'
-import { addComponentOptions } from './constants'
-import { AsideDesignData } from './vd-components/vd-aside'
-import { HeaderDesignData } from './vd-components/vd-header'
-import { MenuDesignData } from './vd-components/vd-menu'
-import { FooterDesignData } from './vd-components/vd-footer'
-import { RowColDesignData } from './vd-components/vd-row-col'
+import draggable from "vuedraggable";
+import { useGlobal } from "@/stores";
+import {
+  ActiveDesignData,
+  DesignComponent,
+  VdComponents,
+  MergeDesignData,
+  BaseDesignData,
+  ComponentTypeOfPageDesigner,
+} from ".";
+import {
+  AddComponent,
+  AddComponentOptionItem,
+  ListOfShortcutKeys,
+} from "@/components";
+import {
+  IS_PAGE_DESIGN_MODE_SYMBOL,
+  ADD_COMPONENT_REF_SYMBOL,
+  DESIGN_COMPONENT_REF_SYMBOL,
+} from "@/utils/constants";
+import { camelToSeparator } from "@/utils";
+import {
+  deleteComponent,
+  genId,
+  isActiveDesign,
+  isContainerComponent,
+  isCustomComponent,
+} from "./util";
+import { ADD_COMPONENT_OPTIONS } from "./constants";
+import { RowColDesignData } from "./vd-components/vd-row-col";
 
-export type AddComponentInstance = InstanceType<typeof AddComponent>
-export type DesignComponentInstance = InstanceType<typeof DesignComponent>
-export type ListOfShortcutKeysInstance = InstanceType<typeof ListOfShortcutKeys>
+export type AddComponentInstance = InstanceType<typeof AddComponent>;
+export type DesignComponentInstance = InstanceType<typeof DesignComponent>;
+export type ListOfShortcutKeysInstance = InstanceType<
+  typeof ListOfShortcutKeys
+>;
 
-console.log('VdComponents 可视化设计组件', VdComponents)
+console.log("VdComponents 可视化设计组件", VdComponents);
 
-const { designData, setDesignData, setActiveDesignData } = useGlobal()
-const addComponentRef = ref<AddComponentInstance>()
-const designComponentRef = ref<DesignComponentInstance>()
-const listOfShortcutKeysRef = ref<ListOfShortcutKeysInstance>()
-const key = ref('')
+const { designData, setDesignData, setActiveDesignData } = useGlobal();
+const addComponentRef = ref<AddComponentInstance>();
+const designComponentRef = ref<DesignComponentInstance>();
+const listOfShortcutKeysRef = ref<ListOfShortcutKeysInstance>();
+const key = ref("");
 
 // provide
-provide(isPageDesignModeSymbol, ref(true))
-provide(addComponentRefSymbol, addComponentRef)
-provide(designComponentRefSymbol, designComponentRef)
+provide(IS_PAGE_DESIGN_MODE_SYMBOL, ref(true));
+provide(ADD_COMPONENT_REF_SYMBOL, addComponentRef);
+provide(DESIGN_COMPONENT_REF_SYMBOL, designComponentRef);
 
 function handleKeydown(e: KeyboardEvent) {
-  key.value += e.key.toUpperCase()
-  if (key.value.includes('VA')) {
+  key.value += e.key.toUpperCase();
+  if (key.value.includes("VA")) {
     // V+A 键
-    const { activeDesignData } = useGlobal()
-    if (!activeDesignData || isLayoutContainer(activeDesignData)) {
+    const { activeDesignData } = useGlobal();
+    if (!activeDesignData || isContainerComponent(activeDesignData.type)) {
       // 当前不存在设计中的组件或当前设计组件是布局容器类组件，进行添加组件操作
-      addComponentRef.value?.open()
-      key.value = ''
+      addComponentRef.value?.open();
+      key.value = "";
     }
-  } else if (key.value.includes('VD')) {
+  } else if (key.value.includes("VD")) {
     // V+D 键，设计组件
-    designComponentRef.value?.open()
-    key.value = ''
-  } else if (key.value.includes('DELETE')) {
+    designComponentRef.value?.open();
+    key.value = "";
+  } else if (key.value.includes("DELETE")) {
     // Delete 键，删除组件
-    const { designData, activeDesignData } = useGlobal()
-    deleteComponent(activeDesignData as ActiveDesignData, designData)
-    key.value = ''
+    const { designData, activeDesignData } = useGlobal();
+    deleteComponent(activeDesignData as ActiveDesignData, designData);
+    key.value = "";
   }
 }
 
 function selectComponent(item: AddComponentOptionItem) {
-  const data = createDesignData(item)
-  const { activeDesignData } = useGlobal()
+  const data = createDesignData(item);
+  const { activeDesignData } = useGlobal();
   if (!activeDesignData) {
     /**
      * 当前不存在设计中的组件，说明是初始设计
      * 此时需要设置最外层的设计数据
      */
-    setDesignData(data)
-    setActiveDesignData(data)
+    setDesignData(data);
+    setActiveDesignData(data);
   } else {
     /**
      * 当前存在设计中的组件
      * 此时只需要设置活动组件的设计数据
      */
-    if (isLayoutContainer(activeDesignData)) {
+    if (isContainerComponent(activeDesignData.type)) {
       /**
        * 布局容器，可以挂载子组件
        * 子组件挂载后将活动设计数据设置为子组件
        */
-      !activeDesignData.options!.components && (activeDesignData.options!.components = [])
-      activeDesignData.options!.components!.push(data)
-      setActiveDesignData(data)
+      !activeDesignData.options!.components &&
+        (activeDesignData.options!.components = []);
+      activeDesignData.options!.components!.push(data);
+      setActiveDesignData(data);
     }
   }
 }
@@ -89,84 +110,14 @@ function selectComponent(item: AddComponentOptionItem) {
  */
 function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
   switch (item.value) {
-    case 'Container': {
-      return {
-        id: genId(item.value),
-        type: item.value,
-        label: item.label,
-        options: {
-          components: []
-        }
-      } as ContainerDesignData
-    }
-    case 'Aside': {
-      return {
-        id: genId(item.value),
-        type: item.value,
-        label: item.label,
-        options: {
-          components: []
-        }
-      } as AsideDesignData
-    }
-    case 'Header': {
-      return {
-        id: genId(item.value),
-        type: item.value,
-        label: item.label,
-        options: {
-          components: []
-        }
-      } as HeaderDesignData
-    }
-    case 'Main': {
-      return {
-        id: genId(item.value),
-        type: item.value,
-        label: item.label,
-        options: {
-          components: []
-        }
-      } as MainDesignData
-    }
-    case 'Footer': {
-      return {
-        id: genId(item.value),
-        type: item.value,
-        label: item.label,
-        options: {
-          components: []
-        }
-      } as FooterDesignData
-    }
-    case 'RouterView': {
-      return {
-        id: genId(item.value),
-        type: item.value,
-        label: item.label,
-        options: {
-          components: []
-        }
-      } as RouterViewDesignData
-    }
-    case 'View': {
-      return {
-        id: genId(item.value),
-        type: item.value,
-        label: item.label,
-        options: {
-          components: []
-        }
-      } as ViewDesignData
-    }
-    case 'RowCol': {
+    case "RowCol": {
       return {
         id: genId(`${item.value}row`),
         type: item.value,
         label: item.label,
         options: {
           rowGutter: 0,
-          rowJustify: 'start',
+          rowJustify: "start",
           components: [
             {
               id: genId(`${item.value}col`),
@@ -174,76 +125,71 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
               label: item.label,
               options: {
                 components: [],
-                colSpan: 24
-              }
-            }
-          ]
-        }
-      } as RowColDesignData
-    }
-    case 'Menu': {
-      return {
-        id: genId(item.value),
-        type: item.value,
-        label: item.label,
-        options: {}
-      } as MenuDesignData
-    }
-    case 'Form': {
-      return {
-        id: genId(item.value),
-        type: item.value,
-        label: item.label,
-        options: {}
-      }
+                colSpan: 24,
+              },
+            },
+          ],
+        },
+      } as RowColDesignData;
     }
     default: {
       return {
         id: genId(item.value),
         type: item.value,
         label: item.label,
-        options: {}
-      } as ContainerDesignData
+        componentPath: genComponentPath(item.value),
+        options: isContainerComponent(item.value) ? { components: [] } : {},
+      } as BaseDesignData;
     }
   }
 }
 
 onMounted(() => {
-  window.addEventListener('keydown', handleKeydown)
-})
+  window.addEventListener("keydown", handleKeydown);
+});
 
 onUnmounted(() => {
-  window.removeEventListener('keydown', handleKeydown)
-})
+  window.removeEventListener("keydown", handleKeydown);
+});
 
 function showMoreShortcutKey() {
-  listOfShortcutKeysRef.value?.open()
+  listOfShortcutKeysRef.value?.open();
+}
+
+function genComponentPath(type: ComponentTypeOfPageDesigner) {
+  if (isCustomComponent(type))
+    return `/src/components/my-${camelToSeparator(type)}`;
+  return undefined;
 }
 </script>
 
 <template>
-  <div id="page-designer" :class="{ 'has-design-content': designData.length, 'active': !designData.length || !useGlobal().activeDesignData }">
-    <div class="version">
-      Page Designer 1.0.0
-    </div>
-    {{ designData }}
+  <div
+    id="page-designer"
+    :class="{
+      'has-design-content': designData.length,
+      active: !designData.length || !useGlobal().activeDesignData,
+    }"
+  >
+    <div class="version">Page Designer 1.0.0</div>
+    <!-- {{ designData }} -->
     <el-scrollbar>
       <draggable
         class="transition-group-in-page-designer"
         :list="designData"
         :component-data="{
-          type: 'transition-group'
+          type: 'transition-group',
         }"
         v-bind="{
           animation: 300,
-          group: 'design-skeleton-draggable'
+          group: 'design-skeleton-draggable',
         }"
         item-key="id"
       >
         <template #item="{ element: item }">
           <div class="group-item">
             <component
-              :key='item.name'
+              :key="item.name"
               :is="VdComponents[(item as MergeDesignData).type]"
               :is-active="isActiveDesign(item.id, useGlobal().activeDesignData)"
               :data="item"
@@ -253,14 +199,25 @@ function showMoreShortcutKey() {
       </draggable>
     </el-scrollbar>
     <ShortcutKeyTip
-      :options="designData.length ? [{ keys: ['V', 'A'] }] : [{ label: '添加组件', keys: ['V', 'A'] }]"
+      :options="
+        designData.length
+          ? [{ keys: ['V', 'A'] }]
+          : [{ label: '添加组件', keys: ['V', 'A'] }]
+      "
       show-more
       is-page-designer
       @show-more="showMoreShortcutKey"
     />
   </div>
-  <AddComponent ref="addComponentRef" :options="addComponentOptions" @select="selectComponent"></AddComponent>
-  <DesignComponent ref="designComponentRef" :form-data="(useGlobal().activeDesignData as ActiveDesignData)"></DesignComponent>
+  <AddComponent
+    ref="addComponentRef"
+    :options="ADD_COMPONENT_OPTIONS"
+    @select="selectComponent"
+  ></AddComponent>
+  <DesignComponent
+    ref="designComponentRef"
+    :form-data="useGlobal().activeDesignData as ActiveDesignData"
+  ></DesignComponent>
   <ListOfShortcutKeys ref="listOfShortcutKeysRef"></ListOfShortcutKeys>
 </template>
 
@@ -288,30 +245,28 @@ function showMoreShortcutKey() {
   .transition-group-in-page-designer {
     padding: 0 10px;
 
-    &>.group-item {
+    & > .group-item {
       margin-bottom: 10px;
     }
 
-    &>.design-skeleton {
+    & > .design-skeleton {
       margin: 0;
     }
   }
 
   :deep {
-    .design-skeleton:not(.is-horizontal) .group-item+.group-item {
+    .design-skeleton:not(.is-horizontal) .group-item + .group-item {
       margin-top: 10px;
     }
 
-    .design-skeleton.is-horizontal .group-item+.group-item {
+    .design-skeleton.is-horizontal .group-item + .group-item {
       margin-left: 10px;
       margin-top: 0;
     }
   }
 
   &.active {
-    &>.shortcut-key-tip {
-
-
+    & > .shortcut-key-tip {
       :deep(.label) {
         color: var(--el-color-primary);
       }
@@ -323,7 +278,6 @@ function showMoreShortcutKey() {
   }
 
   &.has-design-content {
-
     .version {
       position: fixed;
       left: unset;
@@ -334,7 +288,7 @@ function showMoreShortcutKey() {
       transform: unset;
     }
 
-    &>.shortcut-key-tip {
+    & > .shortcut-key-tip {
       position: fixed;
       left: unset;
       right: 5px;
@@ -354,7 +308,7 @@ function showMoreShortcutKey() {
     }
   }
 
-  &>.shortcut-key-tip {
+  & > .shortcut-key-tip {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -375,7 +329,6 @@ function showMoreShortcutKey() {
   }
 
   .vd-container {
-
     &.active {
       border: 5px solid var(--el-color-primary);
     }

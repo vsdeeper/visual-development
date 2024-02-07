@@ -1,6 +1,8 @@
 /*
  * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-15 09:32:51
+ * @Date: 2024-01-12 23:38:49
+ * @LastEditTime: 2024-02-07 13:59:47
+ * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description:
  */
 export * from './id-editor'
@@ -10,7 +12,6 @@ export * from './component-path-editor'
 export * from './direction-editor'
 export * from './width-editor'
 export * from './height-editor'
-export * from './inline-editor'
 export * from './row-gutter-editor'
 export * from './row-justify-editor'
 export * from './row-align-editor'
@@ -20,3 +21,9 @@ export * from './col-sm-editor'
 export * from './col-md-editor'
 export * from './col-lg-editor'
 export * from './col-xl-editor'
+export * from './inline-editor'
+export * from './collapse-editor'
+export * from './font-size-editor'
+export * from './color-editor'
+export * from './name-editor'
+export * from './suffix-icon-editor'

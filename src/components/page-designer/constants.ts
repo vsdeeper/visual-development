@@ -8,7 +8,7 @@ import { AddComponentGroupOptionItem } from '.'
 /**
  * 添加组件选项数据
  */
-export const addComponentOptions = [
+export const ADD_COMPONENT_OPTIONS = [
   {
     id: 'CustomComponents',
     name: '自定义组件',

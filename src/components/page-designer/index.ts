@@ -13,6 +13,7 @@ import {
   RouterViewDesignData,
   ViewDesignData,
   RowColDesignData,
+  LogoDesignData,
   MenuDesignData,
 } from './vd-components'
 
@@ -30,6 +31,7 @@ export type ActiveDesignData =
   RouterViewDesignData |
   ViewDesignData |
   RowColDesignData |
+  LogoDesignData |
   MenuDesignData
 
 /** 设计数据的合并类型 */
@@ -41,4 +43,5 @@ export type MergeDesignData =
   RouterViewDesignData &
   ViewDesignData &
   RowColDesignData &
+  LogoDesignData &
   MenuDesignData

@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { SubComponentsTypeOfPageDesigner } from '@/components'
+import { ComponentTypeOfPageDesigner } from '@/components'
 import { capitalizeFirstLetter } from '@/utils'
 import { AsyncComponentLoader } from 'vue'
 
 /** 导出所有d-*子组件 */
-const DesignComponent: { [K in SubComponentsTypeOfPageDesigner]?: any } = {}
+const DesignComponent: { [K in ComponentTypeOfPageDesigner]?: any } = {}
 const vueModules = import.meta.glob('./d-*/d-*.vue')
 for (const path in vueModules) {
   const key = path
@@ -13,7 +13,7 @@ for (const path in vueModules) {
     .replace('d-', '')
     .split('-')
     .map(str => capitalizeFirstLetter(str))
-    .join('') as SubComponentsTypeOfPageDesigner
+    .join('') as ComponentTypeOfPageDesigner
   DesignComponent[key] = defineAsyncComponent({
     loader: vueModules[path] as AsyncComponentLoader<any>,
   })

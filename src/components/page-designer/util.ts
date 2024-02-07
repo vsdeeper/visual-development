@@ -5,15 +5,24 @@
  */
 import { nanoid } from 'nanoid'
 import { useGlobal } from '@/stores'
-import { ActiveDesignData, MergeDesignData, RowColDesignData, SubComponentsTypeOfPageDesigner } from '.'
+import { ActiveDesignData, MergeDesignData, RowColDesignData, ComponentTypeOfPageDesigner } from '.'
 
 /**
- * 判断是否布局容器组件
- * @param data
+ * 判断是否容器组件
+ * @param type
  */
-export function isLayoutContainer(data: ActiveDesignData) {
-  const list: SubComponentsTypeOfPageDesigner[] = ['Container', 'Aside', 'Header', 'Main', 'Footer', 'RouterView', 'View', 'RowCol']
-  return list.includes(data.type)
+export function isContainerComponent(type: ComponentTypeOfPageDesigner) {
+  const list: ComponentTypeOfPageDesigner[] = ['Container', 'Aside', 'Header', 'Main', 'Footer', 'RouterView', 'View', 'RowCol']
+  return list.includes(type)
+}
+
+/**
+ * 判断是否自定义组件
+ * @param type
+ */
+export function isCustomComponent(type: ComponentTypeOfPageDesigner) {
+  const list: ComponentTypeOfPageDesigner[] = ['Logo', 'Search', 'Table', 'Form']
+  return list.includes(type)
 }
 
 /**
