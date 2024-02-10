@@ -43,23 +43,23 @@ export const ADD_COMPONENT_OPTIONS = [
     id: 'NavigationComponents',
     name: '导航组件',
     children: [
-      { label: '菜单', value: 'Menu' },
-      { label: '下拉菜单', value: 'Dropdown' }
+      { label: '菜单', value: 'Menu', disabled: true },
+      { label: '下拉菜单', value: 'Dropdown', disabled: true }
     ]
   },
   {
     id: 'BasicComponents',
     name: '基础组件',
     children: [
-      { label: '按钮', value: 'Button' },
-      { label: '图标', value: 'Icon' },
+      { label: '按钮', value: 'Button', disabled: true },
+      { label: '图标', value: 'Icon', disabled: true },
     ]
   },
   {
     id: 'DataDisplayComponents',
     name: '数据展示组件',
     children: [
-      { label: '图片', value: 'Image' }
+      { label: '图片', value: 'Image', disabled: true }
     ]
   }
 ] as AddComponentGroupOptionItem[]

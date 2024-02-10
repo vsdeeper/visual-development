@@ -2,7 +2,7 @@
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-07 18:46:03
  * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-07 19:27:13
+ * @LastEditTime: 2024-02-10 16:39:31
  * @Description: 颜色选择器
 -->
 
@@ -24,10 +24,19 @@ const colorPickerRef = ref<ColorPickerInstance>();
 defineExpose({
   colorPickerRef,
 });
+
+function clickInput() {
+  colorPickerRef.value?.show();
+}
 </script>
 
 <template>
-  <el-input v-model="model" :placeholder="placeholder" readonly>
+  <el-input
+    v-model="model"
+    :placeholder="placeholder"
+    readonly
+    @click="clickInput"
+  >
     <template #append>
       <el-color-picker
         ref="colorPickerRef"
