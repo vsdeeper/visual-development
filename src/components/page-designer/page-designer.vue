@@ -132,6 +132,20 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
         },
       } as RowColDesignData;
     }
+    case "Menu": {
+      return {
+        id: genId(item.value),
+        type: item.value,
+        label: item.label,
+        componentPath: genComponentPath(item.value),
+        options: {
+          mode: "vertical",
+          router: false,
+          popperEffect: "dark",
+          method: "GET",
+        },
+      };
+    }
     default: {
       return {
         id: genId(item.value),

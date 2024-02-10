@@ -21,7 +21,7 @@ export function isContainerComponent(type: ComponentTypeOfPageDesigner) {
  * @param type
  */
 export function isCustomComponent(type: ComponentTypeOfPageDesigner) {
-  const list: ComponentTypeOfPageDesigner[] = ['Logo', 'Search', 'Table', 'Form']
+  const list: ComponentTypeOfPageDesigner[] = ['Logo', 'Search', 'Table', 'Form', 'Menu']
   return list.includes(type)
 }
 

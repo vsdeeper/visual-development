@@ -17,6 +17,7 @@ export const ADD_COMPONENT_OPTIONS = [
       { label: '搜索', value: 'Search' },
       { label: '表格', value: 'Table' },
       { label: '表单', value: 'Form' },
+      { label: '菜单', value: 'Menu' },
     ]
   },
   {
@@ -43,7 +44,6 @@ export const ADD_COMPONENT_OPTIONS = [
     id: 'NavigationComponents',
     name: '导航组件',
     children: [
-      { label: '菜单', value: 'Menu', disabled: true },
       { label: '下拉菜单', value: 'Dropdown', disabled: true }
     ]
   },
@@ -60,6 +60,13 @@ export const ADD_COMPONENT_OPTIONS = [
     name: '数据展示组件',
     children: [
       { label: '图片', value: 'Image', disabled: true }
+    ]
+  },
+  {
+    id: 'OtherComponents',
+    name: '其他组件',
+    children: [
+      { label: '分割线', value: 'Divider' }
     ]
   }
 ] as AddComponentGroupOptionItem[]
