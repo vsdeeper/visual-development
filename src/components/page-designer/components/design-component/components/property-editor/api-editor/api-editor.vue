@@ -1,7 +1,7 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-10 21:27:57
+ * @LastEditTime: 2024-02-11 22:39:11
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 接口配置
 -->
@@ -27,7 +27,6 @@ const _formData = toRef(props, "formData");
       <template #prepend>
         <el-select
           v-model="_formData.options!.method"
-          placeholder="请选择"
           disabled
           style="width: 75px"
         >

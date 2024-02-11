@@ -78,7 +78,7 @@ function findRow(item: MergeDesignData, designData: MergeDesignData[]) {
     </el-collapse-item>
     <el-collapse-item title="布局-Row-Cols" name="col">
       <template v-for="item in formData.options?.components" :key="item.id">
-        <div class="title">
+        <div class="divider-box">
           <el-divider content-position="left" border-style="dashed"
             >布局-Col-{{
               findIndexColInRow(item, useGlobal().designData)! + 1
@@ -160,7 +160,7 @@ function findRow(item: MergeDesignData, designData: MergeDesignData[]) {
   width: 100%;
 }
 
-.title {
+.divider-box {
   display: flex;
   align-items: center;
 }
