@@ -4,11 +4,9 @@
  * @Description:
 -->
 <script setup lang="ts">
-import { MenuItem } from '.'
-
 defineProps<{
-  data?: MenuItem[]
-}>()
+  data?: Record<string, any>[];
+}>();
 </script>
 
 <template>

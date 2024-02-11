@@ -9,6 +9,8 @@ import { capitalizeFirstLetter } from '@/utils'
 
 /** 自定义组件 */
 export * from './vd-logo'
+export * from './vd-menu'
+export * from './vd-search'
 /** 容器组件 */
 export * from './vd-container'
 export * from './vd-aside'
@@ -19,7 +21,6 @@ export * from './vd-router-view'
 export * from './vd-view'
 export * from './vd-row-col'
 /** 常规组件 */
-export * from './vd-menu'
 
 export type ComponentTypeOfPageDesigner =
 /** 自定义组件 */'Logo' | 'Search' | 'Table' | 'Form' |

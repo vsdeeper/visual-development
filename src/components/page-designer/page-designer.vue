@@ -56,22 +56,22 @@ provide(ADD_COMPONENT_REF_SYMBOL, addComponentRef);
 provide(DESIGN_COMPONENT_REF_SYMBOL, designComponentRef);
 
 function handleKeydown(e: KeyboardEvent) {
+  const { designData, activeDesignData } = useGlobal();
   key.value += e.key.toUpperCase();
   if (key.value.includes("VA")) {
     // V+A 键
-    const { activeDesignData } = useGlobal();
     if (!activeDesignData || isContainerComponent(activeDesignData.type)) {
       // 当前不存在设计中的组件或当前设计组件是布局容器类组件，进行添加组件操作
       addComponentRef.value?.open();
       key.value = "";
     }
   } else if (key.value.includes("VD")) {
+    if (!activeDesignData) return;
     // V+D 键，设计组件
     designComponentRef.value?.open();
     key.value = "";
   } else if (key.value.includes("DELETE")) {
     // Delete 键，删除组件
-    const { designData, activeDesignData } = useGlobal();
     deleteComponent(activeDesignData as ActiveDesignData, designData);
     key.value = "";
   }
@@ -146,6 +146,17 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
         },
       };
     }
+    case "Search": {
+      return {
+        id: genId(item.value),
+        type: item.value,
+        label: item.label,
+        componentPath: genComponentPath(item.value),
+        options: {
+          searchConditionItems: [{}],
+        },
+      };
+    }
     default: {
       return {
         id: genId(item.value),
@@ -186,7 +197,7 @@ function genComponentPath(type: ComponentTypeOfPageDesigner) {
     }"
   >
     <div class="version">Page Designer 1.0.0</div>
-    <!-- {{ designData }} -->
+    {{ designData }}
     <el-scrollbar>
       <draggable
         class="transition-group-in-page-designer"

@@ -15,6 +15,7 @@ import {
   RowColDesignData,
   LogoDesignData,
   MenuDesignData,
+  SearchDesignData,
 } from './components'
 
 export * from './components'
@@ -31,7 +32,8 @@ export type ActiveDesignData =
   ViewDesignData |
   RowColDesignData |
   LogoDesignData |
-  MenuDesignData
+  MenuDesignData |
+  SearchDesignData
 
 /** 设计数据的合并类型 */
 export type MergeDesignData =
@@ -43,4 +45,5 @@ export type MergeDesignData =
   ViewDesignData &
   RowColDesignData &
   LogoDesignData &
-  MenuDesignData
+  MenuDesignData &
+  SearchDesignData
