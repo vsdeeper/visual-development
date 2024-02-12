@@ -2,12 +2,12 @@
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-11 22:49:04
  * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-12 21:36:27
+ * @LastEditTime: 2024-02-12 22:53:49
  * @Description:
 -->
 <script setup lang="ts">
-import { SearchConditionOptionItem } from "@/components";
-import { SemiSelect, Plus, Refresh } from "@element-plus/icons-vue";
+import { SearchConditionOptionItem } from '@/components';
+import { SemiSelect, Plus, Refresh } from '@element-plus/icons-vue';
 
 defineProps<{
   index: number;
@@ -92,7 +92,6 @@ function reset() {
 
 <style lang="scss" scoped>
 .option-items-config {
-  padding: 0 8px;
   .el-row + .el-row {
     margin-top: 5px;
   }
