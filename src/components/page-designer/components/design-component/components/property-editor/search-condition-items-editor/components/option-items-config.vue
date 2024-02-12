@@ -2,13 +2,16 @@
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-11 22:49:04
  * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-12 20:22:36
+ * @LastEditTime: 2024-02-12 21:36:27
  * @Description:
 -->
 <script setup lang="ts">
 import { SearchConditionOptionItem } from "@/components";
 import { SemiSelect, Plus, Refresh } from "@element-plus/icons-vue";
 
+defineProps<{
+  index: number;
+}>();
 const model = defineModel<SearchConditionOptionItem[]>();
 const value = ref<SearchConditionOptionItem[]>();
 
@@ -30,15 +33,22 @@ function add() {
 }
 
 function reset() {
-  value.value = undefined;
+  value.value = [{}];
 }
 </script>
 
 <template>
   <div class="option-items-config">
-    <el-row v-for="(item, index) in value" :key="item.value" align="middle">
+    <el-row v-for="(item, subIndex) in value" :key="item.value" align="middle">
       <el-form-item
-        :prop="['options', 'options', index + '', 'value']"
+        :prop="[
+          'options',
+          'searchConditionItems',
+          index + '',
+          'options',
+          subIndex + '',
+          'value',
+        ]"
         :rules="[{ required: true, message: '必填项' }]"
         :show-message="false"
         style="width: 100px; margin-right: 5px"
@@ -46,7 +56,14 @@ function reset() {
         <el-input v-model="item.value" class="input" placeholder="选项值" />
       </el-form-item>
       <el-form-item
-        :prop="['options', 'options', index + '', 'label']"
+        :prop="[
+          'options',
+          'searchConditionItems',
+          index + '',
+          'options',
+          subIndex + '',
+          'label',
+        ]"
         :rules="[{ required: true, message: '必填项' }]"
         :show-message="false"
         style="flex: 1"

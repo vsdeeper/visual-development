@@ -1,27 +1,27 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-12 20:20:57
+ * @LastEditTime: 2024-02-12 22:49:06
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 搜索条件项配置
 -->
 <script setup lang="ts">
-import { FormItemInstance } from "element-plus";
-import { Plus, SemiSelect } from "@element-plus/icons-vue";
+import { FormItemInstance } from 'element-plus';
+import { Plus, SemiSelect } from '@element-plus/icons-vue';
 import {
   MergeDesignData,
   SearchConditionItem,
   SearchConditionType,
-} from "@/components";
-import { ROW_GUTTER } from "../../constants";
-import { SEARCH_TYPE_OPTIONS } from "./constants";
-import { TabPaneName } from "element-plus";
+} from '@/components';
+import { ROW_GUTTER } from '../../constants';
+import { SEARCH_TYPE_OPTIONS, DATE_TYPE_OPTIONS } from './constants';
+import { TabPaneName } from 'element-plus';
 
 const props = defineProps<{
   formData: MergeDesignData;
 }>();
 
-const _formData = toRef(props, "formData");
+const _formData = toRef(props, 'formData');
 const apiRefs = ref<FormItemInstance[]>([]);
 
 function add() {
@@ -36,15 +36,34 @@ function deleteSearchItem(
 }
 
 function changeType(type: SearchConditionType, item: SearchConditionItem) {
+  resetSearchConditionItem(item);
   switch (type) {
-    case "Select": {
-      item.dataSource = "api";
-      item.method = "GET";
+    case 'Select': {
+      item.dataSource = 'api';
+      item.method = 'GET';
+      item.itemValue = 'id';
       break;
     }
-    default:
+    case 'DatePicker': {
+      item.dateType = 'date';
+      item.format = 'YYYY-MM-DD';
+      item.valueFormat = 'x';
       break;
+    }
   }
+}
+
+function resetSearchConditionItem(item: SearchConditionItem) {
+  item.dataSource = undefined;
+  item.method = undefined;
+  item.api = undefined;
+  item.options = undefined;
+  item.itemLabel = undefined;
+  item.multiple = undefined;
+  item.format = undefined;
+  item.valueFormat = undefined;
+  item.dateType = undefined;
+  item.virtualized = undefined;
 }
 
 function changeDataSource(
@@ -52,16 +71,18 @@ function changeDataSource(
   item: SearchConditionItem,
   index: number,
 ) {
-  if (name === "custom") {
-    item.dataSource = "custom";
+  if (name === 'custom') {
+    item.dataSource = 'custom';
     item.method = undefined;
     item.api = undefined;
+    item.itemValue = undefined;
     item.options = [{}];
-  } else if (name === "api") {
-    item.dataSource = "api";
-    item.method = "GET";
+  } else if (name === 'api') {
+    item.dataSource = 'api';
+    item.method = 'GET';
     item.api = undefined;
     item.options = undefined;
+    item.itemValue = 'id';
     apiRefs.value[index]?.clearValidate();
     setTimeout(() => apiRefs.value[index]?.clearValidate());
   }
@@ -126,7 +147,7 @@ function changeDataSource(
       <ResponsiveCol>
         <el-form-item
           label="字段名称"
-          :prop="['options', 'searchConditionItems', index + '', 'key']"
+          :prop="['options', 'searchConditionItems', index + '', 'filedName']"
           :rules="[{ required: true, message: '必填项' }]"
         >
           <el-input
@@ -136,6 +157,109 @@ function changeDataSource(
           ></el-input>
         </el-form-item>
       </ResponsiveCol>
+      <!-- 搜索条件为DatePicker时，设置format -->
+      <template v-if="item.type === 'DatePicker'">
+        <ResponsiveCol>
+          <el-form-item
+            label="显示在输入框中的格式"
+            :prop="['options', 'searchConditionItems', index + '', 'format']"
+          >
+            <el-input
+              v-model="item.format"
+              placeholder="请输入"
+              clearable
+            ></el-input>
+          </el-form-item>
+        </ResponsiveCol>
+        <ResponsiveCol>
+          <el-form-item
+            label="绑定值的格式"
+            :prop="[
+              'options',
+              'searchConditionItems',
+              index + '',
+              'valueFormat',
+            ]"
+          >
+            <el-input
+              v-model="item.valueFormat"
+              placeholder="请输入"
+              clearable
+            ></el-input>
+          </el-form-item>
+        </ResponsiveCol>
+        <ResponsiveCol>
+          <el-form-item
+            label="显示类型"
+            :prop="['options', 'searchConditionItems', index + '', 'dateType']"
+          >
+            <el-select v-model="item.dateType" placeholder="请选择" clearable>
+              <el-option
+                v-for="item in DATE_TYPE_OPTIONS"
+                :key="item.value"
+                :label="`${item.label} - ${item.value}`"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </ResponsiveCol>
+      </template>
+      <!-- 搜索条件为Select时，设置label别名、value别名、多选 -->
+      <template v-if="item.type === 'Select'">
+        <ResponsiveCol>
+          <el-form-item
+            label="label别名"
+            :prop="['options', 'searchConditionItems', index + '', 'itemLabel']"
+          >
+            <el-input
+              v-model="item.itemLabel"
+              placeholder="请输入"
+              clearable
+            ></el-input>
+          </el-form-item>
+        </ResponsiveCol>
+        <ResponsiveCol>
+          <el-form-item
+            label="value别名"
+            :prop="['options', 'searchConditionItems', index + '', 'itemValue']"
+          >
+            <el-input
+              v-model="item.itemValue"
+              placeholder="请输入"
+              clearable
+            ></el-input>
+          </el-form-item>
+        </ResponsiveCol>
+        <ResponsiveCol>
+          <el-form-item
+            label="多选"
+            :prop="['options', 'searchConditionItems', index + '', 'multiple']"
+          >
+            <el-radio-group v-model="item.multiple">
+              <el-radio-button :label="true">是</el-radio-button>
+              <el-radio-button :label="false">否</el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+        </ResponsiveCol>
+        <ResponsiveCol>
+          <el-form-item
+            label="虚拟化选择器"
+            :prop="[
+              'options',
+              'searchConditionItems',
+              index + '',
+              'virtualized',
+            ]"
+          >
+            <el-radio-group v-model="item.virtualized">
+              <el-radio-button :label="true">是</el-radio-button>
+              <el-radio-button :label="false">否</el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+        </ResponsiveCol>
+      </template>
+      <!-- 搜索条件为Select时，设置选项数据 -->
       <el-col
         v-if="item.type === 'Select'"
         :span="24"
@@ -163,7 +287,10 @@ function changeDataSource(
             </el-form-item>
           </el-tab-pane>
           <el-tab-pane label="自定义" name="custom">
-            <OptionItemsConfig v-model="item.options"></OptionItemsConfig>
+            <OptionItemsConfig
+              v-model="item.options"
+              :index="index"
+            ></OptionItemsConfig>
           </el-tab-pane>
         </el-tabs>
       </el-col>

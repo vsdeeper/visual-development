@@ -6,6 +6,7 @@
 import { BaseDesignData } from '@/components'
 
 export type SearchConditionType = 'Input' | 'InputNumber' | 'Select' | 'Cascader' | 'DatePicker'
+export type DateType = 'year' | 'month' | 'date' | 'dates' | 'datetime' | 'week' | 'datetimerange' | 'daterange' | 'monthrange'
 export interface SearchConditionOptionItem {
   label?: string
   value?: string
@@ -14,18 +15,17 @@ export interface SearchConditionItem {
   filedName?: string
   type?: SearchConditionType
   placeholder?: string
-  itemLabel?: string
-  itemValue?: string
-  itemChildren?: string
   dataSource?: 'api' | 'custom'
   api?: string
   method?: 'GET'
   options?: SearchConditionOptionItem[]
+  itemLabel?: string
+  itemValue?: string
   multiple?: boolean
   defaultValue?: unknown
   format?: string
   valueFormat?: string
-  dateType?: 'year' | 'month' | 'date' | 'dates' | 'datetime' | 'week' | 'datetimerange' | 'daterange' | 'monthrange'
+  dateType?: DateType
   virtualized?: boolean
 }
 

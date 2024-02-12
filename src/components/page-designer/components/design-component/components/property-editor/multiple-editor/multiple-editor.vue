@@ -1,9 +1,9 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-01 22:07:17
- * @LastEditTime: 2024-02-12 22:36:57
+ * @LastEditTime: 2024-02-12 22:36:28
  * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description: 内联模式
+ * @Description: 多选
 -->
 <script setup lang="ts">
 import { MergeDesignData } from '@/components';
@@ -22,8 +22,8 @@ const _formData = toRef(props, 'formData');
 </script>
 
 <template>
-  <el-form-item :label="label" :prop="['options', 'inline']">
-    <el-radio-group v-model="_formData.options!.inline">
+  <el-form-item :label="label" :prop="['options', 'multiple']">
+    <el-radio-group v-model="_formData.options!.multiple">
       <el-radio-button :label="true">是</el-radio-button>
       <el-radio-button :label="false">否</el-radio-button>
     </el-radio-group>
