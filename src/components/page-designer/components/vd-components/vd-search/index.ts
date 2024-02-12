@@ -7,8 +7,8 @@ import { BaseDesignData } from '@/components'
 
 export type SearchConditionType = 'Input' | 'InputNumber' | 'Select' | 'Cascader' | 'DatePicker'
 export interface SearchConditionOptionItem {
-  label: string
-  value: string
+  label?: string
+  value?: string
 }
 export interface SearchConditionItem {
   filedName?: string

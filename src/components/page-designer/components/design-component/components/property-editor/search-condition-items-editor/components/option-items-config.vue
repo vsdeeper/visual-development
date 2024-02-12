@@ -2,7 +2,7 @@
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-11 22:49:04
  * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-12 00:04:55
+ * @LastEditTime: 2024-02-12 20:22:36
  * @Description:
 -->
 <script setup lang="ts">
@@ -26,10 +26,7 @@ function _delete(idx: number) {
 
 function add() {
   if (!value.value) value.value = [];
-  value.value.push({
-    label: `选项${value.value.length + 1}`,
-    value: value.value.length + 1 + "",
-  });
+  value.value.push({});
 }
 
 function reset() {
@@ -40,13 +37,22 @@ function reset() {
 <template>
   <div class="option-items-config">
     <el-row v-for="(item, index) in value" :key="item.value" align="middle">
-      <el-input
-        v-model="item.value"
-        class="input"
-        placeholder="选项值"
+      <el-form-item
+        :prop="['options', 'options', index + '', 'value']"
+        :rules="[{ required: true, message: '必填项' }]"
+        :show-message="false"
         style="width: 100px; margin-right: 5px"
-      />
-      <el-input v-model="item.label" placeholder="选项名称" style="flex: 1" />
+      >
+        <el-input v-model="item.value" class="input" placeholder="选项值" />
+      </el-form-item>
+      <el-form-item
+        :prop="['options', 'options', index + '', 'label']"
+        :rules="[{ required: true, message: '必填项' }]"
+        :show-message="false"
+        style="flex: 1"
+      >
+        <el-input v-model="item.label" placeholder="选项名称" />
+      </el-form-item>
       <el-button
         type="danger"
         size="small"
@@ -69,7 +75,7 @@ function reset() {
 
 <style lang="scss" scoped>
 .option-items-config {
-  padding: 0 5px;
+  padding: 0 8px;
   .el-row + .el-row {
     margin-top: 5px;
   }
@@ -80,6 +86,9 @@ function reset() {
     .el-button + .el-button {
       margin: 5px 0 0;
     }
+  }
+  .el-form-item {
+    margin-bottom: 0;
   }
 }
 </style>

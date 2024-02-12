@@ -1,11 +1,12 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-11 23:54:16
+ * @LastEditTime: 2024-02-12 20:20:57
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 搜索条件项配置
 -->
 <script setup lang="ts">
+import { FormItemInstance } from "element-plus";
 import { Plus, SemiSelect } from "@element-plus/icons-vue";
 import {
   MergeDesignData,
@@ -14,12 +15,14 @@ import {
 } from "@/components";
 import { ROW_GUTTER } from "../../constants";
 import { SEARCH_TYPE_OPTIONS } from "./constants";
+import { TabPaneName } from "element-plus";
 
 const props = defineProps<{
   formData: MergeDesignData;
 }>();
 
 const _formData = toRef(props, "formData");
+const apiRefs = ref<FormItemInstance[]>([]);
 
 function add() {
   _formData.value.options?.searchConditionItems?.push({});
@@ -41,6 +44,26 @@ function changeType(type: SearchConditionType, item: SearchConditionItem) {
     }
     default:
       break;
+  }
+}
+
+function changeDataSource(
+  name: TabPaneName,
+  item: SearchConditionItem,
+  index: number,
+) {
+  if (name === "custom") {
+    item.dataSource = "custom";
+    item.method = undefined;
+    item.api = undefined;
+    item.options = [{}];
+  } else if (name === "api") {
+    item.dataSource = "api";
+    item.method = "GET";
+    item.api = undefined;
+    item.options = undefined;
+    apiRefs.value[index]?.clearValidate();
+    setTimeout(() => apiRefs.value[index]?.clearValidate());
   }
 }
 </script>
@@ -118,15 +141,26 @@ function changeType(type: SearchConditionType, item: SearchConditionItem) {
         :span="24"
         style="margin-bottom: 20px"
       >
-        <el-tabs v-model="item.dataSource">
+        <el-tabs
+          v-model="item.dataSource"
+          @tab-change="changeDataSource($event, item, index)"
+        >
           <el-tab-pane label="接口" name="api">
-            <el-input v-model="item.api" placeholder="请输入" clearable>
-              <template #prepend>
-                <el-select v-model="item.method" disabled style="width: 75px">
-                  <el-option label="GET" value="GET" />
-                </el-select>
-              </template>
-            </el-input>
+            <el-form-item
+              :ref="(ref) => (apiRefs[index] = ref as FormItemInstance)"
+              :prop="['options', 'searchConditionItems', index + '', 'api']"
+              :rules="[{ required: true, message: '必填项' }]"
+              :show-message="false"
+              style="margin-bottom: 0"
+            >
+              <el-input v-model="item.api" placeholder="请输入" clearable>
+                <template #prepend>
+                  <el-select v-model="item.method" disabled style="width: 75px">
+                    <el-option label="GET" value="GET" />
+                  </el-select>
+                </template>
+              </el-input>
+            </el-form-item>
           </el-tab-pane>
           <el-tab-pane label="自定义" name="custom">
             <OptionItemsConfig v-model="item.options"></OptionItemsConfig>
