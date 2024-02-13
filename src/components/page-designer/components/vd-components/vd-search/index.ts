@@ -4,6 +4,7 @@
  * @Description: logo可视化开发组件
  */
 import { BaseDesignData } from '@/components'
+import { LazyLoad } from 'element-plus'
 
 export type SearchConditionType = 'Input' | 'InputNumber' | 'Select' | 'Cascader' | 'DatePicker'
 export type DateType = 'year' | 'month' | 'date' | 'dates' | 'datetime' | 'week' | 'datetimerange' | 'daterange' | 'monthrange'
@@ -21,7 +22,10 @@ export interface SearchConditionItem {
   options?: SearchConditionOptionItem[]
   itemLabel?: string
   itemValue?: string
+  itemChildren?: string
   multiple?: boolean
+  checkStrictly?: boolean
+  lazy?: boolean
   defaultValue?: unknown
   format?: string
   valueFormat?: string
