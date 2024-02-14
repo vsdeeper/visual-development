@@ -1,10 +1,12 @@
 /*
  * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-07 11:14:46
- * @Description: logo可视化开发组件
+ * @Date: 2024-02-11 14:36:22
+ * @LastEditors: vsdeeper vsdeeper@qq.com
+ * @LastEditTime: 2024-02-13 20:24:05
+ * @Description:
  */
-import { BaseDesignData } from '@/components'
-import { LazyLoad } from 'element-plus'
+
+import { BaseDesignData, Method } from '@/components'
 
 export type SearchConditionType = 'Input' | 'InputNumber' | 'Select' | 'Cascader' | 'DatePicker'
 export type DateType = 'year' | 'month' | 'date' | 'dates' | 'datetime' | 'week' | 'datetimerange' | 'daterange' | 'monthrange'
@@ -18,7 +20,7 @@ export interface SearchConditionItem {
   placeholder?: string
   dataSource?: 'api' | 'custom'
   api?: string
-  method?: 'GET'
+  method?: Extract<Method, 'GET'>
   options?: SearchConditionOptionItem[]
   itemLabel?: string
   itemValue?: string

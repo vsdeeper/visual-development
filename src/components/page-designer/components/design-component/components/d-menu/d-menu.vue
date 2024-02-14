@@ -1,14 +1,14 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-07 13:35:21
- * @LastEditTime: 2024-02-10 21:28:45
+ * @LastEditTime: 2024-02-14 22:49:31
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 菜单设计组件
 -->
 <script setup lang="ts">
-import { MergeDesignData } from "@/components";
-import { ComponentPathEditor, IdEditor } from "../property-editor";
-import { ROW_GUTTER } from "../constants";
+import { MergeDesignData } from '@/components';
+import { ComponentPathEditor, IdEditor } from '../property-editor';
+import { ROW_GUTTER } from '../constants';
 
 defineProps<{
   formData: MergeDesignData;
@@ -32,8 +32,8 @@ defineProps<{
     <ResponsiveCol>
       <PopperEffectEditor :form-data="formData"></PopperEffectEditor>
     </ResponsiveCol>
-    <ResponsiveCol>
+    <el-col :span="24">
       <ApiEditor :form-data="formData" label="菜单接口"></ApiEditor>
-    </ResponsiveCol>
+    </el-col>
   </el-row>
 </template>

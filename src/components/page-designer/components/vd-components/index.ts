@@ -11,6 +11,7 @@ import { capitalizeFirstLetter } from '@/utils'
 export * from './vd-logo'
 export * from './vd-menu'
 export * from './vd-search'
+export * from './vd-table'
 /** 容器组件 */
 export * from './vd-container'
 export * from './vd-aside'

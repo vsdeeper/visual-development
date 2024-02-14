@@ -16,10 +16,14 @@ import {
   LogoDesignData,
   MenuDesignData,
   SearchDesignData,
+  TableDesignData
 } from './components'
 
 export * from './components'
 export { default as PageDesigner, type AddComponentInstance } from './page-designer.vue'
+
+/**全局请求方法定义 */
+export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
 /** 当前配置数据类型 */
 export type ActiveDesignData =
@@ -33,7 +37,8 @@ export type ActiveDesignData =
   RowColDesignData |
   LogoDesignData |
   MenuDesignData |
-  SearchDesignData
+  SearchDesignData |
+  TableDesignData
 
 /** 设计数据的合并类型 */
 export type MergeDesignData =
@@ -46,4 +51,5 @@ export type MergeDesignData =
   RowColDesignData &
   LogoDesignData &
   MenuDesignData &
-  SearchDesignData
+  SearchDesignData &
+  TableDesignData
