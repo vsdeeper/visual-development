@@ -1,7 +1,7 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-17 21:44:53
+ * @LastEditTime: 2024-02-17 22:54:33
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 搜索条件项配置
 -->
@@ -102,6 +102,7 @@ function changeDataSource(
         type="danger"
         :icon="Minus"
         circle
+        plain
         size="small"
         @click="deleteSearchItem(index, options.searchConditionItems!)"
       ></el-button>
@@ -360,7 +361,6 @@ function changeDataSource(
                 'api',
               ]"
               :show-message="false"
-              style="margin-bottom: 0"
             ></ApiEditor>
           </el-tab-pane>
           <el-tab-pane

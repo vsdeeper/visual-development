@@ -124,7 +124,7 @@ function findRow(item: MergeDesignData, designData: MergeDesignData[]) {
         plain
         :icon="Plus"
         @click="addCol(formData)"
-        >新增</el-button
+        >新增Col</el-button
       >
     </el-collapse-item>
   </el-collapse>

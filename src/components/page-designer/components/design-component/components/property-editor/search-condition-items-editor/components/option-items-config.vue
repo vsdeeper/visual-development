@@ -2,7 +2,7 @@
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-11 22:49:04
  * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-17 19:14:24
+ * @LastEditTime: 2024-02-17 22:52:15
  * @Description:
 -->
 <script setup lang="ts">
@@ -74,6 +74,7 @@ function reset() {
         type="danger"
         size="small"
         :icon="Minus"
+        plain
         circle
         @click="_delete(index)"
         style="margin-left: 8px"
