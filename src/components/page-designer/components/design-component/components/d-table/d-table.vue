@@ -1,9 +1,9 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-07 13:35:21
- * @LastEditTime: 2024-02-17 23:40:06
+ * @LastEditTime: 2024-02-17 23:40:53
  * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description: 菜单设计组件
+ * @Description: table设计组件
 -->
 <script setup lang="ts">
 import { MergeDesignData } from '@/components';

@@ -5,36 +5,33 @@
 -->
 
 <script setup lang="ts">
-import draggable from "vuedraggable";
-import { useGlobal } from "@/stores";
+import draggable from 'vuedraggable';
+import { useGlobal } from '@/stores';
 import {
   ActiveDesignData,
   DesignComponent,
   VdComponents,
   MergeDesignData,
   BaseDesignData,
-  ComponentTypeOfPageDesigner,
-} from ".";
+} from '.';
 import {
   AddComponent,
   AddComponentOptionItem,
   ListOfShortcutKeys,
-} from "@/components";
+} from '@/components';
 import {
   IS_PAGE_DESIGN_MODE_SYMBOL,
   ADD_COMPONENT_REF_SYMBOL,
   DESIGN_COMPONENT_REF_SYMBOL,
-} from "@/utils/constants";
-import { camelToSeparator } from "@/utils";
+} from '@/utils/constants';
 import {
   deleteComponent,
   genId,
   isActiveDesign,
   isContainerComponent,
-  isCustomComponent,
-} from "./util";
-import { ADD_COMPONENT_OPTIONS } from "./constants";
-import { RowColDesignData } from "./components";
+} from './util';
+import { ADD_COMPONENT_OPTIONS } from './constants';
+import { RowColDesignData } from './components';
 
 export type AddComponentInstance = InstanceType<typeof AddComponent>;
 export type DesignComponentInstance = InstanceType<typeof DesignComponent>;
@@ -42,13 +39,13 @@ export type ListOfShortcutKeysInstance = InstanceType<
   typeof ListOfShortcutKeys
 >;
 
-console.log("VdComponents 可视化设计组件", VdComponents);
+console.log('VdComponents 可视化设计组件', VdComponents);
 
 const { designData, setDesignData, setActiveDesignData } = useGlobal();
 const addComponentRef = ref<AddComponentInstance>();
 const designComponentRef = ref<DesignComponentInstance>();
 const listOfShortcutKeysRef = ref<ListOfShortcutKeysInstance>();
-const key = ref("");
+const key = ref('');
 
 // provide
 provide(IS_PAGE_DESIGN_MODE_SYMBOL, ref(true));
@@ -58,22 +55,22 @@ provide(DESIGN_COMPONENT_REF_SYMBOL, designComponentRef);
 function handleKeydown(e: KeyboardEvent) {
   const { designData, activeDesignData } = useGlobal();
   key.value += e.key.toUpperCase();
-  if (key.value.includes("VA")) {
+  if (key.value.includes('VA')) {
     // V+A 键
     if (!activeDesignData || isContainerComponent(activeDesignData.type)) {
       // 当前不存在设计中的组件或当前设计组件是布局容器类组件，进行添加组件操作
       addComponentRef.value?.open();
-      key.value = "";
+      key.value = '';
     }
-  } else if (key.value.includes("VD")) {
+  } else if (key.value.includes('VD')) {
     if (!activeDesignData) return;
     // V+D 键，设计组件
     designComponentRef.value?.open();
-    key.value = "";
-  } else if (key.value.includes("DELETE")) {
+    key.value = '';
+  } else if (key.value.includes('DELETE')) {
     // Delete 键，删除组件
     deleteComponent(activeDesignData as ActiveDesignData, designData);
-    key.value = "";
+    key.value = '';
   }
 }
 
@@ -110,14 +107,14 @@ function selectComponent(item: AddComponentOptionItem) {
  */
 function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
   switch (item.value) {
-    case "RowCol": {
+    case 'RowCol': {
       return {
         id: genId(`${item.value}row`),
         type: item.value,
         label: item.label,
         options: {
           rowGutter: 0,
-          rowJustify: "start",
+          rowJustify: 'start',
           components: [
             {
               id: genId(`${item.value}col`),
@@ -132,26 +129,24 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
         },
       } as RowColDesignData;
     }
-    case "Menu": {
+    case 'Menu': {
       return {
         id: genId(item.value),
         type: item.value,
         label: item.label,
-        componentPath: genComponentPath(item.value),
         options: {
-          mode: "vertical",
+          mode: 'vertical',
           router: false,
-          popperEffect: "dark",
-          method: "GET",
+          popperEffect: 'dark',
+          method: 'GET',
         },
       };
     }
-    case "Search": {
+    case 'Search': {
       return {
         id: genId(item.value),
         type: item.value,
         label: item.label,
-        componentPath: genComponentPath(item.value),
         options: {
           searchConditionItems: [{}],
         },
@@ -162,7 +157,6 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
         id: genId(item.value),
         type: item.value,
         label: item.label,
-        componentPath: genComponentPath(item.value),
         options: isContainerComponent(item.value) ? { components: [] } : {},
       } as BaseDesignData;
     }
@@ -170,21 +164,15 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
 }
 
 onMounted(() => {
-  window.addEventListener("keydown", handleKeydown);
+  window.addEventListener('keydown', handleKeydown);
 });
 
 onUnmounted(() => {
-  window.removeEventListener("keydown", handleKeydown);
+  window.removeEventListener('keydown', handleKeydown);
 });
 
 function showMoreShortcutKey() {
   listOfShortcutKeysRef.value?.open();
-}
-
-function genComponentPath(type: ComponentTypeOfPageDesigner) {
-  if (isCustomComponent(type))
-    return `/src/components/my-${camelToSeparator(type)}`;
-  return undefined;
 }
 </script>
 

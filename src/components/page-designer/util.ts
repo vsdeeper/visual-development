@@ -17,15 +17,6 @@ export function isContainerComponent(type: ComponentTypeOfPageDesigner) {
 }
 
 /**
- * 判断是否自定义组件
- * @param type
- */
-export function isCustomComponent(type: ComponentTypeOfPageDesigner) {
-  const list: ComponentTypeOfPageDesigner[] = ['Logo', 'Search', 'Table', 'Form', 'Menu']
-  return list.includes(type)
-}
-
-/**
  * 判断组件是否在设计中
  * @param type
  * @returns

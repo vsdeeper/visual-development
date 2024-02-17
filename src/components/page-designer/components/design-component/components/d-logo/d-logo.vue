@@ -1,7 +1,7 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-07 13:35:21
- * @LastEditTime: 2024-02-17 21:10:05
+ * @LastEditTime: 2024-02-17 23:39:38
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: logo设计组件
 -->
@@ -9,7 +9,6 @@
 import { MergeDesignData } from '@/components';
 import {
   ColorEditor,
-  ComponentPathEditor,
   FontSizeEditor,
   HeightEditor,
   IdEditor,
@@ -27,9 +26,6 @@ defineProps<{
   <el-row :gutter="ROW_GUTTER">
     <ResponsiveCol>
       <IdEditor :form-data="formData"></IdEditor>
-    </ResponsiveCol>
-    <ResponsiveCol>
-      <ComponentPathEditor :form-data="formData"></ComponentPathEditor>
     </ResponsiveCol>
     <ResponsiveCol>
       <NameEditor :options="formData.options"></NameEditor>

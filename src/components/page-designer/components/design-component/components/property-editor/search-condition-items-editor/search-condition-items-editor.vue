@@ -1,7 +1,7 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-17 23:15:38
+ * @LastEditTime: 2024-02-18 00:05:01
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 搜索条件项配置
 -->
@@ -94,19 +94,13 @@ function changeDataSource(
 
 <template>
   <template v-for="(item, index) in options.searchConditionItems" :key="index">
-    <div class="divider-box">
-      <el-divider content-position="left" border-style="dashed">
-        搜索条件 {{ index + 1 }}
-      </el-divider>
-      <el-button
-        type="danger"
-        :icon="Minus"
-        circle
-        plain
-        size="small"
-        @click="deleteSearchItem(index, options.searchConditionItems!)"
-      ></el-button>
-    </div>
+    <my-divider-title
+      :label="`搜索条件 ${index + 1}`"
+      :suffix-icon="Minus"
+      @click-suffix-icon="
+        deleteSearchItem(index, options.searchConditionItems!)
+      "
+    ></my-divider-title>
     <el-row :gutter="ROW_GUTTER">
       <ResponsiveCol>
         <el-form-item
@@ -381,10 +375,3 @@ function changeDataSource(
     新增搜索条件
   </el-button>
 </template>
-
-<style lang="scss" scoped>
-.divider-box {
-  display: flex;
-  align-items: center;
-}
-</style>

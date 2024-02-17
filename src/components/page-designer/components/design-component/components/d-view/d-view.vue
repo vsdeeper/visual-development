@@ -4,13 +4,13 @@
  * @Description:
 -->
 <script setup lang="ts">
-import { MergeDesignData } from '@/components'
-import { IdEditor, ComponentPathEditor } from '../property-editor'
-import { ROW_GUTTER } from '../constants'
+import { MergeDesignData } from '@/components';
+import { IdEditor, NameEditor } from '../property-editor';
+import { ROW_GUTTER } from '../constants';
 
 defineProps<{
-  formData: MergeDesignData
-}>()
+  formData: MergeDesignData;
+}>();
 </script>
 
 <template>
@@ -19,7 +19,7 @@ defineProps<{
       <IdEditor :form-data="formData"></IdEditor>
     </ResponsiveCol>
     <ResponsiveCol>
-      <ComponentPathEditor :form-data="formData" label="视图路径"></ComponentPathEditor>
+      <NameEditor :options="formData.options" label="视图名称"></NameEditor>
     </ResponsiveCol>
   </el-row>
 </template>

@@ -1,7 +1,7 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-17 23:16:42
+ * @LastEditTime: 2024-02-18 00:02:43
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 接口配置
 -->
@@ -136,18 +136,11 @@ defineExpose({
       </el-input>
     </el-form-item>
     <div class="params-config">
-      <div class="title">
-        {{ paramsLabel }}
-        <el-button
-          type="primary"
-          size="small"
-          :icon="Plus"
-          plain
-          circle
-          @click="append(treeData)"
-        >
-        </el-button>
-      </div>
+      <my-divider-title
+        :label="paramsLabel"
+        :suffix-icon="Plus"
+        @click-suffix-icon="append(treeData)"
+      ></my-divider-title>
       <el-tree
         :data="treeData"
         node-key="id"
@@ -215,9 +208,6 @@ defineExpose({
 }
 :deep(.el-tree-node__content:hover) {
   background-color: transparent;
-}
-:deep(.el-divider__text) {
-  color: var(--el-text-color-placeholder);
 }
 :deep(.el-tree-node__content > .el-tree-node__expand-icon) {
   display: none;
