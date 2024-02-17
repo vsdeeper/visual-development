@@ -1,14 +1,15 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-14 23:27:00
+ * @LastEditTime: 2024-02-17 14:04:52
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 接口配置
 -->
 <script setup lang="ts">
 import { nanoid } from 'nanoid';
 import { MergeDesignData } from '@/components';
-import { isObject } from 'lodash-es';
+import { first, isObject, throttle } from 'lodash-es';
+import { findArraryValuesFromTreeData, findObjectFromTreeData } from '@/utils';
 
 interface Tree {
   id: string;
@@ -30,26 +31,49 @@ const props = withDefaults(
 const _formData = toRef(props, 'formData');
 const treeData = ref<Tree[]>([]);
 
-watch(
+const stop = watch(
   () => _formData.value.options?.params,
-  (params) => {
-    treeData.value = toTreeDataParams(params);
+  params => {
+    nextTick(() => stop());
+    transTreeDataByParams(params ?? {}, treeData.value);
   },
-  { immediate: true },
+);
+
+watch(
+  treeData,
+  throttle(treeData => {
+    transParamsByTreeData(treeData, _formData.value);
+  }, 800),
+  { deep: true },
 );
 
 function append(treeData: Tree[]) {
-  treeData.push({ id: nanoid(5), key: 'id', value: '123' });
+  treeData.push({
+    id: nanoid(5),
+    key: 'id',
+    value: '123',
+  });
 }
 
 function remove(target: Tree, treeData: Tree[]) {
-  const idx = treeData.findIndex((e) => e.id === target.id);
-  treeData.splice(idx, 1);
+  const findIdx = treeData.findIndex(e => e.id === target.id);
+  if (findIdx > -1) {
+    treeData.splice(findIdx, 1);
+  } else {
+    const findArr = findArraryValuesFromTreeData(
+      target.id,
+      treeData,
+    ) as string[];
+    const findParent = findObjectFromTreeData(
+      first<string>(findArr)!,
+      treeData,
+    ) as Tree;
+    const findIdx = findParent.children!.findIndex(e => e.id === target.id);
+    findParent.children!.splice(findIdx, 1);
+  }
 }
 
-function toTreeDataParams(params?: Record<string, any>) {
-  if (typeof params === 'undefined') return [];
-  const treeData: Tree[] = [];
+function transTreeDataByParams(params: Record<string, any>, _treeData: Tree[]) {
   const handler = (params: Record<string, any>, treeData: Tree[]) => {
     for (const key in params) {
       if (Object.prototype.hasOwnProperty.call(params, key)) {
@@ -63,8 +87,21 @@ function toTreeDataParams(params?: Record<string, any>) {
       }
     }
   };
-  handler(params, treeData);
-  return treeData;
+  handler(params, (_treeData = []));
+}
+
+function transParamsByTreeData(treeData: Tree[], formData: MergeDesignData) {
+  const handler = (treeData: Tree[], params: Record<string, any>) => {
+    treeData.forEach(item => {
+      if (item.children?.length) {
+        params[item.key] = {};
+        handler(item.children ?? [], params[item.key]);
+      } else {
+        params[item.key] = item.value;
+      }
+    });
+  };
+  handler(treeData, (formData.options!.params = {}));
 }
 </script>
 
@@ -93,10 +130,10 @@ function toTreeDataParams(params?: Record<string, any>) {
     </div>
     <el-tree
       :data="treeData"
-      node-key="key"
+      node-key="id"
       default-expand-all
       :expand-on-click-node="false"
-      empty-text="暂无参数配置"
+      empty-text="暂无配置"
     >
       <template #default="{ data }">
         <span class="custom-tree-node">
@@ -106,6 +143,7 @@ function toTreeDataParams(params?: Record<string, any>) {
             clearable
           ></el-input>
           <el-input
+            v-if="!data.children?.length"
             v-model="data.value"
             placeholder="字段值"
             clearable
@@ -139,10 +177,10 @@ function toTreeDataParams(params?: Record<string, any>) {
     margin-left: 5px;
   }
 }
-:deep(.el-tree-node__expand-icon.is-leaf) {
-  display: none;
+:deep(.el-tree-node__children > .el-tree-node) {
+  margin-top: 5px;
 }
-:deep(.el-tree-node + .el-tree-node) {
+:deep(.el-tree > .el-tree-node + .el-tree-node) {
   margin-top: 5px;
 }
 :deep(.el-tree-node__content) {
