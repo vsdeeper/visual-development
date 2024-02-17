@@ -1,7 +1,7 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-17 22:54:33
+ * @LastEditTime: 2024-02-17 23:15:38
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 搜索条件项配置
 -->
@@ -350,7 +350,7 @@ function changeDataSource(
           v-model="item.dataSource"
           @tab-change="changeDataSource($event, item, index)"
         >
-          <el-tab-pane label="接口" name="api">
+          <el-tab-pane label="接口定义" name="api">
             <ApiEditor
               :ref="ref => (apiRefs[index] = ref as ApiEditorInstance)"
               :options="item"

@@ -1,7 +1,7 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-07 13:35:21
- * @LastEditTime: 2024-02-17 21:03:46
+ * @LastEditTime: 2024-02-17 23:12:33
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 菜单设计组件
 -->
@@ -33,7 +33,11 @@ defineProps<{
       <PopperEffectEditor :options="formData.options"></PopperEffectEditor>
     </ResponsiveCol>
     <el-col :span="24">
-      <ApiEditor :options="formData.options" label="菜单接口"></ApiEditor>
+      <ApiEditor
+        :options="formData.options"
+        api-label="菜单接口"
+        params-label="接口参数"
+      ></ApiEditor>
     </el-col>
   </el-row>
 </template>

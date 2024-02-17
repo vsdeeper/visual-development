@@ -1,7 +1,7 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-17 23:04:16
+ * @LastEditTime: 2024-02-17 23:16:42
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 接口配置
 -->
@@ -23,13 +23,15 @@ interface Tree {
 const props = withDefaults(
   defineProps<{
     options: DesignDataOptions;
-    label?: string;
+    apiLabel?: string;
+    paramsLabel?: string;
     formItemProp?: string[];
     formItemRules?: FormItemRule[];
     showMessage?: boolean;
   }>(),
   {
-    label: '接口',
+    apiLabel: '接口',
+    paramsLabel: '参数',
     formItemProp: () => ['options', 'api'],
   },
 );
@@ -120,7 +122,7 @@ defineExpose({
   <div class="api-editor">
     <el-form-item
       ref="formItemRef"
-      :label="label"
+      :label="apiLabel"
       :prop="formItemProp"
       :rules="formItemRules"
       :show-message="showMessage"
@@ -135,7 +137,7 @@ defineExpose({
     </el-form-item>
     <div class="params-config">
       <div class="title">
-        接口参数
+        {{ paramsLabel }}
         <el-button
           type="primary"
           size="small"
@@ -151,6 +153,7 @@ defineExpose({
         node-key="id"
         default-expand-all
         :expand-on-click-node="false"
+        empty-text="暂无配置"
       >
         <template #default="{ data }">
           <span class="custom-tree-node">
@@ -175,9 +178,6 @@ defineExpose({
             >
             </el-button>
           </span>
-        </template>
-        <template #empty>
-          <el-divider direction="horizontal"> 暂无配置 </el-divider>
         </template>
       </el-tree>
     </div>
