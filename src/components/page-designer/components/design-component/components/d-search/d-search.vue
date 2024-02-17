@@ -1,7 +1,7 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-07 13:35:21
- * @LastEditTime: 2024-02-17 23:40:42
+ * @LastEditTime: 2024-02-18 00:20:22
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: search设计组件
 -->
@@ -21,13 +21,10 @@ defineProps<{
       <IdEditor :form-data="formData"></IdEditor>
     </ResponsiveCol>
     <el-col :span="24">
-      <el-collapse :model-value="['condition']">
-        <el-collapse-item title="搜索条件设置" name="condition">
-          <SearchConditionItemsEditor
-            :options="formData.options"
-          ></SearchConditionItemsEditor>
-        </el-collapse-item>
-      </el-collapse>
+      <my-divider-title label="搜索条件设置"></my-divider-title>
+      <SearchConditionItemsEditor
+        :options="formData.options"
+      ></SearchConditionItemsEditor>
     </el-col>
   </el-row>
 </template>
