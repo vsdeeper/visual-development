@@ -1,7 +1,7 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-17 21:42:31
+ * @LastEditTime: 2024-02-17 21:44:53
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 搜索条件项配置
 -->
@@ -362,21 +362,6 @@ function changeDataSource(
               :show-message="false"
               style="margin-bottom: 0"
             ></ApiEditor>
-            <!-- <el-form-item
-              :ref="ref => (apiRefs[index] = ref as FormItemInstance)"
-              :prop="['options', 'searchConditionItems', index + '', 'api']"
-              :rules="[{ required: true, message: '必填项' }]"
-              :show-message="false"
-              style="margin-bottom: 0"
-            >
-              <el-input v-model="item.api" placeholder="请输入" clearable>
-                <template #prepend>
-                  <el-select v-model="item.method" disabled style="width: 75px">
-                    <el-option label="GET" value="GET" />
-                  </el-select>
-                </template>
-              </el-input>
-            </el-form-item> -->
           </el-tab-pane>
           <el-tab-pane
             label="自定义"
