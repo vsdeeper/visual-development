@@ -5,7 +5,7 @@
  */
 import { BaseDesignData } from '@/components'
 
-interface Options {
+export interface RowColDesignDataOptions {
   rowGutter?: number
   rowJustify?: 'start' | 'end' | 'center' | 'space-around' | 'space-between' | 'space-evenly'
   rowAlign?: 'top' | 'middle' | 'bottom'
@@ -16,6 +16,6 @@ interface Options {
   colMd?: number
   colLg?: number
   colXl?: number
-  components?: BaseDesignData<Options>[]
+  components?: BaseDesignData<RowColDesignDataOptions>[]
 }
-export type RowColDesignData = BaseDesignData<Options>
+export type RowColDesignData = BaseDesignData<RowColDesignDataOptions>

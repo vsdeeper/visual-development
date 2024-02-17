@@ -1,12 +1,12 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-07 13:35:21
- * @LastEditTime: 2024-02-07 14:19:24
+ * @LastEditTime: 2024-02-17 21:10:05
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: logo设计组件
 -->
 <script setup lang="ts">
-import { MergeDesignData } from "@/components";
+import { MergeDesignData } from '@/components';
 import {
   ColorEditor,
   ComponentPathEditor,
@@ -15,8 +15,8 @@ import {
   IdEditor,
   NameEditor,
   SuffixIconEditor,
-} from "../property-editor";
-import { ROW_GUTTER } from "../constants";
+} from '../property-editor';
+import { ROW_GUTTER } from '../constants';
 
 defineProps<{
   formData: MergeDesignData;
@@ -32,19 +32,19 @@ defineProps<{
       <ComponentPathEditor :form-data="formData"></ComponentPathEditor>
     </ResponsiveCol>
     <ResponsiveCol>
-      <NameEditor :form-data="formData"></NameEditor>
+      <NameEditor :options="formData.options"></NameEditor>
     </ResponsiveCol>
     <ResponsiveCol>
-      <ColorEditor :form-data="formData"></ColorEditor>
+      <ColorEditor :options="formData.options"></ColorEditor>
     </ResponsiveCol>
     <ResponsiveCol>
-      <HeightEditor :form-data="formData"></HeightEditor>
+      <HeightEditor :options="formData.options"></HeightEditor>
     </ResponsiveCol>
     <ResponsiveCol>
-      <FontSizeEditor :form-data="formData"></FontSizeEditor>
+      <FontSizeEditor :options="formData.options"></FontSizeEditor>
     </ResponsiveCol>
     <ResponsiveCol>
-      <SuffixIconEditor :form-data="formData"></SuffixIconEditor>
+      <SuffixIconEditor :options="formData.options"></SuffixIconEditor>
     </ResponsiveCol>
   </el-row>
 </template>

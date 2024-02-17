@@ -1,28 +1,37 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-01 22:07:17
- * @LastEditTime: 2024-02-02 13:29:40
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2024-02-17 20:13:21
+ * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 栅格间隔
 -->
 <script setup lang="ts">
-import { MergeDesignData } from '@/components'
+import { DesignDataOptions } from '@/components';
+import { FormItemRule } from 'element-plus';
 
-const props = withDefaults(defineProps<{
-  formData: MergeDesignData
-  label?: string
-}>(), {
-  label: '栅格占据的列数'
-})
+const props = withDefaults(
+  defineProps<{
+    options: DesignDataOptions;
+    label?: string;
+    formItemProp?: string[];
+    formItemRules?: FormItemRule[];
+  }>(),
+  {
+    label: '栅格占据的列数',
+    formItemProp: () => ['options', 'colSpan'],
+  },
+);
 
-const _formData = toRef(props, 'formData')
+const options = toRef(props, 'options');
 </script>
 
 <template>
-  <el-form-item
-    :label="label"
-    :prop="['options', 'colSpan']"
-  >
-    <el-input-number v-model="_formData.options!.colSpan" controls-position="right" :min="1" :max="24" />
+  <el-form-item :label="label" :prop="formItemProp">
+    <el-input-number
+      v-model="options.colSpan"
+      controls-position="right"
+      :min="1"
+      :max="24"
+    />
   </el-form-item>
 </template>

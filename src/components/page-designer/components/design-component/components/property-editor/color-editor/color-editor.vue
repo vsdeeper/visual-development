@@ -1,25 +1,35 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-07 19:25:15
+ * @LastEditTime: 2024-02-17 20:21:20
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 颜色属性
 -->
 <script setup lang="ts">
-import { MergeDesignData } from "@/components";
+import { DesignDataOptions } from '@/components';
+import { FormItemRule } from 'element-plus';
 
-const props = defineProps<{
-  formData: MergeDesignData;
-  showAlpha?: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    options: DesignDataOptions;
+    label?: string;
+    formItemProp?: string[];
+    formItemRules?: FormItemRule[];
+    showAlpha?: boolean;
+  }>(),
+  {
+    label: '颜色',
+    formItemProp: () => ['options', 'color'],
+  },
+);
 
-const _formData = toRef(props, "formData");
+const options = toRef(props, 'options');
 </script>
 
 <template>
-  <el-form-item label="颜色" :prop="['options', 'color']">
+  <el-form-item :label="label" :prop="formItemProp">
     <my-color-picker
-      v-model="_formData.options!.color"
+      v-model="options.color"
       :show-alpha="showAlpha"
     ></my-color-picker>
   </el-form-item>

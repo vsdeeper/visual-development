@@ -4,8 +4,8 @@
  * @Description: 栅格设计器
 -->
 <script setup lang="ts">
-import { SemiSelect, Plus } from "@element-plus/icons-vue";
-import { MergeDesignData, RowColDesignData } from "@/components";
+import { SemiSelect, Plus } from '@element-plus/icons-vue';
+import { MergeDesignData, RowColDesignData } from '@/components';
 import {
   IdEditor,
   RowGutterEditor,
@@ -18,15 +18,15 @@ import {
   ColLgEditor,
   ColXlEditor,
   InlineEditor,
-} from "../property-editor";
-import { ROW_GUTTER } from "../constants";
+} from '../property-editor';
+import { ROW_GUTTER } from '../constants';
 import {
   findIndexColInRow,
   findParentComponentOfComponent,
   genId,
   isRowComponent,
-} from "@/components/page-designer/util";
-import { useGlobal } from "@/stores";
+} from '@/components/page-designer/util';
+import { useGlobal } from '@/stores';
 
 defineProps<{
   formData: MergeDesignData;
@@ -46,7 +46,7 @@ function addCol(row: RowColDesignData) {
 }
 
 function deleteCol(targetId: string, cols: RowColDesignData[]) {
-  const findIdx = cols.findIndex((e) => e.id === targetId);
+  const findIdx = cols.findIndex(e => e.id === targetId);
   cols.splice(findIdx, 1);
 }
 
@@ -63,16 +63,16 @@ function findRow(item: MergeDesignData, designData: MergeDesignData[]) {
           <IdEditor :form-data="formData"></IdEditor>
         </ResponsiveCol>
         <ResponsiveCol>
-          <RowGutterEditor :form-data="formData"></RowGutterEditor>
+          <RowGutterEditor :options="formData.options"></RowGutterEditor>
         </ResponsiveCol>
         <ResponsiveCol>
-          <RowJustifyEditor :form-data="formData"></RowJustifyEditor>
+          <RowJustifyEditor :options="formData.options"></RowJustifyEditor>
         </ResponsiveCol>
         <ResponsiveCol>
-          <RowAlignEditor :form-data="formData"></RowAlignEditor>
+          <RowAlignEditor :options="formData.options"></RowAlignEditor>
         </ResponsiveCol>
         <ResponsiveCol>
-          <InlineEditor :form-data="formData"></InlineEditor>
+          <InlineEditor :options="formData.options"></InlineEditor>
         </ResponsiveCol>
       </el-row>
     </el-collapse-item>
@@ -98,22 +98,22 @@ function findRow(item: MergeDesignData, designData: MergeDesignData[]) {
           </ResponsiveCol>
           <template v-if="!formData.options?.inline">
             <ResponsiveCol>
-              <ColSpanEditor :form-data="item"></ColSpanEditor>
+              <ColSpanEditor :options="item.options"></ColSpanEditor>
             </ResponsiveCol>
             <ResponsiveCol>
-              <ColXsEditor :form-data="item"></ColXsEditor>
+              <ColXsEditor :options="item.options"></ColXsEditor>
             </ResponsiveCol>
             <ResponsiveCol>
-              <ColSmEditor :form-data="item"></ColSmEditor>
+              <ColSmEditor :options="item.options"></ColSmEditor>
             </ResponsiveCol>
             <ResponsiveCol>
-              <ColMdEditor :form-data="item"></ColMdEditor>
+              <ColMdEditor :options="item.options"></ColMdEditor>
             </ResponsiveCol>
             <ResponsiveCol>
-              <ColLgEditor :form-data="item"></ColLgEditor>
+              <ColLgEditor :options="item.options"></ColLgEditor>
             </ResponsiveCol>
             <ResponsiveCol>
-              <ColXlEditor :form-data="item"></ColXlEditor>
+              <ColXlEditor :options="item.options"></ColXlEditor>
             </ResponsiveCol>
           </template>
         </el-row>
@@ -134,22 +134,22 @@ function findRow(item: MergeDesignData, designData: MergeDesignData[]) {
     </ResponsiveCol>
     <template v-if="!findRow(formData, useGlobal().designData).options?.inline">
       <ResponsiveCol>
-        <ColSpanEditor :form-data="formData"></ColSpanEditor>
+        <ColSpanEditor :options="formData.options"></ColSpanEditor>
       </ResponsiveCol>
       <ResponsiveCol>
-        <ColXsEditor :form-data="formData"></ColXsEditor>
+        <ColXsEditor :options="formData.options"></ColXsEditor>
       </ResponsiveCol>
       <ResponsiveCol>
-        <ColSmEditor :form-data="formData"></ColSmEditor>
+        <ColSmEditor :options="formData.options"></ColSmEditor>
       </ResponsiveCol>
       <ResponsiveCol>
-        <ColMdEditor :form-data="formData"></ColMdEditor>
+        <ColMdEditor :options="formData.options"></ColMdEditor>
       </ResponsiveCol>
       <ResponsiveCol>
-        <ColLgEditor :form-data="formData"></ColLgEditor>
+        <ColLgEditor :options="formData.options"></ColLgEditor>
       </ResponsiveCol>
       <ResponsiveCol>
-        <ColXlEditor :form-data="formData"></ColXlEditor>
+        <ColXlEditor :options="formData.options"></ColXlEditor>
       </ResponsiveCol>
     </template>
   </el-row>

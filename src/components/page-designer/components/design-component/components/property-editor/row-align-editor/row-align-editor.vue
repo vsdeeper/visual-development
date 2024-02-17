@@ -1,35 +1,40 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-01 22:07:17
- * @LastEditTime: 2024-02-01 23:01:56
+ * @LastEditTime: 2024-02-17 21:04:30
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 垂直排列方式
 -->
 <script setup lang="ts">
-import { MergeDesignData } from '@/components'
-import { ALIGN_OPTIONS } from './constants'
+import { DesignDataOptions } from '@/components';
+import { ALIGN_OPTIONS } from './constants';
+import { FormItemRule } from 'element-plus';
 
-const props = withDefaults(defineProps<{
-  formData: MergeDesignData
-  label?: string
-}>(), {
-  label: '垂直排列方式'
-})
+const props = withDefaults(
+  defineProps<{
+    options: DesignDataOptions;
+    label?: string;
+    formItemProp?: string[];
+    formItemRules?: FormItemRule[];
+  }>(),
+  {
+    label: '垂直排列方式',
+    formItemProp: () => ['options', 'rowAlign'],
+  },
+);
 
-const _formData = toRef(props, 'formData')
+const options = toRef(props, 'options');
 </script>
 
 <template>
-  <el-form-item
-    :label="label"
-    :prop="['options', 'rowAlign']"
-  >
-    <el-select v-model="_formData.options!.rowAlign" clearable placeholder="请选择">
+  <el-form-item :label="label" :prop="formItemProp">
+    <el-select v-model="options!.rowAlign" clearable placeholder="请选择">
       <el-option
         v-for="item in ALIGN_OPTIONS"
         :key="item.value"
         :label="`${item.label} - ${item.value}`"
-        :value="item.value">
+        :value="item.value"
+      >
       </el-option>
     </el-select>
   </el-form-item>

@@ -39,7 +39,7 @@ export type BaseDesignData<T = Record<string, any>> = {
   label: string
   projectName?: string // 项目名称，最外层组件配置
   componentPath?: string // 组件路径，子组件配置
-  options?: T & {
+  options: T & {
     components?: BaseDesignData<T>[]
   }
 }

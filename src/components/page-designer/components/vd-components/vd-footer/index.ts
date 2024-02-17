@@ -5,8 +5,8 @@
  */
 import { BaseDesignData } from '@/components'
 
-interface Options {
+export interface FooterDesignDataOptions {
   height ?: string
-  components?: BaseDesignData<Options>[]
+  components?: BaseDesignData<FooterDesignDataOptions>[]
 }
-export type FooterDesignData = BaseDesignData<Options>
+export type FooterDesignData = BaseDesignData<FooterDesignDataOptions>

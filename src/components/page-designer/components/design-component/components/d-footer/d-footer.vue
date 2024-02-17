@@ -1,13 +1,20 @@
+<!--
+ * @Author: vsdeeper vsdeeper@qq.com
+ * @Date: 2024-01-13 17:28:14
+ * @LastEditTime: 2024-02-17 20:33:54
+ * @LastEditors: vsdeeper vsdeeper@qq.com
+ * @Description:
+-->
 <script setup lang="ts">
-import { MergeDesignData } from '@/components'
-import { IdEditor, ProjectNameEditor, HeightEditor } from '../property-editor'
-import { isRootComponent } from '@/components/page-designer/util'
-import { useGlobal } from '@/stores'
-import { ROW_GUTTER } from '../constants'
+import { MergeDesignData } from '@/components';
+import { IdEditor, ProjectNameEditor, HeightEditor } from '../property-editor';
+import { isRootComponent } from '@/components/page-designer/util';
+import { useGlobal } from '@/stores';
+import { ROW_GUTTER } from '../constants';
 
 defineProps<{
-  formData: MergeDesignData
-}>()
+  formData: MergeDesignData;
+}>();
 </script>
 
 <template>
@@ -19,7 +26,7 @@ defineProps<{
       <ProjectNameEditor :form-data="formData"></ProjectNameEditor>
     </ResponsiveCol>
     <ResponsiveCol>
-      <HeightEditor :form-data="formData"></HeightEditor>
+      <HeightEditor :options="formData.options"></HeightEditor>
     </ResponsiveCol>
   </el-row>
 </template>

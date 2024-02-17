@@ -1,7 +1,7 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-07 13:35:21
- * @LastEditTime: 2024-02-14 22:49:31
+ * @LastEditTime: 2024-02-17 21:03:46
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 菜单设计组件
 -->
@@ -24,16 +24,16 @@ defineProps<{
       <ComponentPathEditor :form-data="formData"></ComponentPathEditor>
     </ResponsiveCol>
     <ResponsiveCol>
-      <ModeEditor :form-data="formData"></ModeEditor>
+      <ModeEditor :options="formData.options"></ModeEditor>
     </ResponsiveCol>
     <ResponsiveCol>
-      <RouterEditor :form-data="formData"></RouterEditor>
+      <RouterEditor :options="formData.options"></RouterEditor>
     </ResponsiveCol>
     <ResponsiveCol>
-      <PopperEffectEditor :form-data="formData"></PopperEffectEditor>
+      <PopperEffectEditor :options="formData.options"></PopperEffectEditor>
     </ResponsiveCol>
     <el-col :span="24">
-      <ApiEditor :form-data="formData" label="菜单接口"></ApiEditor>
+      <ApiEditor :options="formData.options" label="菜单接口"></ApiEditor>
     </el-col>
   </el-row>
 </template>

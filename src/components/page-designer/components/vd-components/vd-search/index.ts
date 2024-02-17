@@ -2,7 +2,7 @@
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-11 14:36:22
  * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-13 20:24:05
+ * @LastEditTime: 2024-02-17 20:50:38
  * @Description:
  */
 
@@ -35,6 +35,8 @@ export interface SearchConditionItem {
   virtualized?: boolean
 }
 
-export type SearchDesignData = BaseDesignData<{
+export interface SearchDesignDataOptions {
   searchConditionItems?: SearchConditionItem[]
-}>;
+}
+
+export type SearchDesignData = BaseDesignData<SearchDesignDataOptions>;

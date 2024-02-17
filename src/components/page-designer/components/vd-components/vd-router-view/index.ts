@@ -5,7 +5,7 @@
  */
 import { BaseDesignData } from '@/components'
 
-interface Options {
-  components?: BaseDesignData<Options>[]
+export interface RouterViewDesignDataOptions {
+  components?: BaseDesignData<RouterViewDesignDataOptions>[]
 }
-export type RouterViewDesignData = BaseDesignData<Options>
+export type RouterViewDesignData = BaseDesignData<RouterViewDesignDataOptions>

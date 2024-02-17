@@ -2,12 +2,12 @@
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-11 22:49:04
  * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-12 22:53:49
+ * @LastEditTime: 2024-02-17 19:14:24
  * @Description:
 -->
 <script setup lang="ts">
 import { SearchConditionOptionItem } from '@/components';
-import { SemiSelect, Plus, Refresh } from '@element-plus/icons-vue';
+import { Minus, Plus, Refresh } from '@element-plus/icons-vue';
 
 defineProps<{
   index: number;
@@ -15,11 +15,11 @@ defineProps<{
 const model = defineModel<SearchConditionOptionItem[]>();
 const value = ref<SearchConditionOptionItem[]>();
 
-watch(model, (model) => {
+watch(model, model => {
   value.value = model;
 });
 
-watch(value, (value) => {
+watch(value, value => {
   model.value = value;
 });
 
@@ -73,7 +73,7 @@ function reset() {
       <el-button
         type="danger"
         size="small"
-        :icon="SemiSelect"
+        :icon="Minus"
         circle
         @click="_delete(index)"
         style="margin-left: 8px"

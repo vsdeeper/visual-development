@@ -1,26 +1,32 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-13 19:55:31
+ * @LastEditTime: 2024-02-17 21:01:02
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 名称属性
 -->
 <script setup lang="ts">
-import { MergeDesignData } from '@/components';
+import { DesignDataOptions } from '@/components';
+import { FormItemRule } from 'element-plus';
 
-const props = defineProps<{
-  formData: MergeDesignData;
-}>();
+const props = withDefaults(
+  defineProps<{
+    options: DesignDataOptions;
+    label?: string;
+    formItemProp?: string[];
+    formItemRules?: FormItemRule[];
+  }>(),
+  {
+    label: '名称',
+    formItemProp: () => ['options', 'name'],
+  },
+);
 
-const _formData = toRef(props, 'formData');
+const options = toRef(props, 'options');
 </script>
 
 <template>
-  <el-form-item label="名称" :prop="['options', 'name']">
-    <el-input
-      v-model="_formData.options!.name"
-      placeholder="请输入"
-      clearable
-    ></el-input>
+  <el-form-item :label="label" :prop="formItemProp">
+    <el-input v-model="options.name" placeholder="请输入" clearable></el-input>
   </el-form-item>
 </template>

@@ -1,27 +1,35 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-07 14:12:20
+ * @LastEditTime: 2024-02-17 21:09:52
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 后缀图标
 -->
 <script setup lang="ts">
-import * as Icons from "@element-plus/icons-vue";
-import { MergeDesignData } from "@/components";
+import * as Icons from '@element-plus/icons-vue';
+import { DesignDataOptions } from '@/components';
+import { FormItemRule } from 'element-plus';
 
-const props = defineProps<{
-  formData: MergeDesignData;
-}>();
+const props = withDefaults(
+  defineProps<{
+    options: DesignDataOptions;
+    label?: string;
+    formItemProp?: string[];
+    formItemRules?: FormItemRule[];
+  }>(),
+  {
+    label: '后缀图标',
+    formItemProp: () => ['options', 'suffixIcon'],
+  },
+);
 
-console.log(1111, Icons);
-
-const _formData = toRef(props, "formData");
+const options = toRef(props, 'options');
 </script>
 
 <template>
-  <el-form-item label="后缀图标" :prop="['options', 'suffixIcon']">
+  <el-form-item :label="label" :prop="formItemProp">
     <el-select
-      v-model="_formData.options!.suffixIcon"
+      v-model="options.suffixIcon"
       placeholder="请选择"
       clearable
       filterable

@@ -1,15 +1,17 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-17 14:04:52
+ * @LastEditTime: 2024-02-17 21:21:31
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 接口配置
 -->
 <script setup lang="ts">
+import { Plus, Minus } from '@element-plus/icons-vue';
 import { nanoid } from 'nanoid';
-import { MergeDesignData } from '@/components';
+import { DesignDataOptions } from '@/components';
 import { first, isObject, throttle } from 'lodash-es';
 import { findArraryValuesFromTreeData, findObjectFromTreeData } from '@/utils';
+import { FormItemInstance, FormItemRule } from 'element-plus';
 
 interface Tree {
   id: string;
@@ -20,19 +22,24 @@ interface Tree {
 
 const props = withDefaults(
   defineProps<{
-    formData: MergeDesignData;
+    options: DesignDataOptions;
     label?: string;
+    formItemProp?: string[];
+    formItemRules?: FormItemRule[];
+    showMessage?: boolean;
   }>(),
   {
     label: '接口',
+    formItemProp: () => ['options', 'api'],
   },
 );
 
-const _formData = toRef(props, 'formData');
+const options = toRef(props, 'options');
 const treeData = ref<Tree[]>([]);
+const formItemRef = ref<FormItemInstance>();
 
 const stop = watch(
-  () => _formData.value.options?.params,
+  () => options.value.params,
   params => {
     nextTick(() => stop());
     transTreeDataByParams(params ?? {}, treeData.value);
@@ -42,7 +49,7 @@ const stop = watch(
 watch(
   treeData,
   throttle(treeData => {
-    transParamsByTreeData(treeData, _formData.value);
+    transParamsByTreeData(treeData, options.value);
   }, 800),
   { deep: true },
 );
@@ -90,7 +97,7 @@ function transTreeDataByParams(params: Record<string, any>, _treeData: Tree[]) {
   handler(params, (_treeData = []));
 }
 
-function transParamsByTreeData(treeData: Tree[], formData: MergeDesignData) {
+function transParamsByTreeData(treeData: Tree[], options: DesignDataOptions) {
   const handler = (treeData: Tree[], params: Record<string, any>) => {
     treeData.forEach(item => {
       if (item.children?.length) {
@@ -101,23 +108,25 @@ function transParamsByTreeData(treeData: Tree[], formData: MergeDesignData) {
       }
     });
   };
-  handler(treeData, (formData.options!.params = {}));
+  handler(treeData, (options.params = {}));
 }
+
+defineExpose({
+  formItemRef,
+});
 </script>
 
 <template>
   <el-form-item
+    ref="formItemRef"
     :label="label"
-    :prop="['options', 'api']"
-    :rules="[{ required: true, message: '必填项' }]"
+    :prop="formItemProp"
+    :rules="formItemRules"
+    :show-message="showMessage"
   >
-    <el-input v-model="_formData.options!.api" placeholder="请输入">
+    <el-input v-model="options.api" placeholder="请输入">
       <template #prepend>
-        <el-select
-          v-model="_formData.options!.method"
-          disabled
-          style="width: 75px"
-        >
+        <el-select v-model="options!.method" disabled style="width: 75px">
           <el-option label="GET" value="GET" />
         </el-select>
       </template>
@@ -126,14 +135,20 @@ function transParamsByTreeData(treeData: Tree[], formData: MergeDesignData) {
   <div class="params-config">
     <div class="title">
       接口参数
-      <el-button type="primary" link @click="append(treeData)">添加</el-button>
+      <el-button
+        type="primary"
+        size="small"
+        :icon="Plus"
+        circle
+        @click="append(treeData)"
+      >
+      </el-button>
     </div>
     <el-tree
       :data="treeData"
       node-key="id"
       default-expand-all
       :expand-on-click-node="false"
-      empty-text="暂无配置"
     >
       <template #default="{ data }">
         <span class="custom-tree-node">
@@ -148,10 +163,18 @@ function transParamsByTreeData(treeData: Tree[], formData: MergeDesignData) {
             placeholder="字段值"
             clearable
           ></el-input>
-          <el-button type="danger" link @click="remove(data, treeData)">
-            删除
+          <el-button
+            type="danger"
+            size="small"
+            :icon="Minus"
+            circle
+            @click="remove(data, treeData)"
+          >
           </el-button>
         </span>
+      </template>
+      <template #empty>
+        <el-divider direction="horizontal"> 暂无配置 </el-divider>
       </template>
     </el-tree>
   </div>
@@ -188,5 +211,8 @@ function transParamsByTreeData(treeData: Tree[], formData: MergeDesignData) {
 }
 :deep(.el-tree-node__content:hover) {
   background-color: transparent;
+}
+:deep(.el-divider__text) {
+  color: var(--el-text-color-placeholder);
 }
 </style>

@@ -1,30 +1,34 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-10 20:36:09
+ * @LastEditTime: 2024-02-17 20:59:03
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 模式
 -->
 <script setup lang="ts">
-import { MergeDesignData } from "@/components";
-import { MODE_OPTIONS } from "./constants";
+import { DesignDataOptions } from '@/components';
+import { MODE_OPTIONS } from './constants';
+import { FormItemRule } from 'element-plus';
 
 const props = withDefaults(
   defineProps<{
-    formData: MergeDesignData;
+    options: DesignDataOptions;
     label?: string;
+    formItemProp?: string[];
+    formItemRules?: FormItemRule[];
   }>(),
   {
-    label: "菜单展示模式",
+    label: '菜单展示模式',
+    formItemProp: () => ['options', 'mode'],
   },
 );
 
-const _formData = toRef(props, "formData");
+const options = toRef(props, 'options');
 </script>
 
 <template>
-  <el-form-item :label="label" :prop="['options', 'mode']">
-    <el-select v-model="_formData.options!.mode" placeholder="请选择" clearable>
+  <el-form-item :label="label" :prop="formItemProp">
+    <el-select v-model="options.mode" placeholder="请选择" clearable>
       <el-option
         v-for="item in MODE_OPTIONS"
         :key="item.value"

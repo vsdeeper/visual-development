@@ -16,7 +16,18 @@ import {
   LogoDesignData,
   MenuDesignData,
   SearchDesignData,
-  TableDesignData
+  TableDesignData,
+  ContainerDesignDataOptions,
+  AsideDesignDataOptions,
+  HeaderDesignDataOptions,
+  FooterDesignDataOptions,
+  RouterViewDesignDataOptions,
+  ViewDesignDataOptions,
+  RowColDesignDataOptions,
+  LogoDesignDataOptions,
+  MenuDesignDataOptions,
+  SearchDesignDataOptions,
+  TableDesignDataOptions
 } from './components'
 
 export * from './components'
@@ -24,6 +35,21 @@ export { default as PageDesigner, type AddComponentInstance } from './page-desig
 
 /**全局请求方法定义 */
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
+
+/** 设计组件的选项配置类型 */
+export type DesignDataOptions =
+  ContainerDesignDataOptions &
+  AsideDesignDataOptions &
+  HeaderDesignDataOptions &
+  FooterDesignDataOptions &
+  RouterViewDesignDataOptions &
+  ViewDesignDataOptions &
+  RowColDesignDataOptions &
+  LogoDesignDataOptions &
+  MenuDesignDataOptions &
+  SearchDesignDataOptions &
+  TableDesignDataOptions
+
 
 /** 当前配置数据类型 */
 export type ActiveDesignData =

@@ -1,18 +1,18 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-07 13:35:21
- * @LastEditTime: 2024-02-11 16:42:50
+ * @LastEditTime: 2024-02-17 21:08:34
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: search设计组件
 -->
 <script setup lang="ts">
-import { MergeDesignData } from "@/components";
+import { MergeDesignData } from '@/components';
 import {
   ComponentPathEditor,
   IdEditor,
   SearchConditionItemsEditor,
-} from "../property-editor";
-import { ROW_GUTTER } from "../constants";
+} from '../property-editor';
+import { ROW_GUTTER } from '../constants';
 
 defineProps<{
   formData: MergeDesignData;
@@ -31,7 +31,7 @@ defineProps<{
       <el-collapse :model-value="['condition']">
         <el-collapse-item title="搜索条件设置" name="condition">
           <SearchConditionItemsEditor
-            :form-data="formData"
+            :options="formData.options"
           ></SearchConditionItemsEditor>
         </el-collapse-item>
       </el-collapse>

@@ -1,31 +1,31 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-13 18:55:12
+ * @LastEditTime: 2024-02-17 21:42:31
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 搜索条件项配置
 -->
 <script setup lang="ts">
-import { FormItemInstance } from 'element-plus';
-import { Plus, SemiSelect } from '@element-plus/icons-vue';
+import { Plus, Minus } from '@element-plus/icons-vue';
 import {
-  MergeDesignData,
+  DesignDataOptions,
   SearchConditionItem,
   SearchConditionType,
 } from '@/components';
 import { ROW_GUTTER } from '../../constants';
 import { SEARCH_TYPE_OPTIONS, DATE_TYPE_OPTIONS } from './constants';
 import { TabPaneName } from 'element-plus';
+import { ApiEditorInstance } from '../api-editor';
 
 const props = defineProps<{
-  formData: MergeDesignData;
+  options: DesignDataOptions;
 }>();
 
-const _formData = toRef(props, 'formData');
-const apiRefs = ref<FormItemInstance[]>([]);
+const options = toRef(props, 'options');
+const apiRefs = ref<ApiEditorInstance[]>([]);
 
 function add() {
-  _formData.value.options?.searchConditionItems?.push({});
+  options.value.searchConditionItems?.push({});
 }
 
 function deleteSearchItem(
@@ -86,29 +86,24 @@ function changeDataSource(
     item.api = undefined;
     item.options = undefined;
     item.itemValue = 'id';
-    apiRefs.value[index]?.clearValidate();
-    setTimeout(() => apiRefs.value[index]?.clearValidate());
+    apiRefs.value[index]?.formItemRef?.clearValidate();
+    setTimeout(() => apiRefs.value[index]?.formItemRef?.clearValidate());
   }
 }
 </script>
 
 <template>
-  <template
-    v-for="(item, index) in _formData.options?.searchConditionItems"
-    :key="index"
-  >
+  <template v-for="(item, index) in options.searchConditionItems" :key="index">
     <div class="divider-box">
       <el-divider content-position="left" border-style="dashed">
         搜索条件 {{ index + 1 }}
       </el-divider>
       <el-button
         type="danger"
-        :icon="SemiSelect"
+        :icon="Minus"
         circle
         size="small"
-        @click="
-          deleteSearchItem(index, formData.options!.searchConditionItems!)
-        "
+        @click="deleteSearchItem(index, options.searchConditionItems!)"
       ></el-button>
     </div>
     <el-row :gutter="ROW_GUTTER">
@@ -355,8 +350,20 @@ function changeDataSource(
           @tab-change="changeDataSource($event, item, index)"
         >
           <el-tab-pane label="接口" name="api">
-            <el-form-item
-              :ref="(ref) => (apiRefs[index] = ref as FormItemInstance)"
+            <ApiEditor
+              :ref="ref => (apiRefs[index] = ref as ApiEditorInstance)"
+              :options="item"
+              :form-item-prop="[
+                'options',
+                'searchConditionItems',
+                index + '',
+                'api',
+              ]"
+              :show-message="false"
+              style="margin-bottom: 0"
+            ></ApiEditor>
+            <!-- <el-form-item
+              :ref="ref => (apiRefs[index] = ref as FormItemInstance)"
               :prop="['options', 'searchConditionItems', index + '', 'api']"
               :rules="[{ required: true, message: '必填项' }]"
               :show-message="false"
@@ -369,7 +376,7 @@ function changeDataSource(
                   </el-select>
                 </template>
               </el-input>
-            </el-form-item>
+            </el-form-item> -->
           </el-tab-pane>
           <el-tab-pane
             label="自定义"

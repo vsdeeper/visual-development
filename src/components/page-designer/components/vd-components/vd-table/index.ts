@@ -2,7 +2,7 @@
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-13 20:05:46
  * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-14 21:38:25
+ * @LastEditTime: 2024-02-17 20:51:06
  * @Description:
  */
 
@@ -26,7 +26,7 @@ export interface TableColumnItem {
   children?: TableColumnItem[]
 }
 
-export type TableDesignData = BaseDesignData<{
+export interface TableDesignDataOptions {
   columns?: TableColumnItem[]
   api?: string
   method?: Extract<Method, 'GET'>
@@ -46,4 +46,5 @@ export type TableDesignData = BaseDesignData<{
   loadApi?: string
   defaultSort?: Sort
   virtualized?: boolean
-}>;
+}
+export type TableDesignData = BaseDesignData<TableDesignDataOptions>;

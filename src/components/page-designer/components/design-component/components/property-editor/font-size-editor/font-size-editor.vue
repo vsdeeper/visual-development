@@ -1,24 +1,34 @@
 <!--
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-13 19:56:21
+ * @LastEditTime: 2024-02-17 20:42:07
  * @LastEditors: vsdeeper vsdeeper@qq.com
  * @Description: 字体大小属性
 -->
 <script setup lang="ts">
-import { MergeDesignData } from '@/components';
+import { DesignDataOptions } from '@/components';
+import { FormItemRule } from 'element-plus';
 
-const props = defineProps<{
-  formData: MergeDesignData;
-}>();
+const props = withDefaults(
+  defineProps<{
+    options: DesignDataOptions;
+    label?: string;
+    formItemProp?: string[];
+    formItemRules?: FormItemRule[];
+  }>(),
+  {
+    label: '字体大小',
+    formItemProp: () => ['options', 'fontSize'],
+  },
+);
 
-const _formData = toRef(props, 'formData');
+const options = toRef(props, 'options');
 </script>
 
 <template>
-  <el-form-item label="字体大小" :prop="['options', 'fontSize']">
+  <el-form-item :label="label" :prop="formItemProp">
     <el-input
-      v-model="_formData.options!.fontSize"
+      v-model="options.fontSize"
       placeholder="请输入"
       clearable
     ></el-input>

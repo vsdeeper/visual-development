@@ -5,8 +5,8 @@
  */
 import { BaseDesignData } from '@/components'
 
-interface Options {
+export interface ContainerDesignDataOptions {
   direction?: 'horizontal' | 'vertical'
-  components?: BaseDesignData<Options>[]
+  components?: BaseDesignData<ContainerDesignDataOptions>[]
 }
-export type ContainerDesignData = BaseDesignData<Options>
+export type ContainerDesignData = BaseDesignData<ContainerDesignDataOptions>
