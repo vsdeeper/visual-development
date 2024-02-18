@@ -7,11 +7,12 @@
 import type { AsyncComponentLoader } from 'vue'
 import { capitalizeFirstLetter } from '@/utils'
 
-/** 自定义组件 */
+/** 全局组件 */
 export * from './vd-logo'
 export * from './vd-menu'
 export * from './vd-search'
 export * from './vd-table'
+export * from './vd-form'
 /** 容器组件 */
 export * from './vd-container'
 export * from './vd-aside'
@@ -21,15 +22,22 @@ export * from './vd-footer'
 export * from './vd-router-view'
 export * from './vd-view'
 export * from './vd-row-col'
-/** 常规组件 */
 
 export type ComponentTypeOfPageDesigner =
-/** 自定义组件 */'Logo' | 'Search' | 'Table' | 'Form' |
-/** 主体容器 */'RouterView' | 'View' |
-/** 布局容器 */'Aside' | 'Container' | 'Footer' | 'Header' | 'Main' | 'RowCol' |
-/** 导航组件 */'Menu' | 'Dropdown' |
-/** 基础组件 */'Button' | 'Icon' |
-/** 数据展示组件 */'Image'
+  /** 全局组件 */
+  'Logo' | 'Search' | 'Table' | 'Form' | 'Menu' |
+  /** 布局容器 */
+  'Aside' | 'Container' | 'Footer' | 'Header' | 'Main' | 'RowCol' |
+  /** 主体容器 */
+  'RouterView' | 'View' |
+  /** 导航组件 */
+  'Dropdown' |
+  /** 基础组件 */
+  'Button' | 'Icon' |
+  /** 数据展示组件 */
+  'Image' |
+  /** 其他组件 */
+  'Divider'
 
 /** 基础设计数据类型 */
 export type BaseDesignData<T = Record<string, any>> = {

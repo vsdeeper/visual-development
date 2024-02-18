@@ -1,6 +1,8 @@
 /*
  * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-02-01 09:12:31
+ * @Date: 2024-02-07 15:24:41
+ * @LastEditors: vsdeeper vsdeeper@qq.com
+ * @LastEditTime: 2024-02-18 10:07:17
  * @Description: 常量
  */
 import { AddComponentGroupOptionItem } from '.'
@@ -10,8 +12,8 @@ import { AddComponentGroupOptionItem } from '.'
  */
 export const ADD_COMPONENT_OPTIONS = [
   {
-    id: 'CustomComponents',
-    name: '自定义组件',
+    id: 'GlobalComponents',
+    name: '全局组件',
     children: [
       { label: '标识', value: 'Logo' },
       { label: '搜索', value: 'Search' },

@@ -33,7 +33,7 @@ import {
 export * from './components'
 export { default as PageDesigner, type AddComponentInstance } from './page-designer.vue'
 
-/**全局请求方法定义 */
+/** 全局请求方法定义 */
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
 /** 设计组件的选项配置类型 */
