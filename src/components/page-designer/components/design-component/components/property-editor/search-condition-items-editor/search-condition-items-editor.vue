@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Plus } from '@element-plus/icons-vue';
+import { Plus, Minus } from '@element-plus/icons-vue';
 import { DesignDataOptions, SearchConditionItem, SearchConditionType } from '@/components';
 import { ROW_GUTTER } from '../../constants';
 import { SEARCH_TYPE_OPTIONS, DATE_TYPE_OPTIONS } from './constants';
@@ -34,7 +34,7 @@ function changeType(type: SearchConditionType, item: SearchConditionItem) {
     case 'Select':
     case 'Cascader': {
       item.dataSource = 'api';
-      item.method = 'GET';
+      item.apiConfig!.method = 'GET';
       item.itemValue = 'id';
       break;
     }
@@ -49,8 +49,7 @@ function changeType(type: SearchConditionType, item: SearchConditionItem) {
 
 function resetSearchConditionItem(item: SearchConditionItem) {
   item.dataSource = undefined;
-  item.method = undefined;
-  item.api = undefined;
+  item.apiConfig = {};
   item.options = undefined;
   item.itemLabel = undefined;
   item.multiple = undefined;
@@ -65,14 +64,12 @@ function resetSearchConditionItem(item: SearchConditionItem) {
 function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: number) {
   if (name === 'custom') {
     item.dataSource = 'custom';
-    item.method = undefined;
-    item.api = undefined;
+    item.apiConfig!.method = undefined;
     item.itemValue = undefined;
     item.options = [{}];
   } else if (name === 'api') {
     item.dataSource = 'api';
-    item.method = 'GET';
-    item.api = undefined;
+    item.apiConfig!.method = 'GET';
     item.options = undefined;
     item.itemValue = 'id';
     apiRefs.value[index]?.formItemRef?.clearValidate();
@@ -90,8 +87,15 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
     >
       <template #title>
         <div style="display: flex; justify-content: flex-start; flex: 1">搜索条件 {{ index + 1 }}</div>
-        <el-button type="danger" link @click.stop="deleteSearchItem(index, options.searchConditionItems!)">
-          删除
+        <el-button
+          type="danger"
+          :icon="Minus"
+          circle
+          plain
+          size="small"
+          style="margin-right: 10px"
+          @click.stop="deleteSearchItem(index, options.searchConditionItems!)"
+        >
         </el-button>
       </template>
       <el-row :gutter="ROW_GUTTER">
@@ -240,7 +244,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
               <ApiEditor
                 :ref="ref => (apiRefs[index] = ref as ApiEditorInstance)"
                 :options="item"
-                :form-item-prop="['options', 'searchConditionItems', index + '', 'api']"
+                :form-item-prop="['options', 'searchConditionItems', index + '', 'apiConfig']"
                 :show-message="false"
               ></ApiEditor>
             </el-tab-pane>

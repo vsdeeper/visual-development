@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue';
 import { nanoid } from 'nanoid';
-import { DesignDataOptions } from '@/components';
+import { ApiConfig, DesignDataOptions } from '@/components';
 import { first, isObject, throttle } from 'lodash-es';
 import { findArraryValuesFromTreeData, findObjectFromTreeData } from '@/utils';
 import { FormItemInstance, FormItemRule } from 'element-plus';
+import { METHOD_OPTIONS } from './constants';
 
 interface Tree {
   id: string;
@@ -17,15 +18,19 @@ const props = withDefaults(
   defineProps<{
     options: DesignDataOptions;
     apiLabel?: string;
+    keyAlias?: string;
     paramsLabel?: string;
     formItemProp?: string[];
     formItemRules?: FormItemRule[];
     showMessage?: boolean;
+    showParams?: boolean;
   }>(),
   {
     apiLabel: '接口',
+    keyAlias: 'apiConfig',
     paramsLabel: '参数',
     formItemProp: () => ['options', 'api'],
+    showParams: true,
   },
 );
 
@@ -34,7 +39,7 @@ const treeData = ref<Tree[]>([]);
 const formItemRef = ref<FormItemInstance>();
 
 const stop = watch(
-  () => options.value.params,
+  () => (options.value[props.keyAlias] as ApiConfig).params,
   params => {
     nextTick(() => stop());
     transTreeDataByParams(params ?? {}, treeData.value);
@@ -44,7 +49,7 @@ const stop = watch(
 watch(
   treeData,
   throttle(treeData => {
-    transParamsByTreeData(treeData, options.value);
+    transParamsByTreeData(treeData, options.value[props.keyAlias]);
   }, 800),
   { deep: true },
 );
@@ -86,7 +91,7 @@ function transTreeDataByParams(params: Record<string, any>, _treeData: Tree[]) {
   handler(params, (_treeData = []));
 }
 
-function transParamsByTreeData(treeData: Tree[], options: DesignDataOptions) {
+function transParamsByTreeData(treeData: Tree[], apiConfig: ApiConfig) {
   const handler = (treeData: Tree[], params: Record<string, any>) => {
     treeData.forEach(item => {
       if (item.children?.length) {
@@ -97,7 +102,7 @@ function transParamsByTreeData(treeData: Tree[], options: DesignDataOptions) {
       }
     });
   };
-  handler(treeData, (options.params = {}));
+  handler(treeData, (apiConfig.params = {}));
 }
 
 defineExpose({
@@ -114,15 +119,15 @@ defineExpose({
       :rules="formItemRules"
       :show-message="showMessage"
     >
-      <el-input v-model="options.api" placeholder="请输入">
+      <el-input v-model="(options[keyAlias] as ApiConfig).api" placeholder="请输入">
         <template #prepend>
-          <el-select v-model="options!.method" disabled style="width: 75px">
-            <el-option label="GET" value="GET" />
+          <el-select v-model="(options[keyAlias] as ApiConfig).method" placeholder="选择" style="width: 75px">
+            <el-option v-for="item in METHOD_OPTIONS" :key="item" :label="item" :value="item" />
           </el-select>
         </template>
       </el-input>
     </el-form-item>
-    <div class="params-config">
+    <div v-if="showParams" class="params-config">
       <my-divider-title
         :label="paramsLabel"
         :suffix-icon="Plus"
@@ -143,6 +148,9 @@ defineExpose({
 </template>
 
 <style lang="scss" scoped>
+.api-editor {
+  margin-bottom: 18px;
+}
 .params-config {
   .title {
     display: flex;

@@ -11,19 +11,51 @@ defineProps<{
 <template>
   <el-row :gutter="ROW_GUTTER">
     <ResponsiveCol>
-      <IdEditor :form-data="formData"></IdEditor>
+      <IdEditor :form-data="formData" />
     </ResponsiveCol>
     <ResponsiveCol>
-      <ModeEditor :options="formData.options"></ModeEditor>
+      <TableLayoutEditor :options="formData.options" />
     </ResponsiveCol>
     <ResponsiveCol>
-      <RouterEditor :options="formData.options"></RouterEditor>
+      <ItemHasChildrenEditor :options="formData.options" />
     </ResponsiveCol>
     <ResponsiveCol>
-      <PopperEffectEditor :options="formData.options"></PopperEffectEditor>
+      <ItemChildrenEditor :options="formData.options" />
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <RowKeyEditor :options="formData.options" />
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <LazyEditor :options="formData.options" />
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <VirtualizedEditor :options="formData.options" />
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <AutoCalcMaxHeightEditor :options="formData.options" />
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <ShowCheckboxEditor :options="formData.options" />
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <HighlightCurrentRowEditor :options="formData.options" />
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <ShowPaginationEditor :options="formData.options" />
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <FlexibleEditor :options="formData.options" />
     </ResponsiveCol>
     <el-col :span="24">
-      <ApiEditor :options="formData.options" api-label="菜单接口" params-label="接口参数"></ApiEditor>
+      <ApiEditor :options="formData.options" api-label="列表接口" params-label="接口参数"></ApiEditor>
+    </el-col>
+    <el-col v-if="formData.options.lazy" :span="24">
+      <ApiEditor
+        :options="formData.options"
+        key-alias="loadApiConfig"
+        api-label="懒加载子节点数据接口"
+        params-label="接口参数"
+      ></ApiEditor>
     </el-col>
   </el-row>
 </template>

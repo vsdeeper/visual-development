@@ -1,4 +1,4 @@
-import { BaseDesignData, Method } from '@/components'
+import { ApiConfig, BaseDesignData, Method } from '@/components'
 import { Sort } from 'element-plus'
 import { VNode } from 'vue'
 
@@ -20,7 +20,7 @@ export interface TableColumnItem {
 
 export interface TableDesignDataOptions {
   columns?: TableColumnItem[]
-  api?: string
+  apiConfig?: ApiConfig
   method?: Extract<Method, 'GET'>
   data?: Record<string, any>[]
   itemHasChildren?: string
@@ -28,15 +28,16 @@ export interface TableDesignDataOptions {
   autoCalcMaxHeight?: boolean
   relatedSearchId?: string
   tableLayout?: 'fixed' | 'auto'
-  showSelection?: boolean
+  showCheckbox?: boolean
   showPagination?: boolean
   defaultExpandAll?: boolean
   highlightCurrentRow?: boolean
   rowKey?: string
   flexible?: boolean
   lazy?: boolean
-  loadApi?: string
+  loadApiConfig?: ApiConfig
   defaultSort?: Sort
   virtualized?: boolean
+  [key: string]: any
 }
 export type TableDesignData = BaseDesignData<TableDesignDataOptions>;

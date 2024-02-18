@@ -1,4 +1,6 @@
-import { AddComponentGroupOptionItem } from '.'
+import { AddComponentGroupOptionItem, Method } from '.'
+
+export const METHOD_OPTIONS: Method[] = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE']
 
 /**
  * 添加组件选项数据

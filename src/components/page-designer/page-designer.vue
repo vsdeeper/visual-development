@@ -107,6 +107,9 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
         type: item.value,
         label: item.label,
         options: {
+          apiConfig: {
+            method: 'GET',
+          },
           mode: 'vertical',
           router: false,
           popperEffect: 'dark',
@@ -120,7 +123,34 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
         type: item.value,
         label: item.label,
         options: {
+          apiConfig: {
+            method: 'GET',
+          },
           searchConditionItems: [{}],
+        },
+      };
+    }
+    case 'Table': {
+      return {
+        id: genId(item.value),
+        type: item.value,
+        label: item.label,
+        options: {
+          apiConfig: {
+            method: 'GET',
+          },
+          loadApiConfig: {
+            method: 'GET',
+          },
+          tableLayout: 'fixed',
+          showCheckbox: false,
+          showPagination: true,
+          highlightCurrentRow: true,
+          autoCalcMaxHeight: true,
+          flexible: false,
+          virtualized: false,
+          itemChildren: 'children',
+          itemHasChildren: 'hasChildren',
         },
       };
     }
