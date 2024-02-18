@@ -2,43 +2,22 @@
  * @Author: vsdeeper vsdeeper@qq.com
  * @Date: 2024-02-18 09:37:09
  * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-18 09:41:59
+ * @LastEditTime: 2024-02-18 09:51:56
  * @Description: 页面设计器
 -->
 <script setup lang="ts">
 import draggable from 'vuedraggable';
 import { useGlobal } from '@/stores';
-import {
-  ActiveDesignData,
-  DesignComponent,
-  VdComponents,
-  MergeDesignData,
-  BaseDesignData,
-} from '.';
-import {
-  AddComponent,
-  AddComponentOptionItem,
-  ListOfShortcutKeys,
-} from '@/components';
-import {
-  IS_PAGE_DESIGN_MODE_SYMBOL,
-  ADD_COMPONENT_REF_SYMBOL,
-  DESIGN_COMPONENT_REF_SYMBOL,
-} from '@/utils/constants';
-import {
-  deleteComponent,
-  genId,
-  isActiveDesign,
-  isContainerComponent,
-} from './util';
+import { ActiveDesignData, DesignComponent, VdComponents, MergeDesignData, BaseDesignData } from '.';
+import { AddComponent, AddComponentOptionItem, ListOfShortcutKeys } from '@/components';
+import { IS_PAGE_DESIGN_MODE_SYMBOL, ADD_COMPONENT_REF_SYMBOL, DESIGN_COMPONENT_REF_SYMBOL } from '@/utils/constants';
+import { deleteComponent, genId, isActiveDesign, isContainerComponent } from './util';
 import { ADD_COMPONENT_OPTIONS } from './constants';
 import { RowColDesignData } from './components';
 
 export type AddComponentInstance = InstanceType<typeof AddComponent>;
 export type DesignComponentInstance = InstanceType<typeof DesignComponent>;
-export type ListOfShortcutKeysInstance = InstanceType<
-  typeof ListOfShortcutKeys
->;
+export type ListOfShortcutKeysInstance = InstanceType<typeof ListOfShortcutKeys>;
 
 console.log('VdComponents 可视化设计组件', VdComponents);
 
@@ -95,8 +74,7 @@ function selectComponent(item: AddComponentOptionItem) {
        * 布局容器，可以挂载子组件
        * 子组件挂载后将活动设计数据设置为子组件
        */
-      !activeDesignData.options!.components &&
-        (activeDesignData.options!.components = []);
+      !activeDesignData.options!.components && (activeDesignData.options!.components = []);
       activeDesignData.options!.components!.push(data);
       setActiveDesignData(data);
     }
@@ -213,21 +191,13 @@ function showMoreShortcutKey() {
       </draggable>
     </el-scrollbar>
     <ShortcutKeyTip
-      :options="
-        designData.length
-          ? [{ keys: ['V', 'A'] }]
-          : [{ label: '添加组件', keys: ['V', 'A'] }]
-      "
+      :options="designData.length ? [{ keys: ['V', 'A'] }] : [{ label: '添加组件', keys: ['V', 'A'] }]"
       show-more
       is-page-designer
       @show-more="showMoreShortcutKey"
     />
   </div>
-  <AddComponent
-    ref="addComponentRef"
-    :options="ADD_COMPONENT_OPTIONS"
-    @select="selectComponent"
-  ></AddComponent>
+  <AddComponent ref="addComponentRef" :options="ADD_COMPONENT_OPTIONS" @select="selectComponent"></AddComponent>
   <DesignComponent
     ref="designComponentRef"
     :form-data="useGlobal().activeDesignData as ActiveDesignData"
