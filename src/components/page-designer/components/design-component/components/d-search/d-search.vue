@@ -1,10 +1,3 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-02-07 13:35:21
- * @LastEditTime: 2024-02-18 00:20:22
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description: search设计组件
--->
 <script setup lang="ts">
 import { MergeDesignData } from '@/components';
 import { IdEditor, SearchConditionItemsEditor } from '../property-editor';
@@ -22,9 +15,7 @@ defineProps<{
     </ResponsiveCol>
     <el-col :span="24">
       <my-divider-title label="搜索条件设置"></my-divider-title>
-      <SearchConditionItemsEditor
-        :options="formData.options"
-      ></SearchConditionItemsEditor>
+      <SearchConditionItemsEditor :options="formData.options"></SearchConditionItemsEditor>
     </el-col>
   </el-row>
 </template>

@@ -1,20 +1,16 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-07 10:45:24
- * @Description:
--->
 <script setup lang="ts">
-import { MenuDesignData } from '.'
+import { MenuDesignData } from '.';
 
 defineProps<{
-  data: MenuDesignData
-}>()
+  data: MenuDesignData;
+}>();
 </script>
 
 <template>
   <DesignSkeleton
     :class-list="['vd-menu']"
     :data="data"
-    :shortcut-key-options="[{ keys: ['Delete'] }, { keys: ['V', 'D'] }]">
+    :shortcut-key-options="[{ keys: ['Delete'] }, { keys: ['V', 'D'] }]"
+  >
   </DesignSkeleton>
 </template>

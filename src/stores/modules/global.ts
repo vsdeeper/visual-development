@@ -1,11 +1,3 @@
-/*
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-15 09:32:51
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-18 10:51:38
- * @Description:
- */
-
 import { ActiveDesignData } from '@/components'
 import { defineStore } from 'pinia'
 

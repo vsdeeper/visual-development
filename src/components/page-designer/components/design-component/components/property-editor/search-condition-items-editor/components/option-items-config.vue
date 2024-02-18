@@ -1,10 +1,3 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-02-11 22:49:04
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-17 22:52:15
- * @Description:
--->
 <script setup lang="ts">
 import { SearchConditionOptionItem } from '@/components';
 import { Minus, Plus, Refresh } from '@element-plus/icons-vue';
@@ -41,14 +34,7 @@ function reset() {
   <div class="option-items-config">
     <el-row v-for="(item, subIndex) in value" :key="item.value" align="middle">
       <el-form-item
-        :prop="[
-          'options',
-          'searchConditionItems',
-          index + '',
-          'options',
-          subIndex + '',
-          'value',
-        ]"
+        :prop="['options', 'searchConditionItems', index + '', 'options', subIndex + '', 'value']"
         :rules="[{ required: true, message: '必填项' }]"
         :show-message="false"
         style="width: 100px; margin-right: 5px"
@@ -56,14 +42,7 @@ function reset() {
         <el-input v-model="item.value" class="input" placeholder="选项值" />
       </el-form-item>
       <el-form-item
-        :prop="[
-          'options',
-          'searchConditionItems',
-          index + '',
-          'options',
-          subIndex + '',
-          'label',
-        ]"
+        :prop="['options', 'searchConditionItems', index + '', 'options', subIndex + '', 'label']"
         :rules="[{ required: true, message: '必填项' }]"
         :show-message="false"
         style="flex: 1"
@@ -81,12 +60,8 @@ function reset() {
       ></el-button>
     </el-row>
     <div class="btns">
-      <el-button type="primary" plain :icon="Plus" @click="add">
-        新增选项
-      </el-button>
-      <el-button type="primary" plain :icon="Refresh" @click="reset">
-        重设选择项
-      </el-button>
+      <el-button type="primary" plain :icon="Plus" @click="add"> 新增选项 </el-button>
+      <el-button type="primary" plain :icon="Refresh" @click="reset"> 重设选择项 </el-button>
     </div>
   </div>
 </template>

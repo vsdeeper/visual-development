@@ -1,10 +1,3 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-02-18 09:37:09
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-18 09:51:56
- * @Description: 页面设计器
--->
 <script setup lang="ts">
 import draggable from 'vuedraggable';
 import { useGlobal } from '@/stores';

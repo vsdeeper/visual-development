@@ -1,8 +1,3 @@
-/*
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-10 18:52:53
- * @Description:
- */
 import { nanoid } from 'nanoid'
 import { useGlobal } from '@/stores'
 import { ActiveDesignData, MergeDesignData, RowColDesignData, ComponentTypeOfPageDesigner } from '.'

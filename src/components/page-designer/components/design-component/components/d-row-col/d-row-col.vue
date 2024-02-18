@@ -1,8 +1,3 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-02-01 16:08:25
- * @Description: 栅格设计器
--->
 <script setup lang="ts">
 import { SemiSelect, Plus } from '@element-plus/icons-vue';
 import { MergeDesignData, RowColDesignData } from '@/components';
@@ -80,9 +75,7 @@ function findRow(item: MergeDesignData, designData: MergeDesignData[]) {
       <template v-for="item in formData.options?.components" :key="item.id">
         <div class="divider-box">
           <el-divider content-position="left" border-style="dashed"
-            >布局-Col-{{
-              findIndexColInRow(item, useGlobal().designData)! + 1
-            }}</el-divider
+            >布局-Col-{{ findIndexColInRow(item, useGlobal().designData)! + 1 }}</el-divider
           >
           <el-button
             type="danger"
@@ -118,14 +111,7 @@ function findRow(item: MergeDesignData, designData: MergeDesignData[]) {
           </template>
         </el-row>
       </template>
-      <el-button
-        class="add-btn"
-        type="primary"
-        plain
-        :icon="Plus"
-        @click="addCol(formData)"
-        >新增Col</el-button
-      >
+      <el-button class="add-btn" type="primary" plain :icon="Plus" @click="addCol(formData)">新增Col</el-button>
     </el-collapse-item>
   </el-collapse>
   <el-row v-else :gutter="ROW_GUTTER">

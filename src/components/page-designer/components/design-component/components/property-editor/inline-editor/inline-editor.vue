@@ -1,10 +1,3 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-02-01 22:07:17
- * @LastEditTime: 2024-02-17 20:41:59
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description: 内联模式
--->
 <script setup lang="ts">
 import { DesignDataOptions } from '@/components';
 import { FormItemRule } from 'element-plus';

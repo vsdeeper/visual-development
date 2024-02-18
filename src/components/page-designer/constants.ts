@@ -1,10 +1,3 @@
-/*
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-02-07 15:24:41
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-18 10:07:17
- * @Description: 常量
- */
 import { AddComponentGroupOptionItem } from '.'
 
 /**

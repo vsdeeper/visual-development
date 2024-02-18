@@ -1,10 +1,3 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-17 21:02:10
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description: Tooltip 主题，内置了 dark / light 两种主题
--->
 <script setup lang="ts">
 import { DesignDataOptions } from '@/components';
 import { POPPER_EFFECT_OPTIONS } from './constants';

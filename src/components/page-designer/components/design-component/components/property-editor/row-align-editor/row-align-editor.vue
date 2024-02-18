@@ -1,10 +1,3 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-02-01 22:07:17
- * @LastEditTime: 2024-02-17 21:04:30
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description: 垂直排列方式
--->
 <script setup lang="ts">
 import { DesignDataOptions } from '@/components';
 import { ALIGN_OPTIONS } from './constants';

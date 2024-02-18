@@ -1,13 +1,5 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-02-07 18:46:03
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-10 16:39:31
- * @Description: 颜色选择器
--->
-
 <script setup lang="ts">
-import { ColorPickerInstance } from "element-plus";
+import { ColorPickerInstance } from 'element-plus';
 
 withDefaults(
   defineProps<{
@@ -15,7 +7,7 @@ withDefaults(
     placeholder?: string;
   }>(),
   {
-    placeholder: "请选择",
+    placeholder: '请选择',
   },
 );
 const model = defineModel<string>();
@@ -31,18 +23,9 @@ function clickInput() {
 </script>
 
 <template>
-  <el-input
-    v-model="model"
-    :placeholder="placeholder"
-    readonly
-    @click="clickInput"
-  >
+  <el-input v-model="model" :placeholder="placeholder" readonly @click="clickInput">
     <template #append>
-      <el-color-picker
-        ref="colorPickerRef"
-        v-model="model"
-        :show-alpha="showAlpha"
-      />
+      <el-color-picker ref="colorPickerRef" v-model="model" :show-alpha="showAlpha" />
     </template>
   </el-input>
 </template>

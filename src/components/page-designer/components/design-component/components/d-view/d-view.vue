@@ -1,8 +1,3 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-29 12:56:10
- * @Description:
--->
 <script setup lang="ts">
 import { MergeDesignData } from '@/components';
 import { IdEditor, NameEditor } from '../property-editor';

@@ -1,19 +1,9 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-31 22:31:39
- * @LastEditTime: 2024-02-07 15:12:53
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description: 栅格设计骨架
--->
 <script setup lang="ts">
-import draggable from "vuedraggable";
-import { MergeDesignData, RowColDesignData, VdComponents } from "@/components";
-import {
-  isActiveDesign,
-  isRowComponent,
-} from "@/components/page-designer/util";
-import { useGlobal } from "@/stores";
-import { genStyle } from "../util";
+import draggable from 'vuedraggable';
+import { MergeDesignData, RowColDesignData, VdComponents } from '@/components';
+import { isActiveDesign, isRowComponent } from '@/components/page-designer/util';
+import { useGlobal } from '@/stores';
+import { genStyle } from '../util';
 
 defineProps<{
   data: MergeDesignData;
@@ -23,11 +13,7 @@ defineProps<{
 
 <template>
   <!-- 在布局-row组件中添加组件时 -->
-  <el-row
-    v-if="isRowComponent(data)"
-    :gutter="data.options?.rowGutter"
-    :justify="data.options?.rowJustify"
-  >
+  <el-row v-if="isRowComponent(data)" :gutter="data.options?.rowGutter" :justify="data.options?.rowJustify">
     <draggable
       :list="data.options?.components"
       :component-data="{

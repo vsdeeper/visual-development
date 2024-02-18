@@ -1,10 +1,3 @@
-/*
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-12 23:38:49
- * @LastEditTime: 2024-02-17 21:11:06
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description:
- */
 export * from './id-editor'
 export * from './id-alias-editor'
 export * from './project-name-editor'

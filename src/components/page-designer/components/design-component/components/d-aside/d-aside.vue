@@ -1,10 +1,3 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-13 12:57:27
- * @LastEditTime: 2024-02-17 21:17:19
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description:
--->
 <script setup lang="ts">
 import { MergeDesignData } from '@/components';
 import { IdEditor, ProjectNameEditor, WidthEditor } from '../property-editor';

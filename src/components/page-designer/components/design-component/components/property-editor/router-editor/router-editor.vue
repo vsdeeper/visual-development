@@ -1,10 +1,3 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-02-01 22:07:17
- * @LastEditTime: 2024-02-17 21:03:32
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description: 是否启用 vue-router 模式
--->
 <script setup lang="ts">
 import { DesignDataOptions } from '@/components';
 import { FormItemRule } from 'element-plus';

@@ -1,10 +1,3 @@
-/*
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-02-01 22:47:41
- * @LastEditTime: 2024-02-01 22:49:12
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description: 常量
- */
 export const JUSTIFY_OPTIONS = [
   { label: '开始', value: 'start' },
   { label: '末尾', value: 'end' },

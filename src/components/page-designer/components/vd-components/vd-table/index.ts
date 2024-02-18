@@ -1,11 +1,3 @@
-/*
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-02-13 20:05:46
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-17 20:51:06
- * @Description:
- */
-
 import { BaseDesignData, Method } from '@/components'
 import { Sort } from 'element-plus'
 import { VNode } from 'vue'

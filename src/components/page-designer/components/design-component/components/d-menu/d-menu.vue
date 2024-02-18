@@ -1,10 +1,3 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-02-07 13:35:21
- * @LastEditTime: 2024-02-17 23:40:06
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description: 菜单设计组件
--->
 <script setup lang="ts">
 import { MergeDesignData } from '@/components';
 import { IdEditor } from '../property-editor';
@@ -30,11 +23,7 @@ defineProps<{
       <PopperEffectEditor :options="formData.options"></PopperEffectEditor>
     </ResponsiveCol>
     <el-col :span="24">
-      <ApiEditor
-        :options="formData.options"
-        api-label="菜单接口"
-        params-label="接口参数"
-      ></ApiEditor>
+      <ApiEditor :options="formData.options" api-label="菜单接口" params-label="接口参数"></ApiEditor>
     </el-col>
   </el-row>
 </template>

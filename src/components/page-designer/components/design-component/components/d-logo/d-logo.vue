@@ -1,20 +1,6 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-02-07 13:35:21
- * @LastEditTime: 2024-02-17 23:39:38
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description: logo设计组件
--->
 <script setup lang="ts">
 import { MergeDesignData } from '@/components';
-import {
-  ColorEditor,
-  FontSizeEditor,
-  HeightEditor,
-  IdEditor,
-  NameEditor,
-  SuffixIconEditor,
-} from '../property-editor';
+import { ColorEditor, FontSizeEditor, HeightEditor, IdEditor, NameEditor, SuffixIconEditor } from '../property-editor';
 import { ROW_GUTTER } from '../constants';
 
 defineProps<{

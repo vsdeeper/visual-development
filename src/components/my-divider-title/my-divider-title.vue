@@ -1,11 +1,3 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-02-07 18:46:03
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-18 00:03:38
- * @Description: 分割线标题
--->
-
 <script setup lang="ts">
 defineProps<{
   label: string;

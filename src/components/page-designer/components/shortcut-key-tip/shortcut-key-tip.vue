@@ -1,18 +1,9 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-09 09:14:36
- * @Description:
--->
-
 <script setup lang="ts">
-import { useGlobal } from "@/stores";
-import { ActiveDesignData, AddComponentInstance } from "../..";
-import { type ShortcutKeyOptionItem } from ".";
-import {
-  ADD_COMPONENT_REF_SYMBOL,
-  DESIGN_COMPONENT_REF_SYMBOL,
-} from "@/utils/constants";
-import { deleteComponent } from "../../util";
+import { useGlobal } from '@/stores';
+import { ActiveDesignData, AddComponentInstance } from '../..';
+import { type ShortcutKeyOptionItem } from '.';
+import { ADD_COMPONENT_REF_SYMBOL, DESIGN_COMPONENT_REF_SYMBOL } from '@/utils/constants';
+import { deleteComponent } from '../../util';
 
 const props = defineProps<{
   data?: ActiveDesignData;
@@ -22,21 +13,14 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "show-more"): void;
+  (e: 'show-more'): void;
 }>();
 
 const { setActiveDesignData, designData } = useGlobal();
-const addComponentRef = inject<Ref<AddComponentInstance>>(
-  ADD_COMPONENT_REF_SYMBOL,
-);
-const designComponentRef = inject<Ref<AddComponentInstance>>(
-  DESIGN_COMPONENT_REF_SYMBOL,
-);
+const addComponentRef = inject<Ref<AddComponentInstance>>(ADD_COMPONENT_REF_SYMBOL);
+const designComponentRef = inject<Ref<AddComponentInstance>>(DESIGN_COMPONENT_REF_SYMBOL);
 
-function clickShortcutKey(
-  item: ShortcutKeyOptionItem,
-  data?: ActiveDesignData,
-) {
+function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) {
   if (props.isPageDesigner) {
     // 来源于页面设计器
     setActiveDesignData(undefined);
@@ -44,16 +28,16 @@ function clickShortcutKey(
   } else {
     const { activeDesignData } = useGlobal();
     if (!data) return;
-    const _keysStr = item.keys?.join("").toUpperCase();
-    if (_keysStr === "VA") {
+    const _keysStr = item.keys?.join('').toUpperCase();
+    if (_keysStr === 'VA') {
       // 添加组件
       if (activeDesignData?.id !== data?.id) setActiveDesignData(data);
       addComponentRef?.value.open();
-    } else if (_keysStr === "VD") {
+    } else if (_keysStr === 'VD') {
       // 设计组件
       if (activeDesignData?.id !== data?.id) setActiveDesignData(data);
       designComponentRef?.value.open();
-    } else if (_keysStr === "DELETE") {
+    } else if (_keysStr === 'DELETE') {
       // 删除组件
       const { designData } = useGlobal();
       deleteComponent(data, designData);
@@ -64,20 +48,10 @@ function clickShortcutKey(
 
 <template>
   <div class="shortcut-key-tip">
-    <div
-      class="item"
-      v-for="(item, index) in options"
-      :key="index"
-      @click="clickShortcutKey(item, data)"
-    >
+    <div class="item" v-for="(item, index) in options" :key="index" @click="clickShortcutKey(item, data)">
       <div class="label">{{ item.label }}</div>
       <div class="key" v-for="key in item.keys" :key="key">{{ key }}</div>
-      <el-tooltip
-        v-if="showMore"
-        content="快捷键"
-        :placement="designData.length ? 'top' : 'right'"
-        effect="customized"
-      >
+      <el-tooltip v-if="showMore" content="快捷键" :placement="designData.length ? 'top' : 'right'" effect="customized">
         <div class="key tip" @click.stop="emit('show-more')">?</div>
       </el-tooltip>
     </div>

@@ -1,10 +1,3 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-17 21:01:02
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description: 名称属性
--->
 <script setup lang="ts">
 import { DesignDataOptions } from '@/components';
 import { FormItemRule } from 'element-plus';

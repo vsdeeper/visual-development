@@ -1,11 +1,6 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-07 10:45:24
- * @Description:
--->
 <script setup lang="ts">
-import { LogoDesignData } from ".";
-import { SHORTCUR_KEY_OPTIONS_OF_GENERAL_COMPONENT } from "../constants";
+import { LogoDesignData } from '.';
+import { SHORTCUR_KEY_OPTIONS_OF_GENERAL_COMPONENT } from '../constants';
 
 defineProps<{
   data: LogoDesignData;

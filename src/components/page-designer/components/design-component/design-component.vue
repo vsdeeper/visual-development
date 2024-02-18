@@ -1,29 +1,22 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-11 23:47:19
- * @LastEditTime: 2024-02-07 13:00:00
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description:
--->
 <script setup lang="ts">
-import { FormInstance } from 'element-plus'
-import { ActiveDesignData } from '../..'
-import { DesignComponent } from './components'
+import { FormInstance } from 'element-plus';
+import { ActiveDesignData } from '../..';
+import { DesignComponent } from './components';
 
 defineProps<{
-  formData: ActiveDesignData
-}>()
+  formData: ActiveDesignData;
+}>();
 
-const formRef = ref<FormInstance>()
-const show = ref(false)
+const formRef = ref<FormInstance>();
+const show = ref(false);
 
 function open() {
-  show.value = true
+  show.value = true;
 }
 
 defineExpose({
-  open
-})
+  open,
+});
 </script>
 
 <template>

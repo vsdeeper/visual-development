@@ -1,17 +1,6 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-12 23:36:18
- * @LastEditTime: 2024-02-17 20:29:13
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description:
--->
 <script setup lang="ts">
 import { MergeDesignData } from '@/components';
-import {
-  IdEditor,
-  ProjectNameEditor,
-  DirectionEditor,
-} from '../property-editor';
+import { IdEditor, ProjectNameEditor, DirectionEditor } from '../property-editor';
 import { isRootComponent } from '@/components/page-designer/util';
 import { useGlobal } from '@/stores';
 import { ROW_GUTTER } from '../constants';

@@ -1,10 +1,3 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-17 21:09:52
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description: 后缀图标
--->
 <script setup lang="ts">
 import * as Icons from '@element-plus/icons-vue';
 import { DesignDataOptions } from '@/components';
@@ -28,23 +21,9 @@ const options = toRef(props, 'options');
 
 <template>
   <el-form-item :label="label" :prop="formItemProp">
-    <el-select
-      v-model="options.suffixIcon"
-      placeholder="请选择"
-      clearable
-      filterable
-    >
-      <el-option
-        v-for="item in Icons"
-        :key="item.name"
-        :label="item.name"
-        :value="item.name"
-      >
-        <el-icon
-          ><component
-            :is="(Icons as Record<string, any>)[item.name]"
-          ></component
-        ></el-icon>
+    <el-select v-model="options.suffixIcon" placeholder="请选择" clearable filterable>
+      <el-option v-for="item in Icons" :key="item.name" :label="item.name" :value="item.name">
+        <el-icon><component :is="(Icons as Record<string, any>)[item.name]"></component></el-icon>
         <span>{{ item.name }}</span>
       </el-option>
     </el-select>

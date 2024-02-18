@@ -1,9 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/*
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-07 11:27:08
- * @Description: 可视化开发组件
- */
 import type { AsyncComponentLoader } from 'vue'
 import { capitalizeFirstLetter } from '@/utils'
 

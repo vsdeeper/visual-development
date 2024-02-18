@@ -1,12 +1,5 @@
 import { DateType, SearchConditionType } from "@/components";
 
-/*
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-02-11 16:25:42
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-12 22:51:19
- * @Description:
- */
 export const SEARCH_TYPE_OPTIONS: { label: string; value: SearchConditionType }[] = [
   { label: '输入框', value: 'Input' },
   { label: '数字输入框', value: 'InputNumber' },

@@ -1,10 +1,3 @@
-<!--
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-01-13 16:07:06
- * @LastEditTime: 2024-02-18 00:02:43
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @Description: 接口配置
--->
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue';
 import { nanoid } from 'nanoid';
@@ -69,14 +62,8 @@ function remove(target: Tree, treeData: Tree[]) {
   if (findIdx > -1) {
     treeData.splice(findIdx, 1);
   } else {
-    const findArr = findArraryValuesFromTreeData(
-      target.id,
-      treeData,
-    ) as string[];
-    const findParent = findObjectFromTreeData(
-      first<string>(findArr)!,
-      treeData,
-    ) as Tree;
+    const findArr = findArraryValuesFromTreeData(target.id, treeData) as string[];
+    const findParent = findObjectFromTreeData(first<string>(findArr)!, treeData) as Tree;
     const findIdx = findParent.children!.findIndex(e => e.id === target.id);
     findParent.children!.splice(findIdx, 1);
   }
@@ -141,34 +128,12 @@ defineExpose({
         :suffix-icon="Plus"
         @click-suffix-icon="append(treeData)"
       ></my-divider-title>
-      <el-tree
-        :data="treeData"
-        node-key="id"
-        default-expand-all
-        :expand-on-click-node="false"
-        empty-text="暂无配置"
-      >
+      <el-tree :data="treeData" node-key="id" default-expand-all :expand-on-click-node="false" empty-text="暂无配置">
         <template #default="{ data }">
           <span class="custom-tree-node">
-            <el-input
-              v-model="data.key"
-              placeholder="字段名称"
-              clearable
-            ></el-input>
-            <el-input
-              v-if="!data.children?.length"
-              v-model="data.value"
-              placeholder="字段值"
-              clearable
-            ></el-input>
-            <el-button
-              type="danger"
-              size="small"
-              :icon="Minus"
-              plain
-              circle
-              @click="remove(data, treeData)"
-            >
+            <el-input v-model="data.key" placeholder="字段名称" clearable></el-input>
+            <el-input v-if="!data.children?.length" v-model="data.value" placeholder="字段值" clearable></el-input>
+            <el-button type="danger" size="small" :icon="Minus" plain circle @click="remove(data, treeData)">
             </el-button>
           </span>
         </template>

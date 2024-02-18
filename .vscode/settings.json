@@ -21,4 +21,7 @@
     "param": "", // param 开启函数参数自动提取 需要将光标放在函数行或者函数上方的空白行
     "return": "",
   },
+  "fileheader.configObj": {
+    "autoAdd": false
+  }
 }

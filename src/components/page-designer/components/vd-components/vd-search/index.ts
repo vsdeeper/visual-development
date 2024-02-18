@@ -1,11 +1,3 @@
-/*
- * @Author: vsdeeper vsdeeper@qq.com
- * @Date: 2024-02-11 14:36:22
- * @LastEditors: vsdeeper vsdeeper@qq.com
- * @LastEditTime: 2024-02-17 20:50:38
- * @Description:
- */
-
 import { BaseDesignData, Method } from '@/components'
 
 export type SearchConditionType = 'Input' | 'InputNumber' | 'Select' | 'Cascader' | 'DatePicker'
