@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MergeDesignData } from '@/components';
 import { IdEditor, ProjectNameEditor, HeightEditor } from '../property-editor';
-import { isRootComponent } from '@/components/page-designer/util';
+import { isRootComponent } from '@/components/visual-development/util';
 import { useGlobal } from '@/stores';
 import { ROW_GUTTER } from '../constants';
 
@@ -23,3 +23,4 @@ defineProps<{
     </ResponsiveCol>
   </el-row>
 </template>
+@/components/visual-development/util

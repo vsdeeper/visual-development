@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { PageDesigner } from '@/components';
+import { VisualDevelopment } from '@/components';
 </script>
 
 <template>
-  <PageDesigner />
+  <VisualDevelopment />
 </template>

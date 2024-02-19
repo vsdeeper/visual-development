@@ -35,6 +35,8 @@ const emit = defineEmits<{
   :deep(.el-divider__text.is-left) {
     left: 0;
     padding: 0 5px 0 0;
+    color: var(--el-text-color-regular);
+    font-weight: normal;
   }
 }
 </style>

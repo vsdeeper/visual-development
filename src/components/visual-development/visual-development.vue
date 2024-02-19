@@ -180,17 +180,17 @@ function showMoreShortcutKey() {
 
 <template>
   <div
-    id="page-designer"
+    id="visual-development"
     :class="{
       'has-design-content': designData.length,
       active: !designData.length || !useGlobal().activeDesignData,
     }"
   >
-    <div class="version">Page Designer 1.0.0</div>
+    <div class="version">Visual Development 1.0.0</div>
     {{ designData }}
     <el-scrollbar>
       <draggable
-        class="transition-group-in-page-designer"
+        class="transition-group-in-visual-development"
         :list="designData"
         :component-data="{
           type: 'transition-group',
@@ -216,7 +216,7 @@ function showMoreShortcutKey() {
     <ShortcutKeyTip
       :options="designData.length ? [{ keys: ['V', 'A'] }] : [{ label: '添加组件', keys: ['V', 'A'] }]"
       show-more
-      is-page-designer
+      in-outermost-layer
       @show-more="showMoreShortcutKey"
     />
   </div>
@@ -229,7 +229,7 @@ function showMoreShortcutKey() {
 </template>
 
 <style lang="scss" scoped>
-#page-designer {
+#visual-development {
   position: absolute;
   left: 0;
   right: 0;
@@ -244,12 +244,12 @@ function showMoreShortcutKey() {
     left: 50%;
     top: 50%;
     transform: translate(-50%, calc(-100% - 40px));
-    font-size: 10px;
+    font-size: 11px;
     font-weight: bold;
     color: var(--el-color-primary);
   }
 
-  .transition-group-in-page-designer {
+  .transition-group-in-visual-development {
     padding: 0 10px;
 
     & > .group-item {

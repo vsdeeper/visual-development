@@ -9,7 +9,7 @@ const props = defineProps<{
   data?: ActiveDesignData;
   options?: ShortcutKeyOptionItem[];
   showMore?: boolean;
-  isPageDesigner?: boolean;
+  inOutermostLayer?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -21,8 +21,8 @@ const addComponentRef = inject<Ref<AddComponentInstance>>(ADD_COMPONENT_REF_SYMB
 const designComponentRef = inject<Ref<AddComponentInstance>>(DESIGN_COMPONENT_REF_SYMBOL);
 
 function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) {
-  if (props.isPageDesigner) {
-    // 来源于页面设计器
+  if (props.inOutermostLayer) {
+    // 在最外层
     setActiveDesignData(undefined);
     addComponentRef?.value.open();
   } else {

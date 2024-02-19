@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import draggable from 'vuedraggable';
 import { MergeDesignData, RowColDesignData, VdComponents } from '@/components';
-import { isActiveDesign, isRowComponent } from '@/components/page-designer/util';
+import { isActiveDesign, isRowComponent } from '@/components/visual-development/util';
 import { useGlobal } from '@/stores';
 import { genStyle } from '../util';
 
@@ -68,3 +68,4 @@ defineProps<{
     </template>
   </draggable>
 </template>
+@/components/visual-development/util

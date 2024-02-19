@@ -20,7 +20,7 @@ import {
   findParentComponentOfComponent,
   genId,
   isRowComponent,
-} from '@/components/page-designer/util';
+} from '@/components/visual-development/util';
 import { useGlobal } from '@/stores';
 
 defineProps<{
@@ -151,3 +151,4 @@ function findRow(item: MergeDesignData, designData: MergeDesignData[]) {
   align-items: center;
 }
 </style>
+@/components/visual-development/util

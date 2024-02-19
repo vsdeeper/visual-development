@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MergeDesignData } from '@/components';
-import { IdEditor, ProjectNameEditor, HeightEditor } from '../property-editor';
-import { isRootComponent } from '@/components/page-designer/util';
+import { IdEditor, ProjectNameEditor, DirectionEditor } from '../property-editor';
+import { isRootComponent } from '@/components/visual-development/util';
 import { useGlobal } from '@/stores';
 import { ROW_GUTTER } from '../constants';
 
@@ -19,7 +19,8 @@ defineProps<{
       <ProjectNameEditor :form-data="formData"></ProjectNameEditor>
     </ResponsiveCol>
     <ResponsiveCol>
-      <HeightEditor :options="formData.options"></HeightEditor>
+      <DirectionEditor :options="formData.options"></DirectionEditor>
     </ResponsiveCol>
   </el-row>
 </template>
+@/components/visual-development/util

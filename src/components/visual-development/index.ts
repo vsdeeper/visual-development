@@ -21,24 +21,23 @@ import {
   LogoDesignDataOptions,
   MenuDesignDataOptions,
   SearchDesignDataOptions,
-  TableDesignDataOptions
-} from './components'
+  TableDesignDataOptions,
+} from './components';
 
-export * from './components'
-export { default as PageDesigner, type AddComponentInstance } from './page-designer.vue'
+export * from './components';
+export { default as VisualDevelopment, type AddComponentInstance } from './visual-development.vue';
 
 /** 全局请求方法定义 */
-export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
+export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 export interface ApiConfig {
-  api?: string
-  method?: Method
-  params?: Record<string, any>
+  api?: string;
+  method?: Method;
+  params?: Record<string, any>;
 }
 
 /** 设计组件的选项配置类型 */
-export type DesignDataOptions =
-  ContainerDesignDataOptions &
+export type DesignDataOptions = ContainerDesignDataOptions &
   AsideDesignDataOptions &
   HeaderDesignDataOptions &
   FooterDesignDataOptions &
@@ -48,27 +47,25 @@ export type DesignDataOptions =
   LogoDesignDataOptions &
   MenuDesignDataOptions &
   SearchDesignDataOptions &
-  TableDesignDataOptions
-
+  TableDesignDataOptions;
 
 /** 当前配置数据类型 */
 export type ActiveDesignData =
-  ContainerDesignData |
-  AsideDesignData |
-  HeaderDesignData |
-  MainDesignData |
-  FooterDesignData |
-  RouterViewDesignData |
-  ViewDesignData |
-  RowColDesignData |
-  LogoDesignData |
-  MenuDesignData |
-  SearchDesignData |
-  TableDesignData
+  | ContainerDesignData
+  | AsideDesignData
+  | HeaderDesignData
+  | MainDesignData
+  | FooterDesignData
+  | RouterViewDesignData
+  | ViewDesignData
+  | RowColDesignData
+  | LogoDesignData
+  | MenuDesignData
+  | SearchDesignData
+  | TableDesignData;
 
 /** 设计数据的合并类型 */
-export type MergeDesignData =
-  ContainerDesignData &
+export type MergeDesignData = ContainerDesignData &
   AsideDesignData &
   HeaderDesignData &
   FooterDesignData &
@@ -78,4 +75,4 @@ export type MergeDesignData =
   LogoDesignData &
   MenuDesignData &
   SearchDesignData &
-  TableDesignData
+  TableDesignData;
