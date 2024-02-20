@@ -9,7 +9,7 @@ const props = defineProps<{
   data?: ActiveDesignData;
   options?: ShortcutKeyOptionItem[];
   showMore?: boolean;
-  inOutermostLayer?: boolean;
+  usedInRootComponent?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -21,8 +21,8 @@ const addComponentRef = inject<Ref<AddComponentInstance>>(ADD_COMPONENT_REF_SYMB
 const designComponentRef = inject<Ref<AddComponentInstance>>(DESIGN_COMPONENT_REF_SYMBOL);
 
 function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) {
-  if (props.inOutermostLayer) {
-    // 在最外层
+  if (props.usedInRootComponent) {
+    // 在根组件中使用
     setActiveDesignData(undefined);
     addComponentRef?.value.open();
   } else {

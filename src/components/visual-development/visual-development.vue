@@ -216,7 +216,7 @@ function showMoreShortcutKey() {
     <ShortcutKeyTip
       :options="designData.length ? [{ keys: ['V', 'A'] }] : [{ label: '添加组件', keys: ['V', 'A'] }]"
       show-more
-      in-outermost-layer
+      used-in-root-component
       @show-more="showMoreShortcutKey"
     />
   </div>
