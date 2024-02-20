@@ -20,4 +20,3 @@ defineProps<{
     </ResponsiveCol>
   </el-row>
 </template>
-@/components/visual-development/util
