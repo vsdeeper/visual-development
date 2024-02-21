@@ -8,23 +8,21 @@
  */
 export const findObjectFromTreeData = (
   targetId: string | number,
-  data: Record<string, any>[],
+  tree: Record<string, any>[],
   options?: { id?: string; children?: string },
 ) => {
-  let findObj: Record<string, any>
-  const idkey = options?.id || 'id'
-  const childrenKey = options?.children || 'children'
-  const finder = (items: Record<string, any>[]) => {
-    for (const item of items) {
-      if (item[idkey] === targetId) {
-        findObj = item
-        break
-      }
-      if (item[childrenKey] && item[childrenKey].length) {
-        finder(item[childrenKey])
-      }
+  const { id = 'id', children = 'children' } = options ?? {};
+  return finder(targetId, tree, { id, children });
+};
+
+function finder(targetId: string | number, tree: Record<string, any>[], options?: { id?: string; children: string }) {
+  const { id = 'id', children = 'children' } = options ?? {};
+  for (const item of tree) {
+    if (item[id] === targetId) {
+      return item;
     }
-    return findObj
+    if (item[children] && item[children].length) {
+      finder(targetId, item[children], { id, children });
+    }
   }
-  return finder(data)
 }
