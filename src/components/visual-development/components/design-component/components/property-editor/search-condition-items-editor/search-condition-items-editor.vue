@@ -86,7 +86,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
       :name="`condition${index + 1}`"
     >
       <template #title>
-        <div style="display: flex; justify-content: flex-start; flex: 1">搜索条件 {{ index + 1 }}</div>
+        <div style="display: flex; justify-content: flex-start; flex: 1">搜索条件 - {{ item.placeholder }}</div>
         <el-button
           type="danger"
           :icon="Minus"
