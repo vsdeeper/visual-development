@@ -57,5 +57,9 @@ defineProps<{
         params-label="接口参数"
       ></ApiEditor>
     </el-col>
+    <el-col :span="24">
+      <my-divider-title label="表列设置"></my-divider-title>
+      <TableColumnItemsEditor :options="formData.options" />
+    </el-col>
   </el-row>
 </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue';
 import { nanoid } from 'nanoid';
-import { ApiConfig, DesignDataOptions } from '@/components';
+import { ApiConfig } from '@/components';
 import { first, isObject, throttle } from 'lodash-es';
 import { findArraryValuesFromTreeData, findObjectFromTreeData } from '@/utils';
 import { FormItemInstance, FormItemRule } from 'element-plus';
@@ -16,7 +16,7 @@ interface Tree {
 
 const props = withDefaults(
   defineProps<{
-    options: DesignDataOptions;
+    options: Record<string, any>;
     apiLabel?: string;
     keyAlias?: string;
     paramsLabel?: string;
@@ -119,9 +119,9 @@ defineExpose({
       :rules="formItemRules"
       :show-message="showMessage"
     >
-      <el-input v-model="(options[keyAlias] as ApiConfig).api" placeholder="请输入">
+      <el-input v-model="options[keyAlias].api" placeholder="请输入">
         <template #prepend>
-          <el-select v-model="(options[keyAlias] as ApiConfig).method" placeholder="选择" style="width: 75px">
+          <el-select v-model="options[keyAlias].method" placeholder="选择" style="width: 75px">
             <el-option v-for="item in METHOD_OPTIONS" :key="item" :label="item" :value="item" />
           </el-select>
         </template>

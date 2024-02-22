@@ -14,12 +14,12 @@ const options = toRef(props, 'options');
 const apiRefs = ref<ApiEditorInstance[]>([]);
 const activeName = ref('condition1');
 
-function add() {
+function addItem() {
   options.value.searchConditionItems?.push({});
   activeName.value = `condition${options.value.searchConditionItems?.length}`;
 }
 
-function deleteSearchItem(index: number, searchConditionItems: SearchConditionItem[]) {
+function deleteItem(index: number, searchConditionItems: SearchConditionItem[]) {
   searchConditionItems.splice(index, 1);
   if (searchConditionItems[index]) {
     activeName.value = `condition${index + 1}`;
@@ -94,7 +94,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
           plain
           size="small"
           style="margin-right: 10px"
-          @click.stop="deleteSearchItem(index, options.searchConditionItems!)"
+          @click.stop="deleteItem(index, options.searchConditionItems!)"
         >
         </el-button>
       </template>
@@ -256,7 +256,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
       </el-row>
     </el-collapse-item>
   </el-collapse>
-  <el-button type="primary" plain :icon="Plus" @click="add" style="width: 100%; margin-top: 10px">
+  <el-button type="primary" plain :icon="Plus" @click="addItem" style="width: 100%; margin-top: 10px">
     新增搜索条件
   </el-button>
 </template>

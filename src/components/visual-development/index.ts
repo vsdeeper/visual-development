@@ -22,6 +22,8 @@ import {
   MenuDesignDataOptions,
   SearchDesignDataOptions,
   TableDesignDataOptions,
+  TableColumnItem,
+  SearchConditionItem,
 } from './components';
 
 export * from './components';
@@ -47,7 +49,9 @@ export type DesignDataOptions = ContainerDesignDataOptions &
   LogoDesignDataOptions &
   MenuDesignDataOptions &
   SearchDesignDataOptions &
-  TableDesignDataOptions;
+  TableDesignDataOptions &
+  SearchConditionItem &
+  TableColumnItem;
 
 /** 当前配置数据类型 */
 export type ActiveDesignData =

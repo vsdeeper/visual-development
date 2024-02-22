@@ -151,6 +151,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
           virtualized: false,
           itemChildren: 'children',
           itemHasChildren: 'hasChildren',
+          tableColumnItems: [{}],
         },
       };
     }
