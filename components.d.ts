@@ -84,6 +84,7 @@ declare module 'vue' {
     MultipleEditor: (typeof import('./src/components/visual-development/components/design-component/components/property-editor/multiple-editor/multiple-editor.vue'))['default']
     MyColorPicker: typeof import('./src/components/my-color-picker/my-color-picker.vue')['default']
     MyDividerTitle: typeof import('./src/components/my-divider-title/my-divider-title.vue')['default']
+    MyLabel: typeof import('./src/components/my-label/my-label.vue')['default']
     NameEditor: typeof import('./src/components/visual-development/components/design-component/components/property-editor/name-editor/name-editor.vue')['default']
     NestedDraggable: (typeof import('./src/components/visual-development/components/nested-draggable/nested-draggable.vue'))['default']
     OptionItemsConfig: typeof import('./src/components/visual-development/components/design-component/components/property-editor/search-condition-items-editor/components/option-items-config.vue')['default']

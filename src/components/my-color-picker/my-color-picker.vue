@@ -23,18 +23,22 @@ function clickInput() {
 </script>
 
 <template>
-  <el-input v-model="model" :placeholder="placeholder" readonly @click="clickInput">
-    <template #append>
-      <el-color-picker ref="colorPickerRef" v-model="model" :show-alpha="showAlpha" />
-    </template>
-  </el-input>
+  <dvi class="my-color-picker">
+    <el-input v-model="model" :placeholder="placeholder" readonly @click="clickInput">
+      <template #append>
+        <el-color-picker ref="colorPickerRef" v-model="model" :show-alpha="showAlpha" />
+      </template>
+    </el-input>
+  </dvi>
 </template>
 
 <style lang="scss" scoped>
-:deep(.el-input-group__append) {
-  padding: 0;
-}
-:deep(.el-color-picker__trigger) {
-  border: 0 none;
+.my-color-picker {
+  :deep(.el-input-group__append) {
+    padding: 0;
+  }
+  :deep(.el-color-picker__trigger) {
+    border: 0 none;
+  }
 }
 </style>

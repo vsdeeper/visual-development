@@ -53,7 +53,7 @@ defineProps<{
       <ApiEditor
         :options="formData.options"
         key-alias="loadApiConfig"
-        api-label="懒加载子节点数据接口"
+        api-label="懒加载子节点接口"
         params-label="接口参数"
       ></ApiEditor>
     </el-col>

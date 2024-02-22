@@ -10,7 +10,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="divider-title">
+  <div class="my-divider-title">
     <el-divider content-position="left" border-style="dashed">
       {{ label }}
     </el-divider>
@@ -28,7 +28,7 @@ const emit = defineEmits<{
 </template>
 
 <style lang="scss" scoped>
-.divider-title {
+.my-divider-title {
   display: flex;
   align-items: center;
   line-height: 1;
