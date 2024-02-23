@@ -3,6 +3,7 @@ import { Sort } from 'element-plus';
 import { VNode } from 'vue';
 
 export interface TableColumnItem {
+  id: string;
   prop?: string;
   label?: string;
   width?: string | number;
@@ -12,7 +13,7 @@ export interface TableColumnItem {
   sortable?: boolean | 'custom';
   sortChange?: (...args: any[]) => void;
   formatter?: (...args: any[]) => string | VNode;
-  children?: TableColumnItem[];
+  tableColumnItems?: TableColumnItem[];
 }
 
 export interface TableDesignDataOptions {

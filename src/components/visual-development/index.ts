@@ -49,9 +49,7 @@ export type DesignDataOptions = ContainerDesignDataOptions &
   LogoDesignDataOptions &
   MenuDesignDataOptions &
   SearchDesignDataOptions &
-  TableDesignDataOptions &
-  SearchConditionItem &
-  TableColumnItem;
+  TableDesignDataOptions;
 
 /** 当前配置数据类型 */
 export type ActiveDesignData =

@@ -1,30 +1,33 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue';
-import { DesignDataOptions, SearchConditionItem, SearchConditionType } from '@/components';
+import { SearchConditionItem, SearchConditionType, SearchDesignDataOptions } from '@/components';
 import { ROW_GUTTER } from '../../constants';
 import { SEARCH_TYPE_OPTIONS, DATE_TYPE_OPTIONS } from './constants';
 import { TabPaneName } from 'element-plus';
 import { ApiEditorInstance } from '../api-editor';
+import { nanoid } from 'nanoid';
+import { first, last } from 'lodash-es';
 
 const props = defineProps<{
-  options: DesignDataOptions;
+  options: SearchDesignDataOptions;
 }>();
 
 const options = toRef(props, 'options');
 const apiRefs = ref<ApiEditorInstance[]>([]);
-const activeName = ref('condition1');
+const activeName = ref(first(options.value.searchConditionItems)?.id);
 
 function addItem() {
-  options.value.searchConditionItems?.push({});
-  activeName.value = `condition${options.value.searchConditionItems?.length}`;
+  options.value.searchConditionItems?.push({ id: nanoid(5) });
+  activeName.value = last(options.value.searchConditionItems)?.id;
 }
 
 function deleteItem(index: number, searchConditionItems: SearchConditionItem[]) {
   searchConditionItems.splice(index, 1);
+  if (!searchConditionItems.length) return;
   if (searchConditionItems[index]) {
-    activeName.value = `condition${index + 1}`;
+    activeName.value = searchConditionItems[index].id;
   } else {
-    activeName.value = `condition${index}`;
+    activeName.value = searchConditionItems[index - 1].id;
   }
 }
 
@@ -80,11 +83,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
 
 <template>
   <el-collapse v-if="options.searchConditionItems?.length" v-model="activeName" accordion>
-    <el-collapse-item
-      v-for="(item, index) in options.searchConditionItems"
-      :key="index"
-      :name="`condition${index + 1}`"
-    >
+    <el-collapse-item v-for="(item, index) in options.searchConditionItems" :key="item.id" :name="item.id">
       <template #title>
         <div style="display: flex; justify-content: flex-start; flex: 1">搜索条件 - {{ item.placeholder }}</div>
         <el-button
@@ -128,10 +127,10 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
         <ResponsiveCol>
           <el-form-item
             label="字段名称"
-            :prop="['options', 'searchConditionItems', index + '', 'filedName']"
+            :prop="['options', 'searchConditionItems', index + '', 'key']"
             :rules="[{ required: true, message: '必填项' }]"
           >
-            <el-input v-model="item.filedName" placeholder="请输入" clearable></el-input>
+            <el-input v-model="item.key" placeholder="请输入" clearable></el-input>
           </el-form-item>
         </ResponsiveCol>
         <!-- 搜索条件为DatePicker时，设置format、valueFormat、dateType -->

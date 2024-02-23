@@ -7,6 +7,7 @@ import { IS_PAGE_DESIGN_MODE_SYMBOL, ADD_COMPONENT_REF_SYMBOL, DESIGN_COMPONENT_
 import { deleteComponent, genId, isActiveDesign, isContainerComponent } from './util';
 import { ADD_COMPONENT_OPTIONS } from './constants';
 import { RowColDesignData } from './components';
+import { nanoid } from 'nanoid';
 
 export type AddComponentInstance = InstanceType<typeof AddComponent>;
 export type DesignComponentInstance = InstanceType<typeof DesignComponent>;
@@ -126,7 +127,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
           apiConfig: {
             method: 'GET',
           },
-          searchConditionItems: [{}],
+          searchConditionItems: [{ id: nanoid(5) }],
         },
       };
     }
@@ -151,7 +152,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
           virtualized: false,
           itemChildren: 'children',
           itemHasChildren: 'hasChildren',
-          tableColumnItems: [{}],
+          tableColumnItems: [{ id: nanoid(5) }],
         },
       };
     }

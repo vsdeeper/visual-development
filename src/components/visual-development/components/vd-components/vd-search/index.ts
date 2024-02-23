@@ -16,7 +16,8 @@ export interface SearchConditionOptionItem {
   value?: string;
 }
 export interface SearchConditionItem {
-  filedName?: string;
+  id: string;
+  key?: string;
   type?: SearchConditionType;
   placeholder?: string;
   dataSource?: 'api' | 'custom';
