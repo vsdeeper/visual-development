@@ -33,20 +33,13 @@ function deleteItem(index: number, tableColumnItems: TableColumnItem[]) {
     activeName.value = tableColumnItems[index - 1].id;
   }
 }
-
-function toLabel(label?: string, parentLabel?: string) {
-  console.log('toLabel', label, parentLabel);
-  return `${parentLabel ? parentLabel + ' - ' : ''}${label ?? ''}`;
-}
 </script>
 
 <template>
   <el-collapse v-if="options.tableColumnItems?.length" v-model="activeName" accordion>
     <el-collapse-item v-for="(item, index) in options.tableColumnItems" :key="item.id" :name="item.id">
       <template #title>
-        <div style="display: flex; justify-content: flex-start; flex: 1">
-          表列 - {{ toLabel(item.label, toLabel(options.label)) }}
-        </div>
+        <div style="display: flex; justify-content: flex-start; flex: 1">表列 - {{ item.label }}</div>
         <el-button
           type="danger"
           :icon="Minus"
@@ -144,3 +137,9 @@ function toLabel(label?: string, parentLabel?: string) {
     新增表列
   </el-button>
 </template>
+
+<style lang="scss" scoped>
+:deep(.el-collapse-item__content > .el-collapse) {
+  margin: 0 10px;
+}
+</style>
