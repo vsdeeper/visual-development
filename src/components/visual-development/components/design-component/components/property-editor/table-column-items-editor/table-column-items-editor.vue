@@ -8,6 +8,8 @@ import { first, last } from 'lodash-es';
 
 const props = defineProps<{
   options: TableDesignDataOptions | TableColumnItem;
+  formItemProp?: string[];
+  label?: string;
   isSubLevel?: boolean;
 }>();
 
@@ -33,13 +35,23 @@ function deleteItem(index: number, tableColumnItems: TableColumnItem[]) {
     activeName.value = tableColumnItems[index - 1].id;
   }
 }
+
+function getFormItemProp(index: number, formItemProp?: string[]) {
+  return Array.isArray(formItemProp)
+    ? [...formItemProp, 'tableColumnItems', index + '']
+    : ['options', 'tableColumnItems', index + ''];
+}
+
+function getLabel(label?: string, propLabel?: string) {
+  return propLabel ? `${propLabel} / ${label ?? ''}` : `${label ?? ''}`;
+}
 </script>
 
 <template>
   <el-collapse v-if="options.tableColumnItems?.length" v-model="activeName" accordion>
     <el-collapse-item v-for="(item, index) in options.tableColumnItems" :key="item.id" :name="item.id">
       <template #title>
-        <div style="display: flex; justify-content: flex-start; flex: 1">表列 - {{ item.label }}</div>
+        <div style="display: flex; justify-content: flex-start; flex: 1">表列 - {{ getLabel(item.label, label) }}</div>
         <el-button
           type="danger"
           :icon="Minus"
@@ -65,7 +77,7 @@ function deleteItem(index: number, tableColumnItems: TableColumnItem[]) {
         <ResponsiveCol>
           <el-form-item
             label="字段名称"
-            :prop="['options', 'tableColumnItems', index + '', 'prop']"
+            :prop="[...getFormItemProp(index, formItemProp), 'prop']"
             :rules="[{ required: true, message: '必填项' }]"
           >
             <el-input v-model="item.prop" placeholder="请输入" clearable></el-input>
@@ -74,24 +86,24 @@ function deleteItem(index: number, tableColumnItems: TableColumnItem[]) {
         <ResponsiveCol>
           <el-form-item
             label="列名称"
-            :prop="['options', 'tableColumnItems', index + '', 'label']"
+            :prop="[...getFormItemProp(index, formItemProp), 'label']"
             :rules="[{ required: true, message: '必填项' }]"
           >
             <el-input v-model="item.label" placeholder="请输入" clearable></el-input>
           </el-form-item>
         </ResponsiveCol>
         <ResponsiveCol>
-          <el-form-item label="列宽度" :prop="['options', 'tableColumnItems', index + '', 'width']">
+          <el-form-item label="列宽度" :prop="[...getFormItemProp(index, formItemProp), 'width']">
             <el-input v-model="item.width" placeholder="请输入" clearable></el-input>
           </el-form-item>
         </ResponsiveCol>
         <ResponsiveCol>
-          <el-form-item label="列最小宽度" :prop="['options', 'tableColumnItems', index + '', 'minWidth']">
+          <el-form-item label="列最小宽度" :prop="[...getFormItemProp(index, formItemProp), 'minWidth']">
             <el-input v-model="item.minWidth" placeholder="请输入" clearable></el-input>
           </el-form-item>
         </ResponsiveCol>
         <ResponsiveCol>
-          <el-form-item label="固定列" :prop="['options', 'tableColumnItems', index + '', 'fixed']">
+          <el-form-item label="固定列" :prop="[...getFormItemProp(index, formItemProp), 'fixed']">
             <el-select v-model="item.fixed" placeholder="请选择" clearable>
               <el-option
                 v-for="item1 in FIXED_OPTIONS"
@@ -106,7 +118,7 @@ function deleteItem(index: number, tableColumnItems: TableColumnItem[]) {
         <ResponsiveCol>
           <el-form-item
             label="内容超长tooltip"
-            :prop="['options', 'tableColumnItems', index + '', 'showOverflowTooltip']"
+            :prop="[...getFormItemProp(index, formItemProp), 'showOverflowTooltip']"
           >
             <el-radio-group v-model="item.showOverflowTooltip">
               <el-radio-button :label="true">是</el-radio-button>
@@ -115,7 +127,7 @@ function deleteItem(index: number, tableColumnItems: TableColumnItem[]) {
           </el-form-item>
         </ResponsiveCol>
         <ResponsiveCol>
-          <el-form-item label="开启排序" :prop="['options', 'tableColumnItems', index + '', 'sortable']">
+          <el-form-item label="开启排序" :prop="[...getFormItemProp(index, formItemProp), 'sortable']">
             <el-radio-group v-model="item.sortable">
               <el-radio-button :label="true">是</el-radio-button>
               <el-radio-button :label="false">否</el-radio-button>
@@ -123,7 +135,12 @@ function deleteItem(index: number, tableColumnItems: TableColumnItem[]) {
           </el-form-item>
         </ResponsiveCol>
       </el-row>
-      <table-column-items-editor :options="item" is-sub-level></table-column-items-editor>
+      <table-column-items-editor
+        :options="item"
+        :form-item-prop="getFormItemProp(index, formItemProp)"
+        :label="getLabel(item.label, label)"
+        is-sub-level
+      ></table-column-items-editor>
     </el-collapse-item>
   </el-collapse>
   <el-button
