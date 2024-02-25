@@ -1,12 +1,11 @@
-import { ApiConfig, BaseDesignData, Method } from '@/components';
+import { BaseDesignData, Method } from '@/components';
 import { Sort } from 'element-plus';
 
-export interface FormatterOptions {
-  type?: 'displayByStaticData' /**根据静态数据做回显 */ | 'displayByDynamicData' /**根据动态数据做回显 */ | 'dateFormat' /** 日期格式化 */
-  staticDataKey?: string // 静态数据key
-  apiConfig?: ApiConfig // 接口配置
-  dateFormat?: string // 日期格式，yyyy-MM-dd HH:mm:ss
-}
+export type TableColumnItemFormatterType =
+  | 'displayByStaticData' /**根据静态数据回显 */
+  | 'displayByDynamicData' /**根据动态数据回显 */
+  | 'dateFormat' /** 格式化日期 */;
+
 export interface TableColumnItem {
   id: string;
   prop?: string;
@@ -17,14 +16,20 @@ export interface TableColumnItem {
   showOverflowTooltip?: boolean;
   sortable?: boolean | 'custom';
   sortChange?: (...args: any[]) => void;
-  formatterOptions?: FormatterOptions
+  formatterType?: TableColumnItemFormatterType;
+  staticDataKey?: string; // 静态数据key，formatterType = displayByStaticData
+  format?: string; // 日期显示格式，yyyy-MM-dd HH:mm:ss，formatterType = dateFormat
+  apiMethod?: Extract<Method, 'GET'>; // 接口配置，formatterType = displayByDynamicData
+  api?: string; // 接口配置，formatterType = displayByDynamicData
+  apiParams?: Record<string, any>; // 接口配置，formatterType = displayByDynamicData
   tableColumnItems?: TableColumnItem[];
 }
 
 export interface TableDesignDataOptions {
   tableColumnItems?: TableColumnItem[];
-  apiConfig?: ApiConfig;
-  method?: Extract<Method, 'GET'>;
+  apiMethod?: Extract<Method, 'GET'>;
+  api?: string;
+  apiParams?: Record<string, any>;
   data?: Record<string, any>[];
   itemHasChildren?: string;
   itemChildren?: string;
@@ -38,7 +43,9 @@ export interface TableDesignDataOptions {
   rowKey?: string;
   flexible?: boolean;
   lazy?: boolean;
-  loadApiConfig?: ApiConfig;
+  loadApiMethod?: Extract<Method, 'GET'>;
+  loadApi?: string;
+  loadApiParams?: Record<string, any>;
   defaultSort?: Sort;
   virtualized?: boolean;
   [key: string]: any;

@@ -22,7 +22,7 @@ export * from './suffix-icon-editor';
 export * from './mode-editor';
 export * from './router-editor';
 export * from './popper-effect-editor';
-export * from './api-editor';
+export * from './api-config-editor';
 export * from './search-condition-items-editor';
 export * from './table-layout-editor';
 export * from './show-checkbox-editor';

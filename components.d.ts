@@ -9,7 +9,8 @@ declare module 'vue' {
   export interface GlobalComponents {
     AddComponent: typeof import('./src/components/visual-development/components/add-component/add-component.vue')['default']
     AlignEditor: (typeof import('./src/components/visual-development/components/design-component/components/property-editor/row-align-editor/align-editor.vue'))['default']
-    ApiEditor: typeof import('./src/components/visual-development/components/design-component/components/property-editor/api-editor/api-editor.vue')['default']
+    ApiConfigEditor: typeof import('./src/components/visual-development/components/design-component/components/property-editor/api-config-editor/api-config-editor.vue')['default']
+    ApiEditor: (typeof import('./src/components/visual-development/components/design-component/components/property-editor/api-config-editor/api-editor.vue'))['default']
     AutoCalcMaxHeightEditor: typeof import('./src/components/visual-development/components/design-component/components/property-editor/auto-calc-max-height-editor/auto-calc-max-height-editor.vue')['default']
     CollapseEditor: (typeof import('./src/components/visual-development/components/design-component/components/property-editor/collapse-editor/collapse-editor.vue'))['default']
     ColLgEditor: typeof import('./src/components/visual-development/components/design-component/components/property-editor/col-lg-editor/col-lg-editor.vue')['default']
@@ -64,7 +65,7 @@ declare module 'vue' {
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElTree: typeof import('element-plus/es')['ElTree']
-    FieldNameEditor: typeof import('./src/components/visual-development/components/design-component/components/property-editor/field-name-editor/field-name-editor.vue')['default']
+    FieldNameEditor: (typeof import('./src/components/visual-development/components/design-component/components/property-editor/field-name-editor/field-name-editor.vue'))['default']
     FlexibleEditor: typeof import('./src/components/visual-development/components/design-component/components/property-editor/flexible-editor/flexible-editor.vue')['default']
     FontSizeEditor: typeof import('./src/components/visual-development/components/design-component/components/property-editor/font-size-editor/font-size-editor.vue')['default']
     GutterEditor: (typeof import('./src/components/visual-development/components/design-component/components/property-editor/row-gutter-editor/gutter-editor.vue'))['default']

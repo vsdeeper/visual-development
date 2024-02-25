@@ -22,8 +22,6 @@ import {
   MenuDesignDataOptions,
   SearchDesignDataOptions,
   TableDesignDataOptions,
-  TableColumnItem,
-  SearchConditionItem,
 } from './components';
 
 export * from './components';
@@ -31,12 +29,6 @@ export { default as VisualDevelopment, type AddComponentInstance } from './visua
 
 /** 全局请求方法定义 */
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-
-export interface ApiConfig {
-  api?: string;
-  method?: Method;
-  params?: Record<string, any>;
-}
 
 /** 设计组件的选项配置类型 */
 export type DesignDataOptions = ContainerDesignDataOptions &

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { MergeDesignData } from '@/components';
-import { IdEditor } from '../property-editor';
+import { ApiConfigEditor, IdEditor } from '../property-editor';
 import { ROW_GUTTER } from '../constants';
 
 defineProps<{
@@ -47,15 +47,21 @@ defineProps<{
       <FlexibleEditor :options="formData.options" />
     </ResponsiveCol>
     <el-col :span="24">
-      <ApiEditor :options="formData.options" api-label="列表接口" params-label="接口参数"></ApiEditor>
+      <ApiConfigEditor
+        :options="formData.options"
+        :form-item-rules="[{ required: true }]"
+        api-label="列表接口"
+        params-label="接口参数"
+      ></ApiConfigEditor>
     </el-col>
     <el-col v-if="formData.options.lazy" :span="24">
-      <ApiEditor
+      <ApiConfigEditor
         :options="formData.options"
-        key-alias="loadApiConfig"
+        :form-item-rules="[{ required: true }]"
+        :map="{ api: 'loadApi', apiMethod: 'loadApiMethod', apiParams: 'loadApiParams' }"
         api-label="懒加载子节点接口"
         params-label="接口参数"
-      ></ApiEditor>
+      ></ApiConfigEditor>
     </el-col>
     <el-col :span="24">
       <my-divider-title label="表列设置"></my-divider-title>

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Minus, Plus } from '@element-plus/icons-vue';
-import { TableColumnItem, TableDesignDataOptions } from '@/components';
+import { TableColumnItem, TableDesignDataOptions, TableColumnItemFormatterType } from '@/components';
 import { ROW_GUTTER } from '../../constants';
 import { FIXED_OPTIONS, FORMATTER_OPTIONS } from './constants';
 import { nanoid } from 'nanoid';
 import { first, last } from 'lodash-es';
+import { ApiConfigEditor } from '..';
 
 const props = defineProps<{
   options: TableDesignDataOptions | TableColumnItem;
@@ -17,13 +18,13 @@ const options = toRef(props, 'options');
 const activeName = ref(first(options.value.tableColumnItems)?.id);
 
 function addItem() {
-  options.value.tableColumnItems?.push({ id: nanoid(5), formatterOptions: {} });
+  options.value.tableColumnItems?.push({ id: nanoid(5) });
   activeName.value = last(options.value.tableColumnItems)?.id;
 }
 
 function addSubItem(item: TableColumnItem) {
   if (!item.tableColumnItems) item.tableColumnItems = [];
-  item.tableColumnItems.push({ id: nanoid(5), formatterOptions: {} });
+  item.tableColumnItems.push({ id: nanoid(5) });
 }
 
 function deleteItem(index: number, tableColumnItems: TableColumnItem[]) {
@@ -33,6 +34,19 @@ function deleteItem(index: number, tableColumnItems: TableColumnItem[]) {
     activeName.value = tableColumnItems[index].id;
   } else {
     activeName.value = tableColumnItems[index - 1].id;
+  }
+}
+
+function changeFormatterType(val: TableColumnItemFormatterType, item: TableColumnItem) {
+  item.api = undefined;
+  item.apiMethod = undefined;
+  item.apiParams = undefined;
+  item.staticDataKey = undefined;
+  item.format = undefined;
+  if (val === 'displayByDynamicData') {
+    item.apiMethod = 'GET';
+  } else if (val === 'dateFormat') {
+    item.format = 'YYYY-MM-DD HH:mm:ss';
   }
 }
 
@@ -135,8 +149,13 @@ function getLabel(label?: string, propLabel?: string) {
           </el-form-item>
         </ResponsiveCol>
         <ResponsiveCol>
-          <el-form-item label="格式化" :prop="[...getFormItemProp(index, formItemProp), 'formatterOptions', 'type']">
-            <el-select v-model="item.formatterOptions!.type" placeholder="请选择" clearable>
+          <el-form-item label="格式化类型" :prop="[...getFormItemProp(index, formItemProp), 'formatterType']">
+            <el-select
+              v-model="item.formatterType"
+              placeholder="请选择"
+              clearable
+              @change="changeFormatterType($event, item)"
+            >
               <el-option
                 v-for="item1 in FORMATTER_OPTIONS"
                 :key="item1.value"
@@ -146,6 +165,26 @@ function getLabel(label?: string, propLabel?: string) {
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item
+            v-if="item.formatterType === 'displayByStaticData'"
+            label="静态数据Key"
+            :prop="[...getFormItemProp(index, formItemProp), 'staticDataKey']"
+          >
+            <el-input v-model="item.staticDataKey" placeholder="请输入" clearable></el-input>
+          </el-form-item>
+          <el-form-item
+            v-if="item.formatterType === 'dateFormat'"
+            label="格式化日期"
+            :prop="[...getFormItemProp(index, formItemProp), 'format']"
+          >
+            <el-input v-model="item.format" placeholder="YYYY-MM-DD HH:mm:ss" clearable></el-input>
+          </el-form-item>
+          <ApiConfigEditor
+            v-if="item.formatterType === 'displayByDynamicData'"
+            :options="item"
+            :form-item-prop="[...getFormItemProp(index, formItemProp)]"
+            :form-item-rules="[{ required: true }]"
+          ></ApiConfigEditor>
         </ResponsiveCol>
       </el-row>
       <table-column-items-editor

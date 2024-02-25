@@ -108,9 +108,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
         type: item.value,
         label: item.label,
         options: {
-          apiConfig: {
-            method: 'GET',
-          },
+          apiMethod: 'GET',
           mode: 'vertical',
           router: false,
           popperEffect: 'dark',
@@ -124,9 +122,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
         type: item.value,
         label: item.label,
         options: {
-          apiConfig: {
-            method: 'GET',
-          },
+          apiMethod: 'GET',
           searchConditionItems: [{ id: nanoid(5) }],
         },
       };
@@ -137,12 +133,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
         type: item.value,
         label: item.label,
         options: {
-          apiConfig: {
-            method: 'GET',
-          },
-          loadApiConfig: {
-            method: 'GET',
-          },
+          apiMethod: 'GET',
           tableLayout: 'fixed',
           showCheckbox: false,
           showPagination: true,
@@ -152,7 +143,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
           virtualized: false,
           itemChildren: 'children',
           itemHasChildren: 'hasChildren',
-          tableColumnItems: [{ id: nanoid(5), formatterOptions: {} }],
+          tableColumnItems: [{ id: nanoid(5) }],
         },
       };
     }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue';
 import { nanoid } from 'nanoid';
-import { ApiConfig } from '@/components';
+import { DesignDataOptions } from '@/components';
 import { first, isObject, throttle } from 'lodash-es';
 import { findArraryValuesFromTreeData, findObjectFromTreeData } from '@/utils';
 import { FormItemInstance, FormItemRule } from 'element-plus';
@@ -18,38 +18,39 @@ const props = withDefaults(
   defineProps<{
     options: Record<string, any>;
     apiLabel?: string;
-    keyAlias?: string;
     paramsLabel?: string;
     formItemProp?: string[];
     formItemRules?: FormItemRule[];
     showMessage?: boolean;
     showParams?: boolean;
+    map?: { api?: string; apiMethod?: string; apiParams?: string };
   }>(),
   {
     apiLabel: '接口',
-    keyAlias: 'apiConfig',
     paramsLabel: '参数',
-    formItemProp: () => ['options', 'api'],
+    formItemProp: () => ['options'],
     showParams: true,
+    map: () => ({}),
   },
 );
 
+const { api = 'api', apiMethod = 'apiMethod', apiParams = 'apiParams' } = props.map;
 const options = toRef(props, 'options');
 const treeData = ref<Tree[]>([]);
 const formItemRef = ref<FormItemInstance>();
 
-const stop = watch(
-  () => (options.value[props.keyAlias] as ApiConfig).params,
+watch(
+  () => options.value[apiParams],
   params => {
-    nextTick(() => stop());
     transTreeDataByParams(params ?? {}, treeData.value);
   },
+  { once: true },
 );
 
 watch(
   treeData,
   throttle(treeData => {
-    transParamsByTreeData(treeData, options.value[props.keyAlias]);
+    transParamsByTreeData(treeData, options.value);
   }, 800),
   { deep: true },
 );
@@ -91,7 +92,7 @@ function transTreeDataByParams(params: Record<string, any>, _treeData: Tree[]) {
   handler(params, (_treeData = []));
 }
 
-function transParamsByTreeData(treeData: Tree[], apiConfig: ApiConfig) {
+function transParamsByTreeData(treeData: Tree[], options: DesignDataOptions) {
   const handler = (treeData: Tree[], params: Record<string, any>) => {
     treeData.forEach(item => {
       if (item.children?.length) {
@@ -102,7 +103,7 @@ function transParamsByTreeData(treeData: Tree[], apiConfig: ApiConfig) {
       }
     });
   };
-  handler(treeData, (apiConfig.params = {}));
+  handler(treeData, (options[apiParams] = {}));
 }
 
 defineExpose({
@@ -115,15 +116,17 @@ defineExpose({
     <el-form-item
       ref="formItemRef"
       :label="apiLabel"
-      :prop="formItemProp"
+      :prop="[...formItemProp, api]"
       :rules="formItemRules"
       :show-message="showMessage"
     >
-      <el-input v-model="options[keyAlias].api" placeholder="请输入">
+      <el-input v-model="options[api]" clearable placeholder="请输入">
         <template #prepend>
-          <el-select v-model="options[keyAlias].method" placeholder="选择" style="width: 75px">
-            <el-option v-for="item in METHOD_OPTIONS" :key="item" :label="item" :value="item" />
-          </el-select>
+          <el-form-item :prop="[...formItemProp, apiMethod]" :rules="formItemRules" :show-message="showMessage">
+            <el-select v-model="options[apiMethod]" placeholder="选择" style="width: 100px">
+              <el-option v-for="item in METHOD_OPTIONS" :key="item" :label="item" :value="item" />
+            </el-select>
+          </el-form-item>
         </template>
       </el-input>
     </el-form-item>

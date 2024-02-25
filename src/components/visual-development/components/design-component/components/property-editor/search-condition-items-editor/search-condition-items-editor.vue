@@ -4,16 +4,16 @@ import { SearchConditionItem, SearchConditionType, SearchDesignDataOptions } fro
 import { ROW_GUTTER } from '../../constants';
 import { SEARCH_TYPE_OPTIONS, DATE_TYPE_OPTIONS } from './constants';
 import { TabPaneName } from 'element-plus';
-import { ApiEditorInstance } from '../api-editor';
 import { nanoid } from 'nanoid';
 import { first, last } from 'lodash-es';
+import { ApiConfigEditor, ApiConfigEditorInstance } from '..';
 
 const props = defineProps<{
   options: SearchDesignDataOptions;
 }>();
 
 const options = toRef(props, 'options');
-const apiRefs = ref<ApiEditorInstance[]>([]);
+const apiRefs = ref<ApiConfigEditorInstance[]>([]);
 const activeName = ref(first(options.value.searchConditionItems)?.id);
 
 function addItem() {
@@ -37,7 +37,7 @@ function changeType(type: SearchConditionType, item: SearchConditionItem) {
     case 'Select':
     case 'Cascader': {
       item.dataSource = 'api';
-      item.apiConfig!.method = 'GET';
+      item.apiMethod = 'GET';
       item.itemValue = 'id';
       break;
     }
@@ -52,7 +52,9 @@ function changeType(type: SearchConditionType, item: SearchConditionItem) {
 
 function resetSearchConditionItem(item: SearchConditionItem) {
   item.dataSource = undefined;
-  item.apiConfig = {};
+  item.api = undefined;
+  item.apiMethod = undefined;
+  item.apiParams = undefined;
   item.options = undefined;
   item.itemLabel = undefined;
   item.multiple = undefined;
@@ -67,12 +69,14 @@ function resetSearchConditionItem(item: SearchConditionItem) {
 function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: number) {
   if (name === 'custom') {
     item.dataSource = 'custom';
-    item.apiConfig!.method = undefined;
+    item.api = undefined;
+    item.apiMethod = undefined;
+    item.apiParams = undefined;
     item.itemValue = undefined;
     item.options = [{}];
   } else if (name === 'api') {
     item.dataSource = 'api';
-    item.apiConfig!.method = 'GET';
+    item.apiMethod = 'GET';
     item.options = undefined;
     item.itemValue = 'id';
     apiRefs.value[index]?.formItemRef?.clearValidate();
@@ -240,12 +244,13 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
         <el-col v-if="item.type === 'Select' || item.type === 'Cascader'" :span="24" style="margin-bottom: 20px">
           <el-tabs v-model="item.dataSource" @tab-change="changeDataSource($event, item, index)">
             <el-tab-pane label="接口定义" name="api">
-              <ApiEditor
-                :ref="ref => (apiRefs[index] = ref as ApiEditorInstance)"
+              <ApiConfigEditor
+                :ref="ref => (apiRefs[index] = ref as ApiConfigEditorInstance)"
                 :options="item"
-                :form-item-prop="['options', 'searchConditionItems', index + '', 'apiConfig']"
+                :form-item-prop="['options', 'searchConditionItems', index + '']"
+                :form-item-rules="[{ required: true }]"
                 :show-message="false"
-              ></ApiEditor>
+              ></ApiConfigEditor>
             </el-tab-pane>
             <el-tab-pane label="自定义" name="custom" :disabled="item.type === 'Cascader'">
               <OptionItemsConfig v-model="item.options" :index="index"></OptionItemsConfig>
@@ -259,3 +264,4 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
     新增搜索条件
   </el-button>
 </template>
+../api-config-editor

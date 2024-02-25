@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { MergeDesignData } from '@/components';
-import { IdEditor } from '../property-editor';
+import { ApiConfigEditor, IdEditor } from '../property-editor';
 import { ROW_GUTTER } from '../constants';
 
 defineProps<{
@@ -23,7 +23,12 @@ defineProps<{
       <PopperEffectEditor :options="formData.options"></PopperEffectEditor>
     </ResponsiveCol>
     <el-col :span="24">
-      <ApiEditor :options="formData.options" api-label="菜单接口" params-label="接口参数"></ApiEditor>
+      <ApiConfigEditor
+        :options="formData.options"
+        :form-item-rules="[{ required: true }]"
+        api-label="菜单接口"
+        params-label="接口参数"
+      ></ApiConfigEditor>
     </el-col>
   </el-row>
 </template>

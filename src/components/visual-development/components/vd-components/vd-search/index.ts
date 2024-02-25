@@ -1,4 +1,4 @@
-import { ApiConfig, BaseDesignData } from '@/components';
+import { Method, BaseDesignData } from '@/components';
 
 export type SearchConditionType = 'Input' | 'InputNumber' | 'Select' | 'Cascader' | 'DatePicker';
 export type DateType =
@@ -21,7 +21,9 @@ export interface SearchConditionItem {
   type?: SearchConditionType;
   placeholder?: string;
   dataSource?: 'api' | 'custom';
-  apiConfig?: ApiConfig;
+  apiMethod?: Extract<Method, 'GET'>;
+  api?: string;
+  apiParams?: Record<string, any>;
   options?: SearchConditionOptionItem[];
   itemLabel?: string;
   itemValue?: string;

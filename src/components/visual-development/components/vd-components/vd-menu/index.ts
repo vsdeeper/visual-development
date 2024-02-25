@@ -1,9 +1,11 @@
-import { ApiConfig, BaseDesignData, Method } from '@/components'
+import { BaseDesignData, Method } from '@/components';
 
 export interface MenuDesignDataOptions {
   mode?: 'horizontal' | 'vertical';
-  router?: boolean
+  router?: boolean;
   popperEffect?: 'dark' | 'light';
-  apiConfig?: ApiConfig
+  apiMethod?: Extract<Method, 'GET'>;
+  api?: string;
+  apiParams?: Record<string, any>;
 }
 export type MenuDesignData = BaseDesignData<MenuDesignDataOptions>;
