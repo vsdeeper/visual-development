@@ -1,7 +1,12 @@
 import { ApiConfig, BaseDesignData, Method } from '@/components';
 import { Sort } from 'element-plus';
-import { VNode } from 'vue';
 
+export interface FormatterOptions {
+  type?: 'displayByStaticData' /**根据静态数据做回显 */ | 'displayByDynamicData' /**根据动态数据做回显 */ | 'dateFormat' /** 日期格式化 */
+  staticDataKey?: string // 静态数据key
+  apiConfig?: ApiConfig // 接口配置
+  dateFormat?: string // 日期格式，yyyy-MM-dd HH:mm:ss
+}
 export interface TableColumnItem {
   id: string;
   prop?: string;
@@ -12,7 +17,7 @@ export interface TableColumnItem {
   showOverflowTooltip?: boolean;
   sortable?: boolean | 'custom';
   sortChange?: (...args: any[]) => void;
-  formatter?: (...args: any[]) => string | VNode;
+  formatterOptions?: FormatterOptions
   tableColumnItems?: TableColumnItem[];
 }
 

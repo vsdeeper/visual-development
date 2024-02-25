@@ -152,7 +152,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
           virtualized: false,
           itemChildren: 'children',
           itemHasChildren: 'hasChildren',
-          tableColumnItems: [{ id: nanoid(5) }],
+          tableColumnItems: [{ id: nanoid(5), formatterOptions: {} }],
         },
       };
     }
