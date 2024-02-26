@@ -3,7 +3,7 @@ export const FIXED_OPTIONS: { label: string; value: string }[] = [
   { label: '右侧', value: 'right' },
 ];
 export const FORMATTER_OPTIONS: { label: string; value: string }[] = [
-  { label: '根据静态数据回显', value: 'displayByStaticData' },
-  { label: '根据动态数据回显', value: 'displayByDynamicData' },
+  { label: '静态数据回显', value: 'displayByStaticData' },
+  { label: '动态数据回显', value: 'displayByDynamicData' },
   { label: '格式化日期', value: 'dateFormat' },
 ];

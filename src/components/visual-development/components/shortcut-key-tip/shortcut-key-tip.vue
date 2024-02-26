@@ -16,7 +16,7 @@ const emit = defineEmits<{
   (e: 'show-more'): void;
 }>();
 
-const { setActiveDesignData, designData } = useGlobal();
+const { setActiveDesignData, designData, setFullscreen } = useGlobal();
 const addComponentRef = inject<Ref<AddComponentInstance>>(ADD_COMPONENT_REF_SYMBOL);
 const designComponentRef = inject<Ref<AddComponentInstance>>(DESIGN_COMPONENT_REF_SYMBOL);
 
@@ -37,6 +37,7 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) 
       // 设计组件
       if (activeDesignData?.id !== data?.id) setActiveDesignData(data);
       designComponentRef?.value.open();
+      setFullscreen(useGlobal().activeDesignData?.type === 'Form');
     } else if (_keysStr === 'DELETE') {
       // 删除组件
       const { designData } = useGlobal();

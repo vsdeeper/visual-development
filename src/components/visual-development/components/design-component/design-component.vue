@@ -5,6 +5,7 @@ import { DesignComponent } from './components';
 
 defineProps<{
   formData: ActiveDesignData;
+  fullscreen?: boolean;
 }>();
 
 const formRef = ref<FormInstance>();
@@ -20,7 +21,7 @@ defineExpose({
 </script>
 
 <template>
-  <el-dialog title="设计组件" v-model="show">
+  <el-dialog v-model="show" title="设计组件" :fullscreen="fullscreen">
     <div class="design-component">
       <el-form ref="formRef" :model="formData" label-position="top">
         <component v-if="formData" :is="DesignComponent[formData.type]" :form-data="formData"></component>

@@ -15,11 +15,11 @@ export type ListOfShortcutKeysInstance = InstanceType<typeof ListOfShortcutKeys>
 
 console.log('VdComponents 可视化设计组件', VdComponents);
 
-const { designData, setDesignData, setActiveDesignData } = useGlobal();
+const { designData, setDesignData, setActiveDesignData, setFullscreen } = useGlobal();
 const addComponentRef = ref<AddComponentInstance>();
 const designComponentRef = ref<DesignComponentInstance>();
 const listOfShortcutKeysRef = ref<ListOfShortcutKeysInstance>();
-const key = ref('');
+const keyCodes = ref('');
 
 // provide
 provide(IS_PAGE_DESIGN_MODE_SYMBOL, ref(true));
@@ -28,23 +28,24 @@ provide(DESIGN_COMPONENT_REF_SYMBOL, designComponentRef);
 
 function handleKeydown(e: KeyboardEvent) {
   const { designData, activeDesignData } = useGlobal();
-  key.value += e.key.toUpperCase();
-  if (key.value.includes('VA')) {
+  keyCodes.value += e.key.toUpperCase();
+  if (keyCodes.value.includes('VA')) {
     // V+A 键
     if (!activeDesignData || isContainerComponent(activeDesignData.type)) {
       // 当前不存在设计中的组件或当前设计组件是布局容器类组件，进行添加组件操作
       addComponentRef.value?.open();
-      key.value = '';
+      keyCodes.value = '';
     }
-  } else if (key.value.includes('VD')) {
+  } else if (keyCodes.value.includes('VD')) {
     if (!activeDesignData) return;
     // V+D 键，设计组件
     designComponentRef.value?.open();
-    key.value = '';
-  } else if (key.value.includes('DELETE')) {
+    keyCodes.value = '';
+    setFullscreen(activeDesignData.type === 'Form');
+  } else if (keyCodes.value.includes('DELETE')) {
     // Delete 键，删除组件
     deleteComponent(activeDesignData as ActiveDesignData, designData);
-    key.value = '';
+    keyCodes.value = '';
   }
 }
 
@@ -217,6 +218,7 @@ function showMoreShortcutKey() {
   <DesignComponent
     ref="designComponentRef"
     :form-data="useGlobal().activeDesignData as ActiveDesignData"
+    :fullscreen="useGlobal().fullscreen"
   ></DesignComponent>
   <ListOfShortcutKeys ref="listOfShortcutKeysRef"></ListOfShortcutKeys>
 </template>
@@ -331,6 +333,24 @@ function showMoreShortcutKey() {
   .vd-container {
     &.active {
       border: 5px solid var(--el-color-primary);
+    }
+  }
+}
+</style>
+
+<style lang="scss">
+.el-dialog.is-fullscreen {
+  .el-dialog__body {
+    height: calc(100vh - 54px);
+    box-sizing: border-box;
+    & > .design-component {
+      height: 100%;
+      & > .el-form {
+        height: 100%;
+        & > .el-container {
+          height: 100%;
+        }
+      }
     }
   }
 }

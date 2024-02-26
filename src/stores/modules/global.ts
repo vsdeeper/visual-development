@@ -6,6 +6,8 @@ const useGlobal = defineStore('global', () => {
   const designData = ref<ActiveDesignData[]>([])
   /** 当前被选中（设计中）的组件设计数据，只有容器组件会被选中 */
   const activeDesignData = ref<ActiveDesignData>()
+  /**dialog全屏标识 */
+  const fullscreen = ref<boolean>()
 
   function setDesignData(data: ActiveDesignData) {
     designData.value.push(data)
@@ -16,11 +18,18 @@ const useGlobal = defineStore('global', () => {
     activeDesignData.value = data
     console.log('setActiveDesignData', activeDesignData.value)
   }
+
+  function setFullscreen(data: boolean) {
+    fullscreen.value = data
+    console.log('setFullscreen', fullscreen.value)
+  }
   return {
     designData,
     setDesignData,
     activeDesignData,
-    setActiveDesignData
+    setActiveDesignData,
+    fullscreen,
+    setFullscreen
   }
 })
 
