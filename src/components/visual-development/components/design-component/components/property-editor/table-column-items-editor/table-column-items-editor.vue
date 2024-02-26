@@ -165,27 +165,25 @@ function getLabel(label?: string, propLabel?: string) {
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item
-            v-if="item.formatterType === 'displayByStaticData'"
-            label="静态数据Key"
-            :prop="[...getFormItemProp(index, formItemProp), 'staticDataKey']"
-          >
+        </ResponsiveCol>
+        <ResponsiveCol v-if="item.formatterType === 'displayByStaticData'">
+          <el-form-item label="静态数据Key" :prop="[...getFormItemProp(index, formItemProp), 'staticDataKey']">
             <el-input v-model="item.staticDataKey" placeholder="请输入" clearable></el-input>
           </el-form-item>
-          <el-form-item
-            v-if="item.formatterType === 'dateFormat'"
-            label="格式化日期"
-            :prop="[...getFormItemProp(index, formItemProp), 'format']"
-          >
+        </ResponsiveCol>
+        <ResponsiveCol v-if="item.formatterType === 'dateFormat'">
+          <el-form-item label="格式化日期" :prop="[...getFormItemProp(index, formItemProp), 'format']">
             <el-input v-model="item.format" placeholder="YYYY-MM-DD HH:mm:ss" clearable></el-input>
           </el-form-item>
+        </ResponsiveCol>
+        <el-col :span="24">
           <ApiConfigEditor
             v-if="item.formatterType === 'displayByDynamicData'"
             :options="item"
             :form-item-prop="[...getFormItemProp(index, formItemProp)]"
             :form-item-rules="[{ required: true }]"
           ></ApiConfigEditor>
-        </ResponsiveCol>
+        </el-col>
       </el-row>
       <table-column-items-editor
         :options="item"
