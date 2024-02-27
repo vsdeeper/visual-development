@@ -2,20 +2,20 @@
 import draggable from 'vuedraggable';
 import { useGlobal } from '@/stores';
 import { ActiveDesignData, DesignComponent, VdComponents, MergeDesignData, BaseDesignData } from '.';
-import { AddComponent, AddComponentOptionItem, ListOfShortcutKeys } from '@/components';
+import { AddComponent, AddComponentOptionItem, ShortcutKeyDescription } from '@/components';
 import { IS_PAGE_DESIGN_MODE_SYMBOL, ADD_COMPONENT_REF_SYMBOL, DESIGN_COMPONENT_REF_SYMBOL } from '@/utils/constants';
 import { deleteComponent, genId, isActiveDesign, isContainerComponent } from './util';
 import { ADD_COMPONENT_OPTIONS } from './constants';
-import { RowColDesignData } from './components';
+import { RowColDesignData, ShortcutKeyOperation } from './components';
 import { nanoid } from 'nanoid';
 
 export type AddComponentInstance = InstanceType<typeof AddComponent>;
 export type DesignComponentInstance = InstanceType<typeof DesignComponent>;
-export type ListOfShortcutKeysInstance = InstanceType<typeof ListOfShortcutKeys>;
+export type ListOfShortcutKeysInstance = InstanceType<typeof ShortcutKeyDescription>;
 
 console.log('VdComponents 可视化设计组件', VdComponents);
 
-const { designData, setDesignData, setActiveDesignData, setFullscreen } = useGlobal();
+const { designData, setDesignData, setActiveDesignData, setDialogFullscreen } = useGlobal();
 const addComponentRef = ref<AddComponentInstance>();
 const designComponentRef = ref<DesignComponentInstance>();
 const listOfShortcutKeysRef = ref<ListOfShortcutKeysInstance>();
@@ -41,7 +41,7 @@ function handleKeydown(e: KeyboardEvent) {
     // V+D 键，设计组件
     designComponentRef.value?.open();
     keyCodes.value = '';
-    setFullscreen(activeDesignData.type === 'Form');
+    setDialogFullscreen(activeDesignData.type === 'Form');
   } else if (keyCodes.value.includes('DELETE')) {
     // Delete 键，删除组件
     deleteComponent(activeDesignData as ActiveDesignData, designData);
@@ -207,7 +207,7 @@ function showMoreShortcutKey() {
         </template>
       </draggable>
     </el-scrollbar>
-    <ShortcutKeyTip
+    <ShortcutKeyOperation
       :options="designData.length ? [{ keys: ['V', 'A'] }] : [{ label: '添加组件', keys: ['V', 'A'] }]"
       show-more
       used-in-root-component
@@ -218,9 +218,9 @@ function showMoreShortcutKey() {
   <DesignComponent
     ref="designComponentRef"
     :form-data="useGlobal().activeDesignData as ActiveDesignData"
-    :fullscreen="useGlobal().fullscreen"
+    :fullscreen="useGlobal().dialogFullscreen"
   ></DesignComponent>
-  <ListOfShortcutKeys ref="listOfShortcutKeysRef"></ListOfShortcutKeys>
+  <ShortcutKeyDescription ref="listOfShortcutKeysRef"></ShortcutKeyDescription>
 </template>
 
 <style lang="scss" scoped>
@@ -268,7 +268,7 @@ function showMoreShortcutKey() {
   }
 
   &.active {
-    & > .shortcut-key-tip {
+    & > .shortcut-key-operation {
       :deep(.label) {
         color: var(--el-color-primary);
       }
@@ -290,7 +290,7 @@ function showMoreShortcutKey() {
       transform: unset;
     }
 
-    & > .shortcut-key-tip {
+    & > .shortcut-key-operation {
       position: fixed;
       left: unset;
       right: 5px;
@@ -310,7 +310,7 @@ function showMoreShortcutKey() {
     }
   }
 
-  & > .shortcut-key-tip {
+  & > .shortcut-key-operation {
     position: absolute;
     left: 50%;
     top: 50%;

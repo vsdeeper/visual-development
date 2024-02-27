@@ -1,1 +1,0 @@
-export { default as ListOfShortcutKeys } from './list-of-shortcut-keys.vue'

@@ -16,7 +16,7 @@ const emit = defineEmits<{
   (e: 'show-more'): void;
 }>();
 
-const { setActiveDesignData, designData, setFullscreen } = useGlobal();
+const { setActiveDesignData, designData, setDialogFullscreen } = useGlobal();
 const addComponentRef = inject<Ref<AddComponentInstance>>(ADD_COMPONENT_REF_SYMBOL);
 const designComponentRef = inject<Ref<AddComponentInstance>>(DESIGN_COMPONENT_REF_SYMBOL);
 
@@ -37,7 +37,7 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) 
       // 设计组件
       if (activeDesignData?.id !== data?.id) setActiveDesignData(data);
       designComponentRef?.value.open();
-      setFullscreen(useGlobal().activeDesignData?.type === 'Form');
+      setDialogFullscreen(useGlobal().activeDesignData?.type === 'Form');
     } else if (_keysStr === 'DELETE') {
       // 删除组件
       const { designData } = useGlobal();
@@ -48,7 +48,7 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) 
 </script>
 
 <template>
-  <div class="shortcut-key-tip">
+  <div class="shortcut-key-operation">
     <div class="item" v-for="(item, index) in options" :key="index" @click="clickShortcutKey(item, data)">
       <div class="label">{{ item.label }}</div>
       <div class="key" v-for="key in item.keys" :key="key">{{ key }}</div>
@@ -60,7 +60,7 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) 
 </template>
 
 <style lang="scss" scoped>
-.shortcut-key-tip {
+.shortcut-key-operation {
   cursor: pointer;
   padding: 5px;
 

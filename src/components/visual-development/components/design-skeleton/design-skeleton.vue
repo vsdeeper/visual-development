@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import draggable from "vuedraggable";
-import { MergeDesignData, VdComponents } from "../..";
-import { ShortcutKeyOptionItem } from "@/components";
-import { isActiveDesign, isRowComponent, findIndexColInRow } from "../../util";
-import { useGlobal } from "@/stores";
-import RowCol from "./components/row-col.vue";
-import { genStyle } from "./util";
+import draggable from 'vuedraggable';
+import { MergeDesignData, ShortcutKeyOperation, VdComponents } from '../..';
+import { ShortcutKeyOptionItem } from '@/components';
+import { isActiveDesign, isRowComponent, findIndexColInRow } from '../../util';
+import { useGlobal } from '@/stores';
+import RowCol from './components/row-col.vue';
+import { genStyle } from './util';
 
 defineProps<{
   data: MergeDesignData;
@@ -24,7 +24,7 @@ function mergeClass(classList?: unknown[], myClassList?: unknown[]) {
 }
 
 function toLabel(data: MergeDesignData) {
-  if (data.type === "RowCol") {
+  if (data.type === 'RowCol') {
     if (isRowComponent(data)) return `${data.label}-Row`;
     else {
       const { designData } = useGlobal();
@@ -37,12 +37,12 @@ function toLabel(data: MergeDesignData) {
 
 function mouseoverSkeleton(e: MouseEvent) {
   e.stopPropagation();
-  skeletonRef.value?.classList.add("hover");
+  skeletonRef.value?.classList.add('hover');
 }
 
 function mouseoutSkeleton(e: MouseEvent) {
   e.stopPropagation();
-  skeletonRef.value?.classList.remove("hover");
+  skeletonRef.value?.classList.remove('hover');
 }
 </script>
 
@@ -58,11 +58,7 @@ function mouseoutSkeleton(e: MouseEvent) {
       <label>{{ toLabel(data) }}</label>
     </div>
     <div class="main">
-      <RowCol
-        v-if="data.type === 'RowCol'"
-        :data="data"
-        :is-active="isActive"
-      ></RowCol>
+      <RowCol v-if="data.type === 'RowCol'" :data="data" :is-active="isActive"></RowCol>
       <draggable
         v-else
         :list="data.options?.components"
@@ -87,10 +83,7 @@ function mouseoutSkeleton(e: MouseEvent) {
       </draggable>
     </div>
     <div class="footer">
-      <ShortcutKeyTip
-        :options="shortcutKeyOptions"
-        :data="data"
-      ></ShortcutKeyTip>
+      <ShortcutKeyOperation :options="shortcutKeyOptions" :data="data"></ShortcutKeyOperation>
     </div>
   </div>
 </template>
@@ -134,7 +127,7 @@ function mouseoutSkeleton(e: MouseEvent) {
     flex: 1;
     overflow: auto;
 
-    :deep(div[type="transition-group"]) {
+    :deep(div[type='transition-group']) {
       display: flex;
       flex: 1;
       flex-direction: column;
@@ -150,22 +143,22 @@ function mouseoutSkeleton(e: MouseEvent) {
     :deep(.el-row) {
       flex: 1;
       margin: 0 !important;
-      &.is-justify-space-between > div[type="transition-group"] {
+      &.is-justify-space-between > div[type='transition-group'] {
         justify-content: space-between;
       }
-      &.is-justify-end > div[type="transition-group"] {
+      &.is-justify-end > div[type='transition-group'] {
         justify-content: flex-end;
       }
-      &.is-justify-center > div[type="transition-group"] {
+      &.is-justify-center > div[type='transition-group'] {
         justify-content: center;
       }
-      &.is-justify-space-around > div[type="transition-group"] {
+      &.is-justify-space-around > div[type='transition-group'] {
         justify-content: space-around;
       }
-      &.is-justify-space-evenly > div[type="transition-group"] {
+      &.is-justify-space-evenly > div[type='transition-group'] {
         justify-content: space-evenly;
       }
-      & > div[type="transition-group"] {
+      & > div[type='transition-group'] {
         display: flex;
         flex-wrap: wrap;
         flex-direction: unset;
@@ -202,7 +195,7 @@ function mouseoutSkeleton(e: MouseEvent) {
 
   &.is-vertical {
     :deep {
-      & > .header + .main > div[type="transition-group"] {
+      & > .header + .main > div[type='transition-group'] {
         flex-direction: column;
       }
     }
@@ -210,7 +203,7 @@ function mouseoutSkeleton(e: MouseEvent) {
 
   &.is-horizontal {
     :deep {
-      & > .header + .main > div[type="transition-group"] {
+      & > .header + .main > div[type='transition-group'] {
         flex-direction: row;
       }
     }
@@ -237,11 +230,11 @@ function mouseoutSkeleton(e: MouseEvent) {
       color: var(--el-color-primary);
     }
 
-    & > :deep(.footer .shortcut-key-tip .label) {
+    & > :deep(.footer .shortcut-key-operation .label) {
       color: var(--el-color-primary);
     }
 
-    & > :deep(.footer .shortcut-key-tip .key) {
+    & > :deep(.footer .shortcut-key-operation .key) {
       background-color: var(--el-color-primary);
     }
   }
