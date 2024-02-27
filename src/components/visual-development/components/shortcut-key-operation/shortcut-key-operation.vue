@@ -50,7 +50,7 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) 
 <template>
   <div class="shortcut-key-operation">
     <div class="item" v-for="(item, index) in options" :key="index" @click="clickShortcutKey(item, data)">
-      <div class="label">{{ item.label }}</div>
+      <div v-if="item.label" class="label">{{ item.label }}</div>
       <div class="key" v-for="key in item.keys" :key="key">{{ key }}</div>
       <el-tooltip v-if="showMore" content="快捷键" :placement="designData.length ? 'top' : 'right'" effect="customized">
         <div class="key tip" @click.stop="emit('show-more')">?</div>
@@ -95,7 +95,7 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) 
       }
 
       & + div.key {
-        margin-left: 2px;
+        margin-left: 1px;
       }
     }
   }

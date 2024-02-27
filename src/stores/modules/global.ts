@@ -1,13 +1,19 @@
-import { ActiveDesignData } from '@/components';
+import { ActiveDesignData, MergeDesignData, ProjectData } from '@/components';
 import { defineStore } from 'pinia';
 
 const useGlobal = defineStore('global', () => {
-  /** 页面设计数据，最外层 */
-  const designData = ref<ActiveDesignData[]>([]);
-  /** 当前被选中（设计中）的组件设计数据，只有容器组件会被选中 */
+  const visualDevelopmentData = ref<ProjectData[]>([]);
+  // 设计数据，最外层
+  const designData = ref<MergeDesignData[]>([]);
+  // 当前被选中（设计中）的组件设计数据，只有容器组件会被选中
   const activeDesignData = ref<ActiveDesignData>();
-  /**dialog全屏标识 */
+  // dialog 全屏标识
   const dialogFullscreen = ref<boolean>();
+
+  function setVisualDevelopmentData(data: ProjectData) {
+    visualDevelopmentData.value.push(data);
+    console.log('setVisualDevelopmentData', visualDevelopmentData.value);
+  }
 
   function setDesignData(data: ActiveDesignData) {
     designData.value.push(data);
@@ -24,6 +30,8 @@ const useGlobal = defineStore('global', () => {
     console.log('setDialogFullscreen', dialogFullscreen.value);
   }
   return {
+    visualDevelopmentData,
+    setVisualDevelopmentData,
     designData,
     setDesignData,
     activeDesignData,

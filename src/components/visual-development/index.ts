@@ -30,6 +30,14 @@ export { default as VisualDevelopment, type AddComponentInstance } from './visua
 /** 全局请求方法定义 */
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
+export interface ProjectData {
+  id: string;
+  name?: string;
+  description?: string;
+  git?: string;
+  designData: MergeDesignData[];
+}
+
 /** 设计组件的选项配置类型 */
 export type DesignDataOptions = ContainerDesignDataOptions &
   AsideDesignDataOptions &

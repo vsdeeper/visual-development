@@ -1,23 +1,20 @@
 <script setup lang="ts">
-import { shortcutKeysOptions } from './constants'
+import { SHORTCUT_KEYS_OPTIONS } from './constants';
 
-const show = ref(false)
+const show = ref(false);
 
 function open() {
-  show.value = true
+  show.value = true;
 }
 
 defineExpose({
-  open
-})
+  open,
+});
 </script>
 
 <template>
-  <el-dialog
-    title="快捷键"
-    v-model="show"
-  >
-    <template v-for="item in shortcutKeysOptions" :key="item.des">
+  <el-dialog title="快捷键" v-model="show">
+    <template v-for="item in SHORTCUT_KEYS_OPTIONS" :key="item.des">
       <div class="key-note">
         <div v-for="key in item.keys" :key="key" class="key">{{ key }}</div>
         <div class="note">{{ item.des }}</div>
@@ -44,14 +41,14 @@ defineExpose({
     color: #fff;
     background-color: var(--el-color-primary);
 
-    &+.key {
+    & + .key {
       margin-left: 2px;
     }
   }
 
   .note {
     margin-left: 15px;
-    font-size: 12px;
+    font-size: 14px;
   }
 }
 </style>

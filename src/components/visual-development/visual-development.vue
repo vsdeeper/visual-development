@@ -29,8 +29,10 @@ provide(DESIGN_COMPONENT_REF_SYMBOL, designComponentRef);
 function handleKeydown(e: KeyboardEvent) {
   const { designData, activeDesignData } = useGlobal();
   keyCodes.value += e.key.toUpperCase();
-  if (keyCodes.value.includes('VA')) {
-    // V+A 键
+  if (keyCodes.value.includes('VC')) {
+    // V+C键，创建项目
+  } else if (keyCodes.value.includes('VA')) {
+    // V+A 键，添加组件
     if (!activeDesignData || isContainerComponent(activeDesignData.type)) {
       // 当前不存在设计中的组件或当前设计组件是布局容器类组件，进行添加组件操作
       addComponentRef.value?.open();
@@ -181,7 +183,6 @@ function showMoreShortcutKey() {
     }"
   >
     <div class="version">Visual Development 1.0.0</div>
-    {{ designData }}
     <el-scrollbar>
       <draggable
         class="transition-group-in-visual-development"
@@ -208,7 +209,7 @@ function showMoreShortcutKey() {
       </draggable>
     </el-scrollbar>
     <ShortcutKeyOperation
-      :options="designData.length ? [{ keys: ['V', 'A'] }] : [{ label: '添加组件', keys: ['V', 'A'] }]"
+      :options="designData.length ? [{ keys: ['V', 'C'] }] : [{ label: '创建项目', keys: ['V', 'C'] }]"
       show-more
       used-in-root-component
       @show-more="showMoreShortcutKey"
