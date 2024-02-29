@@ -24,7 +24,9 @@ function mergeClass(classList?: unknown[], myClassList?: unknown[]) {
 }
 
 function toLabel(data: MergeDesignData) {
-  if (data.type === 'RowCol') {
+  if (data.type === 'Project') {
+    return `${data.label}-${data.type}-${data.options.name ?? ''}`;
+  } else if (data.type === 'RowCol') {
     if (isRowComponent(data)) return `${data.label}-Row`;
     else {
       const { designData } = useGlobal();
@@ -209,12 +211,16 @@ function mouseoutSkeleton(e: MouseEvent) {
     }
   }
 
+  &.vd-project {
+    border-width: 5px;
+  }
+
   &.vd-container,
   &.vd-aside,
   &.vd-header,
   &.vd-footer,
   &.vd-main {
-    border-width: 5px;
+    border-width: 4px;
   }
 
   &.vd-router-view,

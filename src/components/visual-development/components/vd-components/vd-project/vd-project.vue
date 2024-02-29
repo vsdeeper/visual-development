@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { FooterDesignData } from '.';
+import { ProjectDesignData } from '.';
 import { SHORTCUR_KEY_OPTIONS_OF_CONTAINER_COMPONENT } from '../constants';
 
 defineProps<{
-  data: FooterDesignData;
+  data: ProjectDesignData;
 }>();
 </script>
 
 <template>
   <DesignSkeleton
-    :class-list="['vd-footer']"
+    :class-list="['vd-project']"
     :data="data"
     :shortcut-key-options="SHORTCUR_KEY_OPTIONS_OF_CONTAINER_COMPONENT"
   >

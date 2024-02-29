@@ -6,7 +6,7 @@ import { AddComponent, AddComponentOptionItem, ShortcutKeyDescription } from '@/
 import { IS_PAGE_DESIGN_MODE_SYMBOL, ADD_COMPONENT_REF_SYMBOL, DESIGN_COMPONENT_REF_SYMBOL } from '@/utils/constants';
 import { deleteComponent, genId, isActiveDesign, isContainerComponent } from './util';
 import { ADD_COMPONENT_OPTIONS } from './constants';
-import { RowColDesignData, ShortcutKeyOperation } from './components';
+import { AddComponentGroupOptionItem, RowColDesignData, ShortcutKeyOperation } from './components';
 import { nanoid } from 'nanoid';
 
 export type AddComponentInstance = InstanceType<typeof AddComponent>;
@@ -26,12 +26,18 @@ provide(IS_PAGE_DESIGN_MODE_SYMBOL, ref(true));
 provide(ADD_COMPONENT_REF_SYMBOL, addComponentRef);
 provide(DESIGN_COMPONENT_REF_SYMBOL, designComponentRef);
 
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown);
+});
+
 function handleKeydown(e: KeyboardEvent) {
   const { designData, activeDesignData } = useGlobal();
   keyCodes.value += e.key.toUpperCase();
-  if (keyCodes.value.includes('VC')) {
-    // V+C键，创建项目
-  } else if (keyCodes.value.includes('VA')) {
+  if (keyCodes.value.includes('VA')) {
     // V+A 键，添加组件
     if (!activeDesignData || isContainerComponent(activeDesignData.type)) {
       // 当前不存在设计中的组件或当前设计组件是布局容器类组件，进行添加组件操作
@@ -161,16 +167,25 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
   }
 }
 
-onMounted(() => {
-  window.addEventListener('keydown', handleKeydown);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('keydown', handleKeydown);
-});
-
 function showMoreShortcutKey() {
   listOfShortcutKeysRef.value?.open();
+}
+
+function filterAddComponentOptions(options: AddComponentGroupOptionItem[], activeDesignData?: ActiveDesignData) {
+  if (!activeDesignData /**不存在当前设计数据，即初始状态，只能添加项目组件 */) {
+    options.forEach(optionItem =>
+      optionItem.id === 'ProjectContainer'
+        ? optionItem.children.forEach(item => (item.disabled = false))
+        : optionItem.children.forEach(item => (item.disabled = true)),
+    );
+  } /** 存在设计数据，不能添加项目组件 */ else {
+    options.forEach(optionItem =>
+      optionItem.id === 'ProjectContainer'
+        ? optionItem.children.forEach(item => (item.disabled = true))
+        : optionItem.children.forEach(item => (item.disabled = false)),
+    );
+  }
+  return options;
 }
 </script>
 
@@ -183,6 +198,7 @@ function showMoreShortcutKey() {
     }"
   >
     <div class="version">Visual Development 1.0.0</div>
+    <!-- {{ designData }} -->
     <el-scrollbar>
       <draggable
         class="transition-group-in-visual-development"
@@ -209,13 +225,17 @@ function showMoreShortcutKey() {
       </draggable>
     </el-scrollbar>
     <ShortcutKeyOperation
-      :options="designData.length ? [{ keys: ['V', 'C'] }] : [{ label: '创建项目', keys: ['V', 'C'] }]"
+      :options="designData.length ? [{ keys: ['V', 'A'] }] : [{ label: '添加组件', keys: ['V', 'A'] }]"
       show-more
       used-in-root-component
       @show-more="showMoreShortcutKey"
     />
   </div>
-  <AddComponent ref="addComponentRef" :options="ADD_COMPONENT_OPTIONS" @select="selectComponent"></AddComponent>
+  <AddComponent
+    ref="addComponentRef"
+    :options="filterAddComponentOptions(ADD_COMPONENT_OPTIONS, useGlobal().activeDesignData)"
+    @select="selectComponent"
+  ></AddComponent>
   <DesignComponent
     ref="designComponentRef"
     :form-data="useGlobal().activeDesignData as ActiveDesignData"

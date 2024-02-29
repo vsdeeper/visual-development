@@ -4,5 +4,3 @@ export * from './design-component';
 export * from './shortcut-key-operation';
 export * from './shortcut-key-description';
 export * from './design-skeleton';
-export * from './project-form-detail';
-export * from './create-project';

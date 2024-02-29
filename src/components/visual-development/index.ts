@@ -1,4 +1,5 @@
 import {
+  ProjectDesignData,
   ContainerDesignData,
   AsideDesignData,
   HeaderDesignData,
@@ -11,6 +12,7 @@ import {
   MenuDesignData,
   SearchDesignData,
   TableDesignData,
+  ProjectDesignDataOptions,
   ContainerDesignDataOptions,
   AsideDesignDataOptions,
   HeaderDesignDataOptions,
@@ -30,16 +32,9 @@ export { default as VisualDevelopment, type AddComponentInstance } from './visua
 /** 全局请求方法定义 */
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-export interface ProjectData {
-  id: string;
-  name?: string;
-  description?: string;
-  git?: string;
-  designData: MergeDesignData[];
-}
-
 /** 设计组件的选项配置类型 */
-export type DesignDataOptions = ContainerDesignDataOptions &
+export type DesignDataOptions = ProjectDesignDataOptions &
+  ContainerDesignDataOptions &
   AsideDesignDataOptions &
   HeaderDesignDataOptions &
   FooterDesignDataOptions &
@@ -53,6 +48,7 @@ export type DesignDataOptions = ContainerDesignDataOptions &
 
 /** 当前配置数据类型 */
 export type ActiveDesignData =
+  | ProjectDesignData
   | ContainerDesignData
   | AsideDesignData
   | HeaderDesignData
@@ -67,7 +63,8 @@ export type ActiveDesignData =
   | TableDesignData;
 
 /** 设计数据的合并类型 */
-export type MergeDesignData = ContainerDesignData &
+export type MergeDesignData = ProjectDesignData &
+  ContainerDesignData &
   AsideDesignData &
   HeaderDesignData &
   FooterDesignData &
