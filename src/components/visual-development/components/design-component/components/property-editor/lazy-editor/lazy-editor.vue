@@ -27,7 +27,10 @@ function change(val: string | number | boolean, options: DesignDataOptions) {
 </script>
 
 <template>
-  <el-form-item :label="label" :prop="formItemProp">
+  <el-form-item :prop="formItemProp">
+    <template #label>
+      <my-label :label="label" />
+    </template>
     <el-radio-group v-model="options.lazy" @change="change($event, options)">
       <el-radio-button :label="true">是</el-radio-button>
       <el-radio-button :label="false">否</el-radio-button>

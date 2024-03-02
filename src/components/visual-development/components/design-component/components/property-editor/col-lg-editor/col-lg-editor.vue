@@ -19,7 +19,10 @@ const options = toRef(props, 'options');
 </script>
 
 <template>
-  <el-form-item :label="label" :prop="formItemProp">
+  <el-form-item :prop="formItemProp">
+    <template #label>
+      <my-label :label="label" />
+    </template>
     <el-input-number v-model="options.colLg" controls-position="right" :min="1" :max="24" />
   </el-form-item>
 </template>

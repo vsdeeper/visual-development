@@ -20,7 +20,10 @@ const options = toRef(props, 'options');
 </script>
 
 <template>
-  <el-form-item :label="label" :prop="formItemProp">
+  <el-form-item :prop="formItemProp">
+    <template #label>
+      <my-label :label="label" />
+    </template>
     <my-color-picker v-model="options.color" :show-alpha="showAlpha"></my-color-picker>
   </el-form-item>
 </template>

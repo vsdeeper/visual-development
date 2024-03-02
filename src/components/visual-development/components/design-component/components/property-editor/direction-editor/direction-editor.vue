@@ -20,7 +20,10 @@ const options = toRef(props, 'options');
 </script>
 
 <template>
-  <el-form-item :label="label" :prop="formItemProp">
+  <el-form-item :prop="formItemProp">
+    <template #label>
+      <my-label :label="label" />
+    </template>
     <el-radio-group v-model="options.direction">
       <el-radio v-for="item in DIRECTION_OPTIONS" :key="item.value" :label="item.value">
         {{ item.label }}

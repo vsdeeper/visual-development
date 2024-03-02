@@ -25,7 +25,7 @@ function mergeClass(classList?: unknown[], myClassList?: unknown[]) {
 
 function toLabel(data: MergeDesignData) {
   if (data.type === 'Project') {
-    return `${data.label}-${data.type}-${data.options.name ?? ''}`;
+    return `${data.label} / ${data.options.name ?? ''}`;
   } else if (data.type === 'RowCol') {
     if (isRowComponent(data)) return `${data.label}-Row`;
     else {

@@ -23,7 +23,6 @@ withDefaults(
   }>(),
   {
     tooltipPlacement: 'top',
-    tooltipEffect: 'light',
     tooltipIcon: () => InfoFilled,
   },
 );
@@ -36,7 +35,7 @@ const emit = defineEmits<{
 <template>
   <div class="my-label">
     {{ label }}
-    <el-tooltip v-if="tooltipIcon" :effect="tooltipEffect" :placement="tooltipPlacement">
+    <el-tooltip v-if="tooltipContent" :effect="tooltipEffect" :placement="tooltipPlacement">
       <template #content>{{ tooltipContent }}</template>
       <el-icon>
         <component :is="tooltipIcon"></component>

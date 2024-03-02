@@ -113,13 +113,10 @@ defineExpose({
 
 <template>
   <div class="api-editor">
-    <el-form-item
-      ref="formItemRef"
-      :label="apiLabel"
-      :prop="[...formItemProp, api]"
-      :rules="formItemRules"
-      :show-message="showMessage"
-    >
+    <el-form-item ref="formItemRef" :prop="[...formItemProp, api]" :rules="formItemRules" :show-message="showMessage">
+      <template #label>
+        <my-label :label="apiLabel" />
+      </template>
       <el-input v-model="options[api]" clearable placeholder="请输入">
         <template #prepend>
           <el-form-item :prop="[...formItemProp, apiMethod]" :rules="formItemRules" :show-message="showMessage">

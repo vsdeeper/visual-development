@@ -20,7 +20,10 @@ const options = toRef(props, 'options');
 </script>
 
 <template>
-  <el-form-item :label="label" :prop="formItemProp">
+  <el-form-item :prop="formItemProp">
+    <template #label>
+      <my-label :label="label" />
+    </template>
     <el-select v-model="options.rowJustify" clearable placeholder="请选择">
       <el-option
         v-for="item in JUSTIFY_OPTIONS"

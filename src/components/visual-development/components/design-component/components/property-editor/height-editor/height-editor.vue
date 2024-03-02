@@ -19,7 +19,10 @@ const options = toRef(props, 'options');
 </script>
 
 <template>
-  <el-form-item :label="label" :prop="formItemProp">
+  <el-form-item :prop="formItemProp">
+    <template #label>
+      <my-label :label="label" />
+    </template>
     <el-input v-model="options.height" placeholder="请输入" clearable></el-input>
   </el-form-item>
 </template>
