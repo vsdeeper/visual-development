@@ -212,7 +212,8 @@ function mouseoutSkeleton(e: MouseEvent) {
   }
 
   &.vd-project {
-    border-width: 5px;
+    border-width: 3px;
+    border-style: dashed;
   }
 
   &.vd-container,

@@ -89,6 +89,16 @@ function selectComponent(item: AddComponentOptionItem) {
  */
 function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
   switch (item.value) {
+    case 'Project': {
+      return {
+        id: genId(item.value),
+        type: item.value,
+        label: item.label,
+        options: {
+          name: 'my-project',
+        },
+      } as BaseDesignData;
+    }
     case 'RowCol': {
       return {
         id: genId(`${item.value}row`),

@@ -10,7 +10,7 @@ defineProps<{
 <template>
   <el-row :gutter="ROW_GUTTER">
     <el-col :span="24">
-      <el-form-item label="项目名称" prop="name">
+      <el-form-item label="项目名称" prop="name" :rules="[{ required: true, message: '必填项' }]">
         <el-input v-model="formData.options.name" placeholder="请输入" clearable></el-input>
       </el-form-item>
     </el-col>
