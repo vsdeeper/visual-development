@@ -1,7 +1,7 @@
-import { BaseDesignData } from '@/components'
+import { type BaseDesignData } from '@/components'
 
 export interface HeaderDesignDataOptions {
-  height ?: string
+  height?: string
   components?: BaseDesignData<HeaderDesignDataOptions>[]
 }
 export type HeaderDesignData = BaseDesignData<HeaderDesignDataOptions>

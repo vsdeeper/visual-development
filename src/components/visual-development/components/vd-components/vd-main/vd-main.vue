@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MainDesignData } from '.';
+import { type MainDesignData } from '.';
 import { SHORTCUR_KEY_OPTIONS_OF_CONTAINER_COMPONENT } from '../constants';
 
 defineProps<{

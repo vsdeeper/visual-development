@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue';
-import { SearchConditionItem, SearchConditionType, SearchDesignDataOptions } from '@/components';
+import { type SearchConditionItem, type SearchConditionType, type SearchDesignDataOptions } from '@/components';
 import { ROW_GUTTER } from '../../constants';
 import { SEARCH_TYPE_OPTIONS, DATE_TYPE_OPTIONS } from './constants';
-import { TabPaneName } from 'element-plus';
+import { type TabPaneName } from 'element-plus';
 import { nanoid } from 'nanoid';
 import { first, last } from 'lodash-es';
-import { ApiConfigEditor, ApiConfigEditorInstance } from '..';
+import { ApiConfigEditor, type ApiConfigEditorInstance } from '..';
 
 const props = defineProps<{
   options: SearchDesignDataOptions;

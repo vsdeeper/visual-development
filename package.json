@@ -21,9 +21,12 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "run-s clean type-emit \"build-only {@}\" --",
+    "preview": "vite preview",
+    "build": "cross-env IS_BUILD_LIB=false run-s type-check \"build-only {@}\" --",
+    "build:lib": "cross-env IS_BUILD_LIB=true run-s clean type-emit \"build-only {@}\" --",
     "release": "npm publish",
     "build-only": "vite build",
+    "type-check": "vue-tsc --build --force",
     "type-emit": "vue-tsc -p tsconfig.build.json",
     "clean": "rm -rf dist",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
@@ -49,6 +52,7 @@
     "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",
     "@vue/tsconfig": "^0.5.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.23.0",
     "glob": "^10.3.12",
@@ -63,27 +67,5 @@
     "vite-plugin-css-injected-by-js": "^3.5.0",
     "vite-plugin-inspect": "^0.8.4",
     "vue-tsc": "^2.0.11"
-  },
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/types/index.d.ts"
-    },
-    "./myLabel": {
-      "import": "./dist/my-label.js",
-      "require": "./dist/my-label.cjs",
-      "types": "./dist/types/my-label/index.d.ts"
-    },
-    "./myDividerTitle": {
-      "import": "./dist/my-divider-title.js",
-      "require": "./dist/my-divider-title.cjs",
-      "types": "./dist/types/my-divider-title/index.d.ts"
-    },
-    "./myColorPicker": {
-      "import": "./dist/my-color-picker.js",
-      "require": "./dist/my-color-picker.cjs",
-      "types": "./dist/types/my-color-picker/index.d.ts"
-    }
   }
 }

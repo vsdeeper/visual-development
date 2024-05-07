@@ -1,6 +1,6 @@
-import { AddComponentGroupOptionItem, Method } from '.';
+import { type AddComponentGroupOptionItem, type Method } from '.'
 
-export const METHOD_OPTIONS: Method[] = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'];
+export const METHOD_OPTIONS: Method[] = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE']
 
 /**
  * 添加组件选项数据
@@ -9,7 +9,7 @@ export const ADD_COMPONENT_OPTIONS = [
   {
     id: 'ProjectContainer',
     name: '项目容器',
-    children: [{ label: '项目', value: 'Project' }],
+    children: [{ label: '项目', value: 'Project' }]
   },
   {
     id: 'GlobalComponents',
@@ -19,8 +19,8 @@ export const ADD_COMPONENT_OPTIONS = [
       { label: '搜索', value: 'Search' },
       { label: '表格', value: 'Table' },
       { label: '表单', value: 'Form' },
-      { label: '菜单', value: 'Menu' },
-    ],
+      { label: '菜单', value: 'Menu' }
+    ]
   },
   {
     id: 'LayoutContainer',
@@ -31,16 +31,16 @@ export const ADD_COMPONENT_OPTIONS = [
       { label: '头部', value: 'Header' },
       { label: '主体', value: 'Main' },
       { label: '底部', value: 'Footer' },
-      { label: '布局', value: 'RowCol' },
-    ],
+      { label: '布局', value: 'RowCol' }
+    ]
   },
   {
     id: 'MainContainer',
     name: '主体容器',
     children: [
       { label: '路由', value: 'RouterView' },
-      { label: '视图', value: 'View' },
-    ],
+      { label: '视图', value: 'View' }
+    ]
   },
   // {
   //   id: 'NavigationComponents',
@@ -63,6 +63,6 @@ export const ADD_COMPONENT_OPTIONS = [
   {
     id: 'OtherComponents',
     name: '其他组件',
-    children: [{ label: '分割线', value: 'Divider' }],
-  },
-] as AddComponentGroupOptionItem[];
+    children: [{ label: '分割线', value: 'Divider' }]
+  }
+] as AddComponentGroupOptionItem[]

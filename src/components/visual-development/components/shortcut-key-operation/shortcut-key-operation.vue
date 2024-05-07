@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useGlobal } from '@/stores';
-import { ActiveDesignData, AddComponentInstance } from '../..';
+import { type ActiveDesignData, type AddComponentInstance } from '../..';
 import { type ShortcutKeyOptionItem } from '.';
 import { ADD_COMPONENT_REF_SYMBOL, DESIGN_COMPONENT_REF_SYMBOL } from '@/utils/constants';
 import { deleteComponent } from '../../util';

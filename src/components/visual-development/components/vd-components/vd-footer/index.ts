@@ -1,7 +1,7 @@
-import { BaseDesignData } from '@/components'
+import { type BaseDesignData } from '@/components'
 
 export interface FooterDesignDataOptions {
-  height ?: string
+  height?: string
   components?: BaseDesignData<FooterDesignDataOptions>[]
 }
 export type FooterDesignData = BaseDesignData<FooterDesignDataOptions>

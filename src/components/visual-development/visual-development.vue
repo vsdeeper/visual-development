@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import draggable from 'vuedraggable';
 import { useGlobal } from '@/stores';
-import { ActiveDesignData, DesignComponent, VdComponents, MergeDesignData, BaseDesignData } from '.';
-import { AddComponent, AddComponentOptionItem, ShortcutKeyDescription } from '@/components';
+import { type ActiveDesignData, DesignComponent, VdComponents, type MergeDesignData, type BaseDesignData } from '.';
+import { AddComponent, type AddComponentOptionItem, ShortcutKeyDescription } from '@/components';
 import { IS_PAGE_DESIGN_MODE_SYMBOL, ADD_COMPONENT_REF_SYMBOL, DESIGN_COMPONENT_REF_SYMBOL } from '@/utils/constants';
 import { deleteComponent, genId, isActiveDesign, isContainerComponent } from './util';
 import { ADD_COMPONENT_OPTIONS } from './constants';
-import { AddComponentGroupOptionItem, RowColDesignData, ShortcutKeyOperation } from './components';
+import { type AddComponentGroupOptionItem, type RowColDesignData, ShortcutKeyOperation } from './components';
 import { nanoid } from 'nanoid';
 
 export type AddComponentInstance = InstanceType<typeof AddComponent>;

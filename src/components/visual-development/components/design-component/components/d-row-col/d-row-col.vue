@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { SemiSelect, Plus } from '@element-plus/icons-vue';
-import { MergeDesignData, RowColDesignData } from '@/components';
+import { type MergeDesignData, type RowColDesignData } from '@/components';
 import {
   IdEditor,
   RowGutterEditor,

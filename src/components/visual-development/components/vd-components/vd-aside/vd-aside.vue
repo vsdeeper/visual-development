@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AsideDesignData } from '.';
+import { type AsideDesignData } from '.';
 import { SHORTCUR_KEY_OPTIONS_OF_CONTAINER_COMPONENT } from '../constants';
 
 defineProps<{

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { FormInstance } from 'element-plus';
-import { ActiveDesignData } from '../..';
+import { type FormInstance } from 'element-plus';
+import { type ActiveDesignData } from '../..';
 import { DesignComponent } from './components';
 
 withDefaults(

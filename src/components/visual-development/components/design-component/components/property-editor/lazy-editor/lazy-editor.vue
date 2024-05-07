@@ -16,12 +16,12 @@ const props = withDefaults(
 );
 
 defineEmits<{
-  (e: 'change', val: string | number | boolean): void;
+  (e: 'change', val: string | number | boolean | undefined): void;
 }>();
 
 const options = toRef(props, 'options');
 
-function change(val: string | number | boolean, options: DesignDataOptions) {
+function change(val: string | number | boolean | undefined, options: DesignDataOptions) {
   if (val) options.loadApiMethod = 'GET';
 }
 </script>

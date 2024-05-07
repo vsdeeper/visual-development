@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { InputInstance } from 'element-plus';
-import { AddComponentOptionItem, AddComponentGroupOptionItem } from '.';
+import { type InputInstance } from 'element-plus';
+import { type AddComponentOptionItem, type AddComponentGroupOptionItem } from '.';
 
 const props = defineProps<{
   options?: AddComponentGroupOptionItem[];

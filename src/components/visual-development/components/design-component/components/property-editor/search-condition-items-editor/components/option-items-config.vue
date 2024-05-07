@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SearchConditionOptionItem } from '@/components';
+import { type SearchConditionOptionItem } from '@/components';
 import { Minus, Plus, Refresh } from '@element-plus/icons-vue';
 
 defineProps<{

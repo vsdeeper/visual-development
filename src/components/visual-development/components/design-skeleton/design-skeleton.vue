@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import draggable from 'vuedraggable';
-import { MergeDesignData, ShortcutKeyOperation, VdComponents } from '../..';
-import { ShortcutKeyOptionItem } from '@/components';
+import { type MergeDesignData, ShortcutKeyOperation, VdComponents } from '../..';
+import { type ShortcutKeyOptionItem } from '@/components';
 import { isActiveDesign, isRowComponent, findIndexColInRow } from '../../util';
 import { useGlobal } from '@/stores';
 import RowCol from './components/row-col.vue';

@@ -1,4 +1,4 @@
-import { BaseDesignData } from '@/components'
+import { type BaseDesignData } from '@/components'
 
 export interface RouterViewDesignDataOptions {
   components?: BaseDesignData<RouterViewDesignDataOptions>[]

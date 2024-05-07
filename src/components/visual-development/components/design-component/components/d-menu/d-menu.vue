@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MergeDesignData } from '@/components';
+import { type MergeDesignData } from '@/components';
 import { ApiConfigEditor, IdEditor } from '../property-editor';
 import { ROW_GUTTER } from '../constants';
 

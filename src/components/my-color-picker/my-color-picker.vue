@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ColorPickerInstance } from 'element-plus';
+import { type ColorPickerInstance } from 'element-plus';
 
 withDefaults(
   defineProps<{
@@ -12,10 +12,6 @@ withDefaults(
 );
 const model = defineModel<string>();
 const colorPickerRef = ref<ColorPickerInstance>();
-
-defineExpose({
-  colorPickerRef,
-});
 
 function clickInput() {
   colorPickerRef.value?.show();

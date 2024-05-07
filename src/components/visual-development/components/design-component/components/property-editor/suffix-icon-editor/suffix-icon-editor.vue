@@ -25,8 +25,8 @@ const options = toRef(props, 'options');
       <my-label :label="label" />
     </template>
     <el-select v-model="options.suffixIcon" placeholder="请选择" clearable filterable>
-      <el-option v-for="item in Icons" :key="item.name" :label="item.name" :value="item.name">
-        <el-icon><component :is="(Icons as Record<string, any>)[item.name]"></component></el-icon>
+      <el-option v-for="item in Icons" :key="item.name" :label="item.name" :value="item.name!">
+        <el-icon><component :is="(Icons as Record<string, any>)[item.name!]"></component></el-icon>
         <span>{{ item.name }}</span>
       </el-option>
     </el-select>

@@ -1,5 +1,5 @@
-import { BaseDesignData } from '@/components'
-import { Component } from 'vue'
+import { type BaseDesignData } from '@/components'
+import { type Component } from 'vue'
 
 export interface LogoDesignDataOptions {
   name?: string
@@ -8,4 +8,4 @@ export interface LogoDesignDataOptions {
   fontSize?: string
   suffixIcon?: string | Component
 }
-export type LogoDesignData = BaseDesignData<LogoDesignDataOptions>;
+export type LogoDesignData = BaseDesignData<LogoDesignDataOptions>

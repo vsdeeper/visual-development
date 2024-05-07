@@ -1,4 +1,4 @@
-import { ShortcutKeyOptionItem } from '../..'
+import { type ShortcutKeyOptionItem } from '../..'
 
 // 容器组件的快捷键
 export const SHORTCUR_KEY_OPTIONS_OF_CONTAINER_COMPONENT: ShortcutKeyOptionItem[] = [

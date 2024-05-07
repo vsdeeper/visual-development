@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MenuDesignData } from '.';
+import { type MenuDesignData } from '.';
 import { SHORTCUR_KEY_OPTIONS_OF_GENERAL_COMPONENT } from '../constants';
 
 defineProps<{

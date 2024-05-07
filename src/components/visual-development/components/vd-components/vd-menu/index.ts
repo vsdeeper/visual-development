@@ -1,11 +1,11 @@
-import { BaseDesignData, Method } from '@/components';
+import { type BaseDesignData, type Method } from '@/components'
 
 export interface MenuDesignDataOptions {
-  mode?: 'horizontal' | 'vertical';
-  router?: boolean;
-  popperEffect?: 'dark' | 'light';
-  apiMethod?: Extract<Method, 'GET'>;
-  api?: string;
-  apiParams?: Record<string, any>;
+  mode?: 'horizontal' | 'vertical'
+  router?: boolean
+  popperEffect?: 'dark' | 'light'
+  apiMethod?: Extract<Method, 'GET'>
+  api?: string
+  apiParams?: Record<string, any>
 }
-export type MenuDesignData = BaseDesignData<MenuDesignDataOptions>;
+export type MenuDesignData = BaseDesignData<MenuDesignDataOptions>

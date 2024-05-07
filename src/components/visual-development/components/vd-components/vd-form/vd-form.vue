@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FormDesignData } from '.';
+import { type FormDesignData } from '.';
 import { SHORTCUR_KEY_OPTIONS_OF_GENERAL_COMPONENT } from '../constants';
 
 defineProps<{
