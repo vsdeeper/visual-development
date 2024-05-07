@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import * as Icons from '@element-plus/icons-vue';
-import { DesignDataOptions } from '@/components';
-import { FormItemRule } from 'element-plus';
+import { type DesignDataOptions } from '@/components';
+import { type FormItemRule } from 'element-plus';
 
 const props = withDefaults(
   defineProps<{

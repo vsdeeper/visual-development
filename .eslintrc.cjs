@@ -1,37 +1,19 @@
-import { defineConfig } from 'eslint-define-config';
+/* eslint-env node */
+require('@rushstack/eslint-patch/modern-module-resolution')
 
-module.exports = defineConfig({
+module.exports = {
+  root: true,
   env: {
-    browser: true,
-    es2021: true,
+    node: true,
+    commonjs: true,
   },
   extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
     'plugin:vue/vue3-essential',
-    'plugin:prettier/recommended',
-    './.eslintrc-auto-import.json',
-  ],
-  overrides: [
-    {
-      env: {
-        node: true,
-      },
-      files: ['.eslintrc.{js,cjs}'],
-      parserOptions: {
-        sourceType: 'script',
-      },
-    },
+    'eslint:recommended',
+    '@vue/eslint-config-typescript',
+    '@vue/eslint-config-prettier/skip-formatting',
   ],
   parserOptions: {
     ecmaVersion: 'latest',
-    parser: '@typescript-eslint/parser',
-    sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'vue', 'pe'],
-  rules: {
-    indent: ['error', 2, { SwitchCase: 1 }],
-    quotes: ['error', 'single'],
-    semi: ['error', 'never'],
-  },
-});
+}

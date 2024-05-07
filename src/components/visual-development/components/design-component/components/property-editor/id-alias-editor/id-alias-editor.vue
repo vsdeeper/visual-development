@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ActiveDesignData } from '@/components';
+import { type ActiveDesignData } from '@/components';
 
 const props = defineProps<{
   formData: ActiveDesignData;

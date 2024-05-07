@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { DesignDataOptions } from '@/components';
+import { type DesignDataOptions } from '@/components';
 import { ALIGN_OPTIONS } from './constants';
-import { FormItemRule } from 'element-plus';
+import { type FormItemRule } from 'element-plus';
 
 const props = withDefaults(
   defineProps<{

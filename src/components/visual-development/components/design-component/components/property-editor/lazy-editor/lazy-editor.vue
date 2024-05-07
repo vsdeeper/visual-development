@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { DesignDataOptions } from '@/components';
-import { FormItemRule } from 'element-plus';
+import { type DesignDataOptions } from '@/components';
+import { type FormItemRule } from 'element-plus';
 
 const props = withDefaults(
   defineProps<{
@@ -15,7 +15,7 @@ const props = withDefaults(
   },
 );
 
-const emit = defineEmits<{
+defineEmits<{
   (e: 'change', val: string | number | boolean): void;
 }>();
 

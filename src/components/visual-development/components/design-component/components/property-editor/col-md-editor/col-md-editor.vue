@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { DesignDataOptions } from '@/components';
-import { FormItemRule } from 'element-plus';
+import { type DesignDataOptions } from '@/components';
+import { type FormItemRule } from 'element-plus';
 
 const props = withDefaults(
   defineProps<{
@@ -26,3 +26,5 @@ const options = toRef(props, 'options');
     <el-input-number v-model="options.colMd" controls-position="right" :min="1" :max="24" />
   </el-form-item>
 </template>
+/* __placeholder__ */
+import type { type DesignDataOptions } from '@/components';import type { type FormItemRule } from 'element-plus';

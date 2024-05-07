@@ -1,4 +1,4 @@
-import {
+import type {
   ProjectDesignData,
   ContainerDesignData,
   AsideDesignData,
@@ -23,14 +23,14 @@ import {
   LogoDesignDataOptions,
   MenuDesignDataOptions,
   SearchDesignDataOptions,
-  TableDesignDataOptions,
-} from './components';
+  TableDesignDataOptions
+} from './components'
 
-export * from './components';
-export { default as VisualDevelopment, type AddComponentInstance } from './visual-development.vue';
+export * from './components'
+export { default as VisualDevelopment, type AddComponentInstance } from './visual-development.vue'
 
 /** 全局请求方法定义 */
-export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
 /** 设计组件的选项配置类型 */
 export type DesignDataOptions = ProjectDesignDataOptions &
@@ -44,7 +44,7 @@ export type DesignDataOptions = ProjectDesignDataOptions &
   LogoDesignDataOptions &
   MenuDesignDataOptions &
   SearchDesignDataOptions &
-  TableDesignDataOptions;
+  TableDesignDataOptions
 
 /** 当前配置数据类型 */
 export type ActiveDesignData =
@@ -60,7 +60,7 @@ export type ActiveDesignData =
   | LogoDesignData
   | MenuDesignData
   | SearchDesignData
-  | TableDesignData;
+  | TableDesignData
 
 /** 设计数据的合并类型 */
 export type MergeDesignData = ProjectDesignData &
@@ -74,4 +74,4 @@ export type MergeDesignData = ProjectDesignData &
   LogoDesignData &
   MenuDesignData &
   SearchDesignData &
-  TableDesignData;
+  TableDesignData

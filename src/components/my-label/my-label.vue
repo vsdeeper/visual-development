@@ -27,7 +27,7 @@ withDefaults(
   },
 );
 
-const emit = defineEmits<{
+defineEmits<{
   (e: 'click-tooltip-icon'): void;
 }>();
 </script>

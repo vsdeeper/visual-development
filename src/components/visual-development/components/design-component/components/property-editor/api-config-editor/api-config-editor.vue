@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue';
 import { nanoid } from 'nanoid';
-import { DesignDataOptions } from '@/components';
+import { type DesignDataOptions } from '@/components';
 import { first, isObject, throttle } from 'lodash-es';
 import { findArraryValuesFromTreeData, findObjectFromTreeData } from '@/utils';
-import { FormItemInstance, FormItemRule } from 'element-plus';
+import { type FormItemInstance, type FormItemRule } from 'element-plus';
 import { METHOD_OPTIONS } from './constants';
 
 interface Tree {
@@ -42,7 +42,7 @@ const formItemRef = ref<FormItemInstance>();
 watch(
   () => options.value[apiParams],
   params => {
-    transTreeDataByParams(params ?? {}, treeData.value);
+    transTreeDataByParams(params ?? {}, treeData);
   },
   { once: true },
 );
@@ -50,7 +50,7 @@ watch(
 watch(
   treeData,
   throttle(treeData => {
-    transParamsByTreeData(treeData, options.value);
+    transParamsByTreeData(treeData, options);
   }, 800),
   { deep: true },
 );
@@ -75,7 +75,7 @@ function remove(target: Tree, treeData: Tree[]) {
   }
 }
 
-function transTreeDataByParams(params: Record<string, any>, _treeData: Tree[]) {
+function transTreeDataByParams(params: Record<string, any>, _treeData: Ref<Tree[]>) {
   const handler = (params: Record<string, any>, treeData: Tree[]) => {
     for (const key in params) {
       if (Object.prototype.hasOwnProperty.call(params, key)) {
@@ -89,10 +89,10 @@ function transTreeDataByParams(params: Record<string, any>, _treeData: Tree[]) {
       }
     }
   };
-  handler(params, (_treeData = []));
+  handler(params, (_treeData.value = []));
 }
 
-function transParamsByTreeData(treeData: Tree[], options: DesignDataOptions) {
+function transParamsByTreeData(treeData: Tree[], options: Ref<DesignDataOptions>) {
   const handler = (treeData: Tree[], params: Record<string, any>) => {
     treeData.forEach(item => {
       if (item.children?.length) {
@@ -103,7 +103,7 @@ function transParamsByTreeData(treeData: Tree[], options: DesignDataOptions) {
       }
     });
   };
-  handler(treeData, (options[apiParams] = {}));
+  handler(treeData, (options.value[apiParams] = {}));
 }
 
 defineExpose({
