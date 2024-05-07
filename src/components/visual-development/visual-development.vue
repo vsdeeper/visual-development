@@ -182,20 +182,21 @@ function showMoreShortcutKey() {
 }
 
 function filterAddComponentOptions(options: AddComponentGroupOptionItem[], activeDesignData?: ActiveDesignData) {
+  const _options: AddComponentGroupOptionItem[] = JSON.parse(JSON.stringify(options))
   if (!activeDesignData /**不存在当前设计数据，即初始状态，只能添加项目组件 */) {
-    options.forEach(optionItem =>
+    _options.forEach(optionItem =>
       optionItem.id === 'ProjectContainer'
         ? optionItem.children.forEach(item => (item.disabled = false))
         : optionItem.children.forEach(item => (item.disabled = true)),
     );
   } /** 存在设计数据，不能添加项目组件 */ else {
-    options.forEach(optionItem =>
+    _options.forEach(optionItem =>
       optionItem.id === 'ProjectContainer'
         ? optionItem.children.forEach(item => (item.disabled = true))
         : optionItem.children.forEach(item => (item.disabled = false)),
     );
   }
-  return options;
+  return _options;
 }
 </script>
 
@@ -208,7 +209,6 @@ function filterAddComponentOptions(options: AddComponentGroupOptionItem[], activ
     }"
   >
     <div class="version">Visual Development 1.0.0</div>
-    <!-- {{ designData }} -->
     <el-scrollbar>
       <draggable
         class="transition-group-in-visual-development"
