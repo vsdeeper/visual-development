@@ -287,15 +287,8 @@ function filterAddComponentOptions(options: AddComponentGroupOptionItem[], activ
     }
   }
 
-  :deep {
-    .design-skeleton:not(.is-horizontal) .group-item + .group-item {
-      margin-top: 10px;
-    }
-
-    .design-skeleton.is-horizontal .group-item + .group-item {
-      margin-left: 10px;
-      margin-top: 0;
-    }
+  :deep(.design-skeleton .group-item) {
+    margin: 3px;
   }
 
   &.active {

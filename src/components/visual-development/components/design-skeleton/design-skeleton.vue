@@ -134,7 +134,7 @@ function mouseoutSkeleton(e: MouseEvent) {
       flex: 1;
       flex-direction: column;
       min-height: 30px;
-      padding: 10px;
+      padding: 8px;
 
       :deep(.group-item) {
         display: inline-flex;
