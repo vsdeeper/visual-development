@@ -1,28 +1,13 @@
 import { nanoid } from 'nanoid'
 import { useGlobal } from '@/stores'
-import {
-  type ActiveDesignData,
-  type MergeDesignData,
-  type RowColDesignData,
-  type ComponentTypeOfPageDesigner
-} from '.'
+import { type ActiveDesignData, type MergeDesignData, type ComponentTypeOfPageDesigner } from '.'
 
 /**
  * 判断是否容器组件
  * @param type
  */
 export function isContainerComponent(type: ComponentTypeOfPageDesigner) {
-  const list: ComponentTypeOfPageDesigner[] = [
-    'Project',
-    'Container',
-    'Aside',
-    'Header',
-    'Main',
-    'Footer',
-    'RouterView',
-    'View',
-    'RowCol'
-  ]
+  const list: ComponentTypeOfPageDesigner[] = ['Project', 'View']
   return list.includes(type)
 }
 
@@ -75,7 +60,7 @@ function forofForfindParentComponentsOfComponent(
   data: MergeDesignData,
   callback: (parentData: MergeDesignData) => void
 ) {
-  for (const item of data.options?.components ?? []) {
+  for (const item of data.components ?? []) {
     if (item.id === id) {
       callback(data)
       break
@@ -93,11 +78,7 @@ function forofForfindParentComponentsOfComponent(
 export function toFlattenComponents(data?: MergeDesignData[]) {
   if (!data) return []
   return data.reduce((prev: MergeDesignData[], cur: MergeDesignData): MergeDesignData[] => {
-    return [
-      ...prev,
-      cur,
-      ...(cur.options?.components ? toFlattenComponents(cur.options?.components) : [])
-    ]
+    return [...prev, cur, ...(cur.components ? toFlattenComponents(cur.components) : [])]
   }, [])
 }
 
@@ -113,7 +94,7 @@ export function forEachHandlerOfComponents(
   const handler = (data: MergeDesignData[]) => {
     data.forEach((item) => {
       callback(item)
-      if (item.options?.components?.length) handler(item.options.components)
+      if (item.components?.length) handler(item.components)
     })
   }
   handler(data)
@@ -141,42 +122,10 @@ export function deleteComponent(activeDesignData: ActiveDesignData, designData: 
     }
   } else {
     // 说明删除的是子组件
-    const index = parent.options!.components!.findIndex((e) => e.id === activeDesignData.id)
-    parent.options!.components!.splice(index!, 1)
+    const index = parent.components!.findIndex((e) => e.id === activeDesignData.id)
+    parent.components!.splice(index!, 1)
     setActiveDesignData(parent)
   }
-}
-
-/**
- * 判断组件是否是布局-row组件
- * @param data
- * @returns
- */
-export function isRowComponent(data: ActiveDesignData) {
-  return data.id.startsWith('rowcolrow')
-}
-
-/**
- * 判断组件是否是布局-col组件
- * @param data
- * @returns
- */
-export function isColComponent(data: ActiveDesignData) {
-  return data.id.startsWith('rowcolcol')
-}
-
-/**
- * 找到col在row中的索引
- * @param data
- * @param designData
- * @returns
- */
-export function findIndexColInRow(data: RowColDesignData, designData: MergeDesignData[]) {
-  const findParent = findParentComponentOfComponent(data, designData)
-  const cols = (findParent as RowColDesignData).options?.components?.filter(
-    (e) => e.type === 'RowCol'
-  )
-  return cols?.findIndex((e) => e.id === data.id)
 }
 
 /**

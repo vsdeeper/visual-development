@@ -2,9 +2,8 @@
 import draggable from 'vuedraggable';
 import { type MergeDesignData, ShortcutKeyOperation, VdComponents } from '../..';
 import { type ShortcutKeyOptionItem } from '@/components';
-import { isActiveDesign, isRowComponent, findIndexColInRow } from '../../util';
+import { isActiveDesign } from '../../util';
 import { useGlobal } from '@/stores';
-import RowCol from './components/row-col.vue';
 import { genStyle } from './util';
 
 defineProps<{
@@ -26,13 +25,6 @@ function mergeClass(classList?: unknown[], myClassList?: unknown[]) {
 function toLabel(data: MergeDesignData) {
   if (data.type === 'Project') {
     return `${data.label} / ${data.options.name ?? ''}`;
-  } else if (data.type === 'RowCol') {
-    if (isRowComponent(data)) return `${data.label}-Row`;
-    else {
-      const { designData } = useGlobal();
-      const findIndex = findIndexColInRow(data, designData);
-      return `${data.label}-Col-${findIndex! + 1}`;
-    }
   }
   return `${data.label}-${data.type}`;
 }
@@ -60,10 +52,8 @@ function mouseoutSkeleton(e: MouseEvent) {
       <label>{{ toLabel(data) }}</label>
     </div>
     <div class="main">
-      <RowCol v-if="data.type === 'RowCol'" :data="data" :is-active="isActive"></RowCol>
       <draggable
-        v-else
-        :list="data.options?.components"
+        :list="data.components"
         :component-data="{
           type: 'transition-group',
         }"

@@ -6,7 +6,7 @@ import { AddComponent, type AddComponentOptionItem, ShortcutKeyDescription } fro
 import { IS_PAGE_DESIGN_MODE_SYMBOL, ADD_COMPONENT_REF_SYMBOL, DESIGN_COMPONENT_REF_SYMBOL } from '@/utils/constants';
 import { deleteComponent, genId, isActiveDesign, isContainerComponent } from './util';
 import { ADD_COMPONENT_OPTIONS } from './constants';
-import { type AddComponentGroupOptionItem, type RowColDesignData, ShortcutKeyOperation } from './components';
+import { type AddComponentGroupOptionItem, ShortcutKeyOperation } from './components';
 import { nanoid } from 'nanoid';
 
 export type AddComponentInstance = InstanceType<typeof AddComponent>;
@@ -77,8 +77,8 @@ function selectComponent(item: AddComponentOptionItem) {
        * 布局容器，可以挂载子组件
        * 子组件挂载后将活动设计数据设置为子组件
        */
-      !activeDesignData.options!.components && (activeDesignData.options!.components = []);
-      activeDesignData.options!.components!.push(data);
+      !activeDesignData.components && (activeDesignData.components = []);
+      activeDesignData.components!.push(data);
       setActiveDesignData(data);
     }
   }
@@ -97,43 +97,8 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
         options: {
           name: 'my-project',
         },
+        components: []
       } as BaseDesignData;
-    }
-    case 'RowCol': {
-      return {
-        id: genId(`${item.value}row`),
-        type: item.value,
-        label: item.label,
-        options: {
-          rowGutter: 0,
-          rowJustify: 'start',
-          components: [
-            {
-              id: genId(`${item.value}col`),
-              type: item.value,
-              label: item.label,
-              options: {
-                components: [],
-                colSpan: 24,
-              },
-            },
-          ],
-        },
-      } as RowColDesignData;
-    }
-    case 'Menu': {
-      return {
-        id: genId(item.value),
-        type: item.value,
-        label: item.label,
-        options: {
-          apiMethod: 'GET',
-          mode: 'vertical',
-          router: false,
-          popperEffect: 'dark',
-          method: 'GET',
-        },
-      };
     }
     case 'Search': {
       return {
@@ -171,7 +136,8 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
         id: genId(item.value),
         type: item.value,
         label: item.label,
-        options: isContainerComponent(item.value) ? { components: [] } : {},
+        options: {},
+        components: isContainerComponent(item.value) ? [] : undefined
       } as BaseDesignData;
     }
   }
@@ -186,15 +152,37 @@ function filterAddComponentOptions(options: AddComponentGroupOptionItem[], activ
   if (!activeDesignData /**不存在当前设计数据，即初始状态，只能添加项目组件 */) {
     _options.forEach(optionItem =>
       optionItem.id === 'ProjectContainer'
-        ? optionItem.children.forEach(item => (item.disabled = false))
+        ? optionItem.children.forEach(item => (item.value === 'Project' ? item.disabled = false : item.disabled = true))
         : optionItem.children.forEach(item => (item.disabled = true)),
     );
-  } /** 存在设计数据，不能添加项目组件 */ else {
-    _options.forEach(optionItem =>
-      optionItem.id === 'ProjectContainer'
-        ? optionItem.children.forEach(item => (item.disabled = true))
-        : optionItem.children.forEach(item => (item.disabled = false)),
-    );
+  } else {
+    // 存在设计数据，不能添加项目组件
+    // 判断是在项目组件上添加还是在其他组件上添加
+    // 项目组件上只能添加视图组件
+    // 视图组件上只能添加除项目组件、视图组件之外的组件
+    const flattenOptions = _options.reduce((prev: AddComponentOptionItem[], cur) => {
+      return [
+        ...prev,
+        ...cur.children
+      ]
+    }, [])
+
+    if (activeDesignData.type === 'Project') {
+      flattenOptions.map(item => {
+        if (item.value === 'View') item.disabled = false
+        else item.disabled = true
+      })
+    } else if (activeDesignData.type === 'View') {
+      flattenOptions.map(item => {
+        if (item.value === 'Project' || item.value === 'View') item.disabled = true
+        else item.disabled = false
+      })
+    } else {
+      flattenOptions.map(item => {
+        if (item.value === 'Project' || item.value === 'View') item.disabled = true
+        else item.disabled = false
+      })
+    }
   }
   return _options;
 }
@@ -210,6 +198,7 @@ function filterAddComponentOptions(options: AddComponentGroupOptionItem[], activ
   >
     <div class="version">Visual Development 1.0.0</div>
     <el-scrollbar>
+      <!-- {{ designData }} -->
       <draggable
         class="transition-group-in-visual-development"
         :list="designData"
