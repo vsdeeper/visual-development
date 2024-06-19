@@ -32,7 +32,7 @@ defineExpose({
 </script>
 
 <template>
-  <el-dialog v-model="show" :title="toTitle(title, formData)" :fullscreen="fullscreen">
+  <el-dialog v-model="show" :title="toTitle(title, formData)" width="900px" :fullscreen="fullscreen">
     <div class="design-component">
       <el-form ref="formRef" :model="formData" label-position="top">
         <component v-if="formData" :is="DesignComponent[formData.type]" :form-data="formData"></component>

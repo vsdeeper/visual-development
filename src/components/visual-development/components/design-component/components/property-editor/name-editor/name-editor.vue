@@ -19,10 +19,10 @@ const options = toRef(props, 'options');
 </script>
 
 <template>
-  <el-form-item :prop="formItemProp">
+  <el-form-item :prop="formItemProp" :rules="[{ required: true, message: '必填项' }]">
     <template #label>
       <my-label :label="label" />
     </template>
-    <el-input v-model="options.name" placeholder="请输入" clearable></el-input>
+    <el-input v-model="options.name" placeholder="请输入格式: my-view" clearable></el-input>
   </el-form-item>
 </template>

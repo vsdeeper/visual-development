@@ -6,7 +6,7 @@ import { AddComponent, type AddComponentOptionItem, ShortcutKeyDescription } fro
 import { IS_PAGE_DESIGN_MODE_SYMBOL, ADD_COMPONENT_REF_SYMBOL, DESIGN_COMPONENT_REF_SYMBOL } from '@/utils/constants';
 import { deleteComponent, genId, isActiveDesign, isContainerComponent } from './util';
 import { ADD_COMPONENT_OPTIONS } from './constants';
-import { type AddComponentGroupOptionItem, ShortcutKeyOperation } from './components';
+import { type AddComponentGroupOptionItem, ShortcutKeyOperation, type ViewDesignData, type ProjectDesignData } from './components';
 import { nanoid } from 'nanoid';
 
 export type AddComponentInstance = InstanceType<typeof AddComponent>;
@@ -98,7 +98,18 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
           name: 'my-project',
         },
         components: []
-      } as BaseDesignData;
+      } as ProjectDesignData;
+    }
+    case 'View': {
+      return {
+        id: genId(item.value),
+        type: item.value,
+        label: item.label,
+        options: {
+          name: 'my-view',
+        },
+        components: []
+      } as ViewDesignData
     }
     case 'Search': {
       return {

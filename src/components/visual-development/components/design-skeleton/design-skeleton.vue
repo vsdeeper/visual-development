@@ -26,7 +26,7 @@ function toLabel(data: MergeDesignData) {
   if (data.type === 'Project') {
     return `${data.label} / ${data.options.name ?? ''}`;
   }
-  return `${data.label}-${data.type}`;
+  return `${data.label} / ${data.options.name ? data.options.name : data.type}`;
 }
 
 function mouseoverSkeleton(e: MouseEvent) {
