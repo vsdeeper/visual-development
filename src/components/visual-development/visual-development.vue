@@ -54,10 +54,12 @@ function handleKeydown(e: KeyboardEvent) {
     // Delete 键，删除组件
     deleteComponent(activeDesignData as ActiveDesignData, designData);
     keyCodes.value = '';
+  } else if (keyCodes.value.includes('VE')) {
+    console.log(11)
   }
 }
 
-function selectComponent(item: AddComponentOptionItem) {
+function onSelectComponent(item: AddComponentOptionItem) {
   const data = createDesignData(item);
   const { activeDesignData } = useGlobal();
   if (!activeDesignData) {
@@ -244,7 +246,7 @@ function filterAddComponentOptions(options: AddComponentGroupOptionItem[], activ
   <AddComponent
     ref="addComponentRef"
     :options="filterAddComponentOptions(ADD_COMPONENT_OPTIONS, useGlobal().activeDesignData)"
-    @select="selectComponent"
+    @select="onSelectComponent"
   ></AddComponent>
   <DesignComponent
     ref="designComponentRef"

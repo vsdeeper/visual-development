@@ -61,6 +61,7 @@ declare module 'vue' {
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElTree: typeof import('element-plus/es')['ElTree']
+    ExportData: typeof import('./src/components/visual-development/components/export-data/export-data.vue')['default']
     FlexibleEditor: typeof import('./src/components/visual-development/components/design-component/components/property-editor/flexible-editor/flexible-editor.vue')['default']
     FontSizeEditor: typeof import('./src/components/visual-development/components/design-component/components/property-editor/font-size-editor/font-size-editor.vue')['default']
     HeightEditor: typeof import('./src/components/visual-development/components/design-component/components/property-editor/height-editor/height-editor.vue')['default']

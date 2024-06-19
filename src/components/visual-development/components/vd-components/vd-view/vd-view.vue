@@ -11,7 +11,7 @@ defineProps<{
   <DesignSkeleton
     :class-list="['vd-view']"
     :data="data"
-    :shortcut-key-options="SHORTCUR_KEY_OPTIONS_OF_CONTAINER_COMPONENT"
+    :shortcut-key-options="[...SHORTCUR_KEY_OPTIONS_OF_CONTAINER_COMPONENT, { keys: ['V', 'E'] }]"
   >
   </DesignSkeleton>
 </template>

@@ -34,12 +34,14 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
+    "ace-builds": "^1.35.0",
     "element-plus": "^2.7.0",
     "lodash-es": "^4.17.21",
     "nanoid": "^5.0.7",
     "pinia": "^2.1.7",
     "radash": "^12.1.0",
     "vue": "^3.4.21",
+    "vue3-ace-editor": "^2.2.4",
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
