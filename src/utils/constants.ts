@@ -6,3 +6,6 @@ export const ADD_COMPONENT_REF_SYMBOL: symbol = Symbol('addComponentRef')
 
 // 设计组件实例标识符
 export const DESIGN_COMPONENT_REF_SYMBOL: symbol = Symbol('designComponentRef')
+
+// 导出数据实例标识符
+export const EXPORT_DATA_REF_SYMBOL: symbol = Symbol('exportDataRef')

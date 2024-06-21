@@ -1,17 +1,7 @@
 import type { ActiveDesignData, MergeDesignData } from '@/components'
 import { defineStore } from 'pinia'
 
-const useGlobal = defineStore<
-  string,
-  {
-    designData: Ref<MergeDesignData[]>
-    setDesignData: (data: ActiveDesignData) => void
-    activeDesignData: Ref<ActiveDesignData | undefined>
-    setActiveDesignData: (data?: ActiveDesignData) => void
-    dialogFullscreen: Ref<boolean | undefined>
-    setDialogFullscreen: (data: boolean) => void
-  }
->('global', () => {
+const useGlobal = defineStore('global', () => {
   // 设计数据，最外层
   const designData = ref<MergeDesignData[]>([])
   // 当前被选中（设计中）的组件设计数据，只有容器组件会被选中

@@ -1,47 +1,54 @@
 <script setup lang="ts">
-import { useGlobal } from '@/stores';
-import { type ActiveDesignData, type AddComponentInstance } from '../..';
-import { type ShortcutKeyOptionItem } from '.';
-import { ADD_COMPONENT_REF_SYMBOL, DESIGN_COMPONENT_REF_SYMBOL } from '@/utils/constants';
-import { deleteComponent } from '../../util';
+import { useGlobal } from '@/stores'
+import { type ActiveDesignData, type AddComponentInstance, type ExportDataInstance } from '../..'
+import { type ShortcutKeyOptionItem } from '.'
+import {
+  ADD_COMPONENT_REF_SYMBOL,
+  DESIGN_COMPONENT_REF_SYMBOL,
+  EXPORT_DATA_REF_SYMBOL
+} from '@/utils/constants'
+import { deleteComponent } from '../../util'
 
 const props = defineProps<{
-  data?: ActiveDesignData;
-  options?: ShortcutKeyOptionItem[];
-  showMore?: boolean;
-  usedInRootComponent?: boolean;
-}>();
+  data?: ActiveDesignData
+  options?: ShortcutKeyOptionItem[]
+  showMore?: boolean
+  usedInRootComponent?: boolean
+}>()
 
 const emit = defineEmits<{
-  (e: 'show-more'): void;
-}>();
+  (e: 'show-more'): void
+}>()
 
-const { setActiveDesignData, designData, setDialogFullscreen } = useGlobal();
-const addComponentRef = inject<Ref<AddComponentInstance>>(ADD_COMPONENT_REF_SYMBOL);
-const designComponentRef = inject<Ref<AddComponentInstance>>(DESIGN_COMPONENT_REF_SYMBOL);
+const { setActiveDesignData, designData, setDialogFullscreen } = useGlobal()
+const addComponentRef = inject<Ref<AddComponentInstance>>(ADD_COMPONENT_REF_SYMBOL)
+const designComponentRef = inject<Ref<AddComponentInstance>>(DESIGN_COMPONENT_REF_SYMBOL)
+const exportDataRef = inject<Ref<ExportDataInstance>>(EXPORT_DATA_REF_SYMBOL)
 
 function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) {
   if (props.usedInRootComponent) {
     // 在根组件中使用
-    setActiveDesignData(undefined);
-    addComponentRef?.value.open();
+    setActiveDesignData(undefined)
+    addComponentRef?.value.open()
   } else {
-    const { activeDesignData } = useGlobal();
-    if (!data) return;
-    const _keysStr = item.keys?.join('').toUpperCase();
+    const { activeDesignData } = useGlobal()
+    if (!data) return
+    const _keysStr = item.keys?.join('').toUpperCase()
     if (_keysStr === 'VA') {
       // 添加组件
-      if (activeDesignData?.id !== data?.id) setActiveDesignData(data);
-      addComponentRef?.value.open();
+      if (activeDesignData?.id !== data?.id) setActiveDesignData(data)
+      addComponentRef?.value.open()
     } else if (_keysStr === 'VD') {
       // 设计组件
-      if (activeDesignData?.id !== data?.id) setActiveDesignData(data);
-      designComponentRef?.value.open();
-      setDialogFullscreen(useGlobal().activeDesignData?.type === 'Form');
+      if (activeDesignData?.id !== data?.id) setActiveDesignData(data)
+      designComponentRef?.value.open()
+      setDialogFullscreen(useGlobal().activeDesignData?.type === 'Form')
     } else if (_keysStr === 'DELETE') {
       // 删除组件
-      const { designData } = useGlobal();
-      deleteComponent(data, designData);
+      const { designData } = useGlobal()
+      deleteComponent(data, designData)
+    } else if (_keysStr === 'VE') {
+      exportDataRef?.value.open()
     }
   }
 }
@@ -49,10 +56,20 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) 
 
 <template>
   <div class="shortcut-key-operation">
-    <div class="item" v-for="(item, index) in options" :key="index" @click="clickShortcutKey(item, data)">
+    <div
+      class="item"
+      v-for="(item, index) in options"
+      :key="index"
+      @click="clickShortcutKey(item, data)"
+    >
       <div v-if="item.label" class="label">{{ item.label }}</div>
       <div class="key" v-for="key in item.keys" :key="key">{{ key }}</div>
-      <el-tooltip v-if="showMore" content="快捷键" :placement="designData.length ? 'top' : 'right'" effect="customized">
+      <el-tooltip
+        v-if="showMore"
+        content="快捷键"
+        :placement="designData.length ? 'top' : 'right'"
+        effect="customized"
+      >
         <div class="key tip" @click.stop="emit('show-more')">?</div>
       </el-tooltip>
     </div>
