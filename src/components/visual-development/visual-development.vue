@@ -74,7 +74,7 @@ function handleKeydown(e: KeyboardEvent) {
     deleteComponent(activeDesignData as ActiveDesignData, designData)
     keyCodes.value = ''
   } else if (keyCodes.value.includes('VE')) {
-    exportDataRef.value?.open()
+    exportDataRef.value?.open(activeDesignData as ViewDesignData)
   }
 }
 
@@ -249,7 +249,7 @@ function filterAddComponentOptions(
           <div class="group-item">
             <component
               :key="item.name"
-              :is="VdComponents[(item as MergeDesignData).type]"
+              :is="VdComponents[(item as BaseDesignData).type]"
               :is-active="isActiveDesign(item.id, useGlobal().activeDesignData)"
               :data="item"
             ></component>

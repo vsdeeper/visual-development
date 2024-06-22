@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { useGlobal } from '@/stores'
-import { type ActiveDesignData, type AddComponentInstance, type ExportDataInstance } from '../..'
+import {
+  type ActiveDesignData,
+  type AddComponentInstance,
+  type ExportDataInstance,
+  type ViewDesignData
+} from '../..'
 import { type ShortcutKeyOptionItem } from '.'
 import {
   ADD_COMPONENT_REF_SYMBOL,
@@ -48,7 +53,7 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) 
       const { designData } = useGlobal()
       deleteComponent(data, designData)
     } else if (_keysStr === 'VE') {
-      exportDataRef?.value.open()
+      exportDataRef?.value.open(data as ViewDesignData)
     }
   }
 }
