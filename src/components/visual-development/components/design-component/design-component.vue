@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ElMessage, ElMessageBox, type FormInstance } from 'element-plus'
+import { ElMessage, type FormInstance } from 'element-plus'
 import { type ActiveDesignData } from '../..'
 import { DesignComponent, SaveAsPreset, type SaveAsPresetInstance } from './components'
 import { forEachHandlerOfComponents, genId, setPresetData } from '../../util'
@@ -42,8 +42,8 @@ async function onConfirm(formData: Record<string, any>) {
   })
 }
 
-function showSaveAsPresetBtn(data: ActiveDesignData) {
-  return data.type === 'View'
+function showSaveAsPresetBtn(data?: ActiveDesignData) {
+  return data?.type === 'View'
 }
 
 function refreshId(data: ActiveDesignData) {

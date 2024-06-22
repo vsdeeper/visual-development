@@ -63,23 +63,34 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) 
 
 <template>
   <div class="shortcut-key-operation">
-    <div
-      class="item"
-      v-for="(item, index) in options"
-      :key="index"
-      @click="clickShortcutKey(item, data)"
-    >
-      <div v-if="item.label" class="label">{{ item.label }}</div>
-      <div class="key" v-for="key in item.keys" :key="key">{{ key }}</div>
-      <el-tooltip
-        v-if="showMore"
-        content="快捷键"
-        :placement="designData.length ? 'top' : 'right'"
-        effect="customized"
+    <template v-for="(item, index) in options" :key="index">
+      <el-popconfirm
+        v-if="item.keys?.join('') === 'Delete'"
+        title="确定删除吗？"
+        confirm-button-text="是"
+        cancel-button-text="否"
+        @confirm="clickShortcutKey(item, data)"
       >
-        <div class="key tip" @click.stop="emit('show-more')">?</div>
-      </el-tooltip>
-    </div>
+        <template #reference>
+          <div class="item">
+            <div v-if="item.label" class="label">{{ item.label }}</div>
+            <div class="key" v-for="key in item.keys" :key="key">{{ key }}</div>
+          </div>
+        </template>
+      </el-popconfirm>
+      <div v-else class="item" @click="clickShortcutKey(item, data)">
+        <div v-if="item.label" class="label">{{ item.label }}</div>
+        <div class="key" v-for="key in item.keys" :key="key">{{ key }}</div>
+        <el-tooltip
+          v-if="showMore"
+          content="快捷键"
+          :placement="designData.length ? 'top' : 'right'"
+          effect="customized"
+        >
+          <div class="key tip" @click.stop="emit('show-more')">?</div>
+        </el-tooltip>
+      </div>
+    </template>
   </div>
 </template>
 
