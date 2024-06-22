@@ -20,8 +20,7 @@ const exportDataRef = ref<VAceEditorInstance>()
 function open(data: ViewDesignData) {
   show.value = true
   configSetModuleUrl()
-  const { designData } = useGlobal()
-  exportData.value = JSON.stringify(designData, null, '  ')
+  exportData.value = JSON.stringify(data, null, '  ')
   setTimeout(() => {
     exportDataRef.value?._editor.setOption('printMargin', false)
   }, 100)

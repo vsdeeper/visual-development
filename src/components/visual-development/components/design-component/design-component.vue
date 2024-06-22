@@ -1,44 +1,84 @@
 <script setup lang="ts">
-import { type FormInstance } from 'element-plus';
-import { type ActiveDesignData } from '../..';
-import { DesignComponent } from './components';
+import { ElMessage, ElMessageBox, type FormInstance } from 'element-plus'
+import { type ActiveDesignData } from '../..'
+import { DesignComponent, SaveAsPreset, type SaveAsPresetInstance } from './components'
+import { setPresetData } from '../../util'
 
 withDefaults(
   defineProps<{
-    title?: string;
-    formData: ActiveDesignData;
-    fullscreen?: boolean;
+    title?: string
+    formData: ActiveDesignData
+    fullscreen?: boolean
   }>(),
   {
-    title: '设计组件',
-  },
-);
+    title: '设计组件'
+  }
+)
 
-const formRef = ref<FormInstance>();
-const show = ref(false);
+const formRef = ref<FormInstance>()
+const show = ref(false)
+const SaveAsPresetRef = ref<SaveAsPresetInstance>()
+const presetData = ref<ActiveDesignData>()
 
 function open() {
-  show.value = true;
+  show.value = true
 }
 
 function toTitle(title: string, formData?: ActiveDesignData) {
-  if (formData?.type === 'Project') return '设计项目';
-  return title;
+  if (formData?.type === 'Project') return '设计项目'
+  return title
+}
+
+function onSaveAsPreset(data: ActiveDesignData) {
+  presetData.value = data
+  SaveAsPresetRef.value?.open()
+}
+
+async function onConfirm(formData: Record<string, any>) {
+  await setPresetData({ presetData: presetData.value!, extendData: formData })
+  ElMessage({
+    type: 'success',
+    message: '预设成功'
+  })
+}
+
+function showSaveAsPresetBtn(data: ActiveDesignData) {
+  return data.type === 'View'
 }
 
 defineExpose({
-  open,
-});
+  open
+})
 </script>
 
 <template>
-  <el-dialog v-model="show" :title="toTitle(title, formData)" width="900px" :fullscreen="fullscreen">
+  <el-dialog
+    v-model="show"
+    :title="toTitle(title, formData)"
+    width="900px"
+    :fullscreen="fullscreen"
+  >
     <div class="design-component">
       <el-form ref="formRef" :model="formData" label-position="top">
-        <component v-if="formData" :is="DesignComponent[formData.type]" :form-data="formData"></component>
+        <component
+          v-if="formData"
+          :is="DesignComponent[formData.type]"
+          :form-data="formData"
+        ></component>
       </el-form>
     </div>
+    <template #footer>
+      <el-button @click="show = false">取消</el-button>
+      <el-button
+        v-if="showSaveAsPresetBtn(formData)"
+        type="primary"
+        @click="onSaveAsPreset(formData)"
+      >
+        存为预设
+      </el-button>
+    </template>
   </el-dialog>
+  <SaveAsPreset ref="SaveAsPresetRef" @confirm="onConfirm" />
 </template>
 
 <style lang="scss" scoped>

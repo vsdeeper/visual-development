@@ -1,5 +1,8 @@
 import { type AddComponentGroupOptionItem, type Method } from '.'
 
+export const PRESET_DATA_KEY = 'preset_data'
+export const DESIGN_DATA_KEY = 'design_data'
+
 export const METHOD_OPTIONS: Method[] = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE']
 
 /**
@@ -18,9 +21,14 @@ export const ADD_COMPONENT_OPTIONS = [
     id: 'BaseComponents',
     name: '基础组件',
     children: [
-      { label: '搜索', value: 'Search' },
+      { label: '搜索', value: 'Search', desc: '发大水范德萨' },
       { label: '表格', value: 'Table' },
       { label: '表单', value: 'Form' }
     ]
+  },
+  {
+    id: 'MyPreset',
+    name: '我的预设',
+    children: []
   }
 ] as AddComponentGroupOptionItem[]

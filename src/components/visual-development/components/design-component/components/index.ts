@@ -3,6 +3,8 @@ import { type ComponentTypeOfPageDesigner } from '@/components'
 import { capitalizeFirstLetter } from '@/utils'
 import { type AsyncComponentLoader } from 'vue'
 
+export * from './save-as-preset'
+
 /** 导出所有d-*子组件 */
 const DesignComponent: { [K in ComponentTypeOfPageDesigner]?: any } = {}
 const vueModules = import.meta.glob('./d-*/d-*.vue')

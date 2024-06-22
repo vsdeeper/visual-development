@@ -5,8 +5,8 @@ import {
   type ActiveDesignData,
   DesignComponent,
   VdComponents,
-  type MergeDesignData,
-  type BaseDesignData
+  type BaseDesignData,
+  type MergeDesignData
 } from '.'
 import { AddComponent, type AddComponentOptionItem, ShortcutKeyDescription } from '@/components'
 import {
@@ -16,15 +16,15 @@ import {
   EXPORT_DATA_REF_SYMBOL
 } from '@/utils/constants'
 import { deleteComponent, genId, isActiveDesign, isContainerComponent } from './util'
-import { ADD_COMPONENT_OPTIONS } from './constants'
+import { DESIGN_DATA_KEY } from './constants'
 import {
-  type AddComponentGroupOptionItem,
   ShortcutKeyOperation,
   type ViewDesignData,
   type ProjectDesignData,
   type ExportDataInstance
 } from './components'
 import { nanoid } from 'nanoid'
+import localforage from 'localforage'
 
 export type AddComponentInstance = InstanceType<typeof AddComponent>
 export type DesignComponentInstance = InstanceType<typeof DesignComponent>
@@ -45,15 +45,25 @@ provide(ADD_COMPONENT_REF_SYMBOL, addComponentRef)
 provide(DESIGN_COMPONENT_REF_SYMBOL, designComponentRef)
 provide(EXPORT_DATA_REF_SYMBOL, exportDataRef)
 
-onMounted(() => {
+onMounted(async () => {
   window.addEventListener('keydown', handleKeydown)
+  const forageDesignData: MergeDesignData[] | null = await localforage.getItem(DESIGN_DATA_KEY)
+  forageDesignData?.map((data) => designData.push(data))
 })
 
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown)
 })
 
-function handleKeydown(e: KeyboardEvent) {
+watch(
+  () => designData,
+  (val) => {
+    localforage.setItem(DESIGN_DATA_KEY, JSON.parse(JSON.stringify(val)))
+  },
+  { deep: true }
+)
+
+async function handleKeydown(e: KeyboardEvent) {
   const { designData, activeDesignData } = useGlobal()
   keyCodes.value += e.key.toUpperCase()
   if (keyCodes.value.includes('VA')) {
@@ -178,48 +188,6 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
 function showMoreShortcutKey() {
   listOfShortcutKeysRef.value?.open()
 }
-
-function filterAddComponentOptions(
-  options: AddComponentGroupOptionItem[],
-  activeDesignData?: ActiveDesignData
-) {
-  const _options: AddComponentGroupOptionItem[] = JSON.parse(JSON.stringify(options))
-  if (!activeDesignData /**不存在当前设计数据，即初始状态，只能添加项目组件 */) {
-    _options.forEach((optionItem) =>
-      optionItem.id === 'ProjectContainer'
-        ? optionItem.children.forEach((item) =>
-            item.value === 'Project' ? (item.disabled = false) : (item.disabled = true)
-          )
-        : optionItem.children.forEach((item) => (item.disabled = true))
-    )
-  } else {
-    // 存在设计数据，不能添加项目组件
-    // 判断是在项目组件上添加还是在其他组件上添加
-    // 项目组件上只能添加视图组件
-    // 视图组件上只能添加除项目组件、视图组件之外的组件
-    const flattenOptions = _options.reduce((prev: AddComponentOptionItem[], cur) => {
-      return [...prev, ...cur.children]
-    }, [])
-
-    if (activeDesignData.type === 'Project') {
-      flattenOptions.map((item) => {
-        if (item.value === 'View') item.disabled = false
-        else item.disabled = true
-      })
-    } else if (activeDesignData.type === 'View') {
-      flattenOptions.map((item) => {
-        if (item.value === 'Project' || item.value === 'View') item.disabled = true
-        else item.disabled = false
-      })
-    } else {
-      flattenOptions.map((item) => {
-        if (item.value === 'Project' || item.value === 'View') item.disabled = true
-        else item.disabled = false
-      })
-    }
-  }
-  return _options
-}
 </script>
 
 <template>
@@ -266,11 +234,7 @@ function filterAddComponentOptions(
       @show-more="showMoreShortcutKey"
     />
   </div>
-  <AddComponent
-    ref="addComponentRef"
-    :options="filterAddComponentOptions(ADD_COMPONENT_OPTIONS, useGlobal().activeDesignData)"
-    @select="onSelectComponent"
-  ></AddComponent>
+  <AddComponent ref="addComponentRef" @select="onSelectComponent"></AddComponent>
   <DesignComponent
     ref="designComponentRef"
     :form-data="useGlobal().activeDesignData as ActiveDesignData"

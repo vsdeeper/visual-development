@@ -6,11 +6,22 @@ import type {
   ProjectDesignDataOptions,
   ViewDesignDataOptions,
   SearchDesignDataOptions,
-  TableDesignDataOptions
+  TableDesignDataOptions,
+  ComponentTypeOfPageDesigner
 } from './components'
 
 export * from './components'
 export { default as VisualDevelopment, type AddComponentInstance } from './visual-development.vue'
+
+/** 设计组件预设数据 */
+export interface PresetDataItem {
+  id: string
+  type: ComponentTypeOfPageDesigner
+  name: string
+  desc?: string
+  data: any
+  timestamp: number
+}
 
 /** 全局请求方法定义 */
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'

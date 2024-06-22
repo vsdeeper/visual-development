@@ -53,6 +53,8 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) 
       const { designData } = useGlobal()
       deleteComponent(data, designData)
     } else if (_keysStr === 'VE') {
+      // 导出数据
+      if (activeDesignData?.id !== data?.id) setActiveDesignData(data)
       exportDataRef?.value.open(data as ViewDesignData)
     }
   }
