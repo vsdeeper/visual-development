@@ -2,7 +2,7 @@
 import { ElMessage, ElMessageBox, type FormInstance } from 'element-plus'
 import { type ActiveDesignData } from '../..'
 import { DesignComponent, SaveAsPreset, type SaveAsPresetInstance } from './components'
-import { setPresetData } from '../../util'
+import { forEachHandlerOfComponents, genId, setPresetData } from '../../util'
 
 withDefaults(
   defineProps<{
@@ -35,7 +35,7 @@ function onSaveAsPreset(data: ActiveDesignData) {
 }
 
 async function onConfirm(formData: Record<string, any>) {
-  await setPresetData({ presetData: presetData.value!, extendData: formData })
+  await setPresetData({ presetData: refreshId(presetData.value!), extendData: formData })
   ElMessage({
     type: 'success',
     message: '预设成功'
@@ -44,6 +44,14 @@ async function onConfirm(formData: Record<string, any>) {
 
 function showSaveAsPresetBtn(data: ActiveDesignData) {
   return data.type === 'View'
+}
+
+function refreshId(data: ActiveDesignData) {
+  const _data: ActiveDesignData = JSON.parse(JSON.stringify(data))
+  forEachHandlerOfComponents(_data.components ?? [], (item) => {
+    item.id = genId(item.type)
+  })
+  return _data
 }
 
 defineExpose({

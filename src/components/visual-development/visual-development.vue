@@ -6,7 +6,8 @@ import {
   DesignComponent,
   VdComponents,
   type BaseDesignData,
-  type MergeDesignData
+  type MergeDesignData,
+  type PresetDataItem
 } from '.'
 import { AddComponent, type AddComponentOptionItem, ShortcutKeyDescription } from '@/components'
 import {
@@ -16,7 +17,7 @@ import {
   EXPORT_DATA_REF_SYMBOL
 } from '@/utils/constants'
 import { deleteComponent, genId, isActiveDesign, isContainerComponent } from './util'
-import { DESIGN_DATA_KEY } from './constants'
+import { DESIGN_DATA_KEY, PRESET_DATA_KEY } from './constants'
 import {
   ShortcutKeyOperation,
   type ViewDesignData,
@@ -48,6 +49,7 @@ provide(EXPORT_DATA_REF_SYMBOL, exportDataRef)
 onMounted(async () => {
   window.addEventListener('keydown', handleKeydown)
   const forageDesignData: MergeDesignData[] | null = await localforage.getItem(DESIGN_DATA_KEY)
+  designData.length = 0
   forageDesignData?.map((data) => designData.push(data))
 })
 
@@ -88,8 +90,8 @@ async function handleKeydown(e: KeyboardEvent) {
   }
 }
 
-function onSelectComponent(item: AddComponentOptionItem) {
-  const data = createDesignData(item)
+async function onSelectComponent(item: AddComponentOptionItem) {
+  const data = await createDesignData(item)
   const { activeDesignData } = useGlobal()
   if (!activeDesignData) {
     /**
@@ -118,7 +120,7 @@ function onSelectComponent(item: AddComponentOptionItem) {
 /**
  * 创建初始设计数据
  */
-function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
+async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDesignData> {
   switch (item.value) {
     case 'Project': {
       return {
@@ -132,6 +134,12 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
       } as ProjectDesignData
     }
     case 'View': {
+      let components = []
+      if (item.presetId /** 预设数据 */) {
+        const presetData: PresetDataItem[] | null = await localforage.getItem(PRESET_DATA_KEY)
+        const find = presetData?.find((e) => e.id === item.presetId)
+        components = find?.data?.components ?? []
+      }
       return {
         id: genId(item.value),
         type: item.value,
@@ -139,7 +147,7 @@ function createDesignData(item: AddComponentOptionItem): ActiveDesignData {
         options: {
           name: 'my-view'
         },
-        components: []
+        components
       } as ViewDesignData
     }
     case 'Search': {

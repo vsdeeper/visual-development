@@ -59,6 +59,7 @@ async function filterAddComponentOptions(
       find.children = presetData.map((e) => ({
         label: e.name,
         value: e.type,
+        presetId: e.id,
         desc: e.desc,
         disabled: false
       }))
