@@ -7,10 +7,18 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import ElementPlus from 'unplugin-element-plus/vite'
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 import Inspect from 'vite-plugin-inspect'
+import { globSync } from 'glob'
 
 // https://vitejs.dev/config/
 export default defineConfig(() => {
   const { IS_BUILD_LIB } = process.env
+
+  // 优化element-plus预加载
+  const matchElementPlusPath = globSync('node_modules/element-plus/es/components/*/style')
+  const optimizeDepsElementPlusIncludes = [
+    ...matchElementPlusPath.map((path) => `${path.replace('node_modules/', '')}/index`),
+    ...matchElementPlusPath.map((path) => `${path.replace('node_modules/', '')}/css`)
+  ]
   return {
     plugins: [
       vue(),
@@ -42,6 +50,7 @@ export default defineConfig(() => {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       }
     },
+    optimizeDeps: { include: [...optimizeDepsElementPlusIncludes] },
     build:
       IS_BUILD_LIB === 'true'
         ? {
