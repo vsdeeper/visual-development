@@ -25,7 +25,7 @@ export default defineConfig(() => {
       cssInjectedByJsPlugin(),
       AutoImport({
         imports: ['vue'],
-        dts: './auto-imports.d.ts',
+        dts: './types/auto-imports.d.ts',
         resolvers: [
           ElementPlusResolver({
             importStyle: 'sass'
@@ -33,7 +33,7 @@ export default defineConfig(() => {
         ]
       }),
       Components({
-        dts: './components.d.ts',
+        dts: './types/components.d.ts',
         resolvers: [
           ElementPlusResolver({
             importStyle: 'sass'

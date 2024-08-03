@@ -22,7 +22,7 @@
   "scripts": {
     "dev": "vite",
     "preview": "vite preview",
-    "build": "cross-env IS_BUILD_LIB=false run-s type-check \"build-only {@}\" --",
+    "build": "cross-env IS_BUILD_LIB=false run-s type-check \"build-only {@}\" -- --base /visual-development",
     "build:lib": "cross-env IS_BUILD_LIB=true run-s clean type-emit \"build-only {@}\" --",
     "release": "npm publish",
     "build-only": "vite build",
