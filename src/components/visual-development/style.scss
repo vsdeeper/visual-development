@@ -1,0 +1,18 @@
+// 自适应弹框
+.adaptive-dialog {
+  --el-dialog-width: calc(100% - 20px) !important;
+  --el-dialog-max-width: 850px;
+  max-width: var(--el-dialog-max-width);
+}
+
+.adaptive-dialog-1 {
+  --el-dialog-width: calc(100% - 40px) !important;
+  --el-dialog-max-width: 830px;
+  max-width: var(--el-dialog-max-width);
+}
+
+.adaptive-dialog-2 {
+  --el-dialog-width: calc(100% - 60px) !important;
+  --el-dialog-max-width: 810px;
+  max-width: var(--el-dialog-max-width);
+}

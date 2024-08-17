@@ -1,5 +1,5 @@
 import { fileURLToPath, URL } from 'node:url'
-import { defineConfig } from 'vite'
+import { BuildOptions, defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -53,13 +53,13 @@ export default defineConfig(() => {
     optimizeDeps: { include: [...optimizeDepsElementPlusIncludes] },
     build:
       IS_BUILD_LIB === 'true'
-        ? {
+        ? ({
             emptyOutDir: false,
             copyPublicDir: false,
             lib: {
               entry: 'src/components/index.ts',
-              name: 'visual-development',
-              fileName: 'index'
+              fileName: 'index',
+              formats: ['es']
             },
             rollupOptions: {
               external: [
@@ -71,21 +71,9 @@ export default defineConfig(() => {
                 'nanoid',
                 'pinia',
                 'vuedraggable'
-              ],
-              output: {
-                globals: {
-                  vue: 'Vue',
-                  '@element-plus/icons-vue': 'ElementPlusIconsVue',
-                  'element-plus': 'ElementPlus',
-                  'lodash-es': 'LodashEs',
-                  radash: 'Radash',
-                  nanoid: 'Nanoid',
-                  pinia: 'Pinia',
-                  vuedraggable: 'Vuedraggable'
-                }
-              }
+              ]
             }
-          }
+          } as BuildOptions)
         : undefined
   }
 })

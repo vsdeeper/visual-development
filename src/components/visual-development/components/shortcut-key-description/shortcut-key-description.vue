@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { SHORTCUT_KEYS_OPTIONS } from './constants';
+import { SHORTCUT_KEYS_OPTIONS } from './constants'
 
-const show = ref(false);
+const show = ref(false)
 
 function open() {
-  show.value = true;
+  show.value = true
 }
 
 defineExpose({
-  open,
-});
+  open
+})
 </script>
 
 <template>
-  <el-dialog title="快捷键" v-model="show">
+  <el-dialog class="adaptive-dialog" title="快捷键" v-model="show">
     <template v-for="(item, index) in SHORTCUT_KEYS_OPTIONS" :key="`${item.name}${index}`">
       <div class="key-note">
         <div v-for="key in item.keys" :key="key" class="key">{{ key }}</div>

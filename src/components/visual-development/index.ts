@@ -9,6 +9,7 @@ import type {
   TableDesignDataOptions,
   ComponentTypeOfPageDesigner
 } from './components'
+import './style.scss'
 
 export * from './components'
 export { default as VisualDevelopment, type AddComponentInstance } from './visual-development.vue'

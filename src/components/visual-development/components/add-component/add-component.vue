@@ -108,7 +108,7 @@ defineExpose({
 </script>
 
 <template>
-  <el-dialog title="添加组件" v-model="show" @opened="opened">
+  <el-dialog class="adaptive-dialog" title="添加组件" v-model="show" @opened="opened">
     <div class="search">
       <el-input
         ref="searchRef"

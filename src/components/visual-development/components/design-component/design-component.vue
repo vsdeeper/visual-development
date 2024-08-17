@@ -61,9 +61,9 @@ defineExpose({
 
 <template>
   <el-dialog
+    class="adaptive-dialog"
     v-model="show"
     :title="toTitle(title, formData)"
-    width="900px"
     :fullscreen="fullscreen"
   >
     <div class="design-component">

@@ -4,7 +4,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: var(--el-bg-color-page);
+  background-color: var(--vs-bg-color-page);
 }
 
 #app {
@@ -14,5 +14,5 @@ body {
 }
 
 .placeholder {
-  color: var(--el-text-color-placeholder);
+  color: var(--vs-text-color-placeholder);
 }

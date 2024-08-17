@@ -61,7 +61,12 @@ defineExpose({
 </script>
 
 <template>
-  <el-dialog v-model="show" modal-class="export-data-overlay" title="导出数据" width="650px">
+  <el-dialog
+    class="adaptive-dialog"
+    v-model="show"
+    modal-class="export-data-overlay"
+    title="导出数据"
+  >
     <AceEditor
       ref="exportDataRef"
       v-model:value="exportData"
@@ -81,7 +86,7 @@ defineExpose({
       <el-button type="primary" @click="onExport">导出</el-button>
     </template>
   </el-dialog>
-  <el-dialog title="导出文件" v-model="showExportDialog" width="400px">
+  <el-dialog class="adaptive-dialog" title="导出文件" v-model="showExportDialog">
     <el-form :model="form" ref="formRef" label-width="70px">
       <el-form-item label="文件名" prop="fileName" :rules="[{ required: true, message: '必填项' }]">
         <el-input v-model="form.fileName" />

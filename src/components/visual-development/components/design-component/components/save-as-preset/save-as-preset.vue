@@ -25,7 +25,7 @@ defineExpose({
 </script>
 
 <template>
-  <el-dialog v-model="show" title="存为预设" width="450px">
+  <el-dialog class="adaptive-dialog-1" v-model="show" title="存为预设">
     <el-form :model="form" ref="formRef" label-width="60px">
       <el-form-item label="名称" prop="name" :rules="[{ required: true, message: '必填项' }]">
         <el-input v-model="form.name" :maxlength="10" show-word-limit></el-input>
