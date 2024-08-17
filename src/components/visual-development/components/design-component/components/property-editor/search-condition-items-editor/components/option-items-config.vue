@@ -1,32 +1,32 @@
 <script setup lang="ts">
-import { type SearchConditionOptionItem } from '@/components';
-import { Minus, Plus, Refresh } from '@element-plus/icons-vue';
+import { type SearchConditionOptionItem } from '@/components'
+import { Minus, Plus, Refresh } from '@element-plus/icons-vue'
 
 defineProps<{
-  index: number;
-}>();
-const model = defineModel<SearchConditionOptionItem[]>();
-const value = ref<SearchConditionOptionItem[]>();
+  index: number
+}>()
+const model = defineModel<SearchConditionOptionItem[]>()
+const value = ref<SearchConditionOptionItem[]>()
 
-watch(model, model => {
-  value.value = model;
-});
+watch(model, (model) => {
+  value.value = model
+})
 
-watch(value, value => {
-  model.value = value;
-});
+watch(value, (value) => {
+  model.value = value
+})
 
 function _delete(idx: number) {
-  value.value!.splice(idx, 1);
+  value.value!.splice(idx, 1)
 }
 
 function add() {
-  if (!value.value) value.value = [];
-  value.value.push({});
+  if (!value.value) value.value = []
+  value.value.push({})
 }
 
 function reset() {
-  value.value = [{}];
+  value.value = [{}]
 }
 </script>
 
@@ -53,15 +53,14 @@ function reset() {
         type="danger"
         size="small"
         :icon="Minus"
-        plain
         circle
         @click="_delete(index)"
         style="margin-left: 8px"
       ></el-button>
     </el-row>
     <div class="btns">
-      <el-button type="primary" plain :icon="Plus" @click="add"> 新增选项 </el-button>
-      <el-button type="primary" plain :icon="Refresh" @click="reset"> 重设选择项 </el-button>
+      <el-button type="primary" :icon="Plus" @click="add"> 新增选项 </el-button>
+      <el-button type="primary" :icon="Refresh" @click="reset"> 重设选择项 </el-button>
     </div>
   </div>
 </template>

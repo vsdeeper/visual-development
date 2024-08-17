@@ -81,12 +81,16 @@ async function handleKeydown(e: KeyboardEvent) {
     designComponentRef.value?.open()
     keyCodes.value = ''
     setDialogFullscreen(activeDesignData.type === 'Form')
-  } else if (keyCodes.value.includes('DELETE')) {
+  } else if (
+    keyCodes.value.includes('DELETE') ||
+    keyCodes.value.includes('METABACKSPACE') /** 兼容mac */
+  ) {
     // Delete 键，删除组件
     deleteComponent(activeDesignData as ActiveDesignData, designData)
     keyCodes.value = ''
   } else if (keyCodes.value.includes('VE')) {
     exportDataRef.value?.open(activeDesignData as ViewDesignData)
+    keyCodes.value = ''
   }
 }
 
@@ -157,7 +161,7 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
         label: item.label,
         options: {
           apiMethod: 'GET',
-          searchConditionItems: [{ id: nanoid(5) }]
+          searchConditionItems: [{ id: genId('searchConditionItem') }]
         }
       }
     }

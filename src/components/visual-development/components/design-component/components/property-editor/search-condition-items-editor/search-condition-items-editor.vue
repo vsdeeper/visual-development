@@ -1,100 +1,109 @@
 <script setup lang="ts">
-import { Plus, Minus } from '@element-plus/icons-vue';
-import { type SearchConditionItem, type SearchConditionType, type SearchDesignDataOptions } from '@/components';
-import { ROW_GUTTER } from '../../constants';
-import { SEARCH_TYPE_OPTIONS, DATE_TYPE_OPTIONS } from './constants';
-import { type TabPaneName } from 'element-plus';
-import { nanoid } from 'nanoid';
-import { first, last } from 'lodash-es';
-import { ApiConfigEditor, type ApiConfigEditorInstance } from '..';
+import { Plus, Minus } from '@element-plus/icons-vue'
+import {
+  type SearchConditionItem,
+  type SearchConditionType,
+  type SearchDesignDataOptions
+} from '@/components'
+import { ROW_GUTTER } from '../../constants'
+import { SEARCH_TYPE_OPTIONS, DATE_TYPE_OPTIONS } from './constants'
+import { type TabPaneName } from 'element-plus'
+import { first, last } from 'lodash-es'
+import { ApiConfigEditor, type ApiConfigEditorInstance } from '..'
+import { genId } from '@/components/visual-development/util'
 
 const props = defineProps<{
-  options: SearchDesignDataOptions;
-}>();
+  options: SearchDesignDataOptions
+}>()
 
-const options = toRef(props, 'options');
-const apiRefs = ref<ApiConfigEditorInstance[]>([]);
-const activeName = ref(first(options.value.searchConditionItems)?.id);
+const options = toRef(props, 'options')
+const apiRefs = ref<ApiConfigEditorInstance[]>([])
+const activeName = ref(first(options.value.searchConditionItems)?.id)
 
 function addItem() {
-  options.value.searchConditionItems?.push({ id: nanoid(5) });
-  activeName.value = last(options.value.searchConditionItems)?.id;
+  options.value.searchConditionItems?.push({ id: genId('searchConditionItem') })
+  activeName.value = last(options.value.searchConditionItems)?.id
 }
 
 function deleteItem(index: number, searchConditionItems: SearchConditionItem[]) {
-  searchConditionItems.splice(index, 1);
-  if (!searchConditionItems.length) return;
+  searchConditionItems.splice(index, 1)
+  if (!searchConditionItems.length) return
   if (searchConditionItems[index]) {
-    activeName.value = searchConditionItems[index].id;
+    activeName.value = searchConditionItems[index].id
   } else {
-    activeName.value = searchConditionItems[index - 1].id;
+    activeName.value = searchConditionItems[index - 1].id
   }
 }
 
 function changeType(type: SearchConditionType, item: SearchConditionItem) {
-  resetSearchConditionItem(item);
+  resetSearchConditionItem(item)
   switch (type) {
     case 'Select':
     case 'Cascader': {
-      item.dataSource = 'api';
-      item.apiMethod = 'GET';
-      item.itemValue = 'id';
-      break;
+      item.dataSource = 'api'
+      item.apiMethod = 'GET'
+      item.itemValue = 'id'
+      break
     }
     case 'DatePicker': {
-      item.dateType = 'date';
-      item.format = 'YYYY-MM-DD';
-      item.valueFormat = 'x';
-      break;
+      item.dateType = 'date'
+      item.format = 'YYYY-MM-DD'
+      item.valueFormat = 'x'
+      break
     }
   }
 }
 
 function resetSearchConditionItem(item: SearchConditionItem) {
-  item.dataSource = undefined;
-  item.api = undefined;
-  item.apiMethod = undefined;
-  item.apiParams = undefined;
-  item.options = undefined;
-  item.itemLabel = undefined;
-  item.multiple = undefined;
-  item.checkStrictly = undefined;
-  item.lazy = undefined;
-  item.format = undefined;
-  item.valueFormat = undefined;
-  item.dateType = undefined;
-  item.virtualized = undefined;
+  item.dataSource = undefined
+  item.api = undefined
+  item.apiMethod = undefined
+  item.apiParams = undefined
+  item.options = undefined
+  item.itemLabel = undefined
+  item.multiple = undefined
+  item.checkStrictly = undefined
+  item.lazy = undefined
+  item.format = undefined
+  item.valueFormat = undefined
+  item.dateType = undefined
+  item.virtualized = undefined
 }
 
 function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: number) {
   if (name === 'custom') {
-    item.dataSource = 'custom';
-    item.api = undefined;
-    item.apiMethod = undefined;
-    item.apiParams = undefined;
-    item.itemValue = undefined;
-    item.options = [{}];
+    item.dataSource = 'custom'
+    item.api = undefined
+    item.apiMethod = undefined
+    item.apiParams = undefined
+    item.itemValue = undefined
+    item.options = [{}]
   } else if (name === 'api') {
-    item.dataSource = 'api';
-    item.apiMethod = 'GET';
-    item.options = undefined;
-    item.itemValue = 'id';
-    apiRefs.value[index]?.formItemRef?.clearValidate();
-    setTimeout(() => apiRefs.value[index]?.formItemRef?.clearValidate());
+    item.dataSource = 'api'
+    item.apiMethod = 'GET'
+    item.options = undefined
+    item.itemValue = 'id'
+    apiRefs.value[index]?.formItemRef?.clearValidate()
+    setTimeout(() => apiRefs.value[index]?.formItemRef?.clearValidate())
   }
 }
 </script>
 
 <template>
   <el-collapse v-if="options.searchConditionItems?.length" v-model="activeName" accordion>
-    <el-collapse-item v-for="(item, index) in options.searchConditionItems" :key="item.id" :name="item.id">
+    <el-collapse-item
+      v-for="(item, index) in options.searchConditionItems"
+      :key="item.id"
+      :name="item.id"
+    >
       <template #title>
-        <div style="display: flex; justify-content: flex-start; flex: 1">搜索条件 - {{ item.placeholder }}</div>
+        <div style="display: flex; justify-content: flex-start; flex: 1">
+          搜索条件 - {{ item.placeholder }}
+        </div>
         <el-button
           type="danger"
           :icon="Minus"
           circle
-          plain
           size="small"
           style="margin-right: 10px"
           @click.stop="deleteItem(index, options.searchConditionItems!)"
@@ -121,7 +130,12 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
             <template #label>
               <my-label label="搜索类型" />
             </template>
-            <el-select v-model="item.type" placeholder="请选择" clearable @change="changeType($event, item)">
+            <el-select
+              v-model="item.type"
+              placeholder="请选择"
+              clearable
+              @change="changeType($event, item)"
+            >
               <el-option
                 v-for="item in SEARCH_TYPE_OPTIONS"
                 :key="item.value"
@@ -280,11 +294,15 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
           </ResponsiveCol>
         </template>
         <!-- 搜索条件为Select、Cascader时，设置选项数据 -->
-        <el-col v-if="item.type === 'Select' || item.type === 'Cascader'" :span="24" style="margin-bottom: 20px">
+        <el-col
+          v-if="item.type === 'Select' || item.type === 'Cascader'"
+          :span="24"
+          style="margin-bottom: 20px"
+        >
           <el-tabs v-model="item.dataSource" @tab-change="changeDataSource($event, item, index)">
             <el-tab-pane label="接口定义" name="api">
               <ApiConfigEditor
-                :ref="ref => (apiRefs[index] = ref as ApiConfigEditorInstance)"
+                :ref="(ref) => (apiRefs[index] = ref as ApiConfigEditorInstance)"
                 :options="item"
                 :form-item-prop="['options', 'searchConditionItems', index + '']"
                 :form-item-rules="[{ required: true }]"
@@ -299,7 +317,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
       </el-row>
     </el-collapse-item>
   </el-collapse>
-  <el-button type="primary" plain :icon="Plus" @click="addItem" style="width: 100%; margin-top: 10px">
+  <el-button type="primary" :icon="Plus" @click="addItem" style="width: 100%; margin-top: 10px">
     新增搜索条件
   </el-button>
 </template>

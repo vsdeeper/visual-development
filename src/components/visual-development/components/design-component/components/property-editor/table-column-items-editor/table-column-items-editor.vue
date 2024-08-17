@@ -1,76 +1,85 @@
 <script setup lang="ts">
-import { Minus, Plus } from '@element-plus/icons-vue';
-import { type TableColumnItem, type TableDesignDataOptions, type TableColumnItemFormatterType } from '@/components';
-import { ROW_GUTTER } from '../../constants';
-import { FIXED_OPTIONS, FORMATTER_OPTIONS } from './constants';
-import { nanoid } from 'nanoid';
-import { first, last } from 'lodash-es';
-import { ApiConfigEditor } from '..';
+import { Minus, Plus } from '@element-plus/icons-vue'
+import {
+  type TableColumnItem,
+  type TableDesignDataOptions,
+  type TableColumnItemFormatterType
+} from '@/components'
+import { ROW_GUTTER } from '../../constants'
+import { FIXED_OPTIONS, FORMATTER_OPTIONS } from './constants'
+import { nanoid } from 'nanoid'
+import { first, last } from 'lodash-es'
+import { ApiConfigEditor } from '..'
 
 const props = defineProps<{
-  options: TableDesignDataOptions | TableColumnItem;
-  formItemProp?: string[];
-  label?: string;
-  isSubLevel?: boolean;
-}>();
+  options: TableDesignDataOptions | TableColumnItem
+  formItemProp?: string[]
+  label?: string
+  isSubLevel?: boolean
+}>()
 
-const options = toRef(props, 'options');
-const activeName = ref(first(options.value.tableColumnItems)?.id);
+const options = toRef(props, 'options')
+const activeName = ref(first(options.value.tableColumnItems)?.id)
 
 function addItem() {
-  options.value.tableColumnItems?.push({ id: nanoid(5) });
-  activeName.value = last(options.value.tableColumnItems)?.id;
+  options.value.tableColumnItems?.push({ id: nanoid(5) })
+  activeName.value = last(options.value.tableColumnItems)?.id
 }
 
 function addSubItem(item: TableColumnItem) {
-  if (!item.tableColumnItems) item.tableColumnItems = [];
-  item.tableColumnItems.push({ id: nanoid(5) });
+  if (!item.tableColumnItems) item.tableColumnItems = []
+  item.tableColumnItems.push({ id: nanoid(5) })
 }
 
 function deleteItem(index: number, tableColumnItems: TableColumnItem[]) {
-  tableColumnItems.splice(index, 1);
-  if (!tableColumnItems.length) return;
+  tableColumnItems.splice(index, 1)
+  if (!tableColumnItems.length) return
   if (tableColumnItems[index]) {
-    activeName.value = tableColumnItems[index].id;
+    activeName.value = tableColumnItems[index].id
   } else {
-    activeName.value = tableColumnItems[index - 1].id;
+    activeName.value = tableColumnItems[index - 1].id
   }
 }
 
 function changeFormatterType(val: TableColumnItemFormatterType, item: TableColumnItem) {
-  item.api = undefined;
-  item.apiMethod = undefined;
-  item.apiParams = undefined;
-  item.staticDataKey = undefined;
-  item.format = undefined;
+  item.api = undefined
+  item.apiMethod = undefined
+  item.apiParams = undefined
+  item.staticDataKey = undefined
+  item.format = undefined
   if (val === 'displayByDynamicData') {
-    item.apiMethod = 'GET';
+    item.apiMethod = 'GET'
   } else if (val === 'dateFormat') {
-    item.format = 'YYYY-MM-DD HH:mm:ss';
+    item.format = 'YYYY-MM-DD HH:mm:ss'
   }
 }
 
 function getFormItemProp(index: number, formItemProp?: string[]) {
   return Array.isArray(formItemProp)
     ? [...formItemProp, 'tableColumnItems', index + '']
-    : ['options', 'tableColumnItems', index + ''];
+    : ['options', 'tableColumnItems', index + '']
 }
 
 function getLabel(label?: string, propLabel?: string) {
-  return propLabel ? `${propLabel} / ${label ?? ''}` : `${label ?? ''}`;
+  return propLabel ? `${propLabel} / ${label ?? ''}` : `${label ?? ''}`
 }
 </script>
 
 <template>
   <el-collapse v-if="options.tableColumnItems?.length" v-model="activeName" accordion>
-    <el-collapse-item v-for="(item, index) in options.tableColumnItems" :key="item.id" :name="item.id">
+    <el-collapse-item
+      v-for="(item, index) in options.tableColumnItems"
+      :key="item.id"
+      :name="item.id"
+    >
       <template #title>
-        <div style="display: flex; justify-content: flex-start; flex: 1">表列 - {{ getLabel(item.label, label) }}</div>
+        <div style="display: flex; justify-content: flex-start; flex: 1">
+          表列 - {{ getLabel(item.label, label) }}
+        </div>
         <el-button
           type="danger"
           :icon="Minus"
           circle
-          plain
           size="small"
           @click.stop="deleteItem(index, options.tableColumnItems!)"
         >
@@ -79,7 +88,6 @@ function getLabel(label?: string, propLabel?: string) {
           type="primary"
           :icon="Plus"
           circle
-          plain
           size="small"
           style="margin-right: 10px"
           @click.stop="addSubItem(item)"
@@ -221,7 +229,6 @@ function getLabel(label?: string, propLabel?: string) {
   <el-button
     v-if="!isSubLevel"
     type="primary"
-    plain
     :icon="Plus"
     @click="addItem"
     style="width: 100%; margin-top: 10px"

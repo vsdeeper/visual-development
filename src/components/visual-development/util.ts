@@ -95,6 +95,7 @@ export function findParentComponentOfComponent(
   target: MergeDesignData,
   designData: MergeDesignData[]
 ) {
+  if (!target) return
   let parent: MergeDesignData | MergeDesignData[] | undefined
   if (isRootComponent(target.id, designData)) {
     // 根组件

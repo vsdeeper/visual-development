@@ -14,17 +14,22 @@ defineExpose({
 
 <template>
   <el-dialog class="adaptive-dialog" title="快捷键" v-model="show">
-    <template v-for="(item, index) in SHORTCUT_KEYS_OPTIONS" :key="`${item.name}${index}`">
-      <div class="key-note">
-        <div v-for="key in item.keys" :key="key" class="key">{{ key }}</div>
-        <div class="note">{{ item.name }}</div>
-      </div>
-      <el-divider></el-divider>
-    </template>
+    <div class="key-note-box">
+      <template v-for="(item, index) in SHORTCUT_KEYS_OPTIONS" :key="`${item.name}${index}`">
+        <div class="key-note">
+          <div v-for="key in item.keys" :key="key" class="key">{{ key }}</div>
+          <div class="note">{{ item.name }}</div>
+        </div>
+        <el-divider></el-divider>
+      </template>
+    </div>
   </el-dialog>
 </template>
 
 <style lang="scss" scoped>
+.key-note-box {
+  padding: 16px 0 0;
+}
 .key-note {
   display: flex;
   align-items: center;

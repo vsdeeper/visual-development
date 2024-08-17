@@ -86,7 +86,7 @@ defineExpose({
       <el-button type="primary" @click="onExport">导出</el-button>
     </template>
   </el-dialog>
-  <el-dialog class="adaptive-dialog" title="导出文件" v-model="showExportDialog">
+  <el-dialog class="adaptive-dialog-1" title="导出文件" v-model="showExportDialog">
     <el-form :model="form" ref="formRef" label-width="70px">
       <el-form-item label="文件名" prop="fileName" :rules="[{ required: true, message: '必填项' }]">
         <el-input v-model="form.fileName" />
