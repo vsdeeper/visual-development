@@ -33,18 +33,6 @@ function handleAbnormalData(data: MergeDesignData) {
       </el-form-item>
     </el-col>
     <el-col :span="24">
-      <el-form-item prop="options.downloadDir" :rules="[{ required: true, message: '必填项' }]">
-        <template #label>
-          <MyLabel label="数据导出目录" tooltip-content="和浏览器下载位置保持一致" />
-        </template>
-        <el-input
-          v-model="_formData.options.downloadDir"
-          placeholder="例：/Users/como/Downloads"
-          clearable
-        ></el-input>
-      </el-form-item>
-    </el-col>
-    <el-col :span="24">
       <el-form-item label="git地址" prop="options.gitUrl">
         <el-input
           v-model="_formData.options.gitUrl"

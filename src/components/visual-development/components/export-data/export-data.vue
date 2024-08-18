@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useGlobal } from '@/stores'
 import { configSetModuleUrl } from '../../ace-config'
 import { ElMessage, type FormInstance } from 'element-plus'
 import { saveAs } from 'file-saver'
@@ -24,7 +23,7 @@ function open(data: ViewDesignData) {
   setTimeout(() => {
     exportDataRef.value?._editor.setOption('printMargin', false)
   }, 100)
-  form.value.fileName = `${data.options.name}.json`
+  form.value.fileName = `${data.options.name}.config.json`
 }
 
 function onCopy() {
@@ -48,7 +47,6 @@ async function onConfirmExport() {
     if (!valid) return
     const fileBlob = new Blob([exportData.value], { type: 'text/plain;charset=utf-8' })
     saveAs(fileBlob, form.value.fileName)
-    ElMessage.success('导出成功')
     showExportDialog.value = false
   } catch (error) {
     console.error(error)

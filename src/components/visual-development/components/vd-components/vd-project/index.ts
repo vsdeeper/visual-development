@@ -4,7 +4,6 @@ import type { ApiDomainConfig } from '../../design-component/components/d-projec
 export interface ProjectDesignDataOptions {
   name?: string
   gitUrl?: string
-  downloadDir?: string
   apiDomain?: ApiDomainConfig
   basePath?: string
   description?: string
