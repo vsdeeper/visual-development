@@ -1,1 +1,1 @@
-export { default as DProject } from './d-project.vue';
+export { default as DProject } from './d-project.vue'

@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AddComponent: typeof import('./../src/components/visual-development/components/add-component/add-component.vue')['default']
     ApiConfigEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/api-config-editor/api-config-editor.vue')['default']
+    ApiDomain: typeof import('./../src/components/visual-development/components/design-component/components/d-project/components/ApiDomain.vue')['default']
     AutoCalcMaxHeightEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/auto-calc-max-height-editor/auto-calc-max-height-editor.vue')['default']
     ColLgEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/col-lg-editor/col-lg-editor.vue')['default']
     ColMdEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/col-md-editor/col-md-editor.vue')['default']

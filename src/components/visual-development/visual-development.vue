@@ -132,7 +132,8 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
         type: item.value,
         label: item.label,
         options: {
-          name: 'my-project'
+          name: 'my-project',
+          apiDomain: {}
         },
         components: []
       } as ProjectDesignData
