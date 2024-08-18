@@ -50,13 +50,13 @@ function handleAbnormalData(data: MergeDesignData) {
       </el-form-item>
     </el-col>
     <el-col :span="24">
-      <el-form-item prop="options.basePath">
+      <el-form-item prop="options.apiBasePath">
         <template #label>
           <MyLabel label="api基础路径" tooltip-content="将拼接在api域名后面" />
         </template>
         <el-input
-          v-model="_formData.options.basePath"
-          placeholder="例：/api/v1"
+          v-model="_formData.options.apiBasePath"
+          placeholder="例：/api"
           clearable
         ></el-input>
       </el-form-item>

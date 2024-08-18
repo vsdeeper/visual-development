@@ -5,7 +5,7 @@ export interface ProjectDesignDataOptions {
   name?: string
   gitUrl?: string
   apiDomain?: ApiDomainConfig
-  basePath?: string
+  apiBasePath?: string
   description?: string
 }
 export type ProjectDesignData = BaseDesignData<ProjectDesignDataOptions>
