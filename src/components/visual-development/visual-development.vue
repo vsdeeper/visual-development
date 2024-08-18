@@ -26,6 +26,7 @@ import {
 } from './components'
 import { nanoid } from 'nanoid'
 import localforage from 'localforage'
+import { storeToRefs } from 'pinia'
 
 export type AddComponentInstance = InstanceType<typeof AddComponent>
 export type DesignComponentInstance = InstanceType<typeof DesignComponent>
@@ -33,7 +34,9 @@ export type ListOfShortcutKeysInstance = InstanceType<typeof ShortcutKeyDescript
 
 console.log('VdComponents 可视化设计组件', VdComponents)
 
-const { designData, setDesignData, setActiveDesignData, setDialogFullscreen } = useGlobal()
+const { getVersion, designData, setDesignData, setActiveDesignData, setDialogFullscreen } =
+  useGlobal()
+const { version } = storeToRefs(useGlobal())
 const addComponentRef = ref<AddComponentInstance>()
 const designComponentRef = ref<DesignComponentInstance>()
 const exportDataRef = ref<ExportDataInstance>()
@@ -47,6 +50,7 @@ provide(DESIGN_COMPONENT_REF_SYMBOL, designComponentRef)
 provide(EXPORT_DATA_REF_SYMBOL, exportDataRef)
 
 onMounted(async () => {
+  getVersion()
   window.addEventListener('keydown', handleKeydown)
   const forageDesignData: MergeDesignData[] | null = await localforage.getItem(DESIGN_DATA_KEY)
   designData.length = 0
@@ -211,7 +215,7 @@ function showMoreShortcutKey() {
       active: !designData.length || !useGlobal().activeDesignData
     }"
   >
-    <div class="version">Visual Development 1.0.0</div>
+    <div class="version">Visual Development {{ version }}</div>
     <el-scrollbar>
       <!-- {{ designData }} -->
       <draggable
