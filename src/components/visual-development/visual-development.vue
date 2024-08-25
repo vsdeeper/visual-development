@@ -137,7 +137,9 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
         label: item.label,
         options: {
           name: 'my-project',
-          apiDomain: {}
+          apiDomain: {},
+          npmrc:
+            'registry=https://registry.npmmirror.com/\n@scoped:registry=https://verdaccio.xxx.com/'
         },
         components: []
       } as ProjectDesignData

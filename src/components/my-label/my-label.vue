@@ -19,15 +19,19 @@ withDefaults(
       | 'right-start'
       | 'right-end'
     tooltipIcon?: any
+    tooltipIconColor?: string
+    tooltipIconLink?: boolean
     tooltipContent?: string
   }>(),
   {
+    tooltipIconColor: '#ffae1f',
+    tooltipIconLink: false,
     tooltipPlacement: 'top',
     tooltipIcon: () => QuestionFilled
   }
 )
 
-defineEmits<{
+const emit = defineEmits<{
   (e: 'click-tooltip-icon'): void
 }>()
 </script>
@@ -37,7 +41,11 @@ defineEmits<{
     {{ label }}
     <el-tooltip v-if="tooltipContent" :effect="tooltipEffect" :placement="tooltipPlacement">
       <template #content>{{ tooltipContent }}</template>
-      <el-icon color="#ffae1f">
+      <el-icon
+        :class="{ link: tooltipIconLink }"
+        :color="tooltipIconColor"
+        @click.stop="emit('click-tooltip-icon')"
+      >
         <component :is="tooltipIcon"></component>
       </el-icon>
     </el-tooltip>
@@ -50,6 +58,9 @@ defineEmits<{
   align-items: center;
   .el-icon {
     margin-left: 3px;
+    &.link {
+      cursor: pointer;
+    }
   }
 }
 </style>

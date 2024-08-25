@@ -2,6 +2,7 @@
 import { type MergeDesignData } from '@/components'
 import { ROW_GUTTER } from '../constants'
 import { ApiDomain } from './components'
+import { TopRight } from '@element-plus/icons-vue'
 
 const props = defineProps<{
   formData: MergeDesignData
@@ -14,6 +15,14 @@ function handleAbnormalData(data: MergeDesignData) {
     data.options.apiDomain = {}
   }
   return data
+}
+
+function onGoto(key: string) {
+  switch (key) {
+    case 'npmrc':
+      window.open('https://docs.npmjs.com/cli/v8/configuring-npm/npmrc', '_blank')
+      break
+  }
 }
 </script>
 
@@ -58,6 +67,26 @@ function handleAbnormalData(data: MergeDesignData) {
           v-model="_formData.options.apiBasePath"
           placeholder="例：/api"
           clearable
+        ></el-input>
+      </el-form-item>
+    </el-col>
+    <el-col :span="24">
+      <el-form-item prop="options.npmrc">
+        <template #label>
+          <MyLabel
+            label=".npmrc配置"
+            tooltip-content="查看配置说明"
+            :tooltip-icon="TopRight"
+            tooltip-icon-color="#409eff"
+            tooltip-icon-link
+            @click-tooltip-icon="onGoto('npmrc')"
+          />
+        </template>
+        <el-input
+          v-model="_formData.options.npmrc"
+          type="textarea"
+          autosize
+          placeholder="请输入"
         ></el-input>
       </el-form-item>
     </el-col>
