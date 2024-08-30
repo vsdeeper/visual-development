@@ -12,11 +12,7 @@ import { first, last } from 'lodash-es'
 import { ApiConfigEditor, type ApiConfigEditorInstance } from '..'
 import { genId } from '@/components/visual-development/util'
 
-const props = defineProps<{
-  options: SearchDesignDataOptions
-}>()
-
-const options = toRef(props, 'options')
+const options = defineModel<SearchDesignDataOptions>({ default: () => ({}) })
 const apiRefs = ref<ApiConfigEditorInstance[]>([])
 const activeName = ref(first(options.value.searchConditionItems)?.id)
 
@@ -134,12 +130,13 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
               v-model="item.type"
               placeholder="请选择"
               clearable
+              filterable
               @change="changeType($event, item)"
             >
               <el-option
                 v-for="item in SEARCH_TYPE_OPTIONS"
                 :key="item.value"
-                :label="`${item.label} - ${item.value}`"
+                :label="`${item.value}-${item.label}`"
                 :value="item.value"
               >
               </el-option>
@@ -310,7 +307,11 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
               ></ApiConfigEditor>
             </el-tab-pane>
             <el-tab-pane label="自定义" name="custom" :disabled="item.type === 'Cascader'">
-              <OptionItemsConfig v-model="item.options" :index="index"></OptionItemsConfig>
+              <OptionItemsConfig
+                v-model="item.options"
+                v-model:valueType="item.valueType"
+                :index="index"
+              ></OptionItemsConfig>
             </el-tab-pane>
           </el-tabs>
         </el-col>

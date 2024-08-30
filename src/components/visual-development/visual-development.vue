@@ -256,6 +256,7 @@ function showMoreShortcutKey() {
   <AddComponent ref="addComponentRef" @select="onSelectComponent"></AddComponent>
   <DesignComponent
     ref="designComponentRef"
+    v-model="useGlobal().activeDesignData"
     :form-data="useGlobal().activeDesignData as ActiveDesignData"
     :fullscreen="useGlobal().dialogFullscreen"
   ></DesignComponent>

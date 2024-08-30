@@ -4,18 +4,7 @@ import { ROW_GUTTER } from '../constants'
 import { ApiDomain } from './components'
 import { TopRight } from '@element-plus/icons-vue'
 
-const props = defineProps<{
-  formData: MergeDesignData
-}>()
-
-const _formData = toRef(() => handleAbnormalData(props.formData))
-
-function handleAbnormalData(data: MergeDesignData) {
-  if (!data.options.apiDomain) {
-    data.options.apiDomain = {}
-  }
-  return data
-}
+const formData = defineModel<MergeDesignData>({ default: () => ({ options: {} }) })
 
 function onGoto(key: string) {
   switch (key) {
@@ -35,7 +24,7 @@ function onGoto(key: string) {
         :rules="[{ required: true, message: '必填项' }]"
       >
         <el-input
-          v-model="_formData.options.name"
+          v-model="formData.options.name"
           placeholder="例：vswift-admin"
           clearable
         ></el-input>
@@ -44,7 +33,7 @@ function onGoto(key: string) {
     <el-col :span="24">
       <el-form-item label="git地址" prop="options.gitUrl">
         <el-input
-          v-model="_formData.options.gitUrl"
+          v-model="formData.options.gitUrl"
           placeholder="例：https://github.com/vsdeeper/visual-development.git"
           clearable
         ></el-input>
@@ -55,7 +44,7 @@ function onGoto(key: string) {
         <template #label>
           <MyLabel label="api域名" tooltip-content="不配置则表示与页面域名一致" />
         </template>
-        <ApiDomain v-model="_formData.options.apiDomain" />
+        <ApiDomain v-model="formData.options.apiDomain" />
       </el-form-item>
     </el-col>
     <el-col :span="24">
@@ -64,7 +53,7 @@ function onGoto(key: string) {
           <MyLabel label="api基础路径" tooltip-content="将拼接在api域名后面" />
         </template>
         <el-input
-          v-model="_formData.options.apiBasePath"
+          v-model="formData.options.apiBasePath"
           placeholder="例：/api"
           clearable
         ></el-input>
@@ -83,7 +72,7 @@ function onGoto(key: string) {
           />
         </template>
         <el-input
-          v-model="_formData.options.npmrc"
+          v-model="formData.options.npmrc"
           type="textarea"
           autosize
           placeholder="请输入"
@@ -93,7 +82,7 @@ function onGoto(key: string) {
     <el-col :span="24">
       <el-form-item label="项目描述" prop="options.description">
         <el-input
-          v-model="_formData.options.description"
+          v-model="formData.options.description"
           type="textarea"
           autosize
           placeholder="请输入"

@@ -13,7 +13,7 @@ export type DateType =
   | 'monthrange'
 export interface SearchConditionOptionItem {
   label?: string
-  value?: string
+  value?: any
 }
 export interface SearchConditionItem {
   id: string
@@ -24,6 +24,7 @@ export interface SearchConditionItem {
   apiMethod?: Extract<Method, 'GET'>
   api?: string
   apiParams?: Record<string, any>
+  valueType?: 'string' | 'number'
   options?: SearchConditionOptionItem[]
   itemLabel?: string
   itemValue?: string

@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { type MergeDesignData } from '@/components';
-import { ApiConfigEditor, IdEditor } from '../property-editor';
-import { ROW_GUTTER } from '../constants';
+import { type MergeDesignData } from '@/components'
+import { ApiConfigEditor, IdEditor } from '../property-editor'
+import { ROW_GUTTER } from '../constants'
 
-defineProps<{
-  formData: MergeDesignData;
-}>();
+const formData = defineModel<MergeDesignData>({ default: () => ({ options: {} }) })
 </script>
 
 <template>

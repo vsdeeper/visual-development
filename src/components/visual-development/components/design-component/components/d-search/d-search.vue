@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { type MergeDesignData } from '@/components';
-import { IdEditor, SearchConditionItemsEditor } from '../property-editor';
-import { ROW_GUTTER } from '../constants';
+import { type MergeDesignData } from '@/components'
+import { IdEditor, SearchConditionItemsEditor } from '../property-editor'
+import { ROW_GUTTER } from '../constants'
 
-defineProps<{
-  formData: MergeDesignData;
-}>();
+const formData = defineModel<MergeDesignData>({ default: () => ({ options: {} }) })
 </script>
 
 <template>
@@ -15,7 +13,7 @@ defineProps<{
     </ResponsiveCol>
     <el-col :span="24">
       <my-divider-title label="搜索条件设置"></my-divider-title>
-      <SearchConditionItemsEditor :options="formData.options"></SearchConditionItemsEditor>
+      <SearchConditionItemsEditor v-model="formData.options"></SearchConditionItemsEditor>
     </el-col>
   </el-row>
 </template>

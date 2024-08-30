@@ -7,14 +7,14 @@ import { forEachHandlerOfComponents, genId, setPresetData } from '../../util'
 withDefaults(
   defineProps<{
     title?: string
-    formData: ActiveDesignData
     fullscreen?: boolean
   }>(),
   {
-    title: '设计组件'
-  }
+    title: '设计组件',
+  },
 )
 
+const formData = defineModel<ActiveDesignData>({ default: () => ({}) })
 const formRef = ref<FormInstance>()
 const show = ref(false)
 const SaveAsPresetRef = ref<SaveAsPresetInstance>()
@@ -38,7 +38,7 @@ async function onConfirm(formData: Record<string, any>) {
   await setPresetData({ presetData: refreshId(presetData.value!), extendData: formData })
   ElMessage({
     type: 'success',
-    message: '预设成功'
+    message: '预设成功',
   })
 }
 
@@ -48,14 +48,14 @@ function showSaveAsPresetBtn(data?: ActiveDesignData) {
 
 function refreshId(data: ActiveDesignData) {
   const _data: ActiveDesignData = JSON.parse(JSON.stringify(data))
-  forEachHandlerOfComponents(_data.components ?? [], (item) => {
+  forEachHandlerOfComponents(_data.components ?? [], item => {
     item.id = genId(item.type)
   })
   return _data
 }
 
 defineExpose({
-  open
+  open,
 })
 </script>
 
@@ -71,7 +71,7 @@ defineExpose({
         <component
           v-if="formData"
           :is="DesignComponent[formData.type]"
-          :form-data="formData"
+          v-model="formData"
         ></component>
       </el-form>
     </div>
