@@ -4,13 +4,6 @@ import { type FormItemInstance, type FormItemRule } from 'element-plus'
 import { METHOD_OPTIONS } from './constants'
 import type { ApiConfigEditorModel } from '.'
 
-interface Tree {
-  id: string
-  key: string
-  value?: string | number
-  children?: Tree[]
-}
-
 const props = withDefaults(
   defineProps<{
     apiLabel?: string
@@ -32,44 +25,26 @@ const props = withDefaults(
 
 const { api = 'api', apiMethod = 'apiMethod', apiParams = 'apiParams' } = props.map
 const model = defineModel<ApiConfigEditorModel>({ default: () => ({}) })
-const valueType = defineModel<'string' | 'number'>('valueType', { default: 'number' })
-const treeData = ref<Tree[]>([])
 const formItemRef = ref<FormItemInstance>()
 
 function onAdd() {
   if (!model.value[apiParams]) {
     model.value[apiParams] = []
   }
-  model.value[apiParams].push({ key: 'id', value: '123' })
+  model.value[apiParams].push({ key: 'id', value: '123', valueType: 'number' })
 }
 
 function remove(index: number) {
   model.value[apiParams].splice(index, 1)
 }
 
-function onChange(key: string) {
+function onChange(key: string, data?: any) {
   switch (key) {
     case 'valueType': {
-      forEachHandler(treeData.value, item => {
-        item.value = undefined
-      })
+      data.value = undefined
       break
     }
   }
-}
-
-function forEachHandler(treeData: Tree[], callback: (item: Tree) => void) {
-  const handler = (treeData: Tree[]) => {
-    treeData.forEach(item => {
-      if (item.children?.length) {
-        callback(item)
-        handler(item.children ?? [])
-      } else {
-        callback(item)
-      }
-    })
-  }
-  handler(treeData)
 }
 
 defineExpose({
@@ -78,7 +53,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="api-editor">
+  <div class="api-config-editor">
     <el-form-item
       ref="formItemRef"
       :prop="[...formItemProp, api]"
@@ -110,22 +85,9 @@ defineExpose({
       ></my-divider-title>
       <el-row v-if="model[apiParams]?.length" class="header" align="middle">
         <div class="label">字段名称</div>
-        <div class="label">
-          字段值
-          <el-switch
-            v-model="valueType"
-            size="small"
-            inline-prompt
-            active-value="number"
-            inactive-value="string"
-            active-text="数字"
-            inactive-text="字符串"
-            @change="onChange('valueType')"
-          />
-        </div>
+        <div class="label">字段值</div>
       </el-row>
-
-      <el-row v-for="(item, index) in model[apiParams]" :key="item.key" align="middle">
+      <el-row v-for="(item, index) in model[apiParams]" :key="'apiParams' + index" align="middle">
         <el-form-item
           :prop="[...formItemProp, apiParams, index + '', 'key']"
           :rules="[{ required: true, message: '必填项' }]"
@@ -138,22 +100,32 @@ defineExpose({
           :rules="[{ required: true, message: '必填项' }]"
           :show-message="false"
         >
-          <el-input
-            v-if="valueType === 'string'"
-            v-model="item.value"
-            class="input"
-            placeholder="请输入"
-          />
-          <el-input-number v-else v-model="item.value" placeholder="请输入" :controls="false" />
+          <el-input v-model="item.value" class="input" placeholder="请输入">
+            <template #prepend>
+              <el-select
+                v-model="item.valueType"
+                placeholder="类型"
+                style="width: 100px"
+                @change="onChange('valueType', item)"
+              >
+                <el-option label="数字" value="number" />
+                <el-option label="字符串" value="string" />
+              </el-select>
+            </template>
+          </el-input>
         </el-form-item>
-        <el-button type="danger" size="small" :icon="Minus" circle @click="remove(index)">
-        </el-button>
+        <el-button type="danger" size="small" :icon="Minus" circle @click="remove(index)" />
       </el-row>
+      <div v-if="!model[apiParams]?.length" class="nodata">暂未配置</div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.api-config-editor {
+  padding: 12px;
+  border: 2px dotted var(--el-border-color-dark);
+}
 .params-config {
   margin-bottom: 18px;
   .header {

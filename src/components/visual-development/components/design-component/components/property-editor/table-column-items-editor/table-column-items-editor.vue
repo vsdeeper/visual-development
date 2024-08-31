@@ -12,6 +12,7 @@ import { first, last } from 'lodash-es'
 import { ApiConfigEditor } from '..'
 
 const props = defineProps<{
+  root: boolean
   options: TableDesignDataOptions | TableColumnItem
   formItemProp?: string[]
   label?: string
@@ -66,181 +67,193 @@ function getLabel(label?: string, propLabel?: string) {
 </script>
 
 <template>
-  <el-collapse v-if="options.tableColumnItems?.length" v-model="activeName" accordion>
-    <el-collapse-item
-      v-for="(item, index) in options.tableColumnItems"
-      :key="item.id"
-      :name="item.id"
-    >
-      <template #title>
-        <div class="header">
-          表列 - <span class="label">{{ getLabel(item.label, label) }}</span>
-        </div>
-        <el-button
-          type="danger"
-          :icon="Minus"
-          circle
-          size="small"
-          @click.stop="deleteItem(index, options.tableColumnItems!)"
-        >
-        </el-button>
-        <el-button
-          type="primary"
-          :icon="Plus"
-          circle
-          size="small"
-          style="margin-right: 10px"
-          @click.stop="addSubItem(item)"
-        >
-        </el-button>
-      </template>
+  <div class="table-column-items-editor">
+    <my-divider-title :label="root ? '表列设置' : '子表列设置'"></my-divider-title>
+    <el-collapse v-if="options.tableColumnItems?.length" v-model="activeName" accordion>
+      <el-collapse-item
+        v-for="(item, index) in options.tableColumnItems"
+        :key="item.id"
+        :name="item.id"
+      >
+        <template #title>
+          <div class="header">
+            表列 - <span class="label">{{ getLabel(item.label, label) }}</span>
+          </div>
+          <el-button
+            type="danger"
+            :icon="Minus"
+            circle
+            size="small"
+            @click.stop="deleteItem(index, options.tableColumnItems!)"
+          >
+          </el-button>
+          <el-button
+            type="primary"
+            :icon="Plus"
+            circle
+            size="small"
+            style="margin-right: 10px"
+            @click.stop="addSubItem(item)"
+          >
+          </el-button>
+        </template>
 
-      <el-row :gutter="ROW_GUTTER">
-        <ResponsiveCol>
-          <el-form-item
-            :prop="[...getFormItemProp(index, formItemProp), 'prop']"
-            :rules="[{ required: true, message: '必填项' }]"
-          >
-            <template #label>
-              <my-label label="字段名称" />
-            </template>
-            <el-input v-model="item.prop" placeholder="请输入" clearable></el-input>
-          </el-form-item>
-        </ResponsiveCol>
-        <ResponsiveCol>
-          <el-form-item
-            :prop="[...getFormItemProp(index, formItemProp), 'label']"
-            :rules="[{ required: true, message: '必填项' }]"
-          >
-            <template #label>
-              <my-label label="列名称" />
-            </template>
-            <el-input v-model="item.label" placeholder="请输入" clearable></el-input>
-          </el-form-item>
-        </ResponsiveCol>
-        <ResponsiveCol>
-          <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'width']">
-            <template #label>
-              <my-label label="列宽度" />
-            </template>
-            <el-input v-model="item.width" placeholder="请输入" clearable></el-input>
-          </el-form-item>
-        </ResponsiveCol>
-        <ResponsiveCol>
-          <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'minWidth']">
-            <template #label>
-              <my-label label="列最小宽度" />
-            </template>
-            <el-input v-model="item.minWidth" placeholder="请输入" clearable></el-input>
-          </el-form-item>
-        </ResponsiveCol>
-        <ResponsiveCol>
-          <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'fixed']">
-            <template #label>
-              <my-label label="固定列" />
-            </template>
-            <el-select v-model="item.fixed" placeholder="请选择" clearable>
-              <el-option
-                v-for="item1 in FIXED_OPTIONS"
-                :key="item1.value"
-                :label="`${item1.label} - ${item1.value}`"
-                :value="item1.value"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </ResponsiveCol>
-        <ResponsiveCol>
-          <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'showOverflowTooltip']">
-            <template #label>
-              <my-label label="内容超长tooltip" />
-            </template>
-            <el-radio-group v-model="item.showOverflowTooltip">
-              <el-radio-button :label="true">是</el-radio-button>
-              <el-radio-button :label="false">否</el-radio-button>
-            </el-radio-group>
-          </el-form-item>
-        </ResponsiveCol>
-        <ResponsiveCol>
-          <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'sortable']">
-            <template #label>
-              <my-label label="开启排序" />
-            </template>
-            <el-radio-group v-model="item.sortable">
-              <el-radio-button :label="true">是</el-radio-button>
-              <el-radio-button :label="false">否</el-radio-button>
-            </el-radio-group>
-          </el-form-item>
-        </ResponsiveCol>
-        <ResponsiveCol>
-          <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'formatterType']">
-            <template #label>
-              <my-label label="格式化类型" />
-            </template>
-            <el-select
-              v-model="item.formatterType"
-              placeholder="请选择"
-              clearable
-              @change="changeFormatterType($event, item)"
+        <el-row :gutter="ROW_GUTTER">
+          <ResponsiveCol>
+            <el-form-item
+              :prop="[...getFormItemProp(index, formItemProp), 'prop']"
+              :rules="[{ required: true, message: '必填项' }]"
             >
-              <el-option
-                v-for="item1 in FORMATTER_OPTIONS"
-                :key="item1.value"
-                :label="item1.label"
-                :value="item1.value"
+              <template #label>
+                <my-label label="字段名称" />
+              </template>
+              <el-input v-model="item.prop" placeholder="请输入" clearable></el-input>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <el-form-item
+              :prop="[...getFormItemProp(index, formItemProp), 'label']"
+              :rules="[{ required: true, message: '必填项' }]"
+            >
+              <template #label>
+                <my-label label="列名称" />
+              </template>
+              <el-input v-model="item.label" placeholder="请输入" clearable></el-input>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'width']">
+              <template #label>
+                <my-label label="列宽度" />
+              </template>
+              <el-input v-model="item.width" placeholder="请输入" clearable></el-input>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'minWidth']">
+              <template #label>
+                <my-label label="列最小宽度" />
+              </template>
+              <el-input v-model="item.minWidth" placeholder="请输入" clearable></el-input>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'fixed']">
+              <template #label>
+                <my-label label="固定列" />
+              </template>
+              <el-select v-model="item.fixed" placeholder="请选择" clearable>
+                <el-option
+                  v-for="item1 in FIXED_OPTIONS"
+                  :key="item1.value"
+                  :label="`${item1.value}-${item1.label}`"
+                  :value="item1.value"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'showOverflowTooltip']">
+              <template #label>
+                <my-label label="内容超长tooltip" />
+              </template>
+              <el-radio-group v-model="item.showOverflowTooltip">
+                <el-radio-button :label="true">是</el-radio-button>
+                <el-radio-button :label="false">否</el-radio-button>
+              </el-radio-group>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'sortable']">
+              <template #label>
+                <my-label label="开启排序" />
+              </template>
+              <el-radio-group v-model="item.sortable">
+                <el-radio-button :label="true">是</el-radio-button>
+                <el-radio-button :label="false">否</el-radio-button>
+              </el-radio-group>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'formatterType']">
+              <template #label>
+                <my-label label="格式化类型" />
+              </template>
+              <el-select
+                v-model="item.formatterType"
+                placeholder="请选择"
+                clearable
+                @change="changeFormatterType($event, item)"
               >
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </ResponsiveCol>
-        <ResponsiveCol v-if="item.formatterType === 'displayByStaticData'">
-          <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'staticDataKey']">
-            <template #label>
-              <my-label label="静态数据Key" />
-            </template>
-            <el-input v-model="item.staticDataKey" placeholder="请输入" clearable></el-input>
-          </el-form-item>
-        </ResponsiveCol>
-        <ResponsiveCol v-if="item.formatterType === 'dateFormat'">
-          <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'format']">
-            <template #label>
-              <my-label label="格式化日期" />
-            </template>
-            <el-input v-model="item.format" placeholder="YYYY-MM-DD HH:mm:ss" clearable></el-input>
-          </el-form-item>
-        </ResponsiveCol>
-        <el-col v-if="item.formatterType === 'displayByDynamicData'" :span="24">
-          <ApiConfigEditor
-            :options="item"
-            v-model="options.tableColumnItems[index]"
-            v-model:valueType="item.valueType"
-            :form-item-prop="[...getFormItemProp(index, formItemProp)]"
-            :form-item-rules="[{ required: true }]"
-            api-label="动态数据回显接口"
-            params-label="动态数据回显接口参数"
-          ></ApiConfigEditor>
-        </el-col>
-      </el-row>
-      <table-column-items-editor
-        :options="item"
-        :form-item-prop="getFormItemProp(index, formItemProp)"
-        :label="getLabel(item.label, label)"
-        is-sub-level
-      ></table-column-items-editor>
-    </el-collapse-item>
-  </el-collapse>
-  <el-button
-    v-if="!isSubLevel"
-    type="primary"
-    :icon="Plus"
-    @click="addItem"
-    style="width: 100%; margin-top: 10px"
-  >
-    新增表列
-  </el-button>
+                <el-option
+                  v-for="item1 in FORMATTER_OPTIONS"
+                  :key="item1.value"
+                  :label="item1.label"
+                  :value="item1.value"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol v-if="item.formatterType === 'displayByStaticData'">
+            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'staticDataKey']">
+              <template #label>
+                <my-label label="静态数据Key" />
+              </template>
+              <el-input v-model="item.staticDataKey" placeholder="请输入" clearable></el-input>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol v-if="item.formatterType === 'dateFormat'">
+            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'format']">
+              <template #label>
+                <my-label label="格式化日期" />
+              </template>
+              <el-input
+                v-model="item.format"
+                placeholder="YYYY-MM-DD HH:mm:ss"
+                clearable
+              ></el-input>
+            </el-form-item>
+          </ResponsiveCol>
+          <el-col v-if="item.formatterType === 'displayByDynamicData'" :span="24">
+            <ApiConfigEditor
+              :options="item"
+              v-model="options.tableColumnItems[index]"
+              :form-item-prop="[...getFormItemProp(index, formItemProp)]"
+              :form-item-rules="[{ required: true }]"
+              api-label="动态数据回显接口"
+              params-label="动态数据回显接口参数"
+            ></ApiConfigEditor>
+          </el-col>
+        </el-row>
+        <table-column-items-editor
+          :root="false"
+          :options="item"
+          :form-item-prop="getFormItemProp(index, formItemProp)"
+          :label="getLabel(item.label, label)"
+          is-sub-level
+        ></table-column-items-editor>
+      </el-collapse-item>
+    </el-collapse>
+    <div v-if="!options.tableColumnItems?.length" class="nodata">暂未配置</div>
+    <el-button
+      v-if="!isSubLevel"
+      type="primary"
+      :icon="Plus"
+      @click="addItem"
+      style="width: 100%; margin-top: 10px"
+    >
+      新增表列
+    </el-button>
+  </div>
 </template>
 
 <style lang="scss" scoped>
+.table-column-items-editor {
+  padding: 12px;
+  border: 2px dotted var(--el-border-color-dark);
+}
 .header {
   display: flex;
   justify-content: flex-start;

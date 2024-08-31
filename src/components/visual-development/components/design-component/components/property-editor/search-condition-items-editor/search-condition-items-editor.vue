@@ -293,18 +293,13 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
               <ApiConfigEditor
                 :ref="ref => (apiRefs[index] = ref as ApiConfigEditorInstance)"
                 v-model="options.searchConditionItems[index]"
-                v-model:valueType="item.valueType"
                 :form-item-prop="['options', 'searchConditionItems', index + '']"
                 :form-item-rules="[{ required: true }]"
                 :show-message="false"
               ></ApiConfigEditor>
             </el-tab-pane>
             <el-tab-pane label="自定义" name="custom" :disabled="item.type === 'Cascader'">
-              <OptionItemsConfig
-                v-model="item.options"
-                v-model:valueType="item.valueType"
-                :index="index"
-              ></OptionItemsConfig>
+              <OptionItemsConfig v-model="item.options" :index="index"></OptionItemsConfig>
             </el-tab-pane>
           </el-tabs>
         </el-col>

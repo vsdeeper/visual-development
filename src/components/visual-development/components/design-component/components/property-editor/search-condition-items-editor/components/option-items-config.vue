@@ -7,7 +7,6 @@ defineProps<{
 }>()
 
 const model = defineModel<SearchConditionOptionItem[]>({ default: () => [] })
-const valueType = defineModel<'string' | 'number'>('valueType', { default: 'number' })
 
 function _delete(idx: number) {
   model.value.splice(idx, 1)
@@ -22,10 +21,10 @@ function reset() {
   model.value = [{}]
 }
 
-function onChange(key: string) {
+function onChange(key: string, data?: any) {
   switch (key) {
     case 'valueType': {
-      model.value.forEach(e => (e.value = undefined))
+      data!.value = undefined
       break
     }
   }
@@ -35,19 +34,7 @@ function onChange(key: string) {
 <template>
   <div class="option-items-config">
     <el-row v-if="model.length" class="header" align="middle">
-      <div class="label">
-        选项值
-        <el-switch
-          v-model="valueType"
-          size="small"
-          inline-prompt
-          active-value="number"
-          inactive-value="string"
-          active-text="数字"
-          inactive-text="字符串"
-          @change="onChange('valueType')"
-        />
-      </div>
+      <div class="label">选项值</div>
       <div class="label">选项名称</div>
     </el-row>
     <el-row v-for="(item, subIndex) in model" :key="item.value" align="middle">
@@ -55,15 +42,21 @@ function onChange(key: string) {
         :prop="['options', 'searchConditionItems', index + '', 'options', subIndex + '', 'value']"
         :rules="[{ required: true, message: '必填项' }]"
         :show-message="false"
-        style="width: 100px; margin-right: 5px"
+        style="width: 200px; margin-right: 5px"
       >
-        <el-input
-          v-if="valueType === 'string'"
-          v-model="item.value"
-          class="input"
-          placeholder="请输入"
-        />
-        <el-input-number v-else v-model="item.value" placeholder="请输入" :controls="false" />
+        <el-input v-model="item.value" class="input" placeholder="请输入">
+          <template #prepend>
+            <el-select
+              v-model="item.valueType"
+              placeholder="类型"
+              style="width: 100px"
+              @change="onChange('valueType', item)"
+            >
+              <el-option label="数字" value="number" />
+              <el-option label="字符串" value="string" />
+            </el-select>
+          </template>
+        </el-input>
       </el-form-item>
       <el-form-item
         :prop="['options', 'searchConditionItems', index + '', 'options', subIndex + '', 'label']"
@@ -97,7 +90,7 @@ function onChange(key: string) {
       align-items: center;
       margin-left: 5px;
       &:first-child {
-        width: 100px;
+        width: 200px;
       }
     }
   }

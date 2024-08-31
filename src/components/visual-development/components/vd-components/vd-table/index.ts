@@ -22,7 +22,6 @@ export interface TableColumnItem {
   apiMethod?: Extract<Method, 'GET'> // 接口配置，formatterType = displayByDynamicData
   api?: string // 接口配置，formatterType = displayByDynamicData
   apiParams?: ApiParamsItem[] // 接口配置，formatterType = displayByDynamicData
-  valueType?: 'string' | 'number'
   tableColumnItems?: TableColumnItem[]
   [key: string]: any
 }
@@ -32,7 +31,6 @@ export interface TableDesignDataOptions {
   apiMethod?: Extract<Method, 'GET'>
   api?: string
   apiParams?: ApiParamsItem[]
-  valueType?: 'string' | 'number'
   data?: Record<string, any>[]
   itemHasChildren?: string
   itemChildren?: string
@@ -49,7 +47,6 @@ export interface TableDesignDataOptions {
   loadApiMethod?: Extract<Method, 'GET'>
   loadApi?: string
   loadApiParams?: ApiParamsItem[]
-  loadValueType?: 'string' | 'number'
   defaultSort?: Sort
   virtualized?: boolean
   [key: string]: any

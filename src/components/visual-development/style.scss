@@ -16,3 +16,10 @@
   --el-dialog-max-width: 810px;
   max-width: var(--el-dialog-max-width);
 }
+
+// 暂无数据
+.nodata {
+  display: flex;
+  padding: 12px;
+  color: var(--el-text-color-placeholder);
+}

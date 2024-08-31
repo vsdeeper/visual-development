@@ -14,10 +14,12 @@ export type DateType =
 export interface SearchConditionOptionItem {
   label?: string
   value?: any
+  valueType?: 'string' | 'number'
 }
 export interface ApiParamsItem {
   key?: string
   value?: string | number
+  valueType?: 'string' | 'number'
 }
 export interface SearchConditionItem {
   id: string
@@ -29,7 +31,6 @@ export interface SearchConditionItem {
   apiMethod?: Extract<Method, 'GET'>
   api?: string
   apiParams?: ApiParamsItem[]
-  valueType?: 'string' | 'number'
   options?: SearchConditionOptionItem[]
   itemLabel?: string
   itemValue?: string
