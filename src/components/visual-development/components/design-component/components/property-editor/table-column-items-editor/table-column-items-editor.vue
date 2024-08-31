@@ -3,7 +3,7 @@ import { Minus, Plus } from '@element-plus/icons-vue'
 import {
   type TableColumnItem,
   type TableDesignDataOptions,
-  type TableColumnItemFormatterType
+  type TableColumnItemFormatterType,
 } from '@/components'
 import { ROW_GUTTER } from '../../constants'
 import { FIXED_OPTIONS, FORMATTER_OPTIONS } from './constants'
@@ -73,8 +73,8 @@ function getLabel(label?: string, propLabel?: string) {
       :name="item.id"
     >
       <template #title>
-        <div style="display: flex; justify-content: flex-start; flex: 1">
-          表列 - {{ getLabel(item.label, label) }}
+        <div class="header">
+          表列 - <span class="label">{{ getLabel(item.label, label) }}</span>
         </div>
         <el-button
           type="danger"
@@ -209,12 +209,15 @@ function getLabel(label?: string, propLabel?: string) {
             <el-input v-model="item.format" placeholder="YYYY-MM-DD HH:mm:ss" clearable></el-input>
           </el-form-item>
         </ResponsiveCol>
-        <el-col :span="24">
+        <el-col v-if="item.formatterType === 'displayByDynamicData'" :span="24">
           <ApiConfigEditor
-            v-if="item.formatterType === 'displayByDynamicData'"
             :options="item"
+            v-model="options.tableColumnItems[index]"
+            v-model:valueType="item.valueType"
             :form-item-prop="[...getFormItemProp(index, formItemProp)]"
             :form-item-rules="[{ required: true }]"
+            api-label="动态数据回显接口"
+            params-label="动态数据回显接口参数"
           ></ApiConfigEditor>
         </el-col>
       </el-row>
@@ -238,6 +241,15 @@ function getLabel(label?: string, propLabel?: string) {
 </template>
 
 <style lang="scss" scoped>
+.header {
+  display: flex;
+  justify-content: flex-start;
+  flex: 1;
+  .label {
+    color: var(--el-text-color-regular);
+    margin-left: 5px;
+  }
+}
 :deep(.el-collapse-item__content > .el-collapse) {
   margin: 0 10px;
 }

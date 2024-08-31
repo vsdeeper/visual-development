@@ -92,7 +92,7 @@ defineExpose({
 <style lang="scss" scoped>
 .design-component {
   :deep(.el-input-number) {
-    flex: 1;
+    width: 100%;
   }
 
   :deep(.el-select) {

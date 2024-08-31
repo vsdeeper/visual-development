@@ -25,7 +25,7 @@ function reset() {
 function onChange(key: string) {
   switch (key) {
     case 'valueType': {
-      model.value.forEach((e) => (e.value = undefined))
+      model.value.forEach(e => (e.value = undefined))
       break
     }
   }
@@ -34,8 +34,8 @@ function onChange(key: string) {
 
 <template>
   <div class="option-items-config">
-    <el-row class="header" align="middle">
-      <div class="label" style="width: 100px">
+    <el-row v-if="model.length" class="header" align="middle">
+      <div class="label">
         选项值
         <el-switch
           v-model="valueType"
@@ -63,7 +63,7 @@ function onChange(key: string) {
           class="input"
           placeholder="请输入"
         />
-        <el-input-number v-else v-model="item.value" :controls="false" />
+        <el-input-number v-else v-model="item.value" placeholder="请输入" :controls="false" />
       </el-form-item>
       <el-form-item
         :prop="['options', 'searchConditionItems', index + '', 'options', subIndex + '', 'label']"
@@ -78,7 +78,7 @@ function onChange(key: string) {
         size="small"
         :icon="Minus"
         circle
-        @click="_delete(index)"
+        @click="_delete(subIndex)"
         style="margin-left: 8px"
       ></el-button>
     </el-row>
@@ -96,6 +96,9 @@ function onChange(key: string) {
       display: flex;
       align-items: center;
       margin-left: 5px;
+      &:first-child {
+        width: 100px;
+      }
     }
   }
   .el-row + .el-row {
@@ -111,6 +114,9 @@ function onChange(key: string) {
   }
   .el-form-item {
     margin-bottom: 0;
+  }
+  :deep(.el-input-number .el-input__inner) {
+    text-align: left;
   }
 }
 </style>

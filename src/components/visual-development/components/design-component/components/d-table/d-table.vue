@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { type MergeDesignData } from '@/components'
+import { type TableDesignData } from '@/components'
 import { ApiConfigEditor, IdEditor } from '../property-editor'
 import { ROW_GUTTER } from '../constants'
 
-const formData = defineModel<MergeDesignData>({ default: () => ({ options: {} }) })
+const formData = defineModel<TableDesignData>({ default: () => ({ options: {} }) })
 </script>
 
 <template>
@@ -45,20 +45,24 @@ const formData = defineModel<MergeDesignData>({ default: () => ({ options: {} })
       <FlexibleEditor :options="formData.options" />
     </ResponsiveCol>
     <el-col :span="24">
+      <!-- @vue-skip -->
       <ApiConfigEditor
-        :options="formData.options"
+        v-model="formData.options"
+        v-model:valueType="formData.options.valueType"
         :form-item-rules="[{ required: true }]"
         api-label="列表接口"
-        params-label="接口参数"
+        params-label="列表接口参数"
       ></ApiConfigEditor>
     </el-col>
     <el-col v-if="formData.options.lazy" :span="24">
+      <!-- @vue-skip -->
       <ApiConfigEditor
-        :options="formData.options"
+        v-model="formData.options"
+        v-model:valueType="formData.options.loadValueType"
         :form-item-rules="[{ required: true }]"
         :map="{ api: 'loadApi', apiMethod: 'loadApiMethod', apiParams: 'loadApiParams' }"
         api-label="懒加载子节点接口"
-        params-label="接口参数"
+        params-label="懒加载子节点接口参数"
       ></ApiConfigEditor>
     </el-col>
     <el-col :span="24">

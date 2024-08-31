@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue'
-import { nanoid } from 'nanoid'
-import { type DesignDataOptions } from '@/components'
-import { first, isObject, throttle } from 'lodash-es'
-import { findArraryValuesFromTreeData, findObjectFromTreeData } from '@/utils'
 import { type FormItemInstance, type FormItemRule } from 'element-plus'
 import { METHOD_OPTIONS } from './constants'
+import type { ApiConfigEditorModel } from '.'
 
 interface Tree {
   id: string
@@ -16,7 +13,6 @@ interface Tree {
 
 const props = withDefaults(
   defineProps<{
-    options: Record<string, any>
     apiLabel?: string
     paramsLabel?: string
     formItemProp?: string[]
@@ -30,84 +26,54 @@ const props = withDefaults(
     paramsLabel: '参数',
     formItemProp: () => ['options'],
     showParams: true,
-    map: () => ({})
-  }
+    map: () => ({}),
+  },
 )
 
 const { api = 'api', apiMethod = 'apiMethod', apiParams = 'apiParams' } = props.map
-const options = toRef(props, 'options')
+const model = defineModel<ApiConfigEditorModel>({ default: () => ({}) })
+const valueType = defineModel<'string' | 'number'>('valueType', { default: 'number' })
 const treeData = ref<Tree[]>([])
 const formItemRef = ref<FormItemInstance>()
 
-watch(
-  () => options.value[apiParams],
-  (params) => {
-    transTreeDataByParams(params ?? {}, treeData)
-  },
-  { once: true }
-)
-
-watch(
-  treeData,
-  throttle((treeData) => {
-    transParamsByTreeData(treeData, options)
-  }, 800),
-  { deep: true }
-)
-
-function append(treeData: Tree[]) {
-  treeData.push({
-    id: nanoid(5),
-    key: 'id',
-    value: '123'
-  })
-}
-
-function remove(target: Tree, treeData: Tree[]) {
-  const findIdx = treeData.findIndex((e) => e.id === target.id)
-  if (findIdx > -1) {
-    treeData.splice(findIdx, 1)
-  } else {
-    const findArr = findArraryValuesFromTreeData(target.id, treeData) as string[]
-    const findParent = findObjectFromTreeData(first<string>(findArr)!, treeData) as Tree
-    const findIdx = findParent.children!.findIndex((e) => e.id === target.id)
-    findParent.children!.splice(findIdx, 1)
+function onAdd() {
+  if (!model.value[apiParams]) {
+    model.value[apiParams] = []
   }
+  model.value[apiParams].push({ key: 'id', value: '123' })
 }
 
-function transTreeDataByParams(params: Record<string, any>, _treeData: Ref<Tree[]>) {
-  const handler = (params: Record<string, any>, treeData: Tree[]) => {
-    for (const key in params) {
-      if (Object.prototype.hasOwnProperty.call(params, key)) {
-        if (isObject(params[key])) {
-          const obj = { id: nanoid(5), key, value: params[key], children: [] }
-          treeData.push(obj)
-          handler(params[key], obj.children)
-        } else {
-          treeData.push({ id: nanoid(5), key, value: params[key] })
-        }
-      }
+function remove(index: number) {
+  model.value[apiParams].splice(index, 1)
+}
+
+function onChange(key: string) {
+  switch (key) {
+    case 'valueType': {
+      forEachHandler(treeData.value, item => {
+        item.value = undefined
+      })
+      break
     }
   }
-  handler(params, (_treeData.value = []))
 }
 
-function transParamsByTreeData(treeData: Tree[], options: Ref<DesignDataOptions>) {
-  const handler = (treeData: Tree[], params: Record<string, any>) => {
-    treeData.forEach((item) => {
+function forEachHandler(treeData: Tree[], callback: (item: Tree) => void) {
+  const handler = (treeData: Tree[]) => {
+    treeData.forEach(item => {
       if (item.children?.length) {
-        params[item.key] = {}
-        handler(item.children ?? [], params[item.key])
+        callback(item)
+        handler(item.children ?? [])
       } else {
-        params[item.key] = item.value
+        callback(item)
       }
     })
   }
-  handler(treeData, (options.value[apiParams] = {}))
+  handler(treeData)
 }
 
 defineExpose({
-  formItemRef
+  formItemRef,
 })
 </script>
 
@@ -122,14 +88,14 @@ defineExpose({
       <template #label>
         <my-label :label="apiLabel" />
       </template>
-      <el-input v-model="options[api]" clearable placeholder="请输入">
+      <el-input v-model="model[api]" clearable placeholder="请输入">
         <template #prepend>
           <el-form-item
             :prop="[...formItemProp, apiMethod]"
             :rules="formItemRules"
             :show-message="showMessage"
           >
-            <el-select v-model="options[apiMethod]" placeholder="选择" style="width: 100px">
+            <el-select v-model="model[apiMethod]" placeholder="请选择" style="width: 100px">
               <el-option v-for="item in METHOD_OPTIONS" :key="item" :label="item" :value="item" />
             </el-select>
           </el-form-item>
@@ -140,75 +106,82 @@ defineExpose({
       <my-divider-title
         :label="paramsLabel"
         :suffix-icon="Plus"
-        @click-suffix-icon="append(treeData)"
+        @click-suffix-icon="onAdd"
       ></my-divider-title>
-      <el-tree
-        :data="treeData"
-        node-key="id"
-        default-expand-all
-        :expand-on-click-node="false"
-        empty-text="暂无配置"
-      >
-        <template #default="{ data }">
-          <span class="custom-tree-node">
-            <el-input v-model="data.key" placeholder="字段名称" clearable></el-input>
-            <el-input
-              v-if="!data.children?.length"
-              v-model="data.value"
-              placeholder="字段值"
-              clearable
-            ></el-input>
-            <el-button
-              type="danger"
-              size="small"
-              :icon="Minus"
-              circle
-              @click="remove(data, treeData)"
-            >
-            </el-button>
-          </span>
-        </template>
-      </el-tree>
+      <el-row v-if="model[apiParams]?.length" class="header" align="middle">
+        <div class="label">字段名称</div>
+        <div class="label">
+          字段值
+          <el-switch
+            v-model="valueType"
+            size="small"
+            inline-prompt
+            active-value="number"
+            inactive-value="string"
+            active-text="数字"
+            inactive-text="字符串"
+            @change="onChange('valueType')"
+          />
+        </div>
+      </el-row>
+
+      <el-row v-for="(item, index) in model[apiParams]" :key="item.key" align="middle">
+        <el-form-item
+          :prop="[...formItemProp, apiParams, index + '', 'key']"
+          :rules="[{ required: true, message: '必填项' }]"
+          :show-message="false"
+        >
+          <el-input v-model="item.key" placeholder="请输入" />
+        </el-form-item>
+        <el-form-item
+          :prop="[...formItemProp, apiParams, index + '', 'value']"
+          :rules="[{ required: true, message: '必填项' }]"
+          :show-message="false"
+        >
+          <el-input
+            v-if="valueType === 'string'"
+            v-model="item.value"
+            class="input"
+            placeholder="请输入"
+          />
+          <el-input-number v-else v-model="item.value" placeholder="请输入" :controls="false" />
+        </el-form-item>
+        <el-button type="danger" size="small" :icon="Minus" circle @click="remove(index)">
+        </el-button>
+      </el-row>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.api-editor {
-  margin-bottom: 18px;
-}
 .params-config {
-  .title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
+  margin-bottom: 18px;
+  .header {
+    margin-bottom: 5px;
+    .label {
+      display: flex;
+      align-items: center;
+      margin-left: 5px;
+      &:first-child {
+        width: calc(50% - 15px);
+      }
+    }
   }
-}
-.custom-tree-node {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  .el-input + .el-input {
-    margin-left: 5px;
+  .el-row + .el-row {
+    margin-top: 5px;
+  }
+  .el-form-item {
+    flex: 1;
+    margin-bottom: 0;
+    & + .el-form-item {
+      margin: 0 0 0 5px;
+    }
   }
   .el-button {
     margin-left: 5px;
   }
-}
-:deep(.el-tree-node__children > .el-tree-node) {
-  margin-top: 5px;
-}
-:deep(.el-tree > .el-tree-node + .el-tree-node) {
-  margin-top: 5px;
-}
-:deep(.el-tree-node__content) {
-  height: auto;
-}
-:deep(.el-tree-node__content:hover) {
-  background-color: transparent;
-}
-:deep(.el-tree-node__content > .el-tree-node__expand-icon) {
-  display: none;
+  :deep(.el-input-number .el-input__inner) {
+    text-align: left;
+  }
 }
 </style>

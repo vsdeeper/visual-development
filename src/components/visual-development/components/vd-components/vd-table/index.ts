@@ -1,4 +1,4 @@
-import { type BaseDesignData, type Method } from '@/components'
+import { type ApiParamsItem, type BaseDesignData, type Method } from '@/components'
 import { type Sort } from 'element-plus'
 
 export type TableColumnItemFormatterType =
@@ -21,15 +21,18 @@ export interface TableColumnItem {
   format?: string // 日期显示格式，yyyy-MM-dd HH:mm:ss，formatterType = dateFormat
   apiMethod?: Extract<Method, 'GET'> // 接口配置，formatterType = displayByDynamicData
   api?: string // 接口配置，formatterType = displayByDynamicData
-  apiParams?: Record<string, any> // 接口配置，formatterType = displayByDynamicData
+  apiParams?: ApiParamsItem[] // 接口配置，formatterType = displayByDynamicData
+  valueType?: 'string' | 'number'
   tableColumnItems?: TableColumnItem[]
+  [key: string]: any
 }
 
 export interface TableDesignDataOptions {
   tableColumnItems?: TableColumnItem[]
   apiMethod?: Extract<Method, 'GET'>
   api?: string
-  apiParams?: Record<string, any>
+  apiParams?: ApiParamsItem[]
+  valueType?: 'string' | 'number'
   data?: Record<string, any>[]
   itemHasChildren?: string
   itemChildren?: string
@@ -45,7 +48,8 @@ export interface TableDesignDataOptions {
   lazy?: boolean
   loadApiMethod?: Extract<Method, 'GET'>
   loadApi?: string
-  loadApiParams?: Record<string, any>
+  loadApiParams?: ApiParamsItem[]
+  loadValueType?: 'string' | 'number'
   defaultSort?: Sort
   virtualized?: boolean
   [key: string]: any

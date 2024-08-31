@@ -15,15 +15,20 @@ export interface SearchConditionOptionItem {
   label?: string
   value?: any
 }
+export interface ApiParamsItem {
+  key?: string
+  value?: string | number
+}
 export interface SearchConditionItem {
   id: string
   key?: string
   type?: SearchConditionType
+  label?: string
   placeholder?: string
   dataSource?: 'api' | 'custom'
   apiMethod?: Extract<Method, 'GET'>
   api?: string
-  apiParams?: Record<string, any>
+  apiParams?: ApiParamsItem[]
   valueType?: 'string' | 'number'
   options?: SearchConditionOptionItem[]
   itemLabel?: string
@@ -37,6 +42,7 @@ export interface SearchConditionItem {
   valueFormat?: string
   dateType?: DateType
   virtualized?: boolean
+  [key: string]: any
 }
 
 export interface SearchDesignDataOptions {
