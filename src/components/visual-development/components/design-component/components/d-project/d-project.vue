@@ -80,6 +80,11 @@ function onGoto(key: string) {
       </el-form-item>
     </el-col>
     <el-col :span="24">
+      <el-form-item label="通用字段" prop="options.commonField">
+        <CommonField v-model="formData.options.commonField" />
+      </el-form-item>
+    </el-col>
+    <el-col :span="24">
       <el-form-item label="项目描述" prop="options.description">
         <el-input
           v-model="formData.options.description"

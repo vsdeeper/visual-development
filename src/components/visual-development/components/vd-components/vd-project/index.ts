@@ -7,6 +7,7 @@ export interface ProjectDesignDataOptions {
   apiDomain?: ApiDomainConfig
   apiBasePath?: string
   npmrc?: string
+  commonField?: Record<string, any>
   description?: string
 }
 export type ProjectDesignData = BaseDesignData<ProjectDesignDataOptions>

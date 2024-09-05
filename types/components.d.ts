@@ -18,6 +18,7 @@ declare module 'vue' {
     ColSpanEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/col-span-editor/col-span-editor.vue')['default']
     ColXlEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/col-xl-editor/col-xl-editor.vue')['default']
     ColXsEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/col-xs-editor/col-xs-editor.vue')['default']
+    CommonField: typeof import('./../src/components/visual-development/components/design-component/components/d-project/components/CommonField.vue')['default']
     DesignComponent: typeof import('./../src/components/visual-development/components/design-component/design-component.vue')['default']
     DesignSkeleton: typeof import('./../src/components/visual-development/components/design-skeleton/design-skeleton.vue')['default']
     DForm: typeof import('./../src/components/visual-development/components/design-component/components/d-form/d-form.vue')['default']

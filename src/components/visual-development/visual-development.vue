@@ -7,14 +7,14 @@ import {
   VdComponents,
   type BaseDesignData,
   type MergeDesignData,
-  type PresetDataItem
+  type PresetDataItem,
 } from '.'
 import { AddComponent, type AddComponentOptionItem, ShortcutKeyDescription } from '@/components'
 import {
   IS_PAGE_DESIGN_MODE_SYMBOL,
   ADD_COMPONENT_REF_SYMBOL,
   DESIGN_COMPONENT_REF_SYMBOL,
-  EXPORT_DATA_REF_SYMBOL
+  EXPORT_DATA_REF_SYMBOL,
 } from '@/utils/constants'
 import { deleteComponent, genId, isActiveDesign, isContainerComponent } from './util'
 import { DESIGN_DATA_KEY, PRESET_DATA_KEY } from './constants'
@@ -22,7 +22,7 @@ import {
   ShortcutKeyOperation,
   type ViewDesignData,
   type ProjectDesignData,
-  type ExportDataInstance
+  type ExportDataInstance,
 } from './components'
 import { nanoid } from 'nanoid'
 import localforage from 'localforage'
@@ -54,7 +54,7 @@ onMounted(async () => {
   window.addEventListener('keydown', handleKeydown)
   const forageDesignData: MergeDesignData[] | null = await localforage.getItem(DESIGN_DATA_KEY)
   designData.length = 0
-  forageDesignData?.map((data) => designData.push(data))
+  forageDesignData?.map(data => designData.push(data))
 })
 
 onUnmounted(() => {
@@ -63,10 +63,10 @@ onUnmounted(() => {
 
 watch(
   () => designData,
-  (val) => {
+  val => {
     localforage.setItem(DESIGN_DATA_KEY, JSON.parse(JSON.stringify(val)))
   },
-  { deep: true }
+  { deep: true },
 )
 
 async function handleKeydown(e: KeyboardEvent) {
@@ -139,16 +139,20 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
           name: 'my-project',
           apiDomain: {},
           npmrc:
-            'registry=https://registry.npmmirror.com/\n@scoped:registry=https://verdaccio.xxx.com/'
+            'registry=https://registry.npmmirror.com/\n@scoped:registry=https://verdaccio.xxx.com/',
+          commonField: {
+            pageSize: 'pageSize',
+            pageIndex: 'pageIndex',
+          },
         },
-        components: []
+        components: [],
       } as ProjectDesignData
     }
     case 'View': {
       let components = []
       if (item.presetId /** 预设数据 */) {
         const presetData: PresetDataItem[] | null = await localforage.getItem(PRESET_DATA_KEY)
-        const find = presetData?.find((e) => e.id === item.presetId)
+        const find = presetData?.find(e => e.id === item.presetId)
         components = find?.data?.components ?? []
       }
       return {
@@ -156,9 +160,9 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
         type: item.value,
         label: item.label,
         options: {
-          name: 'my-view'
+          name: 'my-view',
         },
-        components
+        components,
       } as ViewDesignData
     }
     case 'Search': {
@@ -168,8 +172,8 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
         label: item.label,
         options: {
           apiMethod: 'GET',
-          searchConditionItems: [{ id: genId('searchConditionItem') }]
-        }
+          searchConditionItems: [{ id: genId('searchConditionItem') }],
+        },
       }
     }
     case 'Table': {
@@ -188,8 +192,8 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
           virtualized: false,
           itemChildren: 'children',
           itemHasChildren: 'hasChildren',
-          tableColumnItems: [{ id: nanoid(5) }]
-        }
+          tableColumnItems: [{ id: nanoid(5) }],
+        },
       }
     }
     default: {
@@ -198,7 +202,7 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
         type: item.value,
         label: item.label,
         options: {},
-        components: isContainerComponent(item.value) ? [] : undefined
+        components: isContainerComponent(item.value) ? [] : undefined,
       } as BaseDesignData
     }
   }
@@ -214,7 +218,7 @@ function showMoreShortcutKey() {
     id="visual-development"
     :class="{
       'has-design-content': designData.length,
-      active: !designData.length || !useGlobal().activeDesignData
+      active: !designData.length || !useGlobal().activeDesignData,
     }"
   >
     <div class="version">Visual Development {{ version }}</div>
@@ -224,11 +228,11 @@ function showMoreShortcutKey() {
         class="transition-group-in-visual-development"
         :list="designData"
         :component-data="{
-          type: 'transition-group'
+          type: 'transition-group',
         }"
         v-bind="{
           animation: 300,
-          group: 'design-skeleton-draggable'
+          group: 'design-skeleton-draggable',
         }"
         item-key="id"
       >
