@@ -1,42 +1,42 @@
 <script setup lang="ts">
-import draggable from 'vuedraggable';
-import { type MergeDesignData, ShortcutKeyOperation, VdComponents } from '../..';
-import { type ShortcutKeyOptionItem } from '@/components';
-import { isActiveDesign } from '../../util';
-import { useGlobal } from '@/stores';
-import { genStyle } from './util';
+import draggable from 'vuedraggable'
+import { type MergeDesignData, ShortcutKeyOperation, VdComponents } from '../..'
+import { type ShortcutKeyOptionItem } from '@/components'
+import { isActiveDesign } from '../../util'
+import { useGlobal } from '@/stores'
+import { genStyle } from './util'
 
 defineProps<{
-  data: MergeDesignData;
-  classList?: unknown[];
-  isActive?: boolean;
-  shortcutKeyOptions: ShortcutKeyOptionItem[];
-}>();
+  data: MergeDesignData
+  classList?: unknown[]
+  isActive?: boolean
+  shortcutKeyOptions: ShortcutKeyOptionItem[]
+}>()
 
-const skeletonRef = ref<HTMLDivElement>();
+const skeletonRef = ref<HTMLDivElement>()
 
 function mergeClass(classList?: unknown[], myClassList?: unknown[]) {
-  let _class = [];
-  if (classList) _class.push(classList);
-  if (myClassList) _class.push(myClassList);
-  return _class;
+  let _class = []
+  if (classList) _class.push(classList)
+  if (myClassList) _class.push(myClassList)
+  return _class
 }
 
 function toLabel(data: MergeDesignData) {
   if (data.type === 'Project') {
-    return `${data.label} / ${data.options.name ?? ''}`;
+    return `${data.label} / ${data.options.name ?? ''}`
   }
-  return `${data.label} / ${data.options.name ? data.options.name : data.type}`;
+  return `${data.label} / ${data.options.name ? data.options.name : data.type}`
 }
 
 function mouseoverSkeleton(e: MouseEvent) {
-  e.stopPropagation();
-  skeletonRef.value?.classList.add('hover');
+  e.stopPropagation()
+  skeletonRef.value?.classList.add('hover')
 }
 
 function mouseoutSkeleton(e: MouseEvent) {
-  e.stopPropagation();
-  skeletonRef.value?.classList.remove('hover');
+  e.stopPropagation()
+  skeletonRef.value?.classList.remove('hover')
 }
 </script>
 

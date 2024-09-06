@@ -174,6 +174,7 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
           apiMethod: 'GET',
           searchConditionItems: [{ id: genId('searchConditionItem') }],
         },
+        components: [],
       }
     }
     case 'Table': {
@@ -194,6 +195,7 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
           itemHasChildren: 'hasChildren',
           tableColumnItems: [{ id: nanoid(5) }],
         },
+        components: [],
       }
     }
     default: {
@@ -202,7 +204,7 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
         type: item.value,
         label: item.label,
         options: {},
-        components: isContainerComponent(item.value) ? [] : undefined,
+        components: [],
       } as BaseDesignData
     }
   }
