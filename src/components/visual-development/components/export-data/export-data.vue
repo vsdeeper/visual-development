@@ -3,10 +3,14 @@ import { configSetModuleUrl } from '../../ace-config'
 import { ElMessage, type FormInstance } from 'element-plus'
 import { saveAs } from 'file-saver'
 import type { VAceEditorInstance } from 'vue3-ace-editor/types'
-import type { ViewDesignData } from '../..'
+import type { ProjectDesignData, ViewDesignData } from '../..'
+
+const emit = defineEmits<{
+  (e: 'change', val: ProjectDesignData | ViewDesignData): void
+}>()
 
 const AceEditor = defineAsyncComponent({
-  loader: async () => (await import('vue3-ace-editor')).VAceEditor
+  loader: async () => (await import('vue3-ace-editor')).VAceEditor,
 })
 
 const show = ref(false)
@@ -16,14 +20,15 @@ const formRef = ref<FormInstance>()
 const exportData = ref('')
 const exportDataRef = ref<VAceEditorInstance>()
 
-function open(data: ViewDesignData) {
+watch(exportData, val => {
+  emit('change', JSON.parse(val))
+})
+
+function open(data: ProjectDesignData | ViewDesignData) {
   show.value = true
   configSetModuleUrl()
   exportData.value = JSON.stringify(data, null, '  ')
-  setTimeout(() => {
-    exportDataRef.value?._editor.setOption('printMargin', false)
-  }, 100)
-  form.value.fileName = `${data.options.name}.config.json`
+  form.value.fileName = `${data.options.name ?? 'unknown'}.config.json`
 }
 
 function onCopy() {
@@ -54,7 +59,7 @@ async function onConfirmExport() {
 }
 
 defineExpose({
-  open
+  open,
 })
 </script>
 
@@ -75,8 +80,9 @@ defineExpose({
         useWorker: true,
         enableBasicAutocompletion: true,
         enableSnippets: true,
-        enableLiveAutocompletion: true
+        enableLiveAutocompletion: true,
       }"
+      :print-margin="false"
     />
     <template #footer>
       <el-button @click="show = false">取消</el-button>

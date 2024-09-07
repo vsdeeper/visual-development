@@ -93,7 +93,7 @@ async function handleKeydown(e: KeyboardEvent) {
     deleteComponent(activeDesignData as ActiveDesignData, designData)
     keyCodes.value = ''
   } else if (keyCodes.value.includes('VE')) {
-    exportDataRef.value?.open(activeDesignData as ViewDesignData)
+    exportDataRef.value?.open(activeDesignData as ProjectDesignData | ViewDesignData)
     keyCodes.value = ''
   }
 }
