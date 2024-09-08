@@ -28,7 +28,7 @@ function open(data: ProjectDesignData | ViewDesignData) {
   show.value = true
   configSetModuleUrl()
   exportData.value = JSON.stringify(data, null, '  ')
-  form.value.fileName = `${data.options.name ?? 'unknown'}.config.json`
+  form.value.fileName = `${data.options.name ?? 'unknown'}.json`
 }
 
 function onCopy() {
