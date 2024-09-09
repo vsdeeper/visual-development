@@ -299,7 +299,10 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
               ></ApiConfigEditor>
             </el-tab-pane>
             <el-tab-pane label="自定义" name="custom" :disabled="item.type === 'Cascader'">
-              <OptionItemsConfig v-model="item.options" :index="index"></OptionItemsConfig>
+              <OptionsConfig
+                v-model="item.options"
+                :form-item-prop="['options', 'searchConditionItems', index + '', 'options']"
+              />
             </el-tab-pane>
           </el-tabs>
         </el-col>

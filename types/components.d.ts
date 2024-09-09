@@ -73,6 +73,7 @@ declare module 'vue' {
     MyLabel: typeof import('./../src/components/my-label/my-label.vue')['default']
     NameEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/name-editor/name-editor.vue')['default']
     OptionItemsConfig: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/search-condition-items-editor/components/option-items-config.vue')['default']
+    OptionsConfig: typeof import('./../src/components/visual-development/components/design-component/components/options-config/OptionsConfig.vue')['default']
     PopperEffectEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/popper-effect-editor/popper-effect-editor.vue')['default']
     ResponsiveCol: typeof import('./../src/components/visual-development/components/design-component/components/responsive-col/responsive-col.vue')['default']
     RouterEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/router-editor/router-editor.vue')['default']

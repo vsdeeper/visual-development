@@ -4,6 +4,7 @@ import { capitalizeFirstLetter } from '@/utils'
 import { type AsyncComponentLoader } from 'vue'
 
 export * from './save-as-preset'
+export * from './options-config'
 
 /** 导出所有d-*子组件 */
 const DesignComponent: { [K in ComponentTypeOfPageDesigner]?: any } = {}
@@ -14,10 +15,10 @@ for (const path in vueModules) {
     .replace('.vue', '')
     .replace('d-', '')
     .split('-')
-    .map((str) => capitalizeFirstLetter(str))
+    .map(str => capitalizeFirstLetter(str))
     .join('') as ComponentTypeOfPageDesigner
   DesignComponent[key] = defineAsyncComponent({
-    loader: vueModules[path] as AsyncComponentLoader<any>
+    loader: vueModules[path] as AsyncComponentLoader<any>,
   })
 }
 

@@ -2,9 +2,9 @@ import { type ApiParamsItem, type BaseDesignData, type Method } from '@/componen
 import { type Sort } from 'element-plus'
 
 export type TableColumnItemFormatterType =
-  | 'displayByStaticData' /**根据静态数据回显 */
-  | 'displayByDynamicData' /**根据动态数据回显 */
-  | 'dateFormat' /** 格式化日期 */
+  | 'static_data_transform' /**静态数据转换 */
+  | 'dynamic_data_transform' /**动态数据转换 */
+  | 'date_formatting' /** 格式化日期 */
 
 export interface TableColumnItem {
   id: string
@@ -17,11 +17,11 @@ export interface TableColumnItem {
   sortable?: boolean | 'custom'
   sortChange?: (...args: any[]) => void
   formatterType?: TableColumnItemFormatterType
-  staticDataKey?: string // 静态数据key，formatterType = displayByStaticData
-  format?: string // 日期显示格式，yyyy-MM-dd HH:mm:ss，formatterType = dateFormat
-  apiMethod?: Extract<Method, 'GET'> // 接口配置，formatterType = displayByDynamicData
-  api?: string // 接口配置，formatterType = displayByDynamicData
-  apiParams?: ApiParamsItem[] // 接口配置，formatterType = displayByDynamicData
+  staticDataKey?: string // 静态数据key，formatterType = static_data_transform
+  format?: string // 日期显示格式，yyyy-MM-dd HH:mm:ss，formatterType = date_formatting
+  apiMethod?: Extract<Method, 'GET'> // 接口配置，formatterType = dynamic_data_transform
+  api?: string // 接口配置，formatterType = dynamic_data_transform
+  apiParams?: ApiParamsItem[] // 接口配置，formatterType = dynamic_data_transform
   tableColumnItems?: TableColumnItem[]
   [key: string]: any
 }

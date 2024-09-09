@@ -144,6 +144,7 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
             pageSize: 'pageSize',
             pageIndex: 'pageIndex',
           },
+          constants: [],
         },
         components: [],
       } as ProjectDesignData
@@ -161,6 +162,7 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
         label: item.label,
         options: {
           name: 'my-view',
+          constants: [{}],
         },
         components,
       } as ViewDesignData

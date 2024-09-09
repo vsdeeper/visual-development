@@ -48,9 +48,9 @@ function changeFormatterType(val: TableColumnItemFormatterType, item: TableColum
   item.apiParams = undefined
   item.staticDataKey = undefined
   item.format = undefined
-  if (val === 'displayByDynamicData') {
+  if (val === 'dynamic_data_transform') {
     item.apiMethod = 'GET'
-  } else if (val === 'dateFormat') {
+  } else if (val === 'date_formatting') {
     item.format = 'YYYY-MM-DD HH:mm:ss'
   }
 }
@@ -196,15 +196,18 @@ function getLabel(label?: string, propLabel?: string) {
               </el-select>
             </el-form-item>
           </ResponsiveCol>
-          <ResponsiveCol v-if="item.formatterType === 'displayByStaticData'">
+          <ResponsiveCol v-if="item.formatterType === 'static_data_transform'">
             <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'staticDataKey']">
               <template #label>
-                <my-label label="静态数据Key" />
+                <my-label
+                  label="静态数据Key"
+                  tooltip-content="定义静态数据的Key，默认从当前view配置的constants查找，如果没找到则从project配置的constants查找"
+                />
               </template>
               <el-input v-model="item.staticDataKey" placeholder="请输入" clearable></el-input>
             </el-form-item>
           </ResponsiveCol>
-          <ResponsiveCol v-if="item.formatterType === 'dateFormat'">
+          <ResponsiveCol v-if="item.formatterType === 'date_formatting'">
             <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'format']">
               <template #label>
                 <my-label label="格式化日期" />
@@ -216,7 +219,7 @@ function getLabel(label?: string, propLabel?: string) {
               ></el-input>
             </el-form-item>
           </ResponsiveCol>
-          <el-col v-if="item.formatterType === 'displayByDynamicData'" :span="24">
+          <el-col v-if="item.formatterType === 'dynamic_data_transform'" :span="24">
             <ApiConfigEditor
               :options="item"
               v-model="options.tableColumnItems[index]"
@@ -253,6 +256,9 @@ function getLabel(label?: string, propLabel?: string) {
 .table-column-items-editor {
   padding: 12px;
   border: 2px dotted var(--el-border-color-dark);
+  .table-column-items-editor {
+    margin-top: 12px;
+  }
 }
 .header {
   display: flex;

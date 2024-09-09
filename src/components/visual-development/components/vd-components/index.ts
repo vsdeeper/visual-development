@@ -35,10 +35,10 @@ for (const path in vueModules) {
     .replace('.vue', '')
     .replace('vd-', '')
     .split('-')
-    .map((str) => capitalizeFirstLetter(str))
+    .map(str => capitalizeFirstLetter(str))
     .join('') as ComponentTypeOfPageDesigner
   VdComponents[key] = defineAsyncComponent({
-    loader: vueModules[path] as AsyncComponentLoader<any>
+    loader: vueModules[path] as AsyncComponentLoader<any>,
   })
 }
 

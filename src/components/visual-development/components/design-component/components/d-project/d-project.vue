@@ -85,6 +85,20 @@ function onGoto(key: string) {
       </el-form-item>
     </el-col>
     <el-col :span="24">
+      <el-form-item prop="options.constants">
+        <template #label>
+          <MyLabel
+            label="常量配置"
+            tooltip-content="当前项目的常量配置，将在utils中生成constants文件"
+          />
+        </template>
+        <OptionsConfig
+          v-model="formData.options.constants"
+          :form-item-prop="['options', 'constants']"
+        />
+      </el-form-item>
+    </el-col>
+    <el-col :span="24">
       <el-form-item label="项目描述" prop="options.description">
         <el-input
           v-model="formData.options.description"

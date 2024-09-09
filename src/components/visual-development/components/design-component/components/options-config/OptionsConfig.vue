@@ -1,24 +1,25 @@
 <script setup lang="ts">
-import { type SearchConditionOptionItem } from '@/components'
-import { Minus, Plus, Refresh } from '@element-plus/icons-vue'
+import { Minus, Plus } from '@element-plus/icons-vue'
+import type { OptionsConfigItem } from '.'
 
-defineProps<{
-  index: number
-}>()
+withDefaults(
+  defineProps<{
+    formItemProp?: string[]
+  }>(),
+  {
+    formItemProp: () => [],
+  },
+)
 
-const model = defineModel<SearchConditionOptionItem[]>({ default: () => [] })
+const model = defineModel<OptionsConfigItem[]>({ default: () => [] })
 
-function _delete(idx: number) {
+function onDelete(idx: number) {
   model.value.splice(idx, 1)
 }
 
-function add() {
+function onAdd() {
   if (!model.value) model.value = []
   model.value.push({})
-}
-
-function reset() {
-  model.value = [{}]
 }
 
 function onChange(key: string, data?: any) {
@@ -32,14 +33,14 @@ function onChange(key: string, data?: any) {
 </script>
 
 <template>
-  <div class="option-items-config">
+  <div class="options-config">
     <el-row v-if="model.length" class="header" align="middle">
       <div class="label">选项值</div>
       <div class="label">选项名称</div>
     </el-row>
-    <el-row v-for="(item, subIndex) in model" :key="item.value" align="middle">
+    <el-row v-for="(item, index) in model" :key="'item' + index" align="middle">
       <el-form-item
-        :prop="['options', 'searchConditionItems', index + '', 'options', subIndex + '', 'value']"
+        :prop="[...formItemProp, index + '', 'value']"
         :rules="[{ required: true, message: '必填项' }]"
         :show-message="false"
         style="width: 200px; margin-right: 5px"
@@ -59,7 +60,7 @@ function onChange(key: string, data?: any) {
         </el-input>
       </el-form-item>
       <el-form-item
-        :prop="['options', 'searchConditionItems', index + '', 'options', subIndex + '', 'label']"
+        :prop="[...formItemProp, index + '', 'label']"
         :rules="[{ required: true, message: '必填项' }]"
         :show-message="false"
         style="flex: 1"
@@ -71,19 +72,23 @@ function onChange(key: string, data?: any) {
         size="small"
         :icon="Minus"
         circle
-        @click="_delete(subIndex)"
+        @click="onDelete(index)"
         style="margin-left: 8px"
       ></el-button>
     </el-row>
+    <div v-if="!model.length" class="nodata">暂未配置</div>
     <div class="btns">
-      <el-button type="primary" :icon="Plus" @click="add"> 新增选项 </el-button>
-      <el-button type="primary" :icon="Refresh" @click="reset"> 重设选择项 </el-button>
+      <el-button type="primary" :icon="Plus" @click="onAdd"> 新增 </el-button>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.option-items-config {
+.options-config {
+  width: 100%;
+  padding: 12px;
+  border: 2px dashed var(--el-border-color);
+  box-sizing: border-box;
   .header {
     .label {
       display: flex;
