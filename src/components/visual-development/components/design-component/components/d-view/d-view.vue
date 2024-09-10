@@ -26,7 +26,7 @@ const formData = defineModel<MergeDesignData>({ default: () => ({ options: {} })
         <template #label>
           <MyLabel
             label="常量配置"
-            tooltip-content="当前view的常量配置，将在当前view中生成constants文件"
+            tooltip-content="当前view的常量配置，将在view中生成constants文件"
           />
         </template>
         <OptionsConfig
