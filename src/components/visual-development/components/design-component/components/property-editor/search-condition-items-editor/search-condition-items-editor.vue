@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue'
-import {
-  type SearchConditionItem,
-  type SearchConditionType,
-  type SearchDesignDataOptions,
-} from '@/components'
+import { type SearchConditionItem, type SearchDesignDataOptions } from '@/components'
 import { ROW_GUTTER } from '../../constants'
 import { SEARCH_TYPE_OPTIONS, DATE_TYPE_OPTIONS } from './constants'
 import { type TabPaneName } from 'element-plus'
@@ -31,20 +27,28 @@ function deleteItem(index: number, searchConditionItems: SearchConditionItem[]) 
   }
 }
 
-function changeType(type: SearchConditionType, item: SearchConditionItem) {
-  resetSearchConditionItem(item)
-  switch (type) {
-    case 'Select':
-    case 'Cascader': {
-      item.dataSource = 'api'
-      item.apiMethod = 'GET'
-      item.itemValue = 'id'
+function onChange(key: string, val: any, item: SearchConditionItem) {
+  switch (key) {
+    case 'type': {
+      resetSearchConditionItem(item)
+      if (val === 'DatePicker') {
+        item.dateType = 'date'
+        item.format = 'YYYY-MM-DD'
+        item.valueFormat = 'x'
+      }
       break
     }
-    case 'DatePicker': {
-      item.dateType = 'date'
-      item.format = 'YYYY-MM-DD'
-      item.valueFormat = 'x'
+    case 'optionDataType': {
+      if (val === 'definition') {
+        item.constantsKey = undefined
+        item.dataSource = 'api'
+        item.apiMethod = 'GET'
+        item.itemValue = 'id'
+      } else if (val === 'static_data') {
+        item.dataSource = undefined
+        item.apiMethod = undefined
+        item.itemValue = undefined
+      }
       break
     }
   }
@@ -86,6 +90,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
 </script>
 
 <template>
+  {{ options }}
   <el-collapse v-if="options.searchConditionItems?.length" v-model="activeName" accordion>
     <el-collapse-item
       v-for="(item, index) in options.searchConditionItems"
@@ -142,7 +147,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
               placeholder="请选择"
               clearable
               filterable
-              @change="changeType($event, item)"
+              @change="onChange('type', $event, item)"
             >
               <el-option
                 v-for="item in SEARCH_TYPE_OPTIONS"
@@ -154,6 +159,36 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
             </el-select>
           </el-form-item>
         </ResponsiveCol>
+        <!-- 搜索条件为Select、Cascader时，设置选项数据类型、关联常量Key -->
+        <template v-if="['Select', 'Cascader'].includes(item.type!)">
+          <ResponsiveCol>
+            <el-form-item
+              label="选项数据类型"
+              :prop="['options', 'searchConditionItems', index + '', 'optionDataType']"
+              :rules="[{ required: true, message: '必填项' }]"
+            >
+              <el-select
+                v-model="item.optionDataType"
+                placeholder="请选择"
+                clearable
+                filterable
+                @change="onChange('optionDataType', $event, item)"
+              >
+                <el-option label="静态数据" value="static_data" />
+                <el-option label="定义" value="definition" />
+              </el-select>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol v-if="item.optionDataType === 'static_data'">
+            <el-form-item
+              label="静态数据Key"
+              :prop="['options', 'searchConditionItems', index + '', 'constantsKey']"
+              :rules="[{ required: true, message: '必填项' }]"
+            >
+              <el-input v-model="item.constantsKey" placeholder="例：STATIC_DATA_KEY" clearable />
+            </el-form-item>
+          </ResponsiveCol>
+        </template>
         <ResponsiveCol>
           <el-form-item
             :prop="['options', 'searchConditionItems', index + '', 'key']"
@@ -284,7 +319,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
         </template>
         <!-- 搜索条件为Select、Cascader时，设置选项数据 -->
         <el-col
-          v-if="item.type === 'Select' || item.type === 'Cascader'"
+          v-if="item.optionDataType === 'definition' && ['Select', 'Cascader'].includes(item.type!)"
           :span="24"
           style="margin-bottom: 20px"
         >

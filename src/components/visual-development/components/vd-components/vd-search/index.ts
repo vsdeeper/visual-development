@@ -25,6 +25,8 @@ export interface SearchConditionItem {
   id: string
   key?: string
   type?: SearchConditionType
+  optionDataType?: 'static_data' | 'definition'
+  constantsKey?: string
   label?: string
   placeholder?: string
   dataSource?: 'api' | 'custom'

@@ -87,7 +87,7 @@ function onChange(key: string, data?: any) {
 .options-config {
   width: 100%;
   padding: 12px;
-  border: 2px dashed var(--el-border-color);
+  border: 2px dotted var(--el-border-color);
   box-sizing: border-box;
   .header {
     .label {

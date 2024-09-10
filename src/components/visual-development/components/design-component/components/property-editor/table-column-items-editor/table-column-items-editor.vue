@@ -201,10 +201,14 @@ function getLabel(label?: string, propLabel?: string) {
               <template #label>
                 <my-label
                   label="静态数据Key"
-                  tooltip-content="定义静态数据的Key，默认从当前view配置的constants查找，如果没找到则从project配置的constants查找"
+                  tooltip-content="定义静态数据的Key，将从当前view配置的constants查找"
                 />
               </template>
-              <el-input v-model="item.staticDataKey" placeholder="请输入" clearable></el-input>
+              <el-input
+                v-model="item.staticDataKey"
+                placeholder="例：STATIC_DATA_KEY"
+                clearable
+              ></el-input>
             </el-form-item>
           </ResponsiveCol>
           <ResponsiveCol v-if="item.formatterType === 'date_formatting'">
