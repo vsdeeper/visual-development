@@ -5,9 +5,11 @@ import type { OptionsConfigItem } from '.'
 withDefaults(
   defineProps<{
     formItemProp?: string[]
+    addButtonText?: string
   }>(),
   {
     formItemProp: () => [],
+    addButtonText: '新增',
   },
 )
 
@@ -78,7 +80,7 @@ function onChange(key: string, data?: any) {
     </el-row>
     <div v-if="!model.length" class="nodata">暂未配置</div>
     <div class="btns">
-      <el-button type="primary" :icon="Plus" @click="onAdd"> 新增 </el-button>
+      <el-button type="primary" :icon="Plus" @click="onAdd"> {{ addButtonText }} </el-button>
     </div>
   </div>
 </template>

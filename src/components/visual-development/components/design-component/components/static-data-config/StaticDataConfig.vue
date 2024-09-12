@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Plus } from '@element-plus/icons-vue'
 import type { SaticDataConfigItem } from '../../../vd-components'
 import { OptionsConfig } from '../options-config'
 
@@ -12,28 +13,37 @@ withDefaults(
 )
 
 const model = defineModel<SaticDataConfigItem[]>({ default: () => [] })
+
+function onAdd() {
+  if (!model.value) model.value = []
+  model.value.push({ value: [] })
+}
 </script>
 
 <template>
   <div class="static-data-config">
-    <el-row v-for="(item, index) in model" :key="'item' + index" :gutter="20">
+    <el-row v-for="(item, index) in model" :key="'item' + index" :gutter="5">
       <el-col :span="24" :md="6">
-        <el-form-item
-          label="静态数据Key"
-          :prop="[...formItemProp, index + '', 'key']"
-          :rules="[{ required: true, message: '必填项' }]"
-          :show-message="false"
-        >
-          <el-input v-model="item.key" placeholder="例：STATIC_DATA_KEY" clearable />
-        </el-form-item>
+        <div class="key-box">
+          <el-form-item
+            label="静态数据Key"
+            :prop="[...formItemProp, index + '', 'key']"
+            :rules="[{ required: true, message: '必填项' }]"
+            :show-message="false"
+          >
+            <el-input v-model="item.key" placeholder="例：STATIC_DATA_KEY" clearable />
+          </el-form-item>
+        </div>
       </el-col>
       <el-col :span="24" :md="18">
         <OptionsConfig
           v-model="item.value"
+          add-button-text="新增选项"
           :form-item-prop="[...formItemProp, index + '', 'value']"
         />
       </el-col>
     </el-row>
+    <el-button type="primary" :icon="Plus" @click="onAdd">新增静态数据</el-button>
   </div>
 </template>
 
@@ -42,7 +52,22 @@ const model = defineModel<SaticDataConfigItem[]>({ default: () => [] })
   flex: 1;
   padding: 12px;
   border: 2px dotted var(--el-border-color);
+  & > .el-button {
+    margin-top: 10px;
+  }
+  .key-box {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 2px dotted var(--el-border-color);
+  }
   .el-row {
+    & + .el-row {
+      margin-top: 10px;
+    }
     .el-col {
       &:first-child {
         display: flex;

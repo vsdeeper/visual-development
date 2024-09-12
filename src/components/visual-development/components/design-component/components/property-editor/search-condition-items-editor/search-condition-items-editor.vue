@@ -184,10 +184,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
               :rules="[{ required: true, message: '必填项' }]"
             >
               <template #label>
-                <my-label
-                  label="静态数据Key"
-                  tooltip-content="关联当前view的常量配置"
-                />
+                <my-label label="静态数据Key" tooltip-content="关联当前view的静态数据Key配置" />
               </template>
               <el-input v-model="item.constantsKey" placeholder="例：STATIC_DATA_KEY" clearable />
             </el-form-item>
