@@ -25,13 +25,13 @@ const formData = defineModel<MergeDesignData>({ default: () => ({ options: {} })
       <el-form-item prop="options.constants">
         <template #label>
           <MyLabel
-            label="常量配置"
-            tooltip-content="当前view的常量配置，将在view中生成constants文件"
+            label="静态数据配置"
+            tooltip-content="当前view的静态数据配置，将在view中生成constants文件"
           />
         </template>
-        <OptionsConfig
-          v-model="formData.options.constants"
-          :form-item-prop="['options', 'constants']"
+        <StaticDataConfig
+          v-model="formData.options.saticDataConfig"
+          :form-item-prop="['options', 'saticDataConfig']"
         />
       </el-form-item>
     </el-col>

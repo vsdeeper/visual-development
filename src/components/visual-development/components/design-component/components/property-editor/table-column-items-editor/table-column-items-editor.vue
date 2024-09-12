@@ -199,10 +199,7 @@ function getLabel(label?: string, propLabel?: string) {
           <ResponsiveCol v-if="item.formatterType === 'static_data_transform'">
             <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'staticDataKey']">
               <template #label>
-                <my-label
-                  label="静态数据Key"
-                  tooltip-content="定义静态数据的Key，将从当前view配置的constants查找"
-                />
+                <my-label label="静态数据Key" tooltip-content="关联当前view的常量配置" />
               </template>
               <el-input
                 v-model="item.staticDataKey"

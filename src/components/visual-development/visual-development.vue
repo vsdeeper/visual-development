@@ -162,7 +162,7 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
         label: item.label,
         options: {
           name: 'my-view',
-          constants: [{}],
+          saticDataConfig: [{ value: [] }],
         },
         components,
       } as ViewDesignData

@@ -90,7 +90,6 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
 </script>
 
 <template>
-  {{ options }}
   <el-collapse v-if="options.searchConditionItems?.length" v-model="activeName" accordion>
     <el-collapse-item
       v-for="(item, index) in options.searchConditionItems"
@@ -181,10 +180,15 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
           </ResponsiveCol>
           <ResponsiveCol v-if="item.optionDataType === 'static_data'">
             <el-form-item
-              label="静态数据Key"
               :prop="['options', 'searchConditionItems', index + '', 'constantsKey']"
               :rules="[{ required: true, message: '必填项' }]"
             >
+              <template #label>
+                <my-label
+                  label="静态数据Key"
+                  tooltip-content="关联当前view的常量配置"
+                />
+              </template>
               <el-input v-model="item.constantsKey" placeholder="例：STATIC_DATA_KEY" clearable />
             </el-form-item>
           </ResponsiveCol>

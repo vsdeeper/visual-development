@@ -87,6 +87,7 @@ declare module 'vue' {
     ShortcutKeyOperation: typeof import('./../src/components/visual-development/components/shortcut-key-operation/shortcut-key-operation.vue')['default']
     ShowCheckboxEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/show-checkbox-editor/show-checkbox-editor.vue')['default']
     ShowPaginationEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/show-pagination-editor/show-pagination-editor.vue')['default']
+    StaticDataConfig: typeof import('./../src/components/visual-development/components/design-component/components/static-data-config/StaticDataConfig.vue')['default']
     SuffixIconEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/suffix-icon-editor/suffix-icon-editor.vue')['default']
     TableColumnItemsEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/table-column-items-editor/table-column-items-editor.vue')['default']
     TableLayoutEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/table-layout-editor/table-layout-editor.vue')['default']
