@@ -46,6 +46,10 @@ function showSaveAsPresetBtn(data?: ActiveDesignData) {
   return data?.type === 'View'
 }
 
+function showCancelBtn(data?: ActiveDesignData) {
+  return data?.type === 'View'
+}
+
 function refreshId(data: ActiveDesignData) {
   const _data: ActiveDesignData = JSON.parse(JSON.stringify(data))
   forEachHandlerOfComponents(_data.components ?? [], item => {
@@ -76,7 +80,7 @@ defineExpose({
       </el-form>
     </div>
     <template #footer>
-      <el-button @click="show = false">取消</el-button>
+      <el-button v-if="showCancelBtn(formData)" @click="show = false">取消</el-button>
       <el-button
         v-if="showSaveAsPresetBtn(formData)"
         type="primary"

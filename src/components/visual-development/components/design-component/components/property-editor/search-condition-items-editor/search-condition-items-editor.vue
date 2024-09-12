@@ -360,4 +360,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
     margin-left: 5px;
   }
 }
+:deep(.el-collapse-item__content) {
+  padding-bottom: 0;
+}
 </style>
