@@ -4,7 +4,7 @@ import { type Sort } from 'element-plus'
 export type TableColumnItemFormatterType =
   | 'static_data_transform' /**静态数据转换 */
   | 'dynamic_data_transform' /**动态数据转换 */
-  | 'date_formatting' /** 格式化日期 */
+  | 'date_format' /** 格式化日期 */
 
 export interface TableColumnItem {
   id: string
@@ -18,7 +18,7 @@ export interface TableColumnItem {
   sortChange?: (...args: any[]) => void
   formatterType?: TableColumnItemFormatterType
   staticDataKey?: string // 静态数据key，formatterType = static_data_transform
-  format?: string // 日期显示格式，yyyy-MM-dd HH:mm:ss，formatterType = date_formatting
+  format?: string // 日期显示格式，yyyy-MM-dd HH:mm:ss，formatterType = date_format
   isTreeData?: boolean // 是否树形数据，formatterType = dynamic_data_transform
   apiMethod?: Extract<Method, 'GET'> // 接口配置，formatterType = dynamic_data_transform
   api?: string // 接口配置，formatterType = dynamic_data_transform

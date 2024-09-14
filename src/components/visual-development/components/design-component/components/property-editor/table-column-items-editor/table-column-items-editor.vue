@@ -51,7 +51,7 @@ function changeFormatterType(val: TableColumnItemFormatterType, item: TableColum
   item.isTreeData = undefined
   if (val === 'dynamic_data_transform') {
     item.apiMethod = 'GET'
-  } else if (val === 'date_formatting') {
+  } else if (val === 'date_format') {
     item.format = 'YYYY-MM-DD HH:mm:ss'
   }
 }
@@ -220,7 +220,7 @@ function getLabel(label?: string, propLabel?: string) {
               ></el-input>
             </el-form-item>
           </ResponsiveCol>
-          <ResponsiveCol v-if="item.formatterType === 'date_formatting'">
+          <ResponsiveCol v-if="item.formatterType === 'date_format'">
             <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'format']">
               <template #label>
                 <my-label label="格式化日期" />
