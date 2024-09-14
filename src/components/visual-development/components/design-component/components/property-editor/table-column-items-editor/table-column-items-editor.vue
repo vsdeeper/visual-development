@@ -52,7 +52,7 @@ function changeFormatterType(val: TableColumnItemFormatterType, item: TableColum
   if (val === 'dynamic_data_transform') {
     item.apiMethod = 'GET'
   } else if (val === 'date_format') {
-    item.format = 'YYYY-MM-DD HH:mm:ss'
+    item.format = 'yyyy-MM-dd HH:mm:ss'
   }
 }
 
@@ -227,7 +227,7 @@ function getLabel(label?: string, propLabel?: string) {
               </template>
               <el-input
                 v-model="item.format"
-                placeholder="YYYY-MM-DD HH:mm:ss"
+                placeholder="yyyy-MM-dd HH:mm:ss"
                 clearable
               ></el-input>
             </el-form-item>
