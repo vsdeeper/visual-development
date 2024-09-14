@@ -40,7 +40,7 @@ function onChange(key: string, val: any, item: SearchConditionItem) {
     }
     case 'optionDataType': {
       if (val === 'definition') {
-        item.constantsKey = undefined
+        item.staticDataKey = undefined
         item.dataSource = 'api'
         item.apiMethod = 'GET'
         item.itemValue = 'id'
@@ -180,13 +180,13 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
           </ResponsiveCol>
           <ResponsiveCol v-if="item.optionDataType === 'static_data'">
             <el-form-item
-              :prop="['options', 'searchConditionItems', index + '', 'constantsKey']"
+              :prop="['options', 'searchConditionItems', index + '', 'staticDataKey']"
               :rules="[{ required: true, message: '必填项' }]"
             >
               <template #label>
                 <my-label label="静态数据Key" tooltip-content="关联当前view的静态数据Key配置" />
               </template>
-              <el-input v-model="item.constantsKey" placeholder="例：STATIC_DATA_KEY" clearable />
+              <el-input v-model="item.staticDataKey" placeholder="例：STATIC_DATA_KEY" clearable />
             </el-form-item>
           </ResponsiveCol>
         </template>
