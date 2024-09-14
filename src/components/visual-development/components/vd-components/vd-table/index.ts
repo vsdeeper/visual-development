@@ -19,6 +19,7 @@ export interface TableColumnItem {
   formatterType?: TableColumnItemFormatterType
   staticDataKey?: string // 静态数据key，formatterType = static_data_transform
   format?: string // 日期显示格式，yyyy-MM-dd HH:mm:ss，formatterType = date_formatting
+  isTreeData?: boolean // 是否树形数据，formatterType = dynamic_data_transform
   apiMethod?: Extract<Method, 'GET'> // 接口配置，formatterType = dynamic_data_transform
   api?: string // 接口配置，formatterType = dynamic_data_transform
   apiParams?: ApiParamsItem[] // 接口配置，formatterType = dynamic_data_transform

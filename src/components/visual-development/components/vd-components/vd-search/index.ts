@@ -26,6 +26,7 @@ export interface SearchConditionItem {
   key?: string
   type?: SearchConditionType
   optionDataType?: 'static_data' | 'definition'
+  isTreeData?: boolean
   staticDataKey?: string
   label?: string
   placeholder?: string

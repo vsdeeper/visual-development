@@ -48,6 +48,7 @@ function changeFormatterType(val: TableColumnItemFormatterType, item: TableColum
   item.apiParams = undefined
   item.staticDataKey = undefined
   item.format = undefined
+  item.isTreeData = undefined
   if (val === 'dynamic_data_transform') {
     item.apiMethod = 'GET'
   } else if (val === 'date_formatting') {
@@ -178,7 +179,7 @@ function getLabel(label?: string, propLabel?: string) {
           <ResponsiveCol>
             <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'formatterType']">
               <template #label>
-                <my-label label="格式化类型" />
+                <my-label label="格式化类型" tooltip-content="数据回显时的转换规则或格式化类型" />
               </template>
               <el-select
                 v-model="item.formatterType"
@@ -194,6 +195,17 @@ function getLabel(label?: string, propLabel?: string) {
                 >
                 </el-option>
               </el-select>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol v-if="item.formatterType === 'dynamic_data_transform'">
+            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'isTreeData']">
+              <template #label>
+                <my-label label="是否树形数据" />
+              </template>
+              <el-radio-group v-model="item.isTreeData">
+                <el-radio-button :label="true">是</el-radio-button>
+                <el-radio-button :label="false">否</el-radio-button>
+              </el-radio-group>
             </el-form-item>
           </ResponsiveCol>
           <ResponsiveCol v-if="item.formatterType === 'static_data_transform'">
