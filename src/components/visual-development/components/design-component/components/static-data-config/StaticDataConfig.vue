@@ -23,7 +23,7 @@ function onAdd() {
 <template>
   <div class="static-data-config">
     <el-row v-for="(item, index) in model" :key="'item' + index" :gutter="5">
-      <el-col :span="24" :md="6">
+      <el-col :span="24" :md="7">
         <div class="key-box">
           <el-form-item
             label="静态数据Key"
@@ -35,7 +35,7 @@ function onAdd() {
           </el-form-item>
         </div>
       </el-col>
-      <el-col :span="24" :md="18">
+      <el-col :span="24" :md="17">
         <OptionsConfig
           v-model="item.value"
           add-button-text="新增选项"
