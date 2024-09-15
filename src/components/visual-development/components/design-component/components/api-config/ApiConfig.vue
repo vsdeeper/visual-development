@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue'
 import { type FormItemInstance, type FormItemRule } from 'element-plus'
-import { METHOD_OPTIONS } from './constants'
+import { METHOD_OPTIONS, VALUE_TYPE_OPTIONS } from './constants'
 import type { ApiConfigModel } from '.'
 
 const props = withDefaults(
@@ -31,7 +31,7 @@ function onAdd() {
   if (!model.value[apiParams]) {
     model.value[apiParams] = []
   }
-  model.value[apiParams].push({ key: 'id', value: '123', valueType: 'number' })
+  model.value[apiParams].push({ key: 'id', valueType: 'auto' })
 }
 
 function remove(index: number) {
@@ -53,7 +53,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="api-config-editor">
+  <div class="api-config">
     <el-form-item
       ref="formItemRef"
       :prop="[...formItemProp, api]"
@@ -88,19 +88,16 @@ defineExpose({
         <div class="label">字段值</div>
       </el-row>
       <el-row v-for="(item, index) in model[apiParams]" :key="'apiParams' + index" align="middle">
-        <el-form-item
-          :prop="[...formItemProp, apiParams, index + '', 'key']"
-          :rules="[{ required: true, message: '必填项' }]"
-          :show-message="false"
-        >
+        <el-form-item :prop="[...formItemProp, apiParams, index + '', 'key']">
           <el-input v-model="item.key" placeholder="请输入" />
         </el-form-item>
-        <el-form-item
-          :prop="[...formItemProp, apiParams, index + '', 'value']"
-          :rules="[{ required: true, message: '必填项' }]"
-          :show-message="false"
-        >
-          <el-input v-model="item.value" class="input" placeholder="请输入">
+        <el-form-item :prop="[...formItemProp, apiParams, index + '', 'value']">
+          <el-input
+            v-model="item.value"
+            class="input"
+            placeholder="请输入"
+            :disabled="item.valueType === 'auto'"
+          >
             <template #prepend>
               <el-select
                 v-model="item.valueType"
@@ -108,8 +105,12 @@ defineExpose({
                 style="width: 100px"
                 @change="onChange('valueType', item)"
               >
-                <el-option label="数字" value="number" />
-                <el-option label="字符串" value="string" />
+                <el-option
+                  v-for="item in VALUE_TYPE_OPTIONS"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
               </el-select>
             </template>
           </el-input>
@@ -122,7 +123,7 @@ defineExpose({
 </template>
 
 <style lang="scss" scoped>
-.api-config-editor {
+.api-config {
   padding: 12px;
   border: 2px dotted var(--el-border-color-dark);
 }

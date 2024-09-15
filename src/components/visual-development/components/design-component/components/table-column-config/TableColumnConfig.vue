@@ -68,7 +68,7 @@ function getLabel(label?: string, propLabel?: string) {
 </script>
 
 <template>
-  <div class="table-column-items-editor">
+  <div class="table-column-config">
     <my-divider-title :label="root ? '表列设置' : '子表列设置'"></my-divider-title>
     <el-collapse v-if="options.tableColumnItems?.length" v-model="activeName" accordion>
       <el-collapse-item
@@ -101,25 +101,19 @@ function getLabel(label?: string, propLabel?: string) {
 
         <el-row :gutter="ROW_GUTTER">
           <ResponsiveCol>
-            <el-form-item
-              :prop="[...getFormItemProp(index, formItemProp), 'prop']"
-              :rules="[{ required: true, message: '必填项' }]"
-            >
-              <template #label>
-                <my-label label="字段名称" />
-              </template>
-              <el-input v-model="item.prop" placeholder="请输入" clearable></el-input>
-            </el-form-item>
-          </ResponsiveCol>
-          <ResponsiveCol>
-            <el-form-item
-              :prop="[...getFormItemProp(index, formItemProp), 'label']"
-              :rules="[{ required: true, message: '必填项' }]"
-            >
+            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'label']">
               <template #label>
                 <my-label label="列名称" />
               </template>
               <el-input v-model="item.label" placeholder="请输入" clearable></el-input>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'prop']">
+              <template #label>
+                <my-label label="字段名称" />
+              </template>
+              <el-input v-model="item.prop" placeholder="请输入" clearable></el-input>
             </el-form-item>
           </ResponsiveCol>
           <ResponsiveCol>
@@ -133,7 +127,10 @@ function getLabel(label?: string, propLabel?: string) {
           <ResponsiveCol>
             <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'minWidth']">
               <template #label>
-                <my-label label="列最小宽度" />
+                <my-label
+                  label="列最小宽度"
+                  tooltip-content="该设置会把剩余宽度按比例分配给设置了该属性的列"
+                />
               </template>
               <el-input v-model="item.minWidth" placeholder="请输入" clearable></el-input>
             </el-form-item>
@@ -243,13 +240,13 @@ function getLabel(label?: string, propLabel?: string) {
             ></ApiConfig>
           </el-col>
         </el-row>
-        <table-column-items-editor
+        <TableColumnConfig
           :root="false"
           :options="item"
           :form-item-prop="getFormItemProp(index, formItemProp)"
           :label="getLabel(item.label, label)"
           is-sub-level
-        ></table-column-items-editor>
+        />
       </el-collapse-item>
     </el-collapse>
     <div v-if="!options.tableColumnItems?.length" class="nodata">暂未配置</div>
@@ -266,10 +263,10 @@ function getLabel(label?: string, propLabel?: string) {
 </template>
 
 <style lang="scss" scoped>
-.table-column-items-editor {
+.table-column-config {
   padding: 12px;
   border: 2px dotted var(--el-border-color-dark);
-  .table-column-items-editor {
+  .table-column-config {
     margin-top: 12px;
   }
 }

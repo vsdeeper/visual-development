@@ -19,7 +19,7 @@ export interface SearchConditionOptionItem {
 export interface ApiParamsItem {
   key?: string
   value?: string | number
-  valueType?: 'string' | 'number'
+  valueType?: 'string' | 'number' | 'auto'
 }
 export interface SearchConditionItem {
   id: string
