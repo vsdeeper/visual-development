@@ -63,7 +63,16 @@ const formData = defineModel<TableDesignData>({ default: () => ({ options: {} })
       />
     </el-col>
     <el-col :span="24" style="margin-top: 18px">
+      <TableOperationsConfig
+        v-model="formData.options.tableOperations"
+        :form-item-prop="['options', 'tableOperations']"
+      />
+    </el-col>
+    <el-col :span="24" style="margin-top: 18px">
       <TableColumnConfig root :options="formData.options" />
+    </el-col>
+    <el-col :span="24" style="margin-top: 18px">
+      <TableColumnOperationsConfig v-model="formData.options.tableColumnOperations" />
     </el-col>
   </el-row>
 </template>

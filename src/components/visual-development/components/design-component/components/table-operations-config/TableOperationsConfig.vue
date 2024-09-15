@@ -1,0 +1,117 @@
+<script setup lang="ts">
+import { Minus, Plus } from '@element-plus/icons-vue'
+import type { TableOperationsItem } from '../../../vd-components'
+import { ROW_GUTTER } from '../constants'
+
+withDefaults(
+  defineProps<{
+    formItemProp?: string[]
+  }>(),
+  {
+    formItemProp: () => [],
+  },
+)
+
+const model = defineModel<TableOperationsItem[]>({ default: () => [] })
+const activeName = ref(1)
+
+const onDelete = (index: number) => {
+  model.value.splice(index, 1)
+}
+
+const onAdd = () => {
+  model.value.push({})
+  activeName.value = model.value.length
+}
+</script>
+
+<template>
+  <div class="table-operations-config">
+    <MyDividerTitle label="表格操作配置" />
+    <el-collapse v-if="model.length" v-model="activeName" accordion>
+      <el-collapse-item v-for="(item, index) in model" :key="'item' + index" :name="index + 1">
+        <template #title>
+          <div class="header">
+            操作 - <span class="label">{{ item.label }}</span>
+          </div>
+          <el-button
+            type="danger"
+            :icon="Minus"
+            circle
+            size="small"
+            @click.stop="onDelete(index)"
+            style="margin-right: 10px"
+          />
+        </template>
+        <el-row :gutter="ROW_GUTTER">
+          <ResponsiveCol>
+            <el-form-item :prop="[...formItemProp, index + '', 'label']">
+              <template #label>
+                <my-label label="操作名称" />
+              </template>
+              <el-input v-model="item.label" placeholder="请输入" clearable></el-input>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <el-form-item :prop="[...formItemProp, index + '', 'value']">
+              <template #label>
+                <my-label label="操作Key" tooltip-content="确保操作Key的唯一性" />
+              </template>
+              <el-input
+                v-model="item.value"
+                placeholder="例：add, batch_deletion"
+                clearable
+              ></el-input>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <el-form-item :prop="[...formItemProp, index + '', 'code']">
+              <template #label>
+                <my-label label="权限标识符" />
+              </template>
+              <el-input
+                v-model="item.code"
+                placeholder="例：add, edit, delete"
+                clearable
+              ></el-input>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <el-form-item :prop="[...formItemProp, index + '', 'enableConfirmation']">
+              <template #label>
+                <my-label label="开启二次确认" />
+              </template>
+              <el-radio-group v-model="item.enableConfirmation">
+                <el-radio-button :label="true">是</el-radio-button>
+                <el-radio-button :label="false">否</el-radio-button>
+              </el-radio-group>
+            </el-form-item>
+          </ResponsiveCol>
+          <el-col :span="24">
+            <ApiConfig v-model="model[index]" />
+          </el-col>
+        </el-row>
+      </el-collapse-item>
+    </el-collapse>
+    <div v-if="!model.length" class="nodata">暂未配置</div>
+    <el-button type="primary" :icon="Plus" @click="onAdd" style="width: 100%; margin-top: 10px">
+      新增操作
+    </el-button>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.table-operations-config {
+  padding: 12px;
+  border: 2px dotted var(--el-border-color-dark);
+  .header {
+    display: flex;
+    justify-content: flex-start;
+    flex: 1;
+    .label {
+      color: var(--el-text-color-regular);
+      margin-left: 5px;
+    }
+  }
+}
+</style>

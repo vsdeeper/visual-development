@@ -195,7 +195,9 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
           virtualized: false,
           itemChildren: 'children',
           itemHasChildren: 'hasChildren',
+          tableOperations: [],
           tableColumnItems: [{ id: nanoid(5) }],
+          tableColumnOperations: [],
         },
         components: [],
       }

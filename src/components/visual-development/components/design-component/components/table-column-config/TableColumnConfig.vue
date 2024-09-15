@@ -69,7 +69,7 @@ function getLabel(label?: string, propLabel?: string) {
 
 <template>
   <div class="table-column-config">
-    <my-divider-title :label="root ? '表列设置' : '子表列设置'"></my-divider-title>
+    <my-divider-title :label="root ? '表列配置' : '子表列配置'"></my-divider-title>
     <el-collapse v-if="options.tableColumnItems?.length" v-model="activeName" accordion>
       <el-collapse-item
         v-for="(item, index) in options.tableColumnItems"

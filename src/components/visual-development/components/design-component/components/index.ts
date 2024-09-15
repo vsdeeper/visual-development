@@ -7,7 +7,9 @@ export * from './save-as-preset'
 export * from './options-config'
 export * from './static-data-config'
 export * from './search-condition-config'
+export * from './table-operations-config'
 export * from './table-column-config'
+export * from './table-column-operations-config'
 export * from './api-config'
 
 /** 导出所有d-*子组件 */

@@ -27,8 +27,27 @@ export interface TableColumnItem {
   [key: string]: any
 }
 
+export interface TableOperationsItem {
+  label?: string
+  value?: string
+  code?: string // 权限标识符
+  show?: any
+  enableConfirmation?: boolean
+  [key: string]: any
+}
+
+export interface TableColumnOperationsItem {
+  label?: string
+  value?: string
+  code?: string // 权限标识符
+  show?: any
+  enableConfirmation?: boolean
+  [key: string]: any
+}
 export interface TableDesignDataOptions {
+  tableOperations?: TableOperationsItem[]
   tableColumnItems?: TableColumnItem[]
+  tableColumnOperations?: TableColumnOperationsItem[]
   apiMethod?: Extract<Method, 'GET'>
   api?: string
   apiParams?: ApiParamsItem[]
