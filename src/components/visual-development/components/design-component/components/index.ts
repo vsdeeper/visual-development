@@ -6,6 +6,9 @@ import { type AsyncComponentLoader } from 'vue'
 export * from './save-as-preset'
 export * from './options-config'
 export * from './static-data-config'
+export * from './search-condition-config'
+export * from './table-column-config'
+export * from './api-config'
 
 /** 导出所有d-*子组件 */
 const DesignComponent: { [K in ComponentTypeOfPageDesigner]?: any } = {}

@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AddComponent: typeof import('./../src/components/visual-development/components/add-component/add-component.vue')['default']
+    ApiConfig: typeof import('./../src/components/visual-development/components/design-component/components/api-config/ApiConfig.vue')['default']
     ApiConfigEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/api-config-editor/api-config-editor.vue')['default']
     ApiDomain: typeof import('./../src/components/visual-development/components/design-component/components/d-project/components/ApiDomain.vue')['default']
     AutoCalcMaxHeightEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/auto-calc-max-height-editor/auto-calc-max-height-editor.vue')['default']
@@ -82,6 +83,7 @@ declare module 'vue' {
     RowJustifyEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/row-justify-editor/row-justify-editor.vue')['default']
     RowKeyEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/row-key-editor/row-key-editor.vue')['default']
     SaveAsPreset: typeof import('./../src/components/visual-development/components/design-component/components/save-as-preset/save-as-preset.vue')['default']
+    SearchConditionConfig: typeof import('./../src/components/visual-development/components/design-component/components/search-condition-config/SearchConditionConfig.vue')['default']
     SearchConditionItemsEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/search-condition-items-editor/search-condition-items-editor.vue')['default']
     ShortcutKeyDescription: typeof import('./../src/components/visual-development/components/shortcut-key-description/shortcut-key-description.vue')['default']
     ShortcutKeyOperation: typeof import('./../src/components/visual-development/components/shortcut-key-operation/shortcut-key-operation.vue')['default']
@@ -89,6 +91,7 @@ declare module 'vue' {
     ShowPaginationEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/show-pagination-editor/show-pagination-editor.vue')['default']
     StaticDataConfig: typeof import('./../src/components/visual-development/components/design-component/components/static-data-config/StaticDataConfig.vue')['default']
     SuffixIconEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/suffix-icon-editor/suffix-icon-editor.vue')['default']
+    TableColumnConfig: typeof import('./../src/components/visual-development/components/design-component/components/table-column-config/TableColumnConfig.vue')['default']
     TableColumnItemsEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/table-column-items-editor/table-column-items-editor.vue')['default']
     TableLayoutEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/table-layout-editor/table-layout-editor.vue')['default']
     VdForm: typeof import('./../src/components/visual-development/components/vd-components/vd-form/vd-form.vue')['default']

@@ -5,11 +5,11 @@ import {
   type TableDesignDataOptions,
   type TableColumnItemFormatterType,
 } from '@/components'
-import { ROW_GUTTER } from '../../constants'
+import { ROW_GUTTER } from '../constants'
 import { FIXED_OPTIONS, FORMATTER_OPTIONS } from './constants'
 import { nanoid } from 'nanoid'
 import { first, last } from 'lodash-es'
-import { ApiConfigEditor } from '..'
+import { ApiConfig } from '..'
 
 const props = defineProps<{
   root: boolean
@@ -233,14 +233,14 @@ function getLabel(label?: string, propLabel?: string) {
             </el-form-item>
           </ResponsiveCol>
           <el-col v-if="item.formatterType === 'dynamic_data_transform'" :span="24">
-            <ApiConfigEditor
+            <ApiConfig
               :options="item"
               v-model="options.tableColumnItems[index]"
               :form-item-prop="[...getFormItemProp(index, formItemProp)]"
               :form-item-rules="[{ required: true }]"
               api-label="动态数据回显接口"
               params-label="动态数据回显接口参数"
-            ></ApiConfigEditor>
+            ></ApiConfig>
           </el-col>
         </el-row>
         <table-column-items-editor

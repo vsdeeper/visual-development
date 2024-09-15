@@ -2,7 +2,7 @@
 import { Plus, Minus } from '@element-plus/icons-vue'
 import { type FormItemInstance, type FormItemRule } from 'element-plus'
 import { METHOD_OPTIONS } from './constants'
-import type { ApiConfigEditorModel } from '.'
+import type { ApiConfigModel } from '.'
 
 const props = withDefaults(
   defineProps<{
@@ -24,7 +24,7 @@ const props = withDefaults(
 )
 
 const { api = 'api', apiMethod = 'apiMethod', apiParams = 'apiParams' } = props.map
-const model = defineModel<ApiConfigEditorModel>({ default: () => ({}) })
+const model = defineModel<ApiConfigModel>({ default: () => ({}) })
 const formItemRef = ref<FormItemInstance>()
 
 function onAdd() {

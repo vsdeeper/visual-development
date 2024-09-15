@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue'
 import { type SearchConditionItem, type SearchDesignDataOptions } from '@/components'
-import { ROW_GUTTER } from '../../constants'
+import { ROW_GUTTER } from '../constants'
 import { SEARCH_TYPE_OPTIONS, DATE_TYPE_OPTIONS } from './constants'
 import { type TabPaneName } from 'element-plus'
 import { first, last } from 'lodash-es'
-import { ApiConfigEditor, type ApiConfigEditorInstance } from '..'
+import type { ApiConfigInstance } from '..'
 import { genId } from '@/components/visual-development/util'
 
 const options = defineModel<SearchDesignDataOptions>({ default: () => ({}) })
-const apiRefs = ref<ApiConfigEditorInstance[]>([])
+const apiRefs = ref<ApiConfigInstance[]>([])
 const activeName = ref(first(options.value.searchConditionItems)?.id)
 
 function addItem() {
@@ -338,13 +338,13 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
         >
           <el-tabs v-model="item.dataSource" @tab-change="changeDataSource($event, item, index)">
             <el-tab-pane label="接口定义" name="api">
-              <ApiConfigEditor
-                :ref="ref => (apiRefs[index] = ref as ApiConfigEditorInstance)"
+              <ApiConfig
+                :ref="(ref: any) => (apiRefs[index] = ref as ApiConfigInstance)"
                 v-model="options.searchConditionItems[index]"
                 :form-item-prop="['options', 'searchConditionItems', index + '']"
                 :form-item-rules="[{ required: true }]"
                 :show-message="false"
-              ></ApiConfigEditor>
+              />
             </el-tab-pane>
             <el-tab-pane label="自定义" name="custom" :disabled="item.type === 'Cascader'">
               <OptionsConfig
