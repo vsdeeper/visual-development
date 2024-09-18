@@ -43,13 +43,13 @@ function deleteItem(index: number, tableColumnItems: TableColumnItem[]) {
 
 function changeFormatterType(val: TableColumnItemFormatterType, item: TableColumnItem) {
   item.api = undefined
-  item.apiMethod = undefined
+  item.apiConfig = undefined
   item.apiParams = undefined
   item.staticDataKey = undefined
   item.format = undefined
   item.isTreeData = undefined
   if (val === 'dynamic_data_transform') {
-    item.apiMethod = 'GET'
+    item.apiConfig = { params: [] }
   } else if (val === 'date_format') {
     item.format = 'yyyy-MM-dd HH:mm:ss'
   }

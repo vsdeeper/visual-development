@@ -33,6 +33,8 @@ function onChange(key: string, val: any, item: SearchConditionItem) {
         item.dateType = 'date'
         item.format = 'YYYY-MM-DD'
         item.valueFormat = 'x'
+      } else if (['Select', 'Cascader'].includes(val)) {
+        item.dataSource = 'api'
       }
       break
     }
@@ -251,7 +253,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
             <ResponsiveCol>
               <el-form-item :prop="['options', 'searchConditionItems', index + '', 'itemLabel']">
                 <template #label>
-                  <my-label label="选项label别名" />
+                  <my-label label="选项label别名" tooltip-content="接口定义时生效" />
                 </template>
                 <el-input v-model="item.itemLabel" placeholder="请输入" clearable></el-input>
               </el-form-item>
@@ -259,7 +261,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
             <ResponsiveCol>
               <el-form-item :prop="['options', 'searchConditionItems', index + '', 'itemValue']">
                 <template #label>
-                  <my-label label="选项value别名" />
+                  <my-label label="选项value别名" tooltip-content="接口定义时生效" />
                 </template>
                 <el-input v-model="item.itemValue" placeholder="请输入" clearable></el-input>
               </el-form-item>
