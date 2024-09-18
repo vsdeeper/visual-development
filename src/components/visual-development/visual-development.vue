@@ -23,6 +23,7 @@ import {
   type ViewDesignData,
   type ProjectDesignData,
   type ExportDataInstance,
+  type TableDesignData,
 } from './components'
 import { nanoid } from 'nanoid'
 import localforage from 'localforage'
@@ -173,8 +174,7 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
         type: item.value,
         label: item.label,
         options: {
-          apiMethod: 'GET',
-          searchConditionItems: [{ id: genId('searchConditionItem') }],
+          searchConditionItems: [],
         },
         components: [],
       }
@@ -185,7 +185,6 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
         type: item.value,
         label: item.label,
         options: {
-          apiMethod: 'GET',
           tableLayout: 'fixed',
           showCheckbox: false,
           showPagination: true,
@@ -195,12 +194,14 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
           virtualized: false,
           itemChildren: 'children',
           itemHasChildren: 'hasChildren',
+          apiConfig: { params: [] },
+          lazyApiConfig: { params: [] },
           tableOperations: [],
-          tableColumnItems: [{ id: nanoid(5) }],
+          tableColumnItems: [],
           tableColumnOperations: [],
         },
         components: [],
-      }
+      } as TableDesignData
     }
     default: {
       return {

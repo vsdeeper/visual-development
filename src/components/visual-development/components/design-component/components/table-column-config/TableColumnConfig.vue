@@ -9,7 +9,6 @@ import { ROW_GUTTER } from '../constants'
 import { FIXED_OPTIONS, FORMATTER_OPTIONS } from './constants'
 import { nanoid } from 'nanoid'
 import { first, last } from 'lodash-es'
-import { ApiConfig } from '..'
 
 const props = defineProps<{
   root: boolean
@@ -23,7 +22,7 @@ const options = toRef(props, 'options')
 const activeName = ref(first(options.value.tableColumnItems)?.id)
 
 function addItem() {
-  options.value.tableColumnItems?.push({ id: nanoid(5) })
+  options.value.tableColumnItems?.push({ id: nanoid(5), apiConfig: { params: [] } })
   activeName.value = last(options.value.tableColumnItems)?.id
 }
 
@@ -231,10 +230,8 @@ function getLabel(label?: string, propLabel?: string) {
           </ResponsiveCol>
           <el-col v-if="item.formatterType === 'dynamic_data_transform'" :span="24">
             <ApiConfig
-              :options="item"
-              v-model="options.tableColumnItems[index]"
+              v-model="options.tableColumnItems[index].apiConfig"
               :form-item-prop="[...getFormItemProp(index, formItemProp)]"
-              :form-item-rules="[{ required: true }]"
               api-label="动态数据回显接口"
               params-label="动态数据回显接口参数"
             ></ApiConfig>

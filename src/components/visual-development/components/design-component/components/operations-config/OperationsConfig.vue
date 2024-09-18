@@ -5,9 +5,11 @@ import { ROW_GUTTER } from '../constants'
 
 withDefaults(
   defineProps<{
+    title?: string
     formItemProp?: string[]
   }>(),
   {
+    title: '标题',
     formItemProp: () => [],
   },
 )
@@ -20,14 +22,14 @@ const onDelete = (index: number) => {
 }
 
 const onAdd = () => {
-  model.value.push({})
+  model.value.push({ apiConfig: { params: [] }, echoApiConfig: { params: [] } })
   activeName.value = model.value.length
 }
 </script>
 
 <template>
-  <div class="table-column-operations-config">
-    <MyDividerTitle label="表列操作配置" />
+  <div class="operations-config">
+    <MyDividerTitle :label="title" />
     <el-collapse v-if="model.length" v-model="activeName" accordion>
       <el-collapse-item v-for="(item, index) in model" :key="'item' + index" :name="index + 1">
         <template #title>
@@ -45,7 +47,10 @@ const onAdd = () => {
         </template>
         <el-row :gutter="ROW_GUTTER">
           <ResponsiveCol>
-            <el-form-item :prop="[...formItemProp, index + '', 'label']">
+            <el-form-item
+              :prop="[...formItemProp, index + '', 'label']"
+              :rules="[{ required: true, message: '必填项' }]"
+            >
               <template #label>
                 <my-label label="操作名称" />
               </template>
@@ -53,7 +58,26 @@ const onAdd = () => {
             </el-form-item>
           </ResponsiveCol>
           <ResponsiveCol>
-            <el-form-item :prop="[...formItemProp, index + '', 'value']">
+            <el-form-item
+              :prop="[...formItemProp, index + '', 'type']"
+              :rules="[{ required: true, message: '必填项' }]"
+            >
+              <template #label>
+                <my-label label="操作类型" />
+              </template>
+              <el-select v-model="item.type" placeholder="请选择" clearable filterable>
+                <el-option label="数据新增" value="add" />
+                <el-option label="数据修改" value="add" />
+                <el-option label="数据查看" value="check" />
+                <el-option label="操作指令" value="operation" />
+              </el-select>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <el-form-item
+              :prop="[...formItemProp, index + '', 'value']"
+              :rules="[{ required: true, message: '必填项' }]"
+            >
               <template #label>
                 <my-label label="操作Key" tooltip-content="确保操作Key的唯一性" />
               </template>
@@ -96,7 +120,18 @@ const onAdd = () => {
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <ApiConfig v-model="model[index]" />
+            <ApiConfig
+              v-model="model[index].apiConfig"
+              api-label="操作接口"
+              :form-item-prop="[...formItemProp, index + '', 'apiConfig']"
+            />
+          </el-col>
+          <el-col :span="24" style="margin-top: 12px">
+            <ApiConfig
+              v-model="model[index].echoApiConfig"
+              api-label="回显接口"
+              :form-item-prop="[...formItemProp, index + '', 'echoApiConfig']"
+            />
           </el-col>
         </el-row>
       </el-collapse-item>
@@ -109,7 +144,7 @@ const onAdd = () => {
 </template>
 
 <style lang="scss" scoped>
-.table-column-operations-config {
+.operations-config {
   padding: 12px;
   border: 2px dotted var(--el-border-color-dark);
   .header {

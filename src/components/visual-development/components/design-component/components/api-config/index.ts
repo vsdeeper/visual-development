@@ -3,9 +3,9 @@ import { type ApiParamsItem, type Method } from '@/components'
 
 export type ApiConfigInstance = InstanceType<typeof ApiConfig>
 export interface ApiConfigModel {
-  api?: string
-  apiMethod?: Method
-  apiParams?: ApiParamsItem[]
+  url?: string
+  method?: Method
+  params?: ApiParamsItem[]
   [key: string]: any
 }
 

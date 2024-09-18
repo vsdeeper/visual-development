@@ -1,5 +1,6 @@
-import { type ApiParamsItem, type BaseDesignData, type Method } from '@/components'
+import { type BaseDesignData } from '@/components'
 import { type Sort } from 'element-plus'
+import type { ApiConfigModel } from '../../design-component/components'
 
 export type TableColumnItemFormatterType =
   | 'static_data_transform' /**静态数据转换 */
@@ -20,9 +21,7 @@ export interface TableColumnItem {
   staticDataKey?: string // 静态数据key，formatterType = static_data_transform
   format?: string // 日期显示格式，yyyy-MM-dd HH:mm:ss，formatterType = date_format
   isTreeData?: boolean // 是否树形数据，formatterType = dynamic_data_transform
-  apiMethod?: Extract<Method, 'GET'> // 接口配置，formatterType = dynamic_data_transform
-  api?: string // 接口配置，formatterType = dynamic_data_transform
-  apiParams?: ApiParamsItem[] // 接口配置，formatterType = dynamic_data_transform
+  apiConfig?: ApiConfigModel // 接口配置，formatterType = dynamic_data_transform
   tableColumnItems?: TableColumnItem[]
   [key: string]: any
 }
@@ -34,15 +33,15 @@ export interface TableOperationsItem {
   show?: any
   enableConfirmation?: boolean
   formConfig?: Record<string, any>
+  apiConfig?: ApiConfigModel
+  echoApiConfig?: ApiConfigModel
   [key: string]: any
 }
 export interface TableDesignDataOptions {
   tableOperations?: TableOperationsItem[]
   tableColumnItems?: TableColumnItem[]
   tableColumnOperations?: TableOperationsItem[]
-  apiMethod?: Extract<Method, 'GET'>
-  api?: string
-  apiParams?: ApiParamsItem[]
+  apiConfig?: ApiConfigModel
   data?: Record<string, any>[]
   itemHasChildren?: string
   itemChildren?: string
@@ -56,9 +55,7 @@ export interface TableDesignDataOptions {
   rowKey?: string
   flexible?: boolean
   lazy?: boolean
-  loadApiMethod?: Extract<Method, 'GET'>
-  loadApi?: string
-  loadApiParams?: ApiParamsItem[]
+  lazyApiConfig?: ApiConfigModel
   defaultSort?: Sort
   virtualized?: boolean
   [key: string]: any

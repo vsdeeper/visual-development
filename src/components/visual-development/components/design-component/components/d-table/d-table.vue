@@ -44,26 +44,24 @@ const formData = defineModel<TableDesignData>({ default: () => ({ options: {} })
       <FlexibleEditor :options="formData.options" />
     </ResponsiveCol>
     <el-col :span="24">
-      <!-- @vue-skip -->
       <ApiConfig
-        v-model="formData.options"
-        :form-item-rules="[{ required: true }]"
+        v-model="formData.options.apiConfig"
         api-label="列表接口"
         params-label="列表接口参数"
+        :form-item-prop="['options', 'apiConfig']"
       />
     </el-col>
     <el-col v-if="formData.options.lazy" :span="24" style="margin-top: 18px">
-      <!-- @vue-skip -->
       <ApiConfig
-        v-model="formData.options"
-        :form-item-rules="[{ required: true }]"
-        :map="{ api: 'loadApi', apiMethod: 'loadApiMethod', apiParams: 'loadApiParams' }"
+        v-model="formData.options.lazyApiConfig"
         api-label="懒加载子节点接口"
         params-label="懒加载子节点接口参数"
+        :form-item-prop="['options', 'lazyApiConfig']"
       />
     </el-col>
     <el-col :span="24" style="margin-top: 18px">
-      <TableOperationsConfig
+      <OperationsConfig
+        title="表格操作配置"
         v-model="formData.options.tableOperations"
         :form-item-prop="['options', 'tableOperations']"
       />
@@ -72,7 +70,11 @@ const formData = defineModel<TableDesignData>({ default: () => ({ options: {} })
       <TableColumnConfig root :options="formData.options" />
     </el-col>
     <el-col :span="24" style="margin-top: 18px">
-      <TableColumnOperationsConfig v-model="formData.options.tableColumnOperations" />
+      <OperationsConfig
+        title="表列操作配置"
+        v-model="formData.options.tableColumnOperations"
+        :form-item-prop="['options', 'tableColumnOperations']"
+      />
     </el-col>
   </el-row>
 </template>

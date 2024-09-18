@@ -65,6 +65,7 @@ declare module 'vue' {
     MyDividerTitle: typeof import('./../src/components/my-divider-title/my-divider-title.vue')['default']
     MyLabel: typeof import('./../src/components/my-label/my-label.vue')['default']
     NameEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/name-editor/name-editor.vue')['default']
+    OperationsConfig: typeof import('./../src/components/visual-development/components/design-component/components/operations-config/OperationsConfig.vue')['default']
     OptionsConfig: typeof import('./../src/components/visual-development/components/design-component/components/options-config/OptionsConfig.vue')['default']
     PopperEffectEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/popper-effect-editor/popper-effect-editor.vue')['default']
     ResponsiveCol: typeof import('./../src/components/visual-development/components/design-component/components/responsive-col/responsive-col.vue')['default']

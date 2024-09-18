@@ -1,18 +1,15 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue'
-import { type FormItemInstance, type FormItemRule } from 'element-plus'
+import { type FormItemInstance } from 'element-plus'
 import { METHOD_OPTIONS, VALUE_TYPE_OPTIONS } from './constants'
 import type { ApiConfigModel } from '.'
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     apiLabel?: string
     paramsLabel?: string
     formItemProp?: string[]
-    formItemRules?: FormItemRule[]
-    showMessage?: boolean
     showParams?: boolean
-    map?: { api?: string; apiMethod?: string; apiParams?: string }
   }>(),
   {
     apiLabel: '接口',
@@ -23,19 +20,22 @@ const props = withDefaults(
   },
 )
 
-const { api = 'api', apiMethod = 'apiMethod', apiParams = 'apiParams' } = props.map
-const model = defineModel<ApiConfigModel>({ default: () => ({}) })
+const model = defineModel<ApiConfigModel>({
+  default: () => ({
+    params: [],
+  }),
+})
 const formItemRef = ref<FormItemInstance>()
 
 function onAdd() {
-  if (!model.value[apiParams]) {
-    model.value[apiParams] = []
+  if (!model.value.params) {
+    model.value.params = []
   }
-  model.value[apiParams].push({ key: 'id', valueType: 'auto' })
+  model.value.params.push({ key: 'id', valueType: 'auto' })
 }
 
 function remove(index: number) {
-  model.value[apiParams].splice(index, 1)
+  model.value.params?.splice(index, 1)
 }
 
 function onChange(key: string, data?: any) {
@@ -54,23 +54,14 @@ defineExpose({
 
 <template>
   <div class="api-config">
-    <el-form-item
-      ref="formItemRef"
-      :prop="[...formItemProp, api]"
-      :rules="formItemRules"
-      :show-message="showMessage"
-    >
+    <el-form-item ref="formItemRef" :prop="[...formItemProp, 'url']">
       <template #label>
         <my-label :label="apiLabel" />
       </template>
-      <el-input v-model="model[api]" clearable placeholder="请输入">
+      <el-input v-model="model.url" clearable placeholder="请输入">
         <template #prepend>
-          <el-form-item
-            :prop="[...formItemProp, apiMethod]"
-            :rules="formItemRules"
-            :show-message="showMessage"
-          >
-            <el-select v-model="model[apiMethod]" placeholder="请选择" style="width: 100px">
+          <el-form-item :prop="[...formItemProp, 'method']">
+            <el-select v-model="model.method" placeholder="请选择" style="width: 100px">
               <el-option v-for="item in METHOD_OPTIONS" :key="item" :label="item" :value="item" />
             </el-select>
           </el-form-item>
@@ -83,15 +74,15 @@ defineExpose({
         :suffix-icon="Plus"
         @click-suffix-icon="onAdd"
       ></my-divider-title>
-      <el-row v-if="model[apiParams]?.length" class="header" align="middle">
+      <el-row v-if="model.params?.length" class="header" align="middle">
         <div class="label">字段名称</div>
         <div class="label">字段值</div>
       </el-row>
-      <el-row v-for="(item, index) in model[apiParams]" :key="'apiParams' + index" align="middle">
-        <el-form-item :prop="[...formItemProp, apiParams, index + '', 'key']">
+      <el-row v-for="(item, index) in model.params" :key="'params' + index" align="middle">
+        <el-form-item :prop="[...formItemProp, 'params', index + '', 'key']">
           <el-input v-model="item.key" placeholder="请输入" />
         </el-form-item>
-        <el-form-item :prop="[...formItemProp, apiParams, index + '', 'value']">
+        <el-form-item :prop="[...formItemProp, 'params', index + '', 'value']">
           <el-input
             v-model="item.value"
             class="input"
@@ -117,7 +108,7 @@ defineExpose({
         </el-form-item>
         <el-button type="danger" size="small" :icon="Minus" circle @click="remove(index)" />
       </el-row>
-      <div v-if="!model[apiParams]?.length" class="nodata">暂未配置</div>
+      <div v-if="!model.params?.length" class="nodata">暂未配置</div>
     </div>
   </div>
 </template>
