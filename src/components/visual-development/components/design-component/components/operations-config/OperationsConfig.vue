@@ -106,14 +106,14 @@ const onAdd = () => {
           <el-col :span="24">
             <ApiConfig
               v-model="model[index].apiConfig"
-              api-label="操作接口"
+              title="操作接口配置"
               :form-item-prop="[...formItemProp, index + '', 'apiConfig']"
             />
           </el-col>
           <el-col :span="24" style="margin-top: 12px">
             <ApiConfig
               v-model="model[index].echoApiConfig"
-              api-label="回显接口"
+              title="回显接口配置"
               :form-item-prop="[...formItemProp, index + '', 'echoApiConfig']"
             />
           </el-col>

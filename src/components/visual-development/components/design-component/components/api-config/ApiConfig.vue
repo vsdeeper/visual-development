@@ -1,22 +1,16 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue'
-import { type FormItemInstance } from 'element-plus'
 import { METHOD_OPTIONS, VALUE_TYPE_OPTIONS } from './constants'
 import type { ApiConfigModel } from '.'
 
 withDefaults(
   defineProps<{
-    apiLabel?: string
-    paramsLabel?: string
+    title?: string
     formItemProp?: string[]
-    showParams?: boolean
   }>(),
   {
-    apiLabel: '接口',
-    paramsLabel: '参数',
+    title: '标题',
     formItemProp: () => ['options'],
-    showParams: true,
-    map: () => ({}),
   },
 )
 
@@ -25,7 +19,6 @@ const model = defineModel<ApiConfigModel>({
     params: [],
   }),
 })
-const formItemRef = ref<FormItemInstance>()
 
 function onAdd() {
   if (!model.value.params) {
@@ -46,31 +39,34 @@ function onChange(key: string, data?: any) {
     }
   }
 }
-
-defineExpose({
-  formItemRef,
-})
 </script>
 
 <template>
   <div class="api-config">
-    <el-form-item ref="formItemRef" :prop="[...formItemProp, 'url']">
+    <my-divider-title :label="title" />
+    <el-form-item :prop="[...formItemProp, 'name']">
       <template #label>
-        <my-label :label="apiLabel" />
+        <my-label
+          label="自定义名称"
+          tooltip-content="定义封装接口的变量名称，默认取接口地址的最后一串英文"
+        />
       </template>
+      <el-input v-model="model.name" clearable placeholder="请输入" />
+    </el-form-item>
+    <el-form-item :prop="[...formItemProp, 'url']" label="接口地址">
       <el-input v-model="model.url" clearable placeholder="请输入">
         <template #prepend>
           <el-form-item :prop="[...formItemProp, 'method']">
-            <el-select v-model="model.method" placeholder="请选择" style="width: 100px">
+            <el-select v-model="model.method" placeholder="类型" style="width: 100px">
               <el-option v-for="item in METHOD_OPTIONS" :key="item" :label="item" :value="item" />
             </el-select>
           </el-form-item>
         </template>
       </el-input>
     </el-form-item>
-    <div v-if="showParams" class="params-config">
+    <div class="params-config">
       <my-divider-title
-        :label="paramsLabel"
+        label="参数"
         :suffix-icon="Plus"
         @click-suffix-icon="onAdd"
       ></my-divider-title>

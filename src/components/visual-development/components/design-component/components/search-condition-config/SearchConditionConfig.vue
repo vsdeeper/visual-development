@@ -5,11 +5,9 @@ import { ROW_GUTTER } from '../constants'
 import { SEARCH_TYPE_OPTIONS, DATE_TYPE_OPTIONS } from './constants'
 import { type TabPaneName } from 'element-plus'
 import { first, last } from 'lodash-es'
-import type { ApiConfigInstance } from '..'
 import { genId } from '@/components/visual-development/util'
 
 const options = defineModel<SearchDesignDataOptions>({ default: () => ({}) })
-const apiRefs = ref<ApiConfigInstance[]>([])
 const activeName = ref(first(options.value.searchConditionItems)?.id)
 
 function addItem() {
@@ -80,8 +78,6 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
     item.dataSource = 'api'
     item.options = undefined
     item.itemValue = 'id'
-    apiRefs.value[index]?.formItemRef?.clearValidate()
-    setTimeout(() => apiRefs.value[index]?.formItemRef?.clearValidate())
   }
 }
 </script>
@@ -347,7 +343,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
             <el-tabs v-model="item.dataSource" @tab-change="changeDataSource($event, item, index)">
               <el-tab-pane label="接口定义" name="api">
                 <ApiConfig
-                  :ref="(ref: any) => (apiRefs[index] = ref as ApiConfigInstance)"
+                  title="接口配置"
                   v-model="options.searchConditionItems[index].apiConfig"
                   :form-item-prop="['options', 'searchConditionItems', index + '', 'apiConfig']"
                 />

@@ -46,16 +46,14 @@ const formData = defineModel<TableDesignData>({ default: () => ({ options: {} })
     <el-col :span="24">
       <ApiConfig
         v-model="formData.options.apiConfig"
-        api-label="列表接口"
-        params-label="列表接口参数"
+        title="列表接口配置"
         :form-item-prop="['options', 'apiConfig']"
       />
     </el-col>
     <el-col v-if="formData.options.lazy" :span="24" style="margin-top: 18px">
       <ApiConfig
         v-model="formData.options.lazyApiConfig"
-        api-label="懒加载子节点接口"
-        params-label="懒加载子节点接口参数"
+        title="懒加载子节点接口配置"
         :form-item-prop="['options', 'lazyApiConfig']"
       />
     </el-col>

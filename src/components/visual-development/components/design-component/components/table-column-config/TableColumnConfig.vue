@@ -231,9 +231,8 @@ function getLabel(label?: string, propLabel?: string) {
           <el-col v-if="item.formatterType === 'dynamic_data_transform'" :span="24">
             <ApiConfig
               v-model="options.tableColumnItems[index].apiConfig"
+              title="动态数据回显接口配置"
               :form-item-prop="[...getFormItemProp(index, formItemProp)]"
-              api-label="动态数据回显接口"
-              params-label="动态数据回显接口参数"
             ></ApiConfig>
           </el-col>
         </el-row>
