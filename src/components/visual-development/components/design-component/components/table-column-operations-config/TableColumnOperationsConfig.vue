@@ -88,6 +88,14 @@ const onAdd = () => {
             </el-form-item>
           </ResponsiveCol>
           <el-col :span="24">
+            <el-form-item :prop="[...formItemProp, index + '', 'formConfig']">
+              <template #label>
+                <my-label label="表单配置" />
+              </template>
+              <FormConfig v-model="item.formConfig" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
             <ApiConfig v-model="model[index]" />
           </el-col>
         </el-row>

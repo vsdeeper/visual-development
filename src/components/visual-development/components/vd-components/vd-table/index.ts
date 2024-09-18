@@ -33,21 +33,13 @@ export interface TableOperationsItem {
   code?: string // 权限标识符
   show?: any
   enableConfirmation?: boolean
-  [key: string]: any
-}
-
-export interface TableColumnOperationsItem {
-  label?: string
-  value?: string
-  code?: string // 权限标识符
-  show?: any
-  enableConfirmation?: boolean
+  formConfig?: Record<string, any>
   [key: string]: any
 }
 export interface TableDesignDataOptions {
   tableOperations?: TableOperationsItem[]
   tableColumnItems?: TableColumnItem[]
-  tableColumnOperations?: TableColumnOperationsItem[]
+  tableColumnOperations?: TableOperationsItem[]
   apiMethod?: Extract<Method, 'GET'>
   api?: string
   apiParams?: ApiParamsItem[]

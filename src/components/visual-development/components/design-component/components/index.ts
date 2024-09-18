@@ -11,6 +11,7 @@ export * from './table-operations-config'
 export * from './table-column-config'
 export * from './table-column-operations-config'
 export * from './api-config'
+export * from './form-config'
 
 /** 导出所有d-*子组件 */
 const DesignComponent: { [K in ComponentTypeOfPageDesigner]?: any } = {}
