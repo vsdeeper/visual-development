@@ -13,11 +13,13 @@ const formData = defineModel<MergeDesignData>({ default: () => ({ options: {} })
       </el-form-item>
     </ResponsiveCol>
     <ResponsiveCol>
-      <el-form-item
-        label="视图名称"
-        prop="options.name"
-        :rules="[{ required: true, message: '必填项' }]"
-      >
+      <el-form-item prop="options.name" :rules="[{ required: true, message: '必填项' }]">
+        <template #label>
+          <MyLabel
+            label="视图名称"
+            tooltip-content="如果有多层，可以使用路径，例：my-view/sub-view"
+          />
+        </template>
         <el-input v-model="formData.options.name" placeholder="例：my-view" clearable></el-input>
       </el-form-item>
     </ResponsiveCol>

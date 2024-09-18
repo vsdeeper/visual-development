@@ -59,22 +59,6 @@ const onAdd = () => {
           </ResponsiveCol>
           <ResponsiveCol>
             <el-form-item
-              :prop="[...formItemProp, index + '', 'type']"
-              :rules="[{ required: true, message: '必填项' }]"
-            >
-              <template #label>
-                <my-label label="操作类型" />
-              </template>
-              <el-select v-model="item.type" placeholder="请选择" clearable filterable>
-                <el-option label="数据新增" value="add" />
-                <el-option label="数据修改" value="add" />
-                <el-option label="数据查看" value="check" />
-                <el-option label="操作指令" value="operation" />
-              </el-select>
-            </el-form-item>
-          </ResponsiveCol>
-          <ResponsiveCol>
-            <el-form-item
               :prop="[...formItemProp, index + '', 'value']"
               :rules="[{ required: true, message: '必填项' }]"
             >
