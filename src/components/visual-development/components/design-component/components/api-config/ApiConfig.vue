@@ -47,8 +47,8 @@ function onChange(key: string, data?: any) {
     <el-form-item :prop="[...formItemProp, 'name']">
       <template #label>
         <my-label
-          label="自定义名称"
-          tooltip-content="定义封装接口的变量名称，默认取接口地址的最后一串英文"
+          label="封装名称"
+          tooltip-content="定义封装接口的变量名称，默认取接口地址的最后一串英文；如果和其他封装名称重叠，则不会生成新的接口封装代码"
         />
       </template>
       <el-input v-model="model.name" clearable placeholder="请输入" />

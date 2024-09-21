@@ -175,7 +175,7 @@ function getLabel(label?: string, propLabel?: string) {
           <ResponsiveCol>
             <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'formatterType']">
               <template #label>
-                <my-label label="格式化类型" tooltip-content="数据回显时的转换规则或格式化类型" />
+                <my-label label="数据回显类型" tooltip-content="数据回显时的转换规则或格式化类型" />
               </template>
               <el-select
                 v-model="item.formatterType"
