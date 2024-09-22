@@ -1,7 +1,7 @@
 import { type BaseDesignData } from '@/components'
 import type { ApiConfigModel } from '../../design-component/components'
 
-export type SearchConditionType = 'Input' | 'InputNumber' | 'Select' | 'Cascader' | 'DatePicker'
+export type SearchConditionType = 'Input' | 'InputNumber' | 'Select' | 'Cascader' | 'Date' | 'Time'
 export type DateType =
   | 'year'
   | 'month'
@@ -49,6 +49,7 @@ export interface SearchConditionItem {
 }
 
 export interface SearchDesignDataOptions {
+  labelWidth?: string
   searchConditionItems?: SearchConditionItem[]
 }
 

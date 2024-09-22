@@ -174,6 +174,7 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
         type: item.value,
         label: item.label,
         options: {
+          labelWidth: '110',
           searchConditionItems: [],
         },
         components: [],

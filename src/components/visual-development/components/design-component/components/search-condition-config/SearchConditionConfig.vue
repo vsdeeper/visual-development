@@ -29,7 +29,7 @@ function onChange(key: string, val: any, item: SearchConditionItem) {
   switch (key) {
     case 'type': {
       resetSearchConditionItem(item)
-      if (val === 'DatePicker') {
+      if (val === 'Date') {
         item.dateType = 'date'
         item.format = 'YYYY-MM-DD'
         item.valueFormat = 'x'
@@ -60,6 +60,7 @@ function resetSearchConditionItem(item: SearchConditionItem) {
   item.apiConfig = undefined
   item.options = undefined
   item.itemLabel = undefined
+  item.itemValue = undefined
   item.multiple = undefined
   item.checkStrictly = undefined
   item.lazy = undefined
@@ -67,6 +68,7 @@ function resetSearchConditionItem(item: SearchConditionItem) {
   item.valueFormat = undefined
   item.dateType = undefined
   item.virtualized = undefined
+  item.optionDataType = undefined
 }
 
 function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: number) {
@@ -120,10 +122,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
             </el-form-item>
           </ResponsiveCol>
           <ResponsiveCol>
-            <el-form-item
-              :prop="['options', 'searchConditionItems', index + '', 'placeholder']"
-              :rules="[{ required: true, message: '必填项' }]"
-            >
+            <el-form-item :prop="['options', 'searchConditionItems', index + '', 'placeholder']">
               <template #label>
                 <my-label label="占位内容" />
               </template>
@@ -213,8 +212,8 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
               <el-input v-model="item.key" placeholder="请输入" clearable></el-input>
             </el-form-item>
           </ResponsiveCol>
-          <!-- 搜索条件为DatePicker时，设置format、valueFormat、dateType -->
-          <template v-if="item.type === 'DatePicker'">
+          <!-- 搜索条件为Date时，设置format、valueFormat、dateType -->
+          <template v-if="item.type === 'Date'">
             <ResponsiveCol>
               <el-form-item :prop="['options', 'searchConditionItems', index + '', 'format']">
                 <template #label>

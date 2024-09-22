@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { type ActiveDesignData } from '@/components';
+import { type ActiveDesignData } from '@/components'
 
 const props = defineProps<{
-  formData: ActiveDesignData;
-}>();
+  formData: ActiveDesignData
+}>()
 
-const _formData = toRef(props, 'formData');
+const _formData = toRef(props, 'formData')
 </script>
 
 <template>
