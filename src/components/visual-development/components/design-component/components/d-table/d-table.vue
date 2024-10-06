@@ -23,6 +23,19 @@ const formData = defineModel<TableDesignData>({ default: () => ({ options: {} })
       <RowKeyEditor :options="formData.options" />
     </ResponsiveCol>
     <ResponsiveCol>
+      <el-form-item label="操作列宽度" :prop="['options', 'operateColumnWidth']">
+        <el-input-number
+          v-model="formData.options.operateColumnWidth"
+          placeholder="请输入"
+          :min="100"
+          :max="999"
+          :step="1"
+          :controls="true"
+          controls-position="right"
+        />
+      </el-form-item>
+    </ResponsiveCol>
+    <ResponsiveCol>
       <LazyEditor :options="formData.options" />
     </ResponsiveCol>
     <ResponsiveCol>

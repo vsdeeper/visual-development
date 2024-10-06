@@ -11,8 +11,8 @@ export interface TableColumnItem {
   id: string
   prop?: string
   label?: string
-  width?: string | number
-  minWidth?: string | number
+  width?: number
+  minWidth?: number
   fixed?: true | 'left' | 'right'
   showOverflowTooltip?: boolean
   sortable?: boolean | 'custom'
@@ -41,6 +41,7 @@ export interface TableDesignDataOptions {
   tableOperations?: TableOperationsItem[]
   tableColumnItems?: TableColumnItem[]
   tableColumnOperations?: TableOperationsItem[]
+  operateColumnWidth?: number
   apiConfig?: ApiConfigModel
   data?: Record<string, any>[]
   itemHasChildren?: string

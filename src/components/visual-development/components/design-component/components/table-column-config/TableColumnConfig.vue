@@ -120,7 +120,15 @@ function getLabel(label?: string, propLabel?: string) {
               <template #label>
                 <my-label label="列宽度" />
               </template>
-              <el-input v-model="item.width" placeholder="请输入" clearable></el-input>
+              <el-input-number
+                v-model="item.width"
+                placeholder="请输入"
+                :min="50"
+                :max="999"
+                :step="1"
+                :controls="true"
+                controls-position="right"
+              />
             </el-form-item>
           </ResponsiveCol>
           <ResponsiveCol>
@@ -131,7 +139,15 @@ function getLabel(label?: string, propLabel?: string) {
                   tooltip-content="该设置会把剩余宽度按比例分配给设置了该属性的列"
                 />
               </template>
-              <el-input v-model="item.minWidth" placeholder="请输入" clearable></el-input>
+              <el-input-number
+                v-model="item.minWidth"
+                placeholder="请输入"
+                :min="50"
+                :max="999"
+                :step="1"
+                :controls="true"
+                controls-position="right"
+              />
             </el-form-item>
           </ResponsiveCol>
           <ResponsiveCol>
