@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Plus, Minus } from '@element-plus/icons-vue'
+import { Plus, Minus, QuestionFilled } from '@element-plus/icons-vue'
 import { METHOD_OPTIONS, VALUE_TYPE_OPTIONS } from './constants'
 import type { ApiConfigModel } from '.'
 
@@ -72,7 +72,16 @@ function onChange(key: string, data?: any) {
       ></my-divider-title>
       <el-row v-if="model.params?.length" class="header" align="middle">
         <div class="label">字段名称</div>
-        <div class="label">字段值</div>
+        <div class="label">
+          字段值
+          <el-tooltip placement="top">
+            <template #content>
+              表格操作中的自动获取代表批量操作时的自动获取多行数据的某个key的值；<br />
+              表列操作中的自动获取代表单行操作时自动获取当前行的key的值，key默认取字段名称配置
+            </template>
+            <el-icon color="#ffae1f" style="margin-left: 3px"><QuestionFilled /></el-icon>
+          </el-tooltip>
+        </div>
       </el-row>
       <el-row v-for="(item, index) in model.params" :key="'params' + index" align="middle">
         <el-form-item :prop="[...formItemProp, 'params', index + '', 'key']">
@@ -82,8 +91,7 @@ function onChange(key: string, data?: any) {
           <el-input
             v-model="item.value"
             class="input"
-            placeholder="请输入"
-            :disabled="item.valueType === 'auto'"
+            :placeholder="item.valueType === 'auto' ? '自动获取的行数据key' : '请输入'"
           >
             <template #prepend>
               <el-select
