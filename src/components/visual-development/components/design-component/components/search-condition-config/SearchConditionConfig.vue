@@ -35,6 +35,9 @@ function onChange(key: string, val: any, item: SearchConditionItem) {
         item.valueFormat = 'x'
       } else if (['Select', 'Cascader'].includes(val)) {
         item.dataSource = 'api'
+        if (val === 'Cascader') {
+          item.optionDataType = 'definition'
+        }
       }
       break
     }
@@ -167,22 +170,12 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
                   placeholder="请选择"
                   clearable
                   filterable
+                  :disabled="item.type === 'Cascader'"
                   @change="onChange('optionDataType', $event, item)"
                 >
                   <el-option label="静态数据" value="static_data" />
                   <el-option label="定义" value="definition" />
                 </el-select>
-              </el-form-item>
-            </ResponsiveCol>
-            <ResponsiveCol v-if="item.optionDataType === 'definition'">
-              <el-form-item :prop="['options', 'searchConditionItems', index + '', 'isTreeData']">
-                <template #label>
-                  <my-label label="是否树形数据" tooltip-content="选项数据类型为静态数据时配置" />
-                </template>
-                <el-radio-group v-model="item.isTreeData">
-                  <el-radio-button :label="true">是</el-radio-button>
-                  <el-radio-button :label="false">否</el-radio-button>
-                </el-radio-group>
               </el-form-item>
             </ResponsiveCol>
             <ResponsiveCol v-if="item.optionDataType === 'static_data'">
@@ -312,7 +305,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
                   :prop="['options', 'searchConditionItems', index + '', 'checkStrictly']"
                 >
                   <template #label>
-                    <my-label label="父子节点不互相关联" />
+                    <my-label label="父子节点不关联" />
                   </template>
                   <el-radio-group v-model="item.checkStrictly">
                     <el-radio-button :label="true">是</el-radio-button>
