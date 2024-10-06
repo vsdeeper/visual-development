@@ -48,7 +48,7 @@ export interface TableDesignDataOptions {
   autoCalcMaxHeight?: boolean
   relatedSearchId?: string
   tableLayout?: 'fixed' | 'auto'
-  showCheckbox?: boolean
+  showSelection?: boolean
   showPagination?: boolean
   defaultExpandAll?: boolean
   highlightCurrentRow?: boolean

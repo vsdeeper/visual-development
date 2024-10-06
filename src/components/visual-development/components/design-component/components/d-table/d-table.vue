@@ -32,7 +32,15 @@ const formData = defineModel<TableDesignData>({ default: () => ({ options: {} })
       <AutoCalcMaxHeightEditor :options="formData.options" />
     </ResponsiveCol>
     <ResponsiveCol>
-      <ShowCheckboxEditor :options="formData.options" />
+      <el-form-item :prop="['options', 'showSelection']">
+        <template #label>
+          <my-label label="显示多选框" />
+        </template>
+        <el-radio-group v-model="formData.options.showSelection">
+          <el-radio-button :label="true">是</el-radio-button>
+          <el-radio-button :label="false">否</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
     </ResponsiveCol>
     <ResponsiveCol>
       <HighlightCurrentRowEditor :options="formData.options" />

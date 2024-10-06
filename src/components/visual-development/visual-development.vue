@@ -187,7 +187,7 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
         label: item.label,
         options: {
           tableLayout: 'fixed',
-          showCheckbox: false,
+          showSelection: false,
           showPagination: true,
           highlightCurrentRow: true,
           autoCalcMaxHeight: true,
