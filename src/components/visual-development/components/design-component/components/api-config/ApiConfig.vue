@@ -2,14 +2,15 @@
 import { Plus, Minus, QuestionFilled } from '@element-plus/icons-vue'
 import { METHOD_OPTIONS, VALUE_TYPE_OPTIONS } from './constants'
 import type { ApiConfigModel } from '.'
+import { useGlobal } from '@/stores'
+import { findRootComponent, isRootComponent } from '@/components/visual-development/util'
+import type { MergeDesignData } from '@/components/visual-development'
 
 withDefaults(
   defineProps<{
-    title?: string
     formItemProp?: string[]
   }>(),
   {
-    title: '标题',
     formItemProp: () => ['options'],
   },
 )
@@ -18,6 +19,11 @@ const model = defineModel<ApiConfigModel>({
   default: () => ({
     params: [],
   }),
+})
+const globalApiOptions = computed(() => {
+  const { activeDesignData, designData } = useGlobal()
+  const findRoot = findRootComponent(activeDesignData as MergeDesignData, designData)
+  return findRoot?.options.globalApiConfig?.filter(e => !!e.name) ?? []
 })
 
 function onAdd() {
@@ -43,7 +49,22 @@ function onChange(key: string, data?: any) {
 
 <template>
   <div class="api-config">
-    <my-divider-title :label="title" />
+    <el-form-item
+      v-if="!isRootComponent(useGlobal().activeDesignData?.id!, useGlobal().designData)"
+      :prop="[...formItemProp, 'useGlobalApi']"
+    >
+      <template #label>
+        <my-label label="使用全局接口" />
+      </template>
+      <el-select v-model="model.useGlobalApi" placeholder="请选择" clearable filterable>
+        <el-option
+          v-for="(item, index) in globalApiOptions"
+          :key="'useGlobalApi' + index"
+          :label="item.name"
+          :value="item.name!"
+        />
+      </el-select>
+    </el-form-item>
     <el-form-item :prop="[...formItemProp, 'name']">
       <template #label>
         <my-label
@@ -77,7 +98,8 @@ function onChange(key: string, data?: any) {
           <el-tooltip placement="top">
             <template #content>
               表格操作中的自动获取代表批量操作时的自动获取多行数据的某个key的值；<br />
-              表列操作中的自动获取代表单行操作时自动获取当前行的key的值，key默认取字段名称配置
+              表列操作中的自动获取代表单行操作时自动获取当前行的key的值，key默认取字段名称配置，配置无效；<br />
+              以上其他场景下的自动获取配置无效；
             </template>
             <el-icon color="#ffae1f" style="margin-left: 3px"><QuestionFilled /></el-icon>
           </el-tooltip>
@@ -119,8 +141,12 @@ function onChange(key: string, data?: any) {
 
 <style lang="scss" scoped>
 .api-config {
+  flex: 1;
   padding: 12px;
   border: 2px dotted var(--el-border-color-dark);
+  & > .el-form-item {
+    margin-bottom: 18px;
+  }
 }
 .params-config {
   margin-bottom: 18px;

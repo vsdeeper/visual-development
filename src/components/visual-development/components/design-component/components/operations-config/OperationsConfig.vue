@@ -119,18 +119,26 @@ const onAdd = () => {
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <ApiConfig
-              v-model="model[index].apiConfig"
-              title="操作接口配置"
-              :form-item-prop="[...formItemProp, index + '', 'apiConfig']"
-            />
+            <el-form-item :prop="[...formItemProp, index + '', 'apiConfig']">
+              <template #label>
+                <MyLabel label="操作接口配置" />
+              </template>
+              <ApiConfig
+                v-model="model[index].apiConfig"
+                :form-item-prop="[...formItemProp, index + '', 'apiConfig']"
+              />
+            </el-form-item>
           </el-col>
           <el-col :span="24" style="margin-top: 12px">
-            <ApiConfig
-              v-model="model[index].echoApiConfig"
-              title="回显接口配置"
-              :form-item-prop="[...formItemProp, index + '', 'echoApiConfig']"
-            />
+            <el-form-item :prop="[...formItemProp, index + '', 'echoApiConfig']">
+              <template #label>
+                <MyLabel label="回显接口配置" />
+              </template>
+              <ApiConfig
+                v-model="model[index].echoApiConfig"
+                :form-item-prop="[...formItemProp, index + '', 'echoApiConfig']"
+              />
+            </el-form-item>
           </el-col>
         </el-row>
       </el-collapse-item>

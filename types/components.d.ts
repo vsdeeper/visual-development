@@ -57,6 +57,7 @@ declare module 'vue' {
     FlexibleEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/flexible-editor/flexible-editor.vue')['default']
     FontSizeEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/font-size-editor/font-size-editor.vue')['default']
     FormConfig: typeof import('./../src/components/visual-development/components/design-component/components/form-config/FormConfig.vue')['default']
+    GlobalApiConfig: typeof import('./../src/components/visual-development/components/design-component/components/d-project/components/GlobalApiConfig.vue')['default']
     HeightEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/height-editor/height-editor.vue')['default']
     HighlightCurrentRowEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/highlight-current-row-editor/highlight-current-row-editor.vue')['default']
     IdAliasEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/id-alias-editor/id-alias-editor.vue')['default']

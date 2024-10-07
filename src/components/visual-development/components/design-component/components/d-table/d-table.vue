@@ -65,18 +65,26 @@ const formData = defineModel<TableDesignData>({ default: () => ({ options: {} })
       <FlexibleEditor :options="formData.options" />
     </ResponsiveCol>
     <el-col :span="24">
-      <ApiConfig
-        v-model="formData.options.apiConfig"
-        title="列表接口配置"
-        :form-item-prop="['options', 'apiConfig']"
-      />
+      <el-form-item prop="options.apiConfig">
+        <template #label>
+          <MyLabel label="列表接口配置" />
+        </template>
+        <ApiConfig
+          v-model="formData.options.apiConfig"
+          :form-item-prop="['options', 'apiConfig']"
+        />
+      </el-form-item>
     </el-col>
     <el-col v-if="formData.options.lazy" :span="24" style="margin-top: 18px">
-      <ApiConfig
-        v-model="formData.options.lazyApiConfig"
-        title="懒加载子节点接口配置"
-        :form-item-prop="['options', 'lazyApiConfig']"
-      />
+      <el-form-item prop="options.lazyApiConfig">
+        <template #label>
+          <MyLabel label="懒加载子节点接口配置" />
+        </template>
+        <ApiConfig
+          v-model="formData.options.lazyApiConfig"
+          :form-item-prop="['options', 'lazyApiConfig']"
+        />
+      </el-form-item>
     </el-col>
     <el-col :span="24" style="margin-top: 18px">
       <OperationsConfig

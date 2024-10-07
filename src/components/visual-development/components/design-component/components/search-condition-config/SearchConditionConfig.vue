@@ -336,11 +336,15 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
           >
             <el-tabs v-model="item.dataSource" @tab-change="changeDataSource($event, item, index)">
               <el-tab-pane label="接口定义" name="api">
-                <ApiConfig
-                  title="接口配置"
-                  v-model="options.searchConditionItems[index].apiConfig"
-                  :form-item-prop="['options', 'searchConditionItems', index + '', 'apiConfig']"
-                />
+                <el-form-item :prop="['options', 'searchConditionItems', index + '', 'apiConfig']">
+                  <template #label>
+                    <MyLabel label="接口配置" />
+                  </template>
+                  <ApiConfig
+                    v-model="options.searchConditionItems[index].apiConfig"
+                    :form-item-prop="['options', 'searchConditionItems', index + '', 'apiConfig']"
+                  />
+                </el-form-item>
               </el-tab-pane>
               <el-tab-pane label="自定义" name="custom" :disabled="item.type === 'Cascader'">
                 <OptionsConfig

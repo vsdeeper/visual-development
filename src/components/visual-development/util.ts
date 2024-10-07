@@ -5,7 +5,7 @@ import {
   type ActiveDesignData,
   type MergeDesignData,
   type ComponentTypeOfPageDesigner,
-  type PresetDataItem
+  type PresetDataItem,
 } from '.'
 import { PRESET_DATA_KEY } from './constants'
 
@@ -36,8 +36,8 @@ export async function setPresetData(data?: {
     if (!presetData) return
     const copyPresetData: ActiveDesignData = JSON.parse(JSON.stringify(presetData))
     const foragePresetData = await getPresetData(PRESET_DATA_KEY)
-    if (foragePresetData?.some((e) => e.id === copyPresetData.id)) {
-      const find = foragePresetData.find((e) => e.id === copyPresetData.id)
+    if (foragePresetData?.some(e => e.id === copyPresetData.id)) {
+      const find = foragePresetData.find(e => e.id === copyPresetData.id)
       if (find) {
         find.timestamp = +new Date()
         find.data = copyPresetData
@@ -49,7 +49,7 @@ export async function setPresetData(data?: {
         name: extendData?.name,
         desc: extendData?.desc,
         data: copyPresetData,
-        timestamp: +new Date()
+        timestamp: +new Date(),
       })
     }
     localforage.setItem(PRESET_DATA_KEY, foragePresetData)
@@ -82,18 +82,18 @@ export function isActiveDesign(targetId: string, activeDesignData?: ActiveDesign
  * @returns
  */
 export function isRootComponent(id: string, designData: MergeDesignData[]) {
-  return designData.some((e) => e.id === id)
+  return designData.some(e => e.id === id)
 }
 
 /**
- * 找到组件的父级组件列表
+ * 找到组件的父级组件
  * @param data
  * @param designData
  * @returns
  */
 export function findParentComponentOfComponent(
   target: MergeDesignData,
-  designData: MergeDesignData[]
+  designData: MergeDesignData[],
 ) {
   if (!target) return
   let parent: MergeDesignData | MergeDesignData[] | undefined
@@ -104,7 +104,7 @@ export function findParentComponentOfComponent(
     // 全局查找
     for (const item of designData) {
       if (parent) break
-      forofForfindParentComponentsOfComponent(target.id, item, (parentData) => {
+      forofForfindParentComponentsOfComponent(target.id, item, parentData => {
         parent = parentData
       })
     }
@@ -112,10 +112,25 @@ export function findParentComponentOfComponent(
   return parent
 }
 
+/**
+ * 找到根组件，即所处项目组件
+ */
+export function findRootComponent(target: MergeDesignData, designData: MergeDesignData[]) {
+  let root: MergeDesignData | undefined
+  for (const item of designData) {
+    const flattenComponents = toFlattenComponents(item.components)
+    if (flattenComponents.some(e => e.id === target.id)) {
+      root = item
+      break
+    }
+  }
+  return root
+}
+
 function forofForfindParentComponentsOfComponent(
   id: string,
   data: MergeDesignData,
-  callback: (parentData: MergeDesignData) => void
+  callback: (parentData: MergeDesignData) => void,
 ) {
   for (const item of data.components ?? []) {
     if (item.id === id) {
@@ -146,10 +161,10 @@ export function toFlattenComponents(data?: MergeDesignData[]) {
  */
 export function forEachHandlerOfComponents(
   data: MergeDesignData[],
-  callback: (item: MergeDesignData) => void
+  callback: (item: MergeDesignData) => void,
 ) {
   const handler = (data: MergeDesignData[]) => {
-    data.forEach((item) => {
+    data.forEach(item => {
       callback(item)
       if (item.components?.length) handler(item.components)
     })
@@ -168,7 +183,7 @@ export function deleteComponent(activeDesignData: ActiveDesignData, designData: 
   if (!parent) return
   if (Array.isArray(parent)) {
     // 说明删除的组件是根组件
-    const index = parent.findIndex((e) => e.id === activeDesignData.id)
+    const index = parent.findIndex(e => e.id === activeDesignData.id)
     parent.splice(index!, 1)
     if (!parent.length) {
       // 不存在设计组件
@@ -179,7 +194,7 @@ export function deleteComponent(activeDesignData: ActiveDesignData, designData: 
     }
   } else {
     // 说明删除的是子组件
-    const index = parent.components!.findIndex((e) => e.id === activeDesignData.id)
+    const index = parent.components!.findIndex(e => e.id === activeDesignData.id)
     parent.components!.splice(index!, 1)
     setActiveDesignData(parent)
   }

@@ -146,6 +146,7 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
             pageIndex: 'pageIndex',
           },
           constants: [],
+          globalApiConfig: [],
         },
         components: [],
       } as ProjectDesignData

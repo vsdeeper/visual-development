@@ -1,6 +1,9 @@
 import ApiDomain from './ApiDomain.vue'
 import CommonField from './CommonField.vue'
+import GlobalApiConfig from './GlobalApiConfig.vue'
 
+export type GlobalApiConfigInstance = InstanceType<typeof GlobalApiConfig>
+export { GlobalApiConfig }
 export interface ApiDomainConfig {
   dev?: string
   test?: string

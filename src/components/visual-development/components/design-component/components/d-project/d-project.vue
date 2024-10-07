@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type MergeDesignData } from '@/components'
 import { ROW_GUTTER } from '../constants'
-import { ApiDomain } from './components'
+import { ApiDomain, GlobalApiConfig } from './components'
 import { TopRight } from '@element-plus/icons-vue'
 
 const formData = defineModel<MergeDesignData>({ default: () => ({ options: {} }) })
@@ -85,6 +85,14 @@ function onGoto(key: string) {
           <MyLabel label="通用字段" tooltip-content="和服务端交互的字段名称" />
         </template>
         <CommonField v-model="formData.options.commonField" />
+      </el-form-item>
+    </el-col>
+    <el-col :span="24">
+      <el-form-item prop="options.globalApiConfig">
+        <template #label>
+          <MyLabel label="全局接口配置" />
+        </template>
+        <GlobalApiConfig v-model="formData.options.globalApiConfig" />
       </el-form-item>
     </el-col>
     <el-col :span="24">
