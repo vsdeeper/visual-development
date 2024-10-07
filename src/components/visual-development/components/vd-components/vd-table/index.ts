@@ -30,6 +30,7 @@ export interface TableOperationsItem {
   label?: string
   value?: string
   code?: string // 权限标识符
+  type?: 'primary' | 'success' | 'warning' | 'danger' | 'info'
   show?: any
   enableConfirmation?: boolean
   formConfig?: Record<string, any>

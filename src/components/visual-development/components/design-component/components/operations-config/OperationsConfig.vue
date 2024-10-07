@@ -85,6 +85,21 @@ const onAdd = () => {
             </el-form-item>
           </ResponsiveCol>
           <ResponsiveCol>
+            <el-form-item :prop="[...formItemProp, index + '', 'type']">
+              <template #label>
+                <my-label label="操作按钮类型" />
+              </template>
+              <el-select v-model="item.type" placeholder="请选择" clearable>
+                <el-option
+                  v-for="item1 in ['primary', 'success', 'warning', 'danger', 'info']"
+                  :key="item1"
+                  :label="item1"
+                  :value="item1"
+                />
+              </el-select>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol>
             <el-form-item :prop="[...formItemProp, index + '', 'enableConfirmation']">
               <template #label>
                 <my-label label="开启二次确认" />
