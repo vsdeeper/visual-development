@@ -27,8 +27,8 @@ withDefaults(
     tooltipIconColor: '#ffae1f',
     tooltipIconLink: false,
     tooltipPlacement: 'top',
-    tooltipIcon: () => QuestionFilled
-  }
+    tooltipIcon: () => QuestionFilled,
+  },
 )
 
 const emit = defineEmits<{
@@ -39,8 +39,16 @@ const emit = defineEmits<{
 <template>
   <div class="my-label">
     {{ label }}
-    <el-tooltip v-if="tooltipContent" :effect="tooltipEffect" :placement="tooltipPlacement">
-      <template #content>{{ tooltipContent }}</template>
+    <el-tooltip
+      v-if="tooltipContent || $slots['tooltip-content']"
+      :effect="tooltipEffect"
+      :placement="tooltipPlacement"
+    >
+      <template #content>
+        <slot name="tooltip-content">
+          {{ tooltipContent }}
+        </slot>
+      </template>
       <el-icon
         :class="{ link: tooltipIconLink }"
         :color="tooltipIconColor"
