@@ -111,14 +111,6 @@ const onAdd = () => {
             </el-form-item>
           </ResponsiveCol>
           <el-col :span="24">
-            <el-form-item :prop="[...formItemProp, index + '', 'formConfig']">
-              <template #label>
-                <my-label label="表单配置" />
-              </template>
-              <FormConfig v-model="item.formConfig" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="24">
             <el-form-item :prop="[...formItemProp, index + '', 'apiConfig']">
               <template #label>
                 <MyLabel label="操作接口配置" />
@@ -127,6 +119,17 @@ const onAdd = () => {
                 v-model="model[index].apiConfig"
                 :form-item-prop="[...formItemProp, index + '', 'apiConfig']"
               />
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item :prop="[...formItemProp, index + '', 'formConfig']">
+              <template #label>
+                <my-label
+                  label="表单配置"
+                  tooltip-content="操作需要提交表单时配置，和回显接口配置配合使用，例如编辑操作"
+                />
+              </template>
+              <FormConfig v-model="item.formConfig" />
             </el-form-item>
           </el-col>
           <el-col :span="24" style="margin-top: 12px">
