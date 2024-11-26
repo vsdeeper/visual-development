@@ -27,13 +27,14 @@ export interface TableColumnItem {
 }
 
 export interface TableOperationsItem {
+  id: string
   label?: string
   value?: string
   code?: string // 权限标识符
   type?: 'primary' | 'success' | 'warning' | 'danger' | 'info'
   show?: any
   enableConfirmation?: boolean
-  formConfig?: Record<string, any>
+  formConfig?: { useOtherOperateForm?: string; value?: Record<string, any> }
   apiConfig?: ApiConfigModel
   echoApiConfig?: ApiConfigModel
   [key: string]: any

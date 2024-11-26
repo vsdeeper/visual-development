@@ -2,6 +2,7 @@
 import { Minus, Plus } from '@element-plus/icons-vue'
 import type { TableOperationsItem } from '../../../vd-components'
 import { ROW_GUTTER } from '../constants'
+import { nanoid } from 'nanoid'
 
 withDefaults(
   defineProps<{
@@ -22,7 +23,7 @@ const onDelete = (index: number) => {
 }
 
 const onAdd = () => {
-  model.value.push({ apiConfig: { params: [] }, echoApiConfig: { params: [] } })
+  model.value.push({ id: nanoid(5), apiConfig: { params: [] }, echoApiConfig: { params: [] } })
   activeName.value = model.value.length
 }
 </script>
@@ -129,7 +130,7 @@ const onAdd = () => {
                   tooltip-content="操作需要提交表单时配置，和回显接口配置配合使用，例如编辑操作"
                 />
               </template>
-              <FormConfig v-model="item.formConfig" />
+              <FormConfig v-model="item.formConfig" :id="item.id" />
             </el-form-item>
           </el-col>
           <el-col :span="24" style="margin-top: 12px">
