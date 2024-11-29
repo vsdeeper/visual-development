@@ -69,9 +69,7 @@ function onChange(key: string, data?: any) {
       <el-form-item :prop="[...formItemProp, 'name']">
         <template #label>
           <my-label label="封装名称">
-            <template #tooltip-content>
-              定义封装接口的变量名称，默认取接口地址的最后一串英文；<br />如果和其他封装名称重叠，则不会生成新的接口封装代码；<br />变量名称会自动加上get前缀；
-            </template>
+            <template #tooltip-content> 请加上query前缀，例如：queryTableData </template>
           </my-label>
         </template>
         <el-input v-model="model.name" clearable placeholder="请输入" />
