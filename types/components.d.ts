@@ -93,7 +93,6 @@ declare module 'vue' {
     SuffixIconEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/suffix-icon-editor/suffix-icon-editor.vue')['default']
     TableColumnConfig: typeof import('./../src/components/visual-development/components/design-component/components/table-column-config/TableColumnConfig.vue')['default']
     TableLayoutEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/table-layout-editor/table-layout-editor.vue')['default']
-    VdForm: typeof import('./../src/components/visual-development/components/vd-components/vd-form/vd-form.vue')['default']
     VdProject: typeof import('./../src/components/visual-development/components/vd-components/vd-project/vd-project.vue')['default']
     VdSearch: typeof import('./../src/components/visual-development/components/vd-components/vd-search/vd-search.vue')['default']
     VdTable: typeof import('./../src/components/visual-development/components/vd-components/vd-table/vd-table.vue')['default']

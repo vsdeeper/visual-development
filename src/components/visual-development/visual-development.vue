@@ -27,7 +27,6 @@ import {
   type TableDesignData,
 } from './components'
 import localforage from 'localforage'
-import { storeToRefs } from 'pinia'
 
 export type AddComponentInstance = InstanceType<typeof AddComponent>
 export type DesignComponentInstance = InstanceType<typeof DesignComponent>
@@ -35,8 +34,7 @@ export type ListOfShortcutKeysInstance = InstanceType<typeof ShortcutKeyDescript
 
 console.log('VdComponents 可视化设计组件', VdComponents)
 
-const { getVersion, designData, setDesignData, setActiveDesignData } = useGlobal()
-const { version } = storeToRefs(useGlobal())
+const { designData, setDesignData, setActiveDesignData } = useGlobal()
 const addComponentRef = ref<AddComponentInstance>()
 const designComponentRef = ref<DesignComponentInstance>()
 const exportDataRef = ref<ExportDataInstance>()
@@ -52,7 +50,6 @@ provide(EXPORT_DATA_REF_SYMBOL, exportDataRef)
 
 onMounted(async () => {
   loading.value = true
-  getVersion()
   window.addEventListener('keydown', handleKeydown)
   const forageDesignData: MergeDesignData[] | null = await localforage.getItem(DESIGN_DATA_KEY)
   designData.length = 0
@@ -233,7 +230,7 @@ function showMoreShortcutKey() {
       active: !designData.length || !useGlobal().activeDesignData,
     }"
   >
-    <div class="version">Visual Development {{ version }}</div>
+    <div class="version">Visual Development</div>
     <el-scrollbar v-if="!loading">
       <!-- {{ designData }} -->
       <draggable
