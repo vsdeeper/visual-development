@@ -77,11 +77,9 @@ function onChange(key: string, data?: any) {
       <el-form-item :prop="[...formItemProp, 'url']" label="接口地址">
         <el-input v-model="model.url" clearable placeholder="请输入">
           <template #prepend>
-            <el-form-item :prop="[...formItemProp, 'method']">
-              <el-select v-model="model.method" placeholder="类型" style="width: 100px">
-                <el-option v-for="item in METHOD_OPTIONS" :key="item" :label="item" :value="item" />
-              </el-select>
-            </el-form-item>
+            <el-select v-model="model.method" placeholder="类型" style="width: 100px">
+              <el-option v-for="item in METHOD_OPTIONS" :key="item" :label="item" :value="item" />
+            </el-select>
           </template>
         </el-input>
       </el-form-item>

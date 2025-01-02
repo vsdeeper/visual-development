@@ -1,6 +1,7 @@
 import { type BaseDesignData } from '@/components'
 import { type Sort } from 'element-plus'
 import type { ApiConfigModel } from '../../design-component/components'
+import type { FormDesignData } from 'vswift-form'
 
 export type TableColumnItemFormatterType =
   | 'static_data_transform' /**静态数据转换 */
@@ -26,6 +27,11 @@ export interface TableColumnItem {
   [key: string]: any
 }
 
+export interface FormConfig {
+  useOtherForm?: string
+  data?: FormDesignData
+}
+
 export interface TableOperationsItem {
   id: string
   label?: string
@@ -34,7 +40,7 @@ export interface TableOperationsItem {
   type?: 'primary' | 'success' | 'warning' | 'danger' | 'info'
   show?: any
   enableConfirmation?: boolean
-  formConfig?: { useOtherOperateForm?: string; value?: Record<string, any> }
+  formConfig?: FormConfig
   apiConfig?: ApiConfigModel
   echoApiConfig?: ApiConfigModel
   [key: string]: any

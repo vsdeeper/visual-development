@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { VisualDevelopment } from '@/components';
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import { VisualDevelopment } from '@/components'
 </script>
 
 <template>
-  <VisualDevelopment />
+  <el-config-provider :locale="zhCn">
+    <VisualDevelopment />
+  </el-config-provider>
 </template>

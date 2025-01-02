@@ -4,7 +4,6 @@ import { capitalizeFirstLetter } from '@/utils'
 export * from './vd-project'
 export * from './vd-search'
 export * from './vd-table'
-export * from './vd-form'
 export * from './vd-view'
 
 export type ComponentTypeOfPageDesigner =
@@ -14,7 +13,6 @@ export type ComponentTypeOfPageDesigner =
   // 以下全局组件
   | 'Search'
   | 'Table'
-  | 'Form'
 
 /** 基础设计数据类型 */
 export type BaseDesignData<T = Record<string, any>> = {

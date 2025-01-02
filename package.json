@@ -19,6 +19,7 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "preview": "vite preview",
@@ -42,6 +43,7 @@
     "nanoid": "^5.0.7",
     "pinia": "^2.1.7",
     "radash": "^12.1.0",
+    "vswift-form": "0.0.6",
     "vue": "^3.4.21",
     "vue3-ace-editor": "^2.2.4",
     "vuedraggable": "^4.1.0"

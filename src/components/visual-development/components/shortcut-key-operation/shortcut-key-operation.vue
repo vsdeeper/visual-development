@@ -4,13 +4,13 @@ import {
   type ActiveDesignData,
   type AddComponentInstance,
   type ExportDataInstance,
-  type ViewDesignData
+  type ViewDesignData,
 } from '../..'
 import { type ShortcutKeyOptionItem } from '.'
 import {
   ADD_COMPONENT_REF_SYMBOL,
   DESIGN_COMPONENT_REF_SYMBOL,
-  EXPORT_DATA_REF_SYMBOL
+  EXPORT_DATA_REF_SYMBOL,
 } from '@/utils/constants'
 import { deleteComponent } from '../../util'
 
@@ -47,7 +47,6 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) 
       // 设计组件
       if (activeDesignData?.id !== data?.id) setActiveDesignData(data)
       designComponentRef?.value.open()
-      setDialogFullscreen(useGlobal().activeDesignData?.type === 'Form')
     } else if (_keysStr === 'DELETE') {
       // 删除组件
       const { designData } = useGlobal()

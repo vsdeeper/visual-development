@@ -6,11 +6,9 @@ import { nanoid } from 'nanoid'
 
 withDefaults(
   defineProps<{
-    title?: string
     formItemProp?: string[]
   }>(),
   {
-    title: '标题',
     formItemProp: () => [],
   },
 )
@@ -23,14 +21,18 @@ const onDelete = (index: number) => {
 }
 
 const onAdd = () => {
-  model.value.push({ id: nanoid(5), apiConfig: { params: [] }, echoApiConfig: { params: [] } })
+  model.value.push({
+    id: nanoid(5),
+    apiConfig: { params: [] },
+    echoApiConfig: { params: [] },
+    formConfig: {},
+  })
   activeName.value = model.value.length
 }
 </script>
 
 <template>
   <div class="operations-config">
-    <MyDividerTitle :label="title" />
     <el-collapse v-if="model.length" v-model="activeName" accordion>
       <el-collapse-item v-for="(item, index) in model" :key="'item' + index" :name="index + 1">
         <template #title>
@@ -156,6 +158,7 @@ const onAdd = () => {
 
 <style lang="scss" scoped>
 .operations-config {
+  width: 100%;
   padding: 12px;
   border: 2px dotted var(--el-border-color-dark);
   .header {

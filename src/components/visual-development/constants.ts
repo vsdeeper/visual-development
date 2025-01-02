@@ -14,8 +14,8 @@ export const ADD_COMPONENT_OPTIONS = [
     name: '项目容器',
     children: [
       { label: '项目', value: 'Project' },
-      { label: '视图', value: 'View' }
-    ]
+      { label: '视图', value: 'View' },
+    ],
   },
   {
     id: 'BaseComponents',
@@ -23,12 +23,11 @@ export const ADD_COMPONENT_OPTIONS = [
     children: [
       { label: '搜索', value: 'Search', desc: '发大水范德萨' },
       { label: '表格', value: 'Table' },
-      { label: '表单', value: 'Form' }
-    ]
+    ],
   },
   {
     id: 'MyPreset',
     name: '我的预设',
-    children: []
-  }
+    children: [],
+  },
 ] as AddComponentGroupOptionItem[]

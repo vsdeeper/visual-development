@@ -1,29 +1,23 @@
 <script setup lang="ts">
 import { Minus, Plus } from '@element-plus/icons-vue'
-import {
-  type TableColumnItem,
-  type TableDesignDataOptions,
-  type TableColumnItemFormatterType,
-} from '@/components'
+import { type TableColumnItem, type TableColumnItemFormatterType } from '@/components'
 import { ROW_GUTTER } from '../constants'
 import { FIXED_OPTIONS, FORMATTER_OPTIONS } from './constants'
 import { nanoid } from 'nanoid'
 import { first, last } from 'lodash-es'
 
-const props = defineProps<{
+defineProps<{
   root: boolean
-  options: TableDesignDataOptions | TableColumnItem
   formItemProp?: string[]
   label?: string
-  isSubLevel?: boolean
 }>()
 
-const options = toRef(props, 'options')
-const activeName = ref(first(options.value.tableColumnItems)?.id)
+const model = defineModel<TableColumnItem[]>({ default: () => [] })
+const activeName = ref(first(model.value)?.id)
 
 function addItem() {
-  options.value.tableColumnItems?.push({ id: nanoid(5), apiConfig: { params: [] } })
-  activeName.value = last(options.value.tableColumnItems)?.id
+  model.value?.push({ id: nanoid(5), apiConfig: { params: [] } })
+  activeName.value = last(model.value)?.id
 }
 
 function addSubItem(item: TableColumnItem) {
@@ -31,13 +25,13 @@ function addSubItem(item: TableColumnItem) {
   item.tableColumnItems.push({ id: nanoid(5) })
 }
 
-function deleteItem(index: number, tableColumnItems: TableColumnItem[]) {
-  tableColumnItems.splice(index, 1)
-  if (!tableColumnItems.length) return
-  if (tableColumnItems[index]) {
-    activeName.value = tableColumnItems[index].id
+function deleteItem(index: number) {
+  model.value.splice(index, 1)
+  if (!model.value.length) return
+  if (model.value[index]) {
+    activeName.value = model.value[index].id
   } else {
-    activeName.value = tableColumnItems[index - 1].id
+    activeName.value = model.value[index - 1].id
   }
 }
 
@@ -56,9 +50,7 @@ function changeFormatterType(val: TableColumnItemFormatterType, item: TableColum
 }
 
 function getFormItemProp(index: number, formItemProp?: string[]) {
-  return Array.isArray(formItemProp)
-    ? [...formItemProp, 'tableColumnItems', index + '']
-    : ['options', 'tableColumnItems', index + '']
+  return Array.isArray(formItemProp) ? [...formItemProp, index + ''] : [index + '']
 }
 
 function getLabel(label?: string, propLabel?: string) {
@@ -68,13 +60,8 @@ function getLabel(label?: string, propLabel?: string) {
 
 <template>
   <div class="table-column-config">
-    <my-divider-title :label="root ? '表列配置' : '子表列配置'"></my-divider-title>
-    <el-collapse v-if="options.tableColumnItems?.length" v-model="activeName" accordion>
-      <el-collapse-item
-        v-for="(item, index) in options.tableColumnItems"
-        :key="item.id"
-        :name="item.id"
-      >
+    <el-collapse v-if="model.length" v-model="activeName" accordion>
+      <el-collapse-item v-for="(item, index) in model" :key="item.id" :name="item.id">
         <template #title>
           <div class="header">
             表列 - <span class="label">{{ getLabel(item.label, label) }}</span>
@@ -84,7 +71,7 @@ function getLabel(label?: string, propLabel?: string) {
             :icon="Minus"
             circle
             size="small"
-            @click.stop="deleteItem(index, options.tableColumnItems!)"
+            @click.stop="deleteItem(index)"
           >
           </el-button>
           <el-button
@@ -250,24 +237,29 @@ function getLabel(label?: string, propLabel?: string) {
                 <MyLabel label="动态数据回显接口配置" />
               </template>
               <ApiConfig
-                v-model="options.tableColumnItems[index].apiConfig"
+                v-model="model[index].apiConfig"
                 :form-item-prop="[...getFormItemProp(index, formItemProp)]"
               />
             </el-form-item>
           </el-col>
         </el-row>
-        <TableColumnConfig
-          :root="false"
-          :options="item"
-          :form-item-prop="getFormItemProp(index, formItemProp)"
-          :label="getLabel(item.label, label)"
-          is-sub-level
-        />
+        <el-form-item :prop="[...getFormItemProp(index, formItemProp)]">
+          <template #label>
+            <MyLabel label="子表列配置" />
+          </template>
+          <TableColumnConfig
+            :root="false"
+            v-model="item.tableColumnItems"
+            :form-item-prop="getFormItemProp(index, formItemProp)"
+            :label="getLabel(item.label, label)"
+            is-sub-level
+          />
+        </el-form-item>
       </el-collapse-item>
     </el-collapse>
-    <div v-if="!options.tableColumnItems?.length" class="nodata">暂未配置</div>
+    <div v-if="!model.length" class="nodata">暂未配置</div>
     <el-button
-      v-if="!isSubLevel"
+      v-if="root"
       type="primary"
       :icon="Plus"
       @click="addItem"
@@ -280,6 +272,7 @@ function getLabel(label?: string, propLabel?: string) {
 
 <style lang="scss" scoped>
 .table-column-config {
+  width: 1000%;
   padding: 12px;
   border: 2px dotted var(--el-border-color-dark);
   .table-column-config {

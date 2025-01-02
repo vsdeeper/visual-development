@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import draggable from 'vuedraggable'
+import { sleep } from 'radash'
 import { useGlobal } from '@/stores'
 import {
   type ActiveDesignData,
@@ -25,7 +26,6 @@ import {
   type ExportDataInstance,
   type TableDesignData,
 } from './components'
-import { nanoid } from 'nanoid'
 import localforage from 'localforage'
 import { storeToRefs } from 'pinia'
 
@@ -35,14 +35,14 @@ export type ListOfShortcutKeysInstance = InstanceType<typeof ShortcutKeyDescript
 
 console.log('VdComponents 可视化设计组件', VdComponents)
 
-const { getVersion, designData, setDesignData, setActiveDesignData, setDialogFullscreen } =
-  useGlobal()
+const { getVersion, designData, setDesignData, setActiveDesignData } = useGlobal()
 const { version } = storeToRefs(useGlobal())
 const addComponentRef = ref<AddComponentInstance>()
 const designComponentRef = ref<DesignComponentInstance>()
 const exportDataRef = ref<ExportDataInstance>()
 const listOfShortcutKeysRef = ref<ListOfShortcutKeysInstance>()
 const keyCodes = ref('')
+const loading = ref(false)
 
 // provide
 provide(IS_PAGE_DESIGN_MODE_SYMBOL, ref(true))
@@ -51,11 +51,14 @@ provide(DESIGN_COMPONENT_REF_SYMBOL, designComponentRef)
 provide(EXPORT_DATA_REF_SYMBOL, exportDataRef)
 
 onMounted(async () => {
+  loading.value = true
   getVersion()
   window.addEventListener('keydown', handleKeydown)
   const forageDesignData: MergeDesignData[] | null = await localforage.getItem(DESIGN_DATA_KEY)
   designData.length = 0
   forageDesignData?.map(data => designData.push(data))
+  await sleep(500)
+  loading.value = false
 })
 
 onUnmounted(() => {
@@ -85,7 +88,6 @@ async function handleKeydown(e: KeyboardEvent) {
     // V+D 键，设计组件
     designComponentRef.value?.open()
     keyCodes.value = ''
-    setDialogFullscreen(activeDesignData.type === 'Form')
   } else if (
     keyCodes.value.includes('DELETE') ||
     keyCodes.value.includes('METABACKSPACE') /** 兼容mac */
@@ -224,14 +226,15 @@ function showMoreShortcutKey() {
 
 <template>
   <div
+    v-loading="loading"
     id="visual-development"
     :class="{
-      'has-design-content': designData.length,
+      'has-design-content': !loading && designData.length,
       active: !designData.length || !useGlobal().activeDesignData,
     }"
   >
     <div class="version">Visual Development {{ version }}</div>
-    <el-scrollbar>
+    <el-scrollbar v-if="!loading">
       <!-- {{ designData }} -->
       <draggable
         class="transition-group-in-visual-development"
@@ -258,6 +261,7 @@ function showMoreShortcutKey() {
       </draggable>
     </el-scrollbar>
     <ShortcutKeyOperation
+      v-if="!loading"
       :options="
         designData.length ? [{ keys: ['V', 'A'] }] : [{ label: '添加组件', keys: ['V', 'A'] }]
       "
@@ -388,7 +392,6 @@ function showMoreShortcutKey() {
 <style lang="scss">
 .el-dialog.is-fullscreen {
   .el-dialog__body {
-    height: calc(100vh - 54px);
     box-sizing: border-box;
     & > .design-component {
       height: 100%;

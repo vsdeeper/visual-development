@@ -101,9 +101,11 @@ defineExpose({
       text-align: left;
     }
   }
-
   :deep(.el-select) {
     flex: 1;
+  }
+  :deep(.el-form-item .el-form-item) {
+    margin-bottom: 18px;
   }
 }
 </style>

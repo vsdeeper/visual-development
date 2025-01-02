@@ -87,21 +87,38 @@ const formData = defineModel<TableDesignData>({ default: () => ({ options: {} })
       </el-form-item>
     </el-col>
     <el-col :span="24" style="margin-top: 18px">
-      <OperationsConfig
-        title="表格操作配置"
-        v-model="formData.options.tableOperations"
-        :form-item-prop="['options', 'tableOperations']"
-      />
+      <el-form-item prop="options.tableOperations">
+        <template #label>
+          <MyLabel label="表格操作配置" />
+        </template>
+        <OperationsConfig
+          v-model="formData.options.tableOperations"
+          :form-item-prop="['options', 'tableOperations']"
+        />
+      </el-form-item>
     </el-col>
     <el-col :span="24" style="margin-top: 18px">
-      <TableColumnConfig root :options="formData.options" />
+      <el-form-item prop="options.tableColumnItems">
+        <template #label>
+          <MyLabel label="表列配置" />
+        </template>
+        <TableColumnConfig
+          v-model="formData.options.tableColumnItems"
+          root
+          :form-item-prop="['options', 'tableColumnItems']"
+        />
+      </el-form-item>
     </el-col>
     <el-col :span="24" style="margin-top: 18px">
-      <OperationsConfig
-        title="表列操作配置"
-        v-model="formData.options.tableColumnOperations"
-        :form-item-prop="['options', 'tableColumnOperations']"
-      />
+      <el-form-item prop="options.tableColumnOperations">
+        <template #label>
+          <MyLabel label="表列操作配置" />
+        </template>
+        <OperationsConfig
+          v-model="formData.options.tableColumnOperations"
+          :form-item-prop="['options', 'tableColumnOperations']"
+        />
+      </el-form-item>
     </el-col>
   </el-row>
 </template>
