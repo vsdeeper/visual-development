@@ -36,9 +36,7 @@ const onAdd = () => {
     <el-collapse v-if="model.length" v-model="activeName" accordion>
       <el-collapse-item v-for="(item, index) in model" :key="'item' + index" :name="index + 1">
         <template #title>
-          <div class="header">
-            操作 - <span class="label">{{ item.label }}</span>
-          </div>
+          <div class="header">操作 - {{ item.label }}</div>
           <el-button
             type="danger"
             :icon="Minus"
@@ -105,9 +103,23 @@ const onAdd = () => {
           <ResponsiveCol>
             <el-form-item :prop="[...formItemProp, index + '', 'enableConfirmation']">
               <template #label>
-                <my-label label="开启二次确认" />
+                <my-label label="开启二次确认" tooltip-content="开启二次确认默认为无表单操作" />
               </template>
               <el-radio-group v-model="item.enableConfirmation">
+                <el-radio-button :label="true">是</el-radio-button>
+                <el-radio-button :label="false">否</el-radio-button>
+              </el-radio-group>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol>
+            <el-form-item :prop="[...formItemProp, index + '', 'isNeedEchoApi']">
+              <template #label>
+                <my-label
+                  label="开启回显接口"
+                  tooltip-content="行操作若无需回显接口，则按照行数据回显"
+                />
+              </template>
+              <el-radio-group v-model="item.isNeedEchoApi">
                 <el-radio-button :label="true">是</el-radio-button>
                 <el-radio-button :label="false">否</el-radio-button>
               </el-radio-group>
@@ -119,12 +131,12 @@ const onAdd = () => {
                 <MyLabel label="操作接口配置" />
               </template>
               <ApiConfig
-                v-model="model[index].apiConfig"
+                v-model="item.apiConfig"
                 :form-item-prop="[...formItemProp, index + '', 'apiConfig']"
               />
             </el-form-item>
           </el-col>
-          <el-col :span="24">
+          <el-col v-if="!item.enableConfirmation" :span="24">
             <el-form-item :prop="[...formItemProp, index + '', 'formConfig']">
               <template #label>
                 <my-label
@@ -135,13 +147,13 @@ const onAdd = () => {
               <FormConfig v-model="item.formConfig" :id="item.id" />
             </el-form-item>
           </el-col>
-          <el-col :span="24" style="margin-top: 12px">
+          <el-col v-if="item.isNeedEchoApi" :span="24" style="margin-top: 12px">
             <el-form-item :prop="[...formItemProp, index + '', 'echoApiConfig']">
               <template #label>
                 <MyLabel label="回显接口配置" />
               </template>
               <ApiConfig
-                v-model="model[index].echoApiConfig"
+                v-model="item.echoApiConfig"
                 :form-item-prop="[...formItemProp, index + '', 'echoApiConfig']"
               />
             </el-form-item>
@@ -165,10 +177,6 @@ const onAdd = () => {
     display: flex;
     justify-content: flex-start;
     flex: 1;
-    .label {
-      color: var(--el-text-color-regular);
-      margin-left: 5px;
-    }
   }
 }
 </style>

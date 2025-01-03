@@ -79,14 +79,14 @@ function onGoto(key: string) {
         ></el-input>
       </el-form-item>
     </el-col>
-    <el-col :span="24">
+    <!-- <el-col :span="24">
       <el-form-item prop="options.commonField">
         <template #label>
           <MyLabel label="通用字段" tooltip-content="和服务端交互的字段名称" />
         </template>
         <CommonField v-model="formData.options.commonField" />
       </el-form-item>
-    </el-col>
+    </el-col> -->
     <el-col :span="24">
       <el-form-item prop="options.globalApiConfig">
         <template #label>

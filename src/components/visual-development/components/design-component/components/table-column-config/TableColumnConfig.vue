@@ -63,9 +63,7 @@ function getLabel(label?: string, propLabel?: string) {
     <el-collapse v-if="model.length" v-model="activeName" accordion>
       <el-collapse-item v-for="(item, index) in model" :key="item.id" :name="item.id">
         <template #title>
-          <div class="header">
-            表列 - <span class="label">{{ getLabel(item.label, label) }}</span>
-          </div>
+          <div class="header">表列 - {{ getLabel(item.label, label) }}</div>
           <el-button
             type="danger"
             :icon="Minus"
@@ -154,9 +152,33 @@ function getLabel(label?: string, propLabel?: string) {
             </el-form-item>
           </ResponsiveCol>
           <ResponsiveCol>
+            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'formatterType']">
+              <template #label>
+                <my-label
+                  label="数据回显类型"
+                  tooltip-content="数据回显时的转换规则或格式化类型，不选时直接回显该字段数据"
+                />
+              </template>
+              <el-select
+                v-model="item.formatterType"
+                placeholder="请选择"
+                clearable
+                @change="changeFormatterType($event, item)"
+              >
+                <el-option
+                  v-for="item1 in FORMATTER_OPTIONS"
+                  :key="item1.value"
+                  :label="item1.label"
+                  :value="item1.value"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol>
             <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'showOverflowTooltip']">
               <template #label>
-                <my-label label="内容超长tooltip" />
+                <my-label label="内容超长开启Tooltip" />
               </template>
               <el-radio-group v-model="item.showOverflowTooltip">
                 <el-radio-button :label="true">是</el-radio-button>
@@ -173,27 +195,6 @@ function getLabel(label?: string, propLabel?: string) {
                 <el-radio-button :label="true">是</el-radio-button>
                 <el-radio-button :label="false">否</el-radio-button>
               </el-radio-group>
-            </el-form-item>
-          </ResponsiveCol>
-          <ResponsiveCol>
-            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'formatterType']">
-              <template #label>
-                <my-label label="数据回显类型" tooltip-content="数据回显时的转换规则或格式化类型" />
-              </template>
-              <el-select
-                v-model="item.formatterType"
-                placeholder="请选择"
-                clearable
-                @change="changeFormatterType($event, item)"
-              >
-                <el-option
-                  v-for="item1 in FORMATTER_OPTIONS"
-                  :key="item1.value"
-                  :label="item1.label"
-                  :value="item1.value"
-                >
-                </el-option>
-              </el-select>
             </el-form-item>
           </ResponsiveCol>
           <ResponsiveCol v-if="item.formatterType === 'dynamic_data_transform'">
@@ -277,16 +278,15 @@ function getLabel(label?: string, propLabel?: string) {
   border: 2px dotted var(--el-border-color-dark);
   .table-column-config {
     margin-top: 12px;
+    & > .nodata {
+      padding: 0;
+    }
   }
 }
 .header {
   display: flex;
   justify-content: flex-start;
   flex: 1;
-  .label {
-    color: var(--el-text-color-regular);
-    margin-left: 5px;
-  }
 }
 :deep(.el-collapse-item__content > .el-collapse) {
   margin: 0 10px;

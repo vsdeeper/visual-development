@@ -40,6 +40,7 @@ export interface TableOperationsItem {
   type?: 'primary' | 'success' | 'warning' | 'danger' | 'info'
   show?: any
   enableConfirmation?: boolean
+  isNeedEchoApi?: boolean
   formConfig?: FormConfig
   apiConfig?: ApiConfigModel
   echoApiConfig?: ApiConfigModel
@@ -67,6 +68,7 @@ export interface TableDesignDataOptions {
   lazyApiConfig?: ApiConfigModel
   defaultSort?: Sort
   virtualized?: boolean
+  showOverflowTooltip?: boolean
   [key: string]: any
 }
 export type TableDesignData = BaseDesignData<TableDesignDataOptions>

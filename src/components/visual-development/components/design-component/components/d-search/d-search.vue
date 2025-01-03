@@ -18,7 +18,9 @@ const formData = defineModel<MergeDesignData>({ default: () => ({ options: {} })
       </el-form-item>
     </ResponsiveCol>
     <el-col :span="24">
-      <SearchConditionConfig v-model="formData.options"></SearchConditionConfig>
+      <el-form-item label="搜索条件配置" prop="options.searchConditionItems">
+        <SearchConditionConfig v-model="formData.options.searchConditionItems" />
+      </el-form-item>
     </el-col>
   </el-row>
 </template>

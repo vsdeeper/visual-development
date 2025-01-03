@@ -8,7 +8,7 @@ export interface ProjectDesignDataOptions {
   apiDomain?: ApiDomainConfig
   apiBasePath?: string
   npmrc?: string
-  commonField?: Record<string, any>
+  // commonField?: Record<string, any>
   globalApiConfig?: ApiConfigModel[]
   description?: string
 }

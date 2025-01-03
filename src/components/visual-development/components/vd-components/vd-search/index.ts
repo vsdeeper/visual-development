@@ -33,7 +33,7 @@ export interface SearchConditionItem {
   placeholder?: string
   dataSource?: 'api' | 'custom'
   apiConfig?: ApiConfigModel
-  options?: SearchConditionOptionItem[]
+  optionData?: SearchConditionOptionItem[]
   itemLabel?: string
   itemValue?: string
   itemChildren?: string

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type TableDesignData } from '@/components'
-import { ROW_GUTTER } from '../constants'
+import { ROW_GUTTER, TABLE_LAYOUT_OPTIONS } from '../constants'
 
 const formData = defineModel<TableDesignData>({ default: () => ({ options: {} }) })
 </script>
@@ -11,16 +11,20 @@ const formData = defineModel<TableDesignData>({ default: () => ({ options: {} })
       <IdEditor :form-data="formData" />
     </ResponsiveCol>
     <ResponsiveCol>
-      <TableLayoutEditor :options="formData.options" />
-    </ResponsiveCol>
-    <ResponsiveCol>
-      <ItemHasChildrenEditor :options="formData.options" />
-    </ResponsiveCol>
-    <ResponsiveCol>
-      <ItemChildrenEditor :options="formData.options" />
-    </ResponsiveCol>
-    <ResponsiveCol>
-      <RowKeyEditor :options="formData.options" />
+      <el-form-item prop="options.tableLayout">
+        <template #label>
+          <my-label label="表格的布局方式" />
+        </template>
+        <el-select v-model="formData.options.tableLayout" placeholder="请选择" clearable>
+          <el-option
+            v-for="item in TABLE_LAYOUT_OPTIONS"
+            :key="item.value"
+            :label="`${item.label} - ${item.value}`"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
     </ResponsiveCol>
     <ResponsiveCol>
       <el-form-item label="操作列宽度" :prop="['options', 'operateColumnWidth']">
@@ -36,13 +40,35 @@ const formData = defineModel<TableDesignData>({ default: () => ({ options: {} })
       </el-form-item>
     </ResponsiveCol>
     <ResponsiveCol>
-      <LazyEditor :options="formData.options" />
+      <ItemHasChildrenEditor :options="formData.options" />
     </ResponsiveCol>
     <ResponsiveCol>
-      <VirtualizedEditor :options="formData.options" />
+      <ItemChildrenEditor :options="formData.options" />
     </ResponsiveCol>
     <ResponsiveCol>
-      <AutoCalcMaxHeightEditor :options="formData.options" />
+      <RowKeyEditor :options="formData.options" />
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <el-form-item prop="options.showOverflowTooltip">
+        <template #label>
+          <my-label label="内容超长开启Tooltip" tooltip-content="将影响全部列的展示" />
+        </template>
+        <el-radio-group v-model="formData.options.showOverflowTooltip">
+          <el-radio-button :label="true">是</el-radio-button>
+          <el-radio-button :label="false">否</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <el-form-item prop="options.showPagination">
+        <template #label>
+          <my-label label="显示分页" />
+        </template>
+        <el-radio-group v-model="formData.options.showPagination">
+          <el-radio-button :label="true">是</el-radio-button>
+          <el-radio-button :label="false">否</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
     </ResponsiveCol>
     <ResponsiveCol>
       <el-form-item :prop="['options', 'showSelection']">
@@ -56,14 +82,48 @@ const formData = defineModel<TableDesignData>({ default: () => ({ options: {} })
       </el-form-item>
     </ResponsiveCol>
     <ResponsiveCol>
+      <LazyEditor :options="formData.options" />
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <VirtualizedEditor :options="formData.options" />
+    </ResponsiveCol>
+    <ResponsiveCol>
+      <el-form-item prop="options.autoCalcMaxHeight">
+        <template #label>
+          <my-label label="自动计算最大高度" tooltip-content="控制列表数据是否在一屏内展示" />
+        </template>
+        <el-radio-group v-model="formData.options.autoCalcMaxHeight">
+          <el-radio-button :label="true">是</el-radio-button>
+          <el-radio-button :label="false">否</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
+    </ResponsiveCol>
+    <ResponsiveCol>
       <HighlightCurrentRowEditor :options="formData.options" />
     </ResponsiveCol>
     <ResponsiveCol>
-      <ShowPaginationEditor :options="formData.options" />
+      <el-form-item prop="options.flexible">
+        <template #label>
+          <my-label label="主轴弹性" tooltip-content="确保主轴的最小尺寸，以便不超过内容" />
+        </template>
+        <el-radio-group v-model="formData.options.flexible">
+          <el-radio-button :label="true">是</el-radio-button>
+          <el-radio-button :label="false">否</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
     </ResponsiveCol>
-    <ResponsiveCol>
-      <FlexibleEditor :options="formData.options" />
-    </ResponsiveCol>
+    <el-col :span="24" style="margin-top: 18px">
+      <el-form-item prop="options.tableColumnItems">
+        <template #label>
+          <MyLabel label="表列配置" />
+        </template>
+        <TableColumnConfig
+          v-model="formData.options.tableColumnItems"
+          root
+          :form-item-prop="['options', 'tableColumnItems']"
+        />
+      </el-form-item>
+    </el-col>
     <el-col :span="24">
       <el-form-item prop="options.apiConfig">
         <template #label>
@@ -94,18 +154,6 @@ const formData = defineModel<TableDesignData>({ default: () => ({ options: {} })
         <OperationsConfig
           v-model="formData.options.tableOperations"
           :form-item-prop="['options', 'tableOperations']"
-        />
-      </el-form-item>
-    </el-col>
-    <el-col :span="24" style="margin-top: 18px">
-      <el-form-item prop="options.tableColumnItems">
-        <template #label>
-          <MyLabel label="表列配置" />
-        </template>
-        <TableColumnConfig
-          v-model="formData.options.tableColumnItems"
-          root
-          :form-item-prop="['options', 'tableColumnItems']"
         />
       </el-form-item>
     </el-col>

@@ -69,7 +69,7 @@ function onChange(key: string, data?: any) {
       <el-form-item :prop="[...formItemProp, 'name']">
         <template #label>
           <my-label label="封装名称">
-            <template #tooltip-content> 请加上query前缀，例如：queryTableData </template>
+            <template #tooltip-content> 查询接口请加上query前缀，例如：queryTableData </template>
           </my-label>
         </template>
         <el-input v-model="model.name" clearable placeholder="请输入" />
@@ -143,9 +143,6 @@ function onChange(key: string, data?: any) {
   flex: 1;
   padding: 12px;
   border: 2px dotted var(--el-border-color-dark);
-  & > .el-form-item {
-    margin-bottom: 18px;
-  }
 }
 .params-config {
   margin-bottom: 18px;
@@ -163,9 +160,11 @@ function onChange(key: string, data?: any) {
   .el-row + .el-row {
     margin-top: 5px;
   }
+  .el-row > .el-form-item {
+    margin-bottom: 0 !important;
+  }
   .el-form-item {
     flex: 1;
-    margin-bottom: 0;
     & + .el-form-item {
       margin: 0 0 0 5px;
     }

@@ -112,8 +112,8 @@ function onChange(key: string, data?: any) {
       margin: 5px 0 0;
     }
   }
-  .el-form-item {
-    margin-bottom: 0;
+  .el-row > .el-form-item {
+    margin-bottom: 0 !important;
   }
   :deep(.el-input-number .el-input__inner) {
     text-align: left;
