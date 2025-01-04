@@ -8,7 +8,7 @@ function open() {
 }
 
 defineExpose({
-  open
+  open,
 })
 </script>
 
@@ -18,7 +18,10 @@ defineExpose({
       <template v-for="(item, index) in SHORTCUT_KEYS_OPTIONS" :key="`${item.name}${index}`">
         <div class="key-note">
           <div v-for="key in item.keys" :key="key" class="key">{{ key }}</div>
-          <div class="note">{{ item.name }}</div>
+          <div class="note">
+            <el-text size="large">{{ item.name }}</el-text>
+            <el-text v-if="item.desc" type="info" size="small">{{ item.desc }}</el-text>
+          </div>
         </div>
         <el-divider></el-divider>
       </template>
@@ -52,8 +55,15 @@ defineExpose({
   }
 
   .note {
+    display: flex;
+    flex-direction: column;
     margin-left: 15px;
-    font-size: 14px;
+    .el-text {
+      align-self: flex-start;
+      &.el-text--info {
+        margin-top: 5px;
+      }
+    }
   }
 }
 </style>

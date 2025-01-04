@@ -26,8 +26,14 @@ const operateFormOptions = computed(() => {
 })
 const VsFormDesignerRef = ref<VsFormDesignerInstance>()
 
+const onFormConfig = async () => {
+  show.value = true
+  await nextTick()
+  VsFormDesignerRef.value?.setModel(model.value.data)
+}
+
 const onConfirm = () => {
-  const formDesignData = VsFormDesignerRef.value?.getFormDesignData()
+  const formDesignData = VsFormDesignerRef.value?.getModel()
   model.value = { ...model.value, data: formDesignData }
   show.value = false
 }
@@ -52,12 +58,12 @@ const onConfirm = () => {
         </el-option>
       </el-select>
     </div>
-    <div class="just-config">
+    <div v-if="!model.useOtherForm" class="just-config">
       <el-text v-if="model.data?.widgetList.length" :type="model.data?.form.name ? '' : 'info'">
         {{ model.data?.form.name ?? '未命名的表单' }}
       </el-text>
       <el-text v-else type="info">暂未配置</el-text>
-      <el-button type="primary" link @click="show = true">
+      <el-button type="primary" link @click="onFormConfig">
         去配置
         <el-icon><Right /></el-icon>
       </el-button>

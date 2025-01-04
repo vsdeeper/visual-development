@@ -39,6 +39,7 @@ export interface TableOperationsItem {
   code?: string // 权限标识符
   type?: 'primary' | 'success' | 'warning' | 'danger' | 'info'
   show?: any
+  readonly?: boolean
   enableConfirmation?: boolean
   isNeedEchoApi?: boolean
   formConfig?: FormConfig

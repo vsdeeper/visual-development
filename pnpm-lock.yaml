@@ -23,9 +23,6 @@ importers:
       localforage:
         specifier: ^1.10.0
         version: 1.10.0
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
       nanoid:
         specifier: ^5.0.7
         version: 5.0.7
@@ -36,8 +33,8 @@ importers:
         specifier: ^12.1.0
         version: 12.1.0
       vswift-form:
-        specifier: 0.0.6
-        version: 0.0.6(@element-plus/icons-vue@2.3.1(vue@3.5.13(typescript@5.4.5)))(date-fns@3.6.0)(element-plus@2.7.2(vue@3.5.13(typescript@5.4.5)))(nanoid@5.0.7)(radash@12.1.0)(vue@3.5.13(typescript@5.4.5))
+        specifier: 0.0.12
+        version: 0.0.12(@element-plus/icons-vue@2.3.1(vue@3.5.13(typescript@5.4.5)))(date-fns@3.6.0)(element-plus@2.7.2(vue@3.5.13(typescript@5.4.5)))(nanoid@5.0.7)(radash@12.1.0)(vue@3.5.13(typescript@5.4.5))
       vue:
         specifier: ^3.4.21
         version: 3.5.13(typescript@5.4.5)
@@ -484,46 +481,55 @@ packages:
     resolution: {integrity: sha512-3reX2fUHqN7sffBNqmEyMQVj/CKhIHZd4y631duy0hZqI8Qoqf6lTtmAKvJFYa6bhU95B1D0WgzHkmTg33In0A==}
     cpu: [arm]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-arm-musleabihf@4.17.2':
     resolution: {integrity: sha512-uSqpsp91mheRgw96xtyAGP9FW5ChctTFEoXP0r5FAzj/3ZRv3Uxjtc7taRQSaQM/q85KEKjKsZuiZM3GyUivRg==}
     cpu: [arm]
     os: [linux]
+    libc: [musl]
 
   '@rollup/rollup-linux-arm64-gnu@4.17.2':
     resolution: {integrity: sha512-EMMPHkiCRtE8Wdk3Qhtciq6BndLtstqZIroHiiGzB3C5LDJmIZcSzVtLRbwuXuUft1Cnv+9fxuDtDxz3k3EW2A==}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-arm64-musl@4.17.2':
     resolution: {integrity: sha512-NMPylUUZ1i0z/xJUIx6VUhISZDRT+uTWpBcjdv0/zkp7b/bQDF+NfnfdzuTiB1G6HTodgoFa93hp0O1xl+/UbA==}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@rollup/rollup-linux-powerpc64le-gnu@4.17.2':
     resolution: {integrity: sha512-T19My13y8uYXPw/L/k0JYaX1fJKFT/PWdXiHr8mTbXWxjVF1t+8Xl31DgBBvEKclw+1b00Chg0hxE2O7bTG7GQ==}
     cpu: [ppc64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-riscv64-gnu@4.17.2':
     resolution: {integrity: sha512-BOaNfthf3X3fOWAB+IJ9kxTgPmMqPPH5f5k2DcCsRrBIbWnaJCgX2ll77dV1TdSy9SaXTR5iDXRL8n7AnoP5cg==}
     cpu: [riscv64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-s390x-gnu@4.17.2':
     resolution: {integrity: sha512-W0UP/x7bnn3xN2eYMql2T/+wpASLE5SjObXILTMPUBDB/Fg/FxC+gX4nvCfPBCbNhz51C+HcqQp2qQ4u25ok6g==}
     cpu: [s390x]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-x64-gnu@4.17.2':
     resolution: {integrity: sha512-Hy7pLwByUOuyaFC6mAr7m+oMC+V7qyifzs/nW2OJfC8H4hbCzOX07Ov0VFk/zP3kBsELWNFi7rJtgbKYsav9QQ==}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-x64-musl@4.17.2':
     resolution: {integrity: sha512-h1+yTWeYbRdAyJ/jMiVw0l6fOOm/0D1vNLui9iPuqgRGnXA0u21gAqOyB5iHjlM9MMfNOm9RHCQ7zLIzT0x11Q==}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@rollup/rollup-win32-arm64-msvc@4.17.2':
     resolution: {integrity: sha512-tmdtXMfKAjy5+IQsVtDiCfqbynAQE/TQRpWdVataHmhMb9DCoJxp9vLcCBjEQWMiUYxO1QprH/HbY9ragCEFLA==}
@@ -2407,8 +2413,8 @@ packages:
       terser:
         optional: true
 
-  vswift-form@0.0.6:
-    resolution: {integrity: sha512-qhKJVQaX1vyS3piHgkMOsPKUK4ZfgXnPw/7Ir2AysGC67PObbonqUxtCehZSIfhGZ1XLSGl7UU78RgKvraDNkA==}
+  vswift-form@0.0.12:
+    resolution: {integrity: sha512-iL/rg4QZZulxliTqdOJ8nyMd4gFz+7SxsUIsVVdIZvAJeFeaMpTg2kJ+/5W+NWdrzhBPRJjpCECXa36WDTLqYQ==}
     peerDependencies:
       '@element-plus/icons-vue': ^2.3.0
       date-fns: ^3.6.0
@@ -5024,7 +5030,7 @@ snapshots:
       fsevents: 2.3.3
       sass: 1.77.0
 
-  vswift-form@0.0.6(@element-plus/icons-vue@2.3.1(vue@3.5.13(typescript@5.4.5)))(date-fns@3.6.0)(element-plus@2.7.2(vue@3.5.13(typescript@5.4.5)))(nanoid@5.0.7)(radash@12.1.0)(vue@3.5.13(typescript@5.4.5)):
+  vswift-form@0.0.12(@element-plus/icons-vue@2.3.1(vue@3.5.13(typescript@5.4.5)))(date-fns@3.6.0)(element-plus@2.7.2(vue@3.5.13(typescript@5.4.5)))(nanoid@5.0.7)(radash@12.1.0)(vue@3.5.13(typescript@5.4.5)):
     dependencies:
       '@element-plus/icons-vue': 2.3.1(vue@3.5.13(typescript@5.4.5))
       '@vswift/utils': 1.1.2

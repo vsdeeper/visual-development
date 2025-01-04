@@ -16,14 +16,14 @@ const word = ref()
 const renderOptions = ref<AddComponentGroupOptionItem[]>([])
 const sourceOptions = ref<AddComponentGroupOptionItem[]>([])
 
-watch(word, (word) => {
+watch(word, word => {
   const copySourceOptions: AddComponentGroupOptionItem[] = JSON.parse(
-    JSON.stringify(sourceOptions.value)
+    JSON.stringify(sourceOptions.value),
   )
-  renderOptions.value = copySourceOptions.filter((groupItem) => {
+  renderOptions.value = copySourceOptions.filter(groupItem => {
     groupItem.children = groupItem.children.filter(
-      (e) =>
-        e.label.includes(word ?? '') || e.value.toLowerCase().includes((word ?? '').toLowerCase())
+      e =>
+        e.label.includes(word ?? '') || e.value.toLowerCase().includes((word ?? '').toLowerCase()),
     )
     return !!groupItem.children.length
   })
@@ -48,30 +48,30 @@ function opened() {
 
 async function filterAddComponentOptions(
   options: AddComponentGroupOptionItem[],
-  activeDesignData?: ActiveDesignData
+  activeDesignData?: ActiveDesignData,
 ) {
   const _options: AddComponentGroupOptionItem[] = JSON.parse(JSON.stringify(options))
   // 将预设数据加入到选项
   const presetData: PresetDataItem[] | null = await localforage.getItem(PRESET_DATA_KEY)
   if (presetData) {
-    const find = _options.find((e) => e.id === 'MyPreset')
+    const find = _options.find(e => e.id === 'MyPreset')
     if (find) {
-      find.children = presetData.map((e) => ({
+      find.children = presetData.map(e => ({
         label: e.name,
         value: e.type,
         presetId: e.id,
         desc: e.desc,
-        disabled: false
+        disabled: false,
       }))
     }
   }
   if (!activeDesignData /**不存在当前设计数据，即初始状态，只能添加项目组件 */) {
-    _options.forEach((optionItem) =>
+    _options.forEach(optionItem =>
       optionItem.id === 'ProjectContainer'
-        ? optionItem.children.forEach((item) =>
-            item.value === 'Project' ? (item.disabled = false) : (item.disabled = true)
+        ? optionItem.children.forEach(item =>
+            item.value === 'Project' ? (item.disabled = false) : (item.disabled = true),
           )
-        : optionItem.children.forEach((item) => (item.disabled = true))
+        : optionItem.children.forEach(item => (item.disabled = true)),
     )
   } else {
     // 存在设计数据，不能添加项目组件
@@ -83,17 +83,17 @@ async function filterAddComponentOptions(
     }, [])
 
     if (activeDesignData.type === 'Project') {
-      flattenOptions.map((item) => {
+      flattenOptions.map(item => {
         if (item.value === 'View') item.disabled = false
         else item.disabled = true
       })
     } else if (activeDesignData.type === 'View') {
-      flattenOptions.map((item) => {
+      flattenOptions.map(item => {
         if (item.value === 'Project' || item.value === 'View') item.disabled = true
         else item.disabled = false
       })
     } else {
-      flattenOptions.map((item) => {
+      flattenOptions.map(item => {
         if (item.value === 'Project' || item.value === 'View') item.disabled = true
         else item.disabled = false
       })
@@ -103,7 +103,8 @@ async function filterAddComponentOptions(
 }
 
 defineExpose({
-  open
+  open,
+  show,
 })
 </script>
 

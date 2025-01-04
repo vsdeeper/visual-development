@@ -60,6 +60,7 @@ function refreshId(data: ActiveDesignData) {
 
 defineExpose({
   open,
+  show,
 })
 </script>
 

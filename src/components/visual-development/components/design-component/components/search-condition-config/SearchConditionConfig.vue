@@ -4,7 +4,7 @@ import { type SearchConditionItem } from '@/components'
 import { ROW_GUTTER } from '../constants'
 import { SEARCH_TYPE_OPTIONS, DATE_TYPE_OPTIONS } from './constants'
 import { type TabPaneName } from 'element-plus'
-import { first, last } from 'lodash-es'
+import { first, last } from 'radash'
 import { genId } from '@/components/visual-development/util'
 
 const model = defineModel<SearchConditionItem[]>({ default: () => [] })

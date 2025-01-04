@@ -2,9 +2,6 @@
 import { Plus, Minus, QuestionFilled } from '@element-plus/icons-vue'
 import { METHOD_OPTIONS, VALUE_TYPE_OPTIONS } from './constants'
 import type { ApiConfigModel } from '.'
-import { useGlobal } from '@/stores'
-import { findRootComponent, isRootComponent } from '@/components/visual-development/util'
-import type { MergeDesignData } from '@/components/visual-development'
 
 withDefaults(
   defineProps<{
@@ -19,11 +16,6 @@ const model = defineModel<ApiConfigModel>({
   default: () => ({
     params: [],
   }),
-})
-const globalApiOptions = computed(() => {
-  const { activeDesignData, designData } = useGlobal()
-  const findRoot = findRootComponent(activeDesignData as MergeDesignData, designData)
-  return findRoot?.options.globalApiConfig?.filter(e => !!e.name) ?? []
 })
 
 function onAdd() {
@@ -49,22 +41,6 @@ function onChange(key: string, data?: any) {
 
 <template>
   <div class="api-config">
-    <el-form-item
-      v-if="!isRootComponent(useGlobal().activeDesignData?.id!, useGlobal().designData)"
-      :prop="[...formItemProp, 'useGlobalApi']"
-    >
-      <template #label>
-        <my-label label="使用全局接口" />
-      </template>
-      <el-select v-model="model.useGlobalApi" placeholder="请选择" clearable filterable>
-        <el-option
-          v-for="(item, index) in globalApiOptions"
-          :key="'useGlobalApi' + index"
-          :label="item.name"
-          :value="item.name!"
-        />
-      </el-select>
-    </el-form-item>
     <template v-if="!model.useGlobalApi">
       <el-form-item :prop="[...formItemProp, 'name']">
         <template #label>
@@ -111,7 +87,7 @@ function onChange(key: string, data?: any) {
             <el-input
               v-model="item.value"
               class="input"
-              :placeholder="item.valueType === 'auto' ? '自动获取的行数据key' : '请输入'"
+              :placeholder="item.valueType === 'auto' ? '自动获取参数值的Key' : '请输入'"
             >
               <template #prepend>
                 <el-select

@@ -4,7 +4,7 @@ import { type TableColumnItem, type TableColumnItemFormatterType } from '@/compo
 import { ROW_GUTTER } from '../constants'
 import { FIXED_OPTIONS, FORMATTER_OPTIONS } from './constants'
 import { nanoid } from 'nanoid'
-import { first, last } from 'lodash-es'
+import { first, last } from 'radash'
 
 defineProps<{
   root: boolean

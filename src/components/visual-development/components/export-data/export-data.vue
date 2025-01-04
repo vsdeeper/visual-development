@@ -60,6 +60,7 @@ async function onConfirmExport() {
 
 defineExpose({
   open,
+  show,
 })
 </script>
 

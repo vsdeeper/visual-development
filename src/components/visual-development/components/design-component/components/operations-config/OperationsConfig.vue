@@ -101,9 +101,26 @@ const onAdd = () => {
             </el-form-item>
           </ResponsiveCol>
           <ResponsiveCol>
+            <el-form-item :prop="[...formItemProp, index + '', 'readonly']">
+              <template #label>
+                <my-label
+                  label="表单只读"
+                  tooltip-content="决定操作表单是否可编辑，如果是只读则无需操作接口配置"
+                />
+              </template>
+              <el-radio-group v-model="item.readonly">
+                <el-radio-button :label="true">是</el-radio-button>
+                <el-radio-button :label="false">否</el-radio-button>
+              </el-radio-group>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol>
             <el-form-item :prop="[...formItemProp, index + '', 'enableConfirmation']">
               <template #label>
-                <my-label label="开启二次确认" tooltip-content="开启二次确认默认为无表单操作" />
+                <my-label
+                  label="开启二次确认"
+                  tooltip-content="开启二次确认，一般无表单配置，如删除操作"
+                />
               </template>
               <el-radio-group v-model="item.enableConfirmation">
                 <el-radio-button :label="true">是</el-radio-button>
@@ -115,7 +132,7 @@ const onAdd = () => {
             <el-form-item :prop="[...formItemProp, index + '', 'isNeedEchoApi']">
               <template #label>
                 <my-label
-                  label="开启回显接口"
+                  label="配置回显接口"
                   tooltip-content="行操作若无需回显接口，则按照行数据回显"
                 />
               </template>
@@ -125,7 +142,7 @@ const onAdd = () => {
               </el-radio-group>
             </el-form-item>
           </ResponsiveCol>
-          <el-col :span="24">
+          <el-col v-if="!item.readonly" :span="24">
             <el-form-item :prop="[...formItemProp, index + '', 'apiConfig']">
               <template #label>
                 <MyLabel label="操作接口配置" />

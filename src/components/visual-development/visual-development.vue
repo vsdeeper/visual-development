@@ -17,7 +17,7 @@ import {
   DESIGN_COMPONENT_REF_SYMBOL,
   EXPORT_DATA_REF_SYMBOL,
 } from '@/utils/constants'
-import { deleteComponent, genId, isActiveDesign, isContainerComponent } from './util'
+import { genId, isActiveDesign, isContainerComponent } from './util'
 import { DESIGN_DATA_KEY, PRESET_DATA_KEY } from './constants'
 import {
   ShortcutKeyOperation,
@@ -71,28 +71,24 @@ watch(
 )
 
 async function handleKeydown(e: KeyboardEvent) {
-  const { designData, activeDesignData } = useGlobal()
+  const { activeDesignData } = useGlobal()
   keyCodes.value += e.key.toUpperCase()
   if (keyCodes.value.includes('VA')) {
     // V+A 键，添加组件
     if (!activeDesignData || isContainerComponent(activeDesignData.type)) {
+      if (addComponentRef.value?.show) return
       // 当前不存在设计中的组件或当前设计组件是布局容器类组件，进行添加组件操作
       addComponentRef.value?.open()
       keyCodes.value = ''
     }
   } else if (keyCodes.value.includes('VD')) {
     if (!activeDesignData) return
+    if (designComponentRef.value?.show) return
     // V+D 键，设计组件
     designComponentRef.value?.open()
     keyCodes.value = ''
-  } else if (
-    keyCodes.value.includes('DELETE') ||
-    keyCodes.value.includes('METABACKSPACE') /** 兼容mac */
-  ) {
-    // Delete 键，删除组件
-    deleteComponent(activeDesignData as ActiveDesignData, designData)
-    keyCodes.value = ''
   } else if (keyCodes.value.includes('VE')) {
+    if (exportDataRef.value?.show) return
     exportDataRef.value?.open(activeDesignData as ProjectDesignData | ViewDesignData)
     keyCodes.value = ''
   }

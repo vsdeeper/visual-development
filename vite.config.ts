@@ -16,8 +16,8 @@ export default defineConfig(() => {
   // 优化element-plus预加载
   const matchElementPlusPath = globSync('node_modules/element-plus/es/components/*/style')
   const optimizeDepsElementPlusIncludes = [
-    ...matchElementPlusPath.map((path) => `${path.replace('node_modules/', '')}/index`),
-    ...matchElementPlusPath.map((path) => `${path.replace('node_modules/', '')}/css`)
+    ...matchElementPlusPath.map(path => `${path.replace('node_modules/', '')}/index`),
+    ...matchElementPlusPath.map(path => `${path.replace('node_modules/', '')}/css`),
   ]
   return {
     plugins: [
@@ -28,27 +28,27 @@ export default defineConfig(() => {
         dts: './types/auto-imports.d.ts',
         resolvers: [
           ElementPlusResolver({
-            importStyle: 'sass'
-          })
-        ]
+            importStyle: 'sass',
+          }),
+        ],
       }),
       Components({
         dts: './types/components.d.ts',
         resolvers: [
           ElementPlusResolver({
-            importStyle: 'sass'
-          })
-        ]
+            importStyle: 'sass',
+          }),
+        ],
       }),
       ElementPlus({
-        ignoreComponents: ['AutoResizer'] // 解决 Table-v2 AutoResizer with manual import: failed to resolve css file
+        ignoreComponents: ['AutoResizer'], // 解决 Table-v2 AutoResizer with manual import: failed to resolve css file
       }),
-      Inspect()
+      Inspect(),
     ],
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url))
-      }
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
     },
     optimizeDeps: { include: [...optimizeDepsElementPlusIncludes] },
     build:
@@ -59,21 +59,20 @@ export default defineConfig(() => {
             lib: {
               entry: 'src/components/index.ts',
               fileName: 'index',
-              formats: ['es']
+              formats: ['es'],
             },
             rollupOptions: {
               external: [
                 'vue',
                 '@element-plus/icons-vue',
                 'element-plus',
-                'lodash-es',
                 'radash',
                 'nanoid',
                 'pinia',
-                'vuedraggable'
-              ]
-            }
+                'vuedraggable',
+              ],
+            },
           } as BuildOptions)
-        : undefined
+        : undefined,
   }
 })
