@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { type DesignDataOptions } from '@/components';
-import { type FormItemRule } from 'element-plus';
+import { type DesignDataOptions } from '../../../../..'
+import { type FormItemRule } from 'element-plus'
 
 const props = withDefaults(
   defineProps<{
-    options: DesignDataOptions;
-    label?: string;
-    formItemProp?: string[];
-    formItemRules?: FormItemRule[];
+    options: DesignDataOptions
+    label?: string
+    formItemProp?: string[]
+    formItemRules?: FormItemRule[]
   }>(),
   {
     label: '启用 vue-router 模式',
     formItemProp: () => ['options', 'router'],
   },
-);
+)
 
-const options = toRef(props, 'options');
+const options = toRef(props, 'options')
 </script>
 
 <template>

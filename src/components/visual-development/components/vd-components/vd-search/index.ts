@@ -1,4 +1,4 @@
-import { type BaseDesignData } from '@/components'
+import { type BaseDesignData } from '../../../..'
 import type { ApiConfigModel } from '../../design-component/components'
 
 export type SearchConditionType = 'Input' | 'InputNumber' | 'Select' | 'Cascader' | 'Date' | 'Time'

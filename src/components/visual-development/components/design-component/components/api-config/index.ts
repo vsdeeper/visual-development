@@ -1,5 +1,5 @@
 import ApiConfig from './ApiConfig.vue'
-import { type ApiParamsItem, type Method } from '@/components'
+import { type ApiParamsItem, type Method } from '../../../..'
 
 export type ApiConfigInstance = InstanceType<typeof ApiConfig>
 export interface ApiConfigModel {

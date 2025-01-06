@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type MergeDesignData } from '@/components'
+import { type MergeDesignData } from '../../../..'
 import { ROW_GUTTER } from '../constants'
 
 const formData = defineModel<MergeDesignData>({ default: () => ({ options: {} }) })
@@ -19,7 +19,10 @@ const formData = defineModel<MergeDesignData>({ default: () => ({ options: {} })
     </ResponsiveCol>
     <el-col :span="24">
       <el-form-item label="搜索条件配置" prop="options.searchConditionItems">
-        <SearchConditionConfig v-model="formData.options.searchConditionItems" />
+        <SearchConditionConfig
+          v-model="formData.options.searchConditionItems"
+          form-item-prop="options.searchConditionItems"
+        />
       </el-form-item>
     </el-col>
   </el-row>

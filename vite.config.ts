@@ -68,7 +68,6 @@ export default defineConfig(() => {
                 'element-plus',
                 'radash',
                 'nanoid',
-                'pinia',
                 'vuedraggable',
               ],
             },

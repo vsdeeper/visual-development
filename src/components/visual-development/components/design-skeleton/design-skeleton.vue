@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import draggable from 'vuedraggable'
 import { type MergeDesignData, ShortcutKeyOperation, VdComponents } from '../..'
-import { type ShortcutKeyOptionItem } from '@/components'
+import { type ShortcutKeyOptionItem } from '..'
 import { isActiveDesign } from '../../util'
-import { useGlobal } from '@/stores'
+import { activeDesignData } from '@/stores'
 import { genStyle } from './util'
 
 defineProps<{
@@ -68,7 +68,7 @@ function mouseoutSkeleton(e: MouseEvent) {
             <component
               :is="VdComponents[(item as MergeDesignData).type]"
               :data="item"
-              :is-active="isActiveDesign(item.id, useGlobal().activeDesignData)"
+              :is-active="isActiveDesign(item.id, activeDesignData)"
             ></component>
           </div>
         </template>

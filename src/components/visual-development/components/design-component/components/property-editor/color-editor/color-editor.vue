@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { type DesignDataOptions } from '@/components';
-import { type FormItemRule } from 'element-plus';
+import { type DesignDataOptions } from '../../../../..'
+import { type FormItemRule } from 'element-plus'
 
 const props = withDefaults(
   defineProps<{
-    options: DesignDataOptions;
-    label?: string;
-    formItemProp?: string[];
-    formItemRules?: FormItemRule[];
-    showAlpha?: boolean;
+    options: DesignDataOptions
+    label?: string
+    formItemProp?: string[]
+    formItemRules?: FormItemRule[]
+    showAlpha?: boolean
   }>(),
   {
     label: '颜色',
     formItemProp: () => ['options', 'color'],
   },
-);
+)
 
-const options = toRef(props, 'options');
+const options = toRef(props, 'options')
 </script>
 
 <template>

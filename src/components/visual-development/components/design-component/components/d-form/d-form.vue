@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type MergeDesignData } from '@/components'
+import { type MergeDesignData } from '../../../..'
 
 const formData = defineModel<MergeDesignData>({ default: () => ({ options: {} }) })
 </script>

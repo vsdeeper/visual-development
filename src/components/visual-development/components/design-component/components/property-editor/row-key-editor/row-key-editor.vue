@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type DesignDataOptions } from '@/components'
+import { type DesignDataOptions } from '../../../../..'
 import { type FormItemRule } from 'element-plus'
 
 const props = withDefaults(

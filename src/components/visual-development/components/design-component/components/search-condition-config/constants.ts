@@ -1,4 +1,4 @@
-import { type DateType, type SearchConditionType } from '@/components'
+import { type DateType, type SearchConditionType } from '../../../../..'
 
 export const SEARCH_TYPE_OPTIONS: { label: string; value: SearchConditionType }[] = [
   { label: '输入框', value: 'Input' },

@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { type DesignDataOptions } from '@/components';
-import { JUSTIFY_OPTIONS } from './constants';
-import { type FormItemRule } from 'element-plus';
+import { type DesignDataOptions } from '../../../../..'
+import { JUSTIFY_OPTIONS } from './constants'
+import { type FormItemRule } from 'element-plus'
 
 const props = withDefaults(
   defineProps<{
-    options: DesignDataOptions;
-    label?: string;
-    formItemProp?: string[];
-    formItemRules?: FormItemRule[];
+    options: DesignDataOptions
+    label?: string
+    formItemProp?: string[]
+    formItemRules?: FormItemRule[]
   }>(),
   {
     label: '水平排列方式',
     formItemProp: () => ['options', 'rowJustify'],
   },
-);
+)
 
-const options = toRef(props, 'options');
+const options = toRef(props, 'options')
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Minus, Plus } from '@element-plus/icons-vue'
-import { type TableColumnItem, type TableColumnItemFormatterType } from '@/components'
+import { type TableColumnItem, type TableColumnItemFormatterType } from '../../../../..'
 import { ROW_GUTTER } from '../constants'
 import { FIXED_OPTIONS, FORMATTER_OPTIONS } from './constants'
 import { nanoid } from 'nanoid'

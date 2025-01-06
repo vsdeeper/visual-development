@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type InputInstance } from 'element-plus'
 import { type AddComponentOptionItem, type AddComponentGroupOptionItem } from '.'
-import { useGlobal } from '@/stores'
+import { activeDesignData } from '@/stores'
 import type { ActiveDesignData, PresetDataItem } from '../..'
 import { ADD_COMPONENT_OPTIONS, PRESET_DATA_KEY } from '../../constants'
 import localforage from 'localforage'
@@ -37,8 +37,10 @@ function select(val: AddComponentOptionItem) {
 async function open() {
   show.value = true
   word.value = undefined
-  const { activeDesignData } = useGlobal()
-  renderOptions.value = await filterAddComponentOptions(ADD_COMPONENT_OPTIONS, activeDesignData)
+  renderOptions.value = await filterAddComponentOptions(
+    ADD_COMPONENT_OPTIONS,
+    activeDesignData.value,
+  )
   sourceOptions.value = JSON.parse(JSON.stringify(renderOptions.value))
 }
 

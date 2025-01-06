@@ -1,4 +1,4 @@
-import { type BaseDesignData } from '@/components'
+import { type BaseDesignData } from '../../../..'
 import type { OptionsConfigItem } from '../../design-component/components'
 
 export interface SaticDataConfigItem {

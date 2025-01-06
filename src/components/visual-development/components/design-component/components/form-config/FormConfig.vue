@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { useGlobal } from '@/stores'
+import { activeDesignData } from '@/stores'
 import { QuestionFilled, Right } from '@element-plus/icons-vue'
 import { VsFormDesigner, type VsFormDesignerInstance } from 'vswift-form'
 import type { FormConfig, TableDesignData } from '../../../vd-components'
 
 const props = defineProps<{
-  id?: string
+  id: string
 }>()
 
 const model = defineModel<FormConfig>({ default: () => ({}) })
 const show = ref(false)
 const operateFormOptions = computed(() => {
-  const { activeDesignData } = useGlobal()
-  const tableOperations = (activeDesignData as TableDesignData).options?.tableOperations
-  const tableColumnOperations = (activeDesignData as TableDesignData).options?.tableColumnOperations
+  const tableOperations = (activeDesignData.value as TableDesignData).options?.tableOperations
+  const tableColumnOperations = (activeDesignData.value as TableDesignData).options
+    ?.tableColumnOperations
   const tableOperationsHasForm = tableOperations?.filter(
     e => !e.formConfig?.useOtherForm && e.formConfig?.data,
   )
@@ -22,7 +22,10 @@ const operateFormOptions = computed(() => {
   )
   return [...(tableOperationsHasForm ?? []), ...(tableColumnOperationsHasForm ?? [])]
     .filter(e => e.id !== props.id)
-    .map(e => ({ label: `${e.label}表单`, value: e.value! }))
+    .map(e => ({
+      label: `${e.formConfig?.data?.form.name ? e.formConfig?.data?.form.name : `${e.label || '未知'}操作的表单`}`,
+      value: e.value!,
+    }))
 })
 const VsFormDesignerRef = ref<VsFormDesignerInstance>()
 
@@ -60,7 +63,7 @@ const onConfirm = () => {
     </div>
     <div v-if="!model.useOtherForm" class="just-config">
       <el-text v-if="model.data?.widgetList.length" :type="model.data?.form.name ? '' : 'info'">
-        {{ model.data?.form.name ?? '未命名的表单' }}
+        {{ model.data?.form.name || '未命名的表单' }}
       </el-text>
       <el-text v-else type="info">暂未配置</el-text>
       <el-button type="primary" link @click="onFormConfig">

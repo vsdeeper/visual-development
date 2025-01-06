@@ -1,4 +1,4 @@
-import { type Method } from '@/components'
+import { type Method } from '../../../..'
 
 export const METHOD_OPTIONS: Method[] = ['GET', 'POST', 'PATCH', 'PUT', 'DELETE']
 export const VALUE_TYPE_OPTIONS = [

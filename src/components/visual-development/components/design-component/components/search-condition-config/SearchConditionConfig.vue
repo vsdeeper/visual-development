@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue'
-import { type SearchConditionItem } from '@/components'
+import { type SearchConditionItem } from '../../../../..'
 import { ROW_GUTTER } from '../constants'
 import { SEARCH_TYPE_OPTIONS, DATE_TYPE_OPTIONS } from './constants'
 import { type TabPaneName } from 'element-plus'
 import { first, last } from 'radash'
 import { genId } from '@/components/visual-development/util'
+
+const props = defineProps<{
+  formItemProp?: string
+}>()
 
 const model = defineModel<SearchConditionItem[]>({ default: () => [] })
 const activeName = ref(first(model.value)?.label)
@@ -87,6 +91,11 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
     item.itemValue = 'id'
   }
 }
+
+const genFormItemProp = (prop: string) => {
+  const preProp = props.formItemProp ? `${props.formItemProp}.` : ''
+  return `${preProp}${prop}`
+}
 </script>
 
 <template>
@@ -109,7 +118,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
         <el-row :gutter="ROW_GUTTER">
           <ResponsiveCol>
             <el-form-item
-              :prop="[index + '', 'label']"
+              :prop="genFormItemProp(`${index}.label`)"
               :rules="[{ required: true, message: '必填项' }]"
             >
               <template #label>
@@ -119,7 +128,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
             </el-form-item>
           </ResponsiveCol>
           <ResponsiveCol>
-            <el-form-item :prop="[index + '', 'placeholder']">
+            <el-form-item :prop="genFormItemProp(`${index}.placeholder`)">
               <template #label>
                 <my-label label="占位内容" />
               </template>
@@ -128,7 +137,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
           </ResponsiveCol>
           <ResponsiveCol>
             <el-form-item
-              :prop="[index + '', 'type']"
+              :prop="genFormItemProp(`${index}.type`)"
               :rules="[{ required: true, message: '必填项' }]"
             >
               <template #label>
@@ -156,7 +165,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
             <ResponsiveCol>
               <el-form-item
                 label="选项数据类型"
-                :prop="[index + '', 'optionDataType']"
+                :prop="genFormItemProp(`${index}.optionDataType`)"
                 :rules="[{ required: true, message: '必填项' }]"
               >
                 <el-select
@@ -174,7 +183,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
             </ResponsiveCol>
             <ResponsiveCol v-if="item.optionDataType === 'static_data'">
               <el-form-item
-                :prop="[index + '', 'staticDataKey']"
+                :prop="genFormItemProp(`${index}.staticDataKey`)"
                 :rules="[{ required: true, message: '必填项' }]"
               >
                 <template #label>
@@ -190,7 +199,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
           </template>
           <ResponsiveCol>
             <el-form-item
-              :prop="[index + '', 'key']"
+              :prop="genFormItemProp(`${index}.key`)"
               :rules="[{ required: true, message: '必填项' }]"
             >
               <template #label>
@@ -202,7 +211,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
           <!-- 搜索条件为Date时，设置format、valueFormat、dateType -->
           <template v-if="item.type === 'Date'">
             <ResponsiveCol>
-              <el-form-item :prop="[index + '', 'format']">
+              <el-form-item :prop="genFormItemProp(`${index}.format`)">
                 <template #label>
                   <my-label label="显示在输入框中的格式" />
                 </template>
@@ -210,7 +219,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
               </el-form-item>
             </ResponsiveCol>
             <ResponsiveCol>
-              <el-form-item :prop="[index + '', 'valueFormat']">
+              <el-form-item :prop="genFormItemProp(`${index}.valueFormat`)">
                 <template #label>
                   <my-label label="绑定值的格式" />
                 </template>
@@ -218,7 +227,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
               </el-form-item>
             </ResponsiveCol>
             <ResponsiveCol>
-              <el-form-item :prop="[index + '', 'dateType']">
+              <el-form-item :prop="genFormItemProp(`${index}.dateType`)">
                 <template #label>
                   <my-label label="显示类型" />
                 </template>
@@ -237,7 +246,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
           <!-- 搜索条件为Select、Cascader时，设置label别名、value别名、多选 -->
           <template v-if="item.type === 'Select' || item.type === 'Cascader'">
             <ResponsiveCol>
-              <el-form-item :prop="[index + '', 'itemLabel']">
+              <el-form-item :prop="genFormItemProp(`${index}.itemLabel`)">
                 <template #label>
                   <my-label label="选项label别名" tooltip-content="接口定义时生效" />
                 </template>
@@ -245,7 +254,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
               </el-form-item>
             </ResponsiveCol>
             <ResponsiveCol>
-              <el-form-item :prop="[index + '', 'itemValue']">
+              <el-form-item :prop="genFormItemProp(`${index}.itemValue`)">
                 <template #label>
                   <my-label label="选项value别名" tooltip-content="接口定义时生效" />
                 </template>
@@ -255,7 +264,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
             <!-- 搜索条件为Cascader时，设置children别名 -->
             <template v-if="item.type === 'Cascader'">
               <ResponsiveCol>
-                <el-form-item :prop="[index + '', 'itemChildren']">
+                <el-form-item :prop="genFormItemProp(`${index}.itemChildren`)">
                   <template #label>
                     <my-label label="选项children别名" />
                   </template>
@@ -266,7 +275,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
             <!-- 搜索条件为Select时，设置虚拟化选择器 -->
             <template v-if="item.type === 'Select'">
               <ResponsiveCol>
-                <el-form-item :prop="[index + '', 'virtualized']">
+                <el-form-item :prop="genFormItemProp(`${index}.virtualized`)">
                   <template #label>
                     <my-label label="虚拟化选择器" />
                   </template>
@@ -278,7 +287,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
               </ResponsiveCol>
             </template>
             <ResponsiveCol>
-              <el-form-item :prop="[index + '', 'multiple']">
+              <el-form-item :prop="genFormItemProp(`${index}.multiple`)">
                 <template #label>
                   <my-label label="多选" />
                 </template>
@@ -291,7 +300,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
             <!-- 搜索条件为Cascader时，设置父子节点不互相关联、动态加载子节点 -->
             <template v-if="item.type === 'Cascader'">
               <ResponsiveCol>
-                <el-form-item :prop="[index + '', 'checkStrictly']">
+                <el-form-item :prop="genFormItemProp(`${index}.checkStrictly`)">
                   <template #label>
                     <my-label label="父子节点不关联" />
                   </template>
@@ -302,7 +311,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
                 </el-form-item>
               </ResponsiveCol>
               <ResponsiveCol>
-                <el-form-item :prop="[index + '', 'lazy']">
+                <el-form-item :prop="genFormItemProp(`${index}.lazy`)">
                   <template #label>
                     <my-label label="动态加载子节点" />
                   </template>
@@ -324,7 +333,7 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
           >
             <el-tabs v-model="item.dataSource" @tab-change="changeDataSource($event, item, index)">
               <el-tab-pane label="接口定义" name="api">
-                <el-form-item :prop="[index + '', 'apiConfig']">
+                <el-form-item :prop="genFormItemProp(`${index}.apiConfig`)">
                   <template #label>
                     <MyLabel label="接口配置" />
                   </template>

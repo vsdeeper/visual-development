@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import draggable from 'vuedraggable'
 import { sleep } from 'radash'
-import { useGlobal } from '@/stores'
+import {
+  designData,
+  activeDesignData,
+  dialogFullscreen,
+  setDesignData,
+  setActiveDesignData,
+} from '@/stores'
 import {
   type ActiveDesignData,
   DesignComponent,
@@ -10,7 +16,6 @@ import {
   type MergeDesignData,
   type PresetDataItem,
 } from '.'
-import { AddComponent, type AddComponentOptionItem, ShortcutKeyDescription } from '@/components'
 import {
   IS_PAGE_DESIGN_MODE_SYMBOL,
   ADD_COMPONENT_REF_SYMBOL,
@@ -20,7 +25,10 @@ import {
 import { genId, isActiveDesign, isContainerComponent } from './util'
 import { DESIGN_DATA_KEY, PRESET_DATA_KEY } from './constants'
 import {
+  AddComponent,
   ShortcutKeyOperation,
+  type AddComponentOptionItem,
+  type ShortcutKeyDescription,
   type ViewDesignData,
   type ProjectDesignData,
   type ExportDataInstance,
@@ -34,7 +42,6 @@ export type ListOfShortcutKeysInstance = InstanceType<typeof ShortcutKeyDescript
 
 console.log('VdComponents 可视化设计组件', VdComponents)
 
-const { designData, setDesignData, setActiveDesignData } = useGlobal()
 const addComponentRef = ref<AddComponentInstance>()
 const designComponentRef = ref<DesignComponentInstance>()
 const exportDataRef = ref<ExportDataInstance>()
@@ -52,8 +59,8 @@ onMounted(async () => {
   loading.value = true
   window.addEventListener('keydown', handleKeydown)
   const forageDesignData: MergeDesignData[] | null = await localforage.getItem(DESIGN_DATA_KEY)
-  designData.length = 0
-  forageDesignData?.map(data => designData.push(data))
+  designData.value.length = 0
+  forageDesignData?.map(data => designData.value.push(data))
   await sleep(500)
   loading.value = false
 })
@@ -63,7 +70,7 @@ onUnmounted(() => {
 })
 
 watch(
-  () => designData,
+  designData,
   val => {
     localforage.setItem(DESIGN_DATA_KEY, JSON.parse(JSON.stringify(val)))
   },
@@ -71,11 +78,10 @@ watch(
 )
 
 async function handleKeydown(e: KeyboardEvent) {
-  const { activeDesignData } = useGlobal()
   keyCodes.value += e.key.toUpperCase()
   if (keyCodes.value.includes('VA')) {
     // V+A 键，添加组件
-    if (!activeDesignData || isContainerComponent(activeDesignData.type)) {
+    if (!activeDesignData.value || isContainerComponent(activeDesignData.value.type)) {
       if (addComponentRef.value?.show) return
       // 当前不存在设计中的组件或当前设计组件是布局容器类组件，进行添加组件操作
       addComponentRef.value?.open()
@@ -89,14 +95,13 @@ async function handleKeydown(e: KeyboardEvent) {
     keyCodes.value = ''
   } else if (keyCodes.value.includes('VE')) {
     if (exportDataRef.value?.show) return
-    exportDataRef.value?.open(activeDesignData as ProjectDesignData | ViewDesignData)
+    exportDataRef.value?.open(activeDesignData.value as ProjectDesignData | ViewDesignData)
     keyCodes.value = ''
   }
 }
 
 async function onSelectComponent(item: AddComponentOptionItem) {
   const data = await createDesignData(item)
-  const { activeDesignData } = useGlobal()
   if (!activeDesignData) {
     /**
      * 当前不存在设计中的组件，说明是初始设计
@@ -109,13 +114,13 @@ async function onSelectComponent(item: AddComponentOptionItem) {
      * 当前存在设计中的组件
      * 此时只需要设置活动组件的设计数据
      */
-    if (isContainerComponent(activeDesignData.type)) {
+    if (isContainerComponent(activeDesignData.value!.type)) {
       /**
        * 布局容器，可以挂载子组件
        * 子组件挂载后将活动设计数据设置为子组件
        */
-      !activeDesignData.components && (activeDesignData.components = [])
-      activeDesignData.components!.push(data)
+      !activeDesignData.value!.components && (activeDesignData.value!.components = [])
+      activeDesignData.value!.components!.push(data)
       setActiveDesignData(data)
     }
   }
@@ -221,7 +226,7 @@ function showMoreShortcutKey() {
     id="visual-development"
     :class="{
       'has-design-content': !loading && designData.length,
-      active: !designData.length || !useGlobal().activeDesignData,
+      active: !designData.length || !activeDesignData,
     }"
   >
     <div class="version">Visual Development</div>
@@ -244,7 +249,7 @@ function showMoreShortcutKey() {
             <component
               :key="item.name"
               :is="VdComponents[(item as BaseDesignData).type]"
-              :is-active="isActiveDesign(item.id, useGlobal().activeDesignData)"
+              :is-active="isActiveDesign(item.id, activeDesignData)"
               :data="item"
             ></component>
           </div>
@@ -264,9 +269,9 @@ function showMoreShortcutKey() {
   <AddComponent ref="addComponentRef" @select="onSelectComponent"></AddComponent>
   <DesignComponent
     ref="designComponentRef"
-    v-model="useGlobal().activeDesignData"
-    :form-data="useGlobal().activeDesignData as ActiveDesignData"
-    :fullscreen="useGlobal().dialogFullscreen"
+    v-model="activeDesignData"
+    :form-data="activeDesignData as ActiveDesignData"
+    :fullscreen="dialogFullscreen"
   ></DesignComponent>
   <ExportData ref="exportDataRef"></ExportData>
   <ShortcutKeyDescription ref="listOfShortcutKeysRef"></ShortcutKeyDescription>

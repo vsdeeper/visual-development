@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { type DesignDataOptions } from '@/components';
-import { DIRECTION_OPTIONS } from './constants';
-import { type FormItemRule } from 'element-plus';
+import { type DesignDataOptions } from '../../../../..'
+import { DIRECTION_OPTIONS } from './constants'
+import { type FormItemRule } from 'element-plus'
 
 const props = withDefaults(
   defineProps<{
-    options: DesignDataOptions;
-    label?: string;
-    formItemProp?: string[];
-    formItemRules?: FormItemRule[];
+    options: DesignDataOptions
+    label?: string
+    formItemProp?: string[]
+    formItemRules?: FormItemRule[]
   }>(),
   {
     label: '子元素的排列方向',
     formItemProp: () => ['options', 'direction'],
   },
-);
+)
 
-const options = toRef(props, 'options');
+const options = toRef(props, 'options')
 </script>
 
 <template>

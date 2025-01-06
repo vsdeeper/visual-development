@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type TableDesignData } from '@/components'
+import { type TableDesignData } from '../../../..'
 import { ROW_GUTTER, TABLE_LAYOUT_OPTIONS } from '../constants'
 
 const formData = defineModel<TableDesignData>({ default: () => ({ options: {} }) })

@@ -1,4 +1,4 @@
-import { type BaseDesignData } from '@/components'
+import { type BaseDesignData } from '../../../..'
 import { type Sort } from 'element-plus'
 import type { ApiConfigModel } from '../../design-component/components'
 import type { FormDesignData } from 'vswift-form'

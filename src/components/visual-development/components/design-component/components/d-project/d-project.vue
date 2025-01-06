@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type MergeDesignData } from '@/components'
+import { type MergeDesignData } from '../../../..'
 import { ROW_GUTTER } from '../constants'
 import { ApiDomain, GlobalApiConfig } from './components'
 import { TopRight } from '@element-plus/icons-vue'

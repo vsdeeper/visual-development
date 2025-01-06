@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid'
 import localforage from 'localforage'
-import { useGlobal } from '@/stores'
+import { setActiveDesignData } from '@/stores'
 import {
   type ActiveDesignData,
   type MergeDesignData,
@@ -178,7 +178,6 @@ export function forEachHandlerOfComponents(
  * @param designData
  */
 export function deleteComponent(activeDesignData: ActiveDesignData, designData: MergeDesignData[]) {
-  const { setActiveDesignData } = useGlobal()
   const parent = findParentComponentOfComponent(activeDesignData, designData)
   if (!parent) return
   if (Array.isArray(parent)) {

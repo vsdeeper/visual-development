@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { type ComponentTypeOfPageDesigner } from '@/components'
 import { capitalizeFirstLetter } from '@/utils'
 import { type AsyncComponentLoader } from 'vue'
+import type { ComponentTypeOfPageDesigner } from '../..'
 
 export * from './save-as-preset'
 export * from './options-config'

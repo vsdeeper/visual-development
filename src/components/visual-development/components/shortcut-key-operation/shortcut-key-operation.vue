@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useGlobal } from '@/stores'
+import { setActiveDesignData, designData, activeDesignData, setDialogFullscreen } from '@/stores'
 import {
   type ActiveDesignData,
   type AddComponentInstance,
@@ -25,7 +25,6 @@ const emit = defineEmits<{
   (e: 'show-more'): void
 }>()
 
-const { setActiveDesignData, designData, setDialogFullscreen } = useGlobal()
 const addComponentRef = inject<Ref<AddComponentInstance>>(ADD_COMPONENT_REF_SYMBOL)
 const designComponentRef = inject<Ref<AddComponentInstance>>(DESIGN_COMPONENT_REF_SYMBOL)
 const exportDataRef = inject<Ref<ExportDataInstance>>(EXPORT_DATA_REF_SYMBOL)
@@ -36,24 +35,22 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) 
     setActiveDesignData(undefined)
     addComponentRef?.value.open()
   } else {
-    const { activeDesignData } = useGlobal()
     if (!data) return
     const _keysStr = item.keys?.join('').toUpperCase()
     if (_keysStr === 'VA') {
       // 添加组件
-      if (activeDesignData?.id !== data?.id) setActiveDesignData(data)
+      if (activeDesignData.value?.id !== data?.id) setActiveDesignData(data)
       addComponentRef?.value.open()
     } else if (_keysStr === 'VD') {
       // 设计组件
-      if (activeDesignData?.id !== data?.id) setActiveDesignData(data)
+      if (activeDesignData.value?.id !== data?.id) setActiveDesignData(data)
       designComponentRef?.value.open()
     } else if (_keysStr === 'DELETE') {
       // 删除组件
-      const { designData } = useGlobal()
-      deleteComponent(data, designData)
+      deleteComponent(data, designData.value)
     } else if (_keysStr === 'VE') {
       // 导出数据
-      if (activeDesignData?.id !== data?.id) setActiveDesignData(data)
+      if (activeDesignData.value?.id !== data?.id) setActiveDesignData(data)
       exportDataRef?.value.open(data as ViewDesignData)
     }
   }

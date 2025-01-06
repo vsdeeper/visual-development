@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import * as Icons from '@element-plus/icons-vue';
-import { type DesignDataOptions } from '@/components';
-import { type FormItemRule } from 'element-plus';
+import * as Icons from '@element-plus/icons-vue'
+import { type DesignDataOptions } from '../../../../..'
+import { type FormItemRule } from 'element-plus'
 
 const props = withDefaults(
   defineProps<{
-    options: DesignDataOptions;
-    label?: string;
-    formItemProp?: string[];
-    formItemRules?: FormItemRule[];
+    options: DesignDataOptions
+    label?: string
+    formItemProp?: string[]
+    formItemRules?: FormItemRule[]
   }>(),
   {
     label: '后缀图标',
     formItemProp: () => ['options', 'suffixIcon'],
   },
-);
+)
 
-const options = toRef(props, 'options');
+const options = toRef(props, 'options')
 </script>
 
 <template>
