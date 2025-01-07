@@ -65,7 +65,7 @@ function onChange(key: string, val: any, item: SearchConditionItem) {
 function resetSearchConditionItem(item: SearchConditionItem) {
   item.dataSource = undefined
   item.apiConfig = undefined
-  item.optionData = undefined
+  item.options = undefined
   item.itemLabel = undefined
   item.itemValue = undefined
   item.multiple = undefined
@@ -83,11 +83,11 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
     item.dataSource = 'custom'
     item.apiConfig = undefined
     item.itemValue = undefined
-    item.optionData = [{}]
+    item.options = [{}]
   } else if (name === 'api') {
     item.apiConfig = { params: [] }
     item.dataSource = 'api'
-    item.optionData = undefined
+    item.options = undefined
     item.itemValue = 'id'
   }
 }
@@ -344,10 +344,7 @@ const genFormItemProp = (prop: string) => {
                 </el-form-item>
               </el-tab-pane>
               <el-tab-pane label="自定义" name="custom" :disabled="item.type === 'Cascader'">
-                <OptionsConfig
-                  v-model="item.optionData"
-                  :form-item-prop="[index + '', 'optionData']"
-                />
+                <OptionsConfig v-model="item.options" :form-item-prop="[index + '', 'options']" />
               </el-tab-pane>
             </el-tabs>
           </el-col>

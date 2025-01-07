@@ -27,7 +27,7 @@ export interface TableColumnItem {
   [key: string]: any
 }
 
-export interface FormConfig {
+export interface TableOperationsItemFormConfig {
   useOtherForm?: string
   data?: FormDesignData
 }
@@ -42,7 +42,7 @@ export interface TableOperationsItem {
   readonly?: boolean
   enableConfirmation?: boolean
   isNeedEchoApi?: boolean
-  formConfig?: FormConfig
+  formConfig?: TableOperationsItemFormConfig
   apiConfig?: ApiConfigModel
   echoApiConfig?: ApiConfigModel
   [key: string]: any

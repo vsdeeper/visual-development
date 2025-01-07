@@ -2,13 +2,13 @@
 import { activeDesignData } from '@/stores'
 import { QuestionFilled, Right } from '@element-plus/icons-vue'
 import { VsFormDesigner, type VsFormDesignerInstance } from 'vswift-form'
-import type { FormConfig, TableDesignData } from '../../../vd-components'
+import type { TableOperationsItemFormConfig, TableDesignData } from '../../../vd-components'
 
 const props = defineProps<{
   id: string
 }>()
 
-const model = defineModel<FormConfig>({ default: () => ({}) })
+const model = defineModel<TableOperationsItemFormConfig>({ default: () => ({}) })
 const show = ref(false)
 const operateFormOptions = computed(() => {
   const tableOperations = (activeDesignData.value as TableDesignData).options?.tableOperations
