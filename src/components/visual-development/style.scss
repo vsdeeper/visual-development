@@ -20,6 +20,7 @@
 // 暂无数据
 .nodata {
   display: flex;
+  font-size: var(--el-font-size-base);
   padding: 12px;
   color: var(--el-text-color-placeholder);
 }

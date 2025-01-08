@@ -31,12 +31,14 @@ function onDelete(idx: number) {
         <el-col :span="24" :md="7">
           <div class="key-box">
             <el-form-item
-              label="静态数据Key"
               :prop="[...formItemProp, index + '', 'key']"
               :rules="[{ required: true, message: '必填项' }]"
               :show-message="false"
             >
-              <el-input v-model="item.key" placeholder="例：STATIC_DATA_KEY" clearable />
+              <template #label>
+                <my-label label="静态数据Key" tooltip-content="建议格式：<大写字段名称>_OPTIONS" />
+              </template>
+              <el-input v-model="item.key" placeholder="例：STATUS_OPTIONS" clearable />
             </el-form-item>
           </div>
         </el-col>
