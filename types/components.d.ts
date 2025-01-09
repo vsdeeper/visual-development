@@ -75,8 +75,6 @@ declare module 'vue' {
     PopperEffectEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/popper-effect-editor/popper-effect-editor.vue')['default']
     ResponsiveCol: typeof import('./../src/components/visual-development/components/design-component/components/responsive-col/responsive-col.vue')['default']
     RouterEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/router-editor/router-editor.vue')['default']
-    RouterLink: typeof import('vue-router')['RouterLink']
-    RouterView: typeof import('vue-router')['RouterView']
     RowAlignEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/row-align-editor/row-align-editor.vue')['default']
     RowGutterEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/row-gutter-editor/row-gutter-editor.vue')['default']
     RowJustifyEditor: typeof import('./../src/components/visual-development/components/design-component/components/property-editor/row-justify-editor/row-justify-editor.vue')['default']

@@ -24,6 +24,9 @@ export interface TableColumnItem {
   isTreeData?: boolean // 是否树形数据，formatterType = dynamic_data_transform
   apiConfig?: ApiConfigModel // 接口配置，formatterType = dynamic_data_transform
   tableColumnItems?: TableColumnItem[]
+  itemLabel?: string
+  itemValue?: string
+  itemChildren?: string
   [key: string]: any
 }
 

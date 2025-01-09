@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Minus, Plus } from '@element-plus/icons-vue'
-import { type TableColumnItem, type TableColumnItemFormatterType } from '../../../../..'
+import { type TableColumnItem } from '../../../../..'
 import { ROW_GUTTER } from '../constants'
 import { FIXED_OPTIONS, FORMATTER_OPTIONS } from './constants'
 import { nanoid } from 'nanoid'
@@ -35,17 +35,27 @@ function deleteItem(index: number) {
   }
 }
 
-function changeFormatterType(val: TableColumnItemFormatterType, item: TableColumnItem) {
-  item.api = undefined
-  item.apiConfig = undefined
-  item.apiParams = undefined
-  item.staticDataKey = undefined
-  item.format = undefined
-  item.isTreeData = undefined
-  if (val === 'dynamic_data_transform') {
-    item.apiConfig = { params: [] }
-  } else if (val === 'date_format') {
-    item.format = 'yyyy-MM-dd HH:mm:ss'
+function onChange(key: string, val: any, item: TableColumnItem) {
+  switch (key) {
+    case 'formatterType': {
+      if (val === 'dynamic_data_transform') {
+        item.apiConfig = { params: [] }
+        item.itemLabel = 'label'
+        item.itemValue = 'id'
+      } else if (val === 'date_format') {
+        item.format = 'yyyy-MM-dd HH:mm:ss'
+      } else {
+        item.apiConfig = undefined
+        item.itemLabel = undefined
+        item.itemValue = undefined
+        item.format = undefined
+      }
+      break
+    }
+    case 'isTreeData': {
+      item.itemChildren = 'children'
+      break
+    }
   }
 }
 
@@ -163,7 +173,7 @@ function getLabel(label?: string, propLabel?: string) {
                 v-model="item.formatterType"
                 placeholder="请选择"
                 clearable
-                @change="changeFormatterType($event, item)"
+                @change="onChange('formatterType', $event, item)"
               >
                 <el-option
                   v-for="item1 in FORMATTER_OPTIONS"
@@ -173,6 +183,30 @@ function getLabel(label?: string, propLabel?: string) {
                 >
                 </el-option>
               </el-select>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol v-if="item.formatterType === 'dynamic_data_transform'">
+            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'itemLabel']">
+              <template #label>
+                <my-label label="选项名称Key" />
+              </template>
+              <el-input v-model="item.itemLabel" placeholder="请输入" clearable></el-input>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol v-if="item.formatterType === 'dynamic_data_transform'">
+            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'itemValue']">
+              <template #label>
+                <my-label label="选项值Key" />
+              </template>
+              <el-input v-model="item.itemValue" placeholder="请输入" clearable></el-input>
+            </el-form-item>
+          </ResponsiveCol>
+          <ResponsiveCol v-if="item.formatterType === 'dynamic_data_transform' && item.isTreeData">
+            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'itemChildren']">
+              <template #label>
+                <my-label label="子选项Key" />
+              </template>
+              <el-input v-model="item.itemChildren" placeholder="请输入" clearable></el-input>
             </el-form-item>
           </ResponsiveCol>
           <ResponsiveCol>
@@ -202,7 +236,10 @@ function getLabel(label?: string, propLabel?: string) {
               <template #label>
                 <my-label label="是否树形数据" />
               </template>
-              <el-radio-group v-model="item.isTreeData">
+              <el-radio-group
+                v-model="item.isTreeData"
+                @change="onChange('isTreeData', $event, item)"
+              >
                 <el-radio-button :label="true">是</el-radio-button>
                 <el-radio-button :label="false">否</el-radio-button>
               </el-radio-group>

@@ -37,25 +37,39 @@ function onChange(key: string, val: any, item: SearchConditionItem) {
         item.dateType = 'date'
         item.format = 'YYYY-MM-DD'
         item.valueFormat = 'x'
-      } else if (['Select', 'Cascader'].includes(val)) {
+      } else if (val === 'Select') {
         item.dataSource = 'api'
-        if (val === 'Cascader') {
-          item.optionDataType = 'definition'
-        }
+        item.itemLabel = 'label'
+        item.itemValue = 'id'
+      } else if (val === 'Cascader') {
+        item.dataSource = 'api'
+        item.itemLabel = 'label'
+        item.itemValue = 'id'
+        item.itemChildren = 'children'
+        item.optionDataType = 'definition'
+      } else {
+        item.dateType = undefined
+        item.format = undefined
+        item.valueFormat = undefined
+        item.dataSource = undefined
+        item.itemLabel = undefined
+        item.itemValue = undefined
+        item.itemChildren = undefined
+        item.optionDataType = undefined
       }
       break
     }
     case 'optionDataType': {
       if (val === 'definition') {
-        item.staticDataKey = undefined
         item.apiConfig = { params: [] }
         item.dataSource = 'api'
+        item.itemLabel = 'label'
         item.itemValue = 'id'
-      } else if (val === 'static_data') {
-        item.dataSource = undefined
+      } else {
         item.apiConfig = undefined
+        item.dataSource = undefined
+        item.itemLabel = undefined
         item.itemValue = undefined
-        item.isTreeData = undefined
       }
       break
     }
@@ -82,12 +96,14 @@ function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: n
   if (name === 'custom') {
     item.dataSource = 'custom'
     item.apiConfig = undefined
+    item.itemLabel = undefined
     item.itemValue = undefined
     item.options = [{}]
   } else if (name === 'api') {
     item.apiConfig = { params: [] }
     item.dataSource = 'api'
     item.options = undefined
+    item.itemLabel = 'label'
     item.itemValue = 'id'
   }
 }
@@ -244,11 +260,13 @@ const genFormItemProp = (prop: string) => {
             </ResponsiveCol>
           </template>
           <!-- 搜索条件为Select、Cascader时，设置label别名、value别名、多选 -->
-          <template v-if="item.type === 'Select' || item.type === 'Cascader'">
+          <template
+            v-if="(item.dataSource === 'api' && item.type === 'Select') || item.type === 'Cascader'"
+          >
             <ResponsiveCol>
               <el-form-item :prop="genFormItemProp(`${index}.itemLabel`)">
                 <template #label>
-                  <my-label label="选项label别名" tooltip-content="接口定义时生效" />
+                  <my-label label="选项名称Key" />
                 </template>
                 <el-input v-model="item.itemLabel" placeholder="请输入" clearable></el-input>
               </el-form-item>
@@ -256,7 +274,7 @@ const genFormItemProp = (prop: string) => {
             <ResponsiveCol>
               <el-form-item :prop="genFormItemProp(`${index}.itemValue`)">
                 <template #label>
-                  <my-label label="选项value别名" tooltip-content="接口定义时生效" />
+                  <my-label label="选项值Key" />
                 </template>
                 <el-input v-model="item.itemValue" placeholder="请输入" clearable></el-input>
               </el-form-item>
@@ -266,7 +284,7 @@ const genFormItemProp = (prop: string) => {
               <ResponsiveCol>
                 <el-form-item :prop="genFormItemProp(`${index}.itemChildren`)">
                   <template #label>
-                    <my-label label="选项children别名" />
+                    <my-label label="子选项Key" />
                   </template>
                   <el-input v-model="item.itemChildren" placeholder="请输入" clearable></el-input>
                 </el-form-item>

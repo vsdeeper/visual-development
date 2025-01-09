@@ -15,16 +15,16 @@ const operateFormOptions = computed(() => {
   const tableColumnOperations = (activeDesignData.value as TableDesignData).options
     ?.tableColumnOperations
   const tableOperationsHasForm = tableOperations?.filter(
-    e => !e.formConfig?.useOtherForm && e.formConfig?.data,
+    e => !e.enableConfirmation && !e.formConfig?.useOtherForm && e.formConfig?.data,
   )
   const tableColumnOperationsHasForm = tableColumnOperations?.filter(
-    e => !e.formConfig?.useOtherForm && e.formConfig?.data,
+    e => !e.enableConfirmation && !e.formConfig?.useOtherForm && e.formConfig?.data,
   )
   return [...(tableOperationsHasForm ?? []), ...(tableColumnOperationsHasForm ?? [])]
     .filter(e => e.id !== props.id)
     .map(e => ({
       label: `${e.formConfig?.data?.form.name ? e.formConfig?.data?.form.name : `${e.label || '未知'}操作的表单`}`,
-      value: e.value!,
+      value: e.id,
     }))
 })
 const VsFormDesignerRef = ref<VsFormDesignerInstance>()
