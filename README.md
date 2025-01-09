@@ -1,6 +1,6 @@
 # visual-development
 
-Tools for visual development through abstract configuration.
+Configuration platform for visual development. You can preview it [here](https://vsdeeper.github.io/visual-development/).
 
 ## Develop
 

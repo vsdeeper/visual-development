@@ -88,7 +88,7 @@ async function handleKeydown(e: KeyboardEvent) {
       keyCodes.value = ''
     }
   } else if (keyCodes.value.includes('VD')) {
-    if (!activeDesignData) return
+    if (!activeDesignData.value) return
     if (designComponentRef.value?.show) return
     // V+D 键，设计组件
     designComponentRef.value?.open()
@@ -102,7 +102,7 @@ async function handleKeydown(e: KeyboardEvent) {
 
 async function onSelectComponent(item: AddComponentOptionItem) {
   const data = await createDesignData(item)
-  if (!activeDesignData) {
+  if (!activeDesignData.value) {
     /**
      * 当前不存在设计中的组件，说明是初始设计
      * 此时需要设置最外层的设计数据
