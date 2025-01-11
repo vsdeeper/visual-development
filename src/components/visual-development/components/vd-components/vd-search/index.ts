@@ -26,12 +26,11 @@ export interface SearchConditionItem {
   id: string
   key?: string
   type?: SearchConditionType
-  optionDataType?: 'static_data' | 'definition'
-  isTreeData?: boolean
+  optionDataType?: 'dynamic_data' | 'static_data'
   staticDataKey?: string
+  isTreeData?: boolean
   label?: string
   placeholder?: string
-  dataSource?: 'api' | 'custom'
   apiConfig?: ApiConfigModel
   options?: SearchConditionOptionItem[]
   itemLabel?: string
@@ -45,7 +44,6 @@ export interface SearchConditionItem {
   valueFormat?: string
   dateType?: DateType
   virtualized?: boolean
-  [key: string]: any
 }
 
 export interface SearchDesignDataOptions {

@@ -129,10 +129,7 @@ const formData = defineModel<TableDesignData>({ default: () => ({ options: {} })
         <template #label>
           <MyLabel label="列表接口配置" />
         </template>
-        <ApiConfig
-          v-model="formData.options.apiConfig"
-          :form-item-prop="['options', 'apiConfig']"
-        />
+        <ApiConfig v-model="formData.options.apiConfig" form-item-prop="options.apiConfig" />
       </el-form-item>
     </el-col>
     <el-col v-if="formData.options.lazy" :span="24" style="margin-top: 18px">
@@ -142,7 +139,7 @@ const formData = defineModel<TableDesignData>({ default: () => ({ options: {} })
         </template>
         <ApiConfig
           v-model="formData.options.lazyApiConfig"
-          :form-item-prop="['options', 'lazyApiConfig']"
+          form-item-prop="options.lazyApiConfig"
         />
       </el-form-item>
     </el-col>

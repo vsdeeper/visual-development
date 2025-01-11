@@ -127,6 +127,25 @@ export function findRootComponent(target: MergeDesignData, designData: MergeDesi
   return root
 }
 
+/**
+ * 找到视图组件
+ * @param target
+ * @param designData
+ */
+export function findViewComponent(target: ActiveDesignData, designData: MergeDesignData[]) {
+  let view: MergeDesignData | undefined
+  for (const projectItem of designData) {
+    for (const viewItem of projectItem.components ?? []) {
+      const flattenComponents = toFlattenComponents(viewItem.components)
+      if (flattenComponents.some(e => e.id === target.id)) {
+        view = viewItem
+        break
+      }
+    }
+  }
+  return view
+}
+
 function forofForfindParentComponentsOfComponent(
   id: string,
   data: MergeDesignData,

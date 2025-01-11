@@ -3,14 +3,9 @@ import { Minus, Plus } from '@element-plus/icons-vue'
 import type { SaticDataConfigItem } from '../../../vd-components'
 import { OptionsConfig } from '../options-config'
 
-withDefaults(
-  defineProps<{
-    formItemProp?: string[]
-  }>(),
-  {
-    formItemProp: () => [],
-  },
-)
+defineProps<{
+  formItemProp: string
+}>()
 
 const model = defineModel<SaticDataConfigItem[]>({ default: () => [] })
 
@@ -36,7 +31,10 @@ function onDelete(idx: number) {
               :show-message="false"
             >
               <template #label>
-                <my-label label="静态数据Key" tooltip-content="建议格式：<大写字段名称>_OPTIONS" />
+                <my-label
+                  label="静态数据Key"
+                  tooltip-content="格式：<大写字段名称>_OPTIONS，如 STATIC_DATA_OPTIONS"
+                />
               </template>
               <el-input v-model="item.key" placeholder="例：STATUS_OPTIONS" clearable />
             </el-form-item>
@@ -46,7 +44,7 @@ function onDelete(idx: number) {
           <OptionsConfig
             v-model="item.value"
             add-button-text="新增选项"
-            :form-item-prop="[...formItemProp, index + '', 'value']"
+            :form-item-prop="`${formItemProp}.${index}.value`"
           />
         </el-col>
       </el-row>

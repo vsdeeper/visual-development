@@ -33,7 +33,7 @@ const formData = defineModel<MergeDesignData>({ default: () => ({ options: {} })
         </template>
         <StaticDataConfig
           v-model="formData.options.saticDataConfig"
-          :form-item-prop="['options', 'saticDataConfig']"
+          form-item-prop="options.saticDataConfig"
         />
       </el-form-item>
     </el-col>

@@ -19,3 +19,7 @@ export const DATE_TYPE_OPTIONS: { label: string; value: DateType }[] = [
   { label: '日期时间范围', value: 'datetimerange' },
   { label: '月范围', value: 'monthrange' },
 ]
+export const OPTION_DATA_TYPE_OPTIONS = [
+  { label: '动态数据', value: 'dynamic_data' },
+  { label: '静态数据', value: 'static_data' },
+]

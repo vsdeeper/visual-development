@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { Minus, Plus } from '@element-plus/icons-vue'
-import { type TableColumnItem } from '../../../../..'
+import { type TableColumnItem, type ViewDesignData } from '../../../../..'
 import { ROW_GUTTER } from '../constants'
 import { FIXED_OPTIONS, FORMATTER_OPTIONS } from './constants'
 import { nanoid } from 'nanoid'
 import { first, last } from 'radash'
+import { findViewComponent } from '@/components/visual-development/util'
+import { activeDesignData, designData } from '@/stores'
 
 defineProps<{
   root: boolean
@@ -14,6 +16,13 @@ defineProps<{
 
 const model = defineModel<TableColumnItem[]>({ default: () => [] })
 const activeName = ref(first(model.value)?.id)
+const staticDataConfig = computed(() => {
+  const find: ViewDesignData | undefined = findViewComponent(
+    activeDesignData.value!,
+    designData.value,
+  )
+  return find?.options.saticDataConfig ?? []
+})
 
 function addItem() {
   model.value?.push({ id: nanoid(5), apiConfig: { params: [] } })
@@ -42,13 +51,14 @@ function onChange(key: string, val: any, item: TableColumnItem) {
         item.apiConfig = { params: [] }
         item.itemLabel = 'label'
         item.itemValue = 'id'
-      } else if (val === 'date_format') {
-        item.format = 'yyyy-MM-dd HH:mm:ss'
-      } else {
+        item.options = undefined
+      } else if (val === 'static_data_transform') {
         item.apiConfig = undefined
         item.itemLabel = undefined
         item.itemValue = undefined
-        item.format = undefined
+        item.options = [{}]
+      } else if (val === 'date_format') {
+        item.format = 'yyyy-MM-dd HH:mm:ss'
       }
       break
     }
@@ -185,6 +195,26 @@ function getLabel(label?: string, propLabel?: string) {
               </el-select>
             </el-form-item>
           </ResponsiveCol>
+
+          <ResponsiveCol v-if="item.formatterType === 'static_data_transform'">
+            <el-form-item
+              :prop="[...getFormItemProp(index, formItemProp), 'staticDataKey']"
+              :rules="[{ required: true, message: '必填项' }]"
+            >
+              <template #label>
+                <my-label label="静态数据Key" tooltip-content="关联当前view的静态数据Key配置" />
+              </template>
+              <el-select v-model="item.staticDataKey" placeholder="请选择" clearable filterable>
+                <el-option
+                  v-for="item in staticDataConfig"
+                  :key="item.key"
+                  :label="item.key"
+                  :value="item.key!"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </ResponsiveCol>
           <ResponsiveCol v-if="item.formatterType === 'dynamic_data_transform'">
             <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'itemLabel']">
               <template #label>
@@ -245,18 +275,6 @@ function getLabel(label?: string, propLabel?: string) {
               </el-radio-group>
             </el-form-item>
           </ResponsiveCol>
-          <ResponsiveCol v-if="item.formatterType === 'static_data_transform'">
-            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'staticDataKey']">
-              <template #label>
-                <my-label label="静态数据Key" tooltip-content="关联当前view的静态数据Key配置" />
-              </template>
-              <el-input
-                v-model="item.staticDataKey"
-                placeholder="例：STATIC_DATA_KEY"
-                clearable
-              ></el-input>
-            </el-form-item>
-          </ResponsiveCol>
           <ResponsiveCol v-if="item.formatterType === 'date_format'">
             <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'format']">
               <template #label>
@@ -269,19 +287,20 @@ function getLabel(label?: string, propLabel?: string) {
               ></el-input>
             </el-form-item>
           </ResponsiveCol>
-          <el-col v-if="item.formatterType === 'dynamic_data_transform'" :span="24">
-            <el-form-item :prop="[...getFormItemProp(index, formItemProp)]">
-              <template #label>
-                <MyLabel label="动态数据回显接口配置" />
-              </template>
+          <el-col :span="24">
+            <el-form-item
+              v-if="item.formatterType === 'dynamic_data_transform'"
+              label="数据回显接口定义"
+              :prop="[...getFormItemProp(index, formItemProp), 'apiConfig']"
+            >
               <ApiConfig
                 v-model="model[index].apiConfig"
-                :form-item-prop="[...getFormItemProp(index, formItemProp)]"
+                :form-item-prop="getFormItemProp(index, formItemProp).join('.')"
               />
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item :prop="[...getFormItemProp(index, formItemProp)]">
+        <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'tableColumnItems']">
           <template #label>
             <MyLabel label="子表列配置" />
           </template>

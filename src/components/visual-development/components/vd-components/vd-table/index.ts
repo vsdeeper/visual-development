@@ -1,6 +1,6 @@
 import { type BaseDesignData } from '../../../..'
 import { type Sort } from 'element-plus'
-import type { ApiConfigModel } from '../../design-component/components'
+import type { ApiConfigModel, OptionsConfigItem } from '../../design-component/components'
 import type { FormDesignData } from 'vswift-form'
 
 export type TableColumnItemFormatterType =
@@ -19,7 +19,6 @@ export interface TableColumnItem {
   sortable?: boolean | 'custom'
   sortChange?: (...args: any[]) => void
   formatterType?: TableColumnItemFormatterType
-  staticDataKey?: string // 静态数据key，formatterType = static_data_transform
   format?: string // 日期显示格式，yyyy-MM-dd HH:mm:ss，formatterType = date_format
   isTreeData?: boolean // 是否树形数据，formatterType = dynamic_data_transform
   apiConfig?: ApiConfigModel // 接口配置，formatterType = dynamic_data_transform
@@ -27,7 +26,8 @@ export interface TableColumnItem {
   itemLabel?: string
   itemValue?: string
   itemChildren?: string
-  [key: string]: any
+  staticDataKey?: string
+  options?: OptionsConfigItem[]
 }
 
 export interface TableOperationsItemFormConfig {

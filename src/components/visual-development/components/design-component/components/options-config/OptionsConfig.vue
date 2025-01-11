@@ -4,11 +4,10 @@ import type { OptionsConfigItem } from '.'
 
 withDefaults(
   defineProps<{
-    formItemProp?: string[]
+    formItemProp: string
     addButtonText?: string
   }>(),
   {
-    formItemProp: () => [],
     addButtonText: '新增',
   },
 )
@@ -42,7 +41,7 @@ function onChange(key: string, data?: any) {
     </el-row>
     <el-row v-for="(item, index) in model" :key="'item' + index" align="middle">
       <el-form-item
-        :prop="[...formItemProp, index + '', 'value']"
+        :prop="`${formItemProp}.${index}.value`"
         :rules="[{ required: true, message: '必填项' }]"
         :show-message="false"
         style="width: 200px; margin-right: 5px"
@@ -62,7 +61,7 @@ function onChange(key: string, data?: any) {
         </el-input>
       </el-form-item>
       <el-form-item
-        :prop="[...formItemProp, index + '', 'label']"
+        :prop="`${formItemProp}.${index}.label`"
         :rules="[{ required: true, message: '必填项' }]"
         :show-message="false"
         style="flex: 1"

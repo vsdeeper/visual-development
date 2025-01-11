@@ -32,10 +32,7 @@ const onDelete = (index: number) => {
             style="margin-right: 10px"
           />
         </template>
-        <ApiConfig
-          v-model="model[index]"
-          :form-item-prop="['options', 'globalApiConfig', index + '']"
-        />
+        <ApiConfig v-model="model[index]" :form-item-prop="`options.globalApiConfig.${index}`" />
       </el-collapse-item>
     </el-collapse>
     <div v-if="!model.length" class="nodata">暂无配置</div>

@@ -149,7 +149,7 @@ const onAdd = () => {
               </template>
               <ApiConfig
                 v-model="item.apiConfig"
-                :form-item-prop="[...formItemProp, index + '', 'apiConfig']"
+                :form-item-prop="`${formItemProp}.${index}.apiConfig`"
               />
             </el-form-item>
           </el-col>
@@ -171,7 +171,7 @@ const onAdd = () => {
               </template>
               <ApiConfig
                 v-model="item.echoApiConfig"
-                :form-item-prop="[...formItemProp, index + '', 'echoApiConfig']"
+                :form-item-prop="`${formItemProp}.${index}.echoApiConfig`"
               />
             </el-form-item>
           </el-col>

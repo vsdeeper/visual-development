@@ -8,31 +8,48 @@ const props = defineProps<{
   id: string
 }>()
 
-const model = defineModel<TableOperationsItemFormConfig>({ default: () => ({}) })
 const show = ref(false)
+const model = defineModel<TableOperationsItemFormConfig>({ default: () => ({}) })
+const VsFormDesignerRef = ref<VsFormDesignerInstance>()
+const tableOperations = computed(
+  () => (activeDesignData.value as TableDesignData).options?.tableOperations,
+)
+const tableColumnOperations = computed(
+  () => (activeDesignData.value as TableDesignData).options?.tableColumnOperations,
+)
+const tableOperationsHasForm = computed(
+  () =>
+    tableOperations.value?.filter(
+      e => !e.enableConfirmation && !e.formConfig?.useOtherForm && e.formConfig?.data,
+    ) ?? [],
+)
+const tableColumnOperationsHasForm = computed(
+  () =>
+    tableColumnOperations.value?.filter(
+      e => !e.enableConfirmation && !e.formConfig?.useOtherForm && e.formConfig?.data,
+    ) ?? [],
+)
+const mergeOperationsHasForm = computed(() => [
+  ...tableOperationsHasForm.value,
+  ...tableColumnOperationsHasForm.value,
+])
 const operateFormOptions = computed(() => {
-  const tableOperations = (activeDesignData.value as TableDesignData).options?.tableOperations
-  const tableColumnOperations = (activeDesignData.value as TableDesignData).options
-    ?.tableColumnOperations
-  const tableOperationsHasForm = tableOperations?.filter(
-    e => !e.enableConfirmation && !e.formConfig?.useOtherForm && e.formConfig?.data,
-  )
-  const tableColumnOperationsHasForm = tableColumnOperations?.filter(
-    e => !e.enableConfirmation && !e.formConfig?.useOtherForm && e.formConfig?.data,
-  )
-  return [...(tableOperationsHasForm ?? []), ...(tableColumnOperationsHasForm ?? [])]
+  return mergeOperationsHasForm.value
     .filter(e => e.id !== props.id)
     .map(e => ({
-      label: `${e.formConfig?.data?.form.name ? e.formConfig?.data?.form.name : `${e.label || '未知'}操作的表单`}`,
+      label: e.label ? `${e.label}表单` : '未命名表单',
       value: e.id,
     }))
 })
-const VsFormDesignerRef = ref<VsFormDesignerInstance>()
+const label = computed(() => {
+  const find = mergeOperationsHasForm.value.find(e => e.id === props.id)
+  return find?.label
+})
 
 const onFormConfig = async () => {
   show.value = true
   await nextTick()
-  VsFormDesignerRef.value?.setModel(model.value.data)
+  VsFormDesignerRef.value?.setModel(JSON.parse(JSON.stringify(model.value.data)))
 }
 
 const onConfirm = () => {
@@ -62,8 +79,8 @@ const onConfirm = () => {
       </el-select>
     </div>
     <div v-if="!model.useOtherForm" class="just-config">
-      <el-text v-if="model.data?.widgetList.length" :type="model.data?.form.name ? '' : 'info'">
-        {{ model.data?.form.name || '未命名的表单' }}
+      <el-text v-if="model.data?.widgetList.length" :type="label ? '' : 'info'">
+        {{ label ? `${label}表单` : '未命名表单' }}
       </el-text>
       <el-text v-else type="info">暂未配置</el-text>
       <el-button type="primary" link @click="onFormConfig">
@@ -72,7 +89,7 @@ const onConfirm = () => {
       </el-button>
     </div>
   </div>
-  <el-dialog title="表单配置" v-model="show" fullscreen class="form-config">
+  <el-dialog v-model="show" title="表单配置" fullscreen class="form-config">
     <VsFormDesigner ref="VsFormDesignerRef" height="100%" />
     <template #footer>
       <el-button @click="show = false">取消</el-button>

@@ -3,14 +3,9 @@ import { Plus, Minus, QuestionFilled } from '@element-plus/icons-vue'
 import { METHOD_OPTIONS, VALUE_TYPE_OPTIONS } from './constants'
 import type { ApiConfigModel } from '.'
 
-withDefaults(
-  defineProps<{
-    formItemProp?: string[]
-  }>(),
-  {
-    formItemProp: () => ['options'],
-  },
-)
+defineProps<{
+  formItemProp: string
+}>()
 
 const model = defineModel<ApiConfigModel>({
   default: () => ({
@@ -41,15 +36,7 @@ function onChange(key: string, data?: any) {
 
 <template>
   <div class="api-config">
-    <el-form-item :prop="[...formItemProp, 'name']">
-      <template #label>
-        <my-label label="封装名称">
-          <template #tooltip-content> 查询接口请加上query前缀，勿以data为结尾，示例：queryTableList </template>
-        </my-label>
-      </template>
-      <el-input v-model="model.name" clearable placeholder="请输入" />
-    </el-form-item>
-    <el-form-item :prop="[...formItemProp, 'url']" label="接口地址">
+    <el-form-item :prop="`${formItemProp}.url`" label="接口地址">
       <el-input v-model="model.url" clearable placeholder="请输入">
         <template #prepend>
           <el-select v-model="model.method" placeholder="类型" style="width: 100px">
@@ -79,10 +66,10 @@ function onChange(key: string, data?: any) {
         </div>
       </el-row>
       <el-row v-for="(item, index) in model.params" :key="'params' + index" align="middle">
-        <el-form-item :prop="[...formItemProp, 'params', index + '', 'key']">
+        <el-form-item :prop="`${formItemProp}.params.${index}.key`">
           <el-input v-model="item.key" placeholder="请输入" />
         </el-form-item>
-        <el-form-item :prop="[...formItemProp, 'params', index + '', 'value']">
+        <el-form-item :prop="`${formItemProp}.params.${index}.value`">
           <el-input
             v-model="item.value"
             class="input"

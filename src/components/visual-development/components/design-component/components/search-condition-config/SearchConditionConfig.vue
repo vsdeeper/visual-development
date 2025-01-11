@@ -1,31 +1,38 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue'
-import { type SearchConditionItem } from '../../../../..'
+import { type SearchConditionItem, type ViewDesignData } from '../../../../..'
 import { ROW_GUTTER } from '../constants'
-import { SEARCH_TYPE_OPTIONS, DATE_TYPE_OPTIONS } from './constants'
-import { type TabPaneName } from 'element-plus'
+import { SEARCH_TYPE_OPTIONS, DATE_TYPE_OPTIONS, OPTION_DATA_TYPE_OPTIONS } from './constants'
 import { first, last } from 'radash'
-import { genId } from '@/components/visual-development/util'
+import { findViewComponent, genId } from '@/components/visual-development/util'
+import { activeDesignData, designData } from '@/stores'
 
 const props = defineProps<{
   formItemProp?: string
 }>()
 
 const model = defineModel<SearchConditionItem[]>({ default: () => [] })
-const activeName = ref(first(model.value)?.label)
+const activeName = ref(first(model.value)?.id)
+const staticDataConfig = computed(() => {
+  const find: ViewDesignData | undefined = findViewComponent(
+    activeDesignData.value!,
+    designData.value,
+  )
+  return find?.options.saticDataConfig ?? []
+})
 
 function addItem() {
   model.value.push({ id: genId('searchconditionitem') })
-  activeName.value = last(model.value)?.label
+  activeName.value = last(model.value)?.id
 }
 
 function deleteItem(index: number) {
   model.value.splice(index, 1)
   if (!model.value.length) return
   if (model.value[index]) {
-    activeName.value = model.value[index].label
+    activeName.value = model.value[index].id
   } else {
-    activeName.value = model.value[index - 1].label
+    activeName.value = model.value[index - 1].id
   }
 }
 
@@ -38,20 +45,17 @@ function onChange(key: string, val: any, item: SearchConditionItem) {
         item.format = 'YYYY-MM-DD'
         item.valueFormat = 'x'
       } else if (val === 'Select') {
-        item.dataSource = 'api'
         item.itemLabel = 'label'
         item.itemValue = 'id'
       } else if (val === 'Cascader') {
-        item.dataSource = 'api'
         item.itemLabel = 'label'
         item.itemValue = 'id'
         item.itemChildren = 'children'
-        item.optionDataType = 'definition'
+        item.optionDataType = 'dynamic_data'
       } else {
         item.dateType = undefined
         item.format = undefined
         item.valueFormat = undefined
-        item.dataSource = undefined
         item.itemLabel = undefined
         item.itemValue = undefined
         item.itemChildren = undefined
@@ -60,16 +64,16 @@ function onChange(key: string, val: any, item: SearchConditionItem) {
       break
     }
     case 'optionDataType': {
-      if (val === 'definition') {
+      if (val === 'dynamic_data') {
         item.apiConfig = { params: [] }
-        item.dataSource = 'api'
         item.itemLabel = 'label'
         item.itemValue = 'id'
+        item.options = undefined
       } else {
         item.apiConfig = undefined
-        item.dataSource = undefined
         item.itemLabel = undefined
         item.itemValue = undefined
+        item.options = [{}]
       }
       break
     }
@@ -77,7 +81,6 @@ function onChange(key: string, val: any, item: SearchConditionItem) {
 }
 
 function resetSearchConditionItem(item: SearchConditionItem) {
-  item.dataSource = undefined
   item.apiConfig = undefined
   item.options = undefined
   item.itemLabel = undefined
@@ -92,22 +95,6 @@ function resetSearchConditionItem(item: SearchConditionItem) {
   item.optionDataType = undefined
 }
 
-function changeDataSource(name: TabPaneName, item: SearchConditionItem, index: number) {
-  if (name === 'custom') {
-    item.dataSource = 'custom'
-    item.apiConfig = undefined
-    item.itemLabel = undefined
-    item.itemValue = undefined
-    item.options = [{}]
-  } else if (name === 'api') {
-    item.apiConfig = { params: [] }
-    item.dataSource = 'api'
-    item.options = undefined
-    item.itemLabel = 'label'
-    item.itemValue = 'id'
-  }
-}
-
 const genFormItemProp = (prop: string) => {
   const preProp = props.formItemProp ? `${props.formItemProp}.` : ''
   return `${preProp}${prop}`
@@ -116,7 +103,6 @@ const genFormItemProp = (prop: string) => {
 
 <template>
   <div class="search-condition-config">
-    <!-- <my-divider-title label="搜索条件设置"></my-divider-title> -->
     <el-collapse v-if="model.length" v-model="activeName" accordion>
       <el-collapse-item v-for="(item, index) in model" :key="item.id" :name="item.id">
         <template #title>
@@ -192,8 +178,12 @@ const genFormItemProp = (prop: string) => {
                   :disabled="item.type === 'Cascader'"
                   @change="onChange('optionDataType', $event, item)"
                 >
-                  <el-option label="静态数据" value="static_data" />
-                  <el-option label="定义" value="definition" />
+                  <el-option
+                    v-for="item in OPTION_DATA_TYPE_OPTIONS"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
                 </el-select>
               </el-form-item>
             </ResponsiveCol>
@@ -205,11 +195,15 @@ const genFormItemProp = (prop: string) => {
                 <template #label>
                   <my-label label="静态数据Key" tooltip-content="关联当前view的静态数据Key配置" />
                 </template>
-                <el-input
-                  v-model="item.staticDataKey"
-                  placeholder="例：STATIC_DATA_KEY"
-                  clearable
-                />
+                <el-select v-model="item.staticDataKey" placeholder="请选择" clearable filterable>
+                  <el-option
+                    v-for="item in staticDataConfig"
+                    :key="item.key"
+                    :label="item.key"
+                    :value="item.key!"
+                  >
+                  </el-option>
+                </el-select>
               </el-form-item>
             </ResponsiveCol>
           </template>
@@ -260,9 +254,7 @@ const genFormItemProp = (prop: string) => {
             </ResponsiveCol>
           </template>
           <!-- 搜索条件为Select、Cascader时，设置label别名、value别名、多选 -->
-          <template
-            v-if="(item.dataSource === 'api' && item.type === 'Select') || item.type === 'Cascader'"
-          >
+          <template v-if="item.type === 'Select' || item.type === 'Cascader'">
             <ResponsiveCol>
               <el-form-item :prop="genFormItemProp(`${index}.itemLabel`)">
                 <template #label>
@@ -343,28 +335,20 @@ const genFormItemProp = (prop: string) => {
           </template>
           <!-- 搜索条件为Select、Cascader时，设置选项数据 -->
           <el-col
-            v-if="
-              item.optionDataType === 'definition' && ['Select', 'Cascader'].includes(item.type!)
-            "
+            v-if="['Select', 'Cascader'].includes(item.type!)"
             :span="24"
             style="margin-bottom: 20px"
           >
-            <el-tabs v-model="item.dataSource" @tab-change="changeDataSource($event, item, index)">
-              <el-tab-pane label="接口定义" name="api">
-                <el-form-item :prop="genFormItemProp(`${index}.apiConfig`)">
-                  <template #label>
-                    <MyLabel label="接口配置" />
-                  </template>
-                  <ApiConfig
-                    v-model="model[index].apiConfig"
-                    :form-item-prop="[index + '', 'apiConfig']"
-                  />
-                </el-form-item>
-              </el-tab-pane>
-              <el-tab-pane label="自定义" name="custom" :disabled="item.type === 'Cascader'">
-                <OptionsConfig v-model="item.options" :form-item-prop="[index + '', 'options']" />
-              </el-tab-pane>
-            </el-tabs>
+            <el-form-item
+              v-if="item.optionDataType === 'dynamic_data'"
+              label="选项数据接口定义"
+              :prop="genFormItemProp(`${index}.apiConfig`)"
+            >
+              <ApiConfig
+                v-model="model[index].apiConfig"
+                :form-item-prop="genFormItemProp(`${index}.apiConfig`)"
+              />
+            </el-form-item>
           </el-col>
         </el-row>
       </el-collapse-item>
