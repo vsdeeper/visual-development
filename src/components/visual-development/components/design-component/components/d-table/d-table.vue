@@ -3,12 +3,30 @@ import { type TableDesignData } from '../../../..'
 import { ROW_GUTTER, TABLE_LAYOUT_OPTIONS } from '../constants'
 
 const formData = defineModel<TableDesignData>({ default: () => ({ options: {} }) })
+
+const onChange = (key: string, ...args: any[]) => {
+  switch (key) {
+    case 'lazy': {
+      const [val, options] = args
+      if (!val) {
+        options.loadApiMethod = 'GET'
+        options.loadApi = undefined
+        options.loadApiParams = undefined
+      }
+    }
+  }
+}
 </script>
 
 <template>
   <el-row :gutter="ROW_GUTTER">
     <ResponsiveCol>
-      <IdEditor :form-data="formData" />
+      <el-form-item prop="id" :rules="[{ required: true, message: '必填项' }]">
+        <template #label>
+          <my-label label="唯一标识符" />
+        </template>
+        <el-input v-model="formData.id" readonly></el-input>
+      </el-form-item>
     </ResponsiveCol>
     <ResponsiveCol>
       <el-form-item prop="options.tableLayout">
@@ -40,13 +58,38 @@ const formData = defineModel<TableDesignData>({ default: () => ({ options: {} })
       </el-form-item>
     </ResponsiveCol>
     <ResponsiveCol>
-      <ItemHasChildrenEditor :options="formData.options" />
+      <el-form-item prop="options.itemHasChildren">
+        <template #label>
+          <my-label
+            label="hasChildren别名"
+            tooltip-content="渲染嵌套数据时，指定 row 中的 hasChildren 字段来指定哪些行是包含子节点"
+          />
+        </template>
+        <el-input
+          v-model="formData.options.itemHasChildren"
+          placeholder="请输入"
+          clearable
+        ></el-input>
+      </el-form-item>
     </ResponsiveCol>
     <ResponsiveCol>
-      <ItemChildrenEditor :options="formData.options" />
+      <el-form-item prop="options.itemChildren">
+        <template #label>
+          <my-label label="children别名" tooltip-content="渲染嵌套数据时的子节点 key 别名" />
+        </template>
+        <el-input v-model="formData.options.itemChildren" placeholder="请输入" clearable></el-input>
+      </el-form-item>
     </ResponsiveCol>
     <ResponsiveCol>
-      <RowKeyEditor :options="formData.options" />
+      <el-form-item prop="options.rowKey">
+        <template #label>
+          <my-label
+            label="行数据Key"
+            tooltip-content="用来优化 Table 的渲染，显示树形数据时，该属性是必填的"
+          />
+        </template>
+        <el-input v-model="formData.options.rowKey" placeholder="请输入" clearable></el-input>
+      </el-form-item>
     </ResponsiveCol>
     <ResponsiveCol>
       <el-form-item prop="options.showOverflowTooltip">
@@ -82,12 +125,31 @@ const formData = defineModel<TableDesignData>({ default: () => ({ options: {} })
       </el-form-item>
     </ResponsiveCol>
     <ResponsiveCol>
-      <LazyEditor :options="formData.options" />
+      <el-form-item prop="options.lazy">
+        <template #label>
+          <my-label label="懒加载子节点数据" />
+        </template>
+        <el-radio-group
+          v-model="formData.options.lazy"
+          @change="onChange('lazy', $event, formData.options)"
+        >
+          <el-radio-button :label="true">是</el-radio-button>
+          <el-radio-button :label="false">否</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
     </ResponsiveCol>
     <ResponsiveCol>
-      <VirtualizedEditor :options="formData.options" />
+      <el-form-item prop="options.virtualized">
+        <template #label>
+          <my-label label="虚拟化表格" />
+        </template>
+        <el-radio-group v-model="formData.options.virtualized">
+          <el-radio-button :label="true">是</el-radio-button>
+          <el-radio-button :label="false">否</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
     </ResponsiveCol>
-    <ResponsiveCol>
+    <!-- <ResponsiveCol>
       <el-form-item prop="options.autoCalcMaxHeight">
         <template #label>
           <my-label label="自动计算最大高度" tooltip-content="控制列表数据是否在一屏内展示" />
@@ -97,9 +159,17 @@ const formData = defineModel<TableDesignData>({ default: () => ({ options: {} })
           <el-radio-button :label="false">否</el-radio-button>
         </el-radio-group>
       </el-form-item>
-    </ResponsiveCol>
+    </ResponsiveCol> -->
     <ResponsiveCol>
-      <HighlightCurrentRowEditor :options="formData.options" />
+      <el-form-item prop="options.highlightCurrentRow">
+        <template #label>
+          <my-label label="高亮当前行" />
+        </template>
+        <el-radio-group v-model="formData.options.highlightCurrentRow">
+          <el-radio-button :label="true">是</el-radio-button>
+          <el-radio-button :label="false">否</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
     </ResponsiveCol>
     <ResponsiveCol>
       <el-form-item prop="options.flexible">

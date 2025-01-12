@@ -59,7 +59,7 @@ export interface TableDesignDataOptions {
   data?: Record<string, any>[]
   itemHasChildren?: string
   itemChildren?: string
-  autoCalcMaxHeight?: boolean
+  // autoCalcMaxHeight?: boolean
   relatedSearchId?: string
   tableLayout?: 'fixed' | 'auto'
   showSelection?: boolean
@@ -73,6 +73,5 @@ export interface TableDesignDataOptions {
   defaultSort?: Sort
   virtualized?: boolean
   showOverflowTooltip?: boolean
-  [key: string]: any
 }
 export type TableDesignData = BaseDesignData<TableDesignDataOptions>

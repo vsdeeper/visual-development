@@ -130,11 +130,14 @@ const genFormItemProp = (prop: string) => {
             </el-form-item>
           </ResponsiveCol>
           <ResponsiveCol>
-            <el-form-item :prop="genFormItemProp(`${index}.placeholder`)">
+            <el-form-item
+              :prop="genFormItemProp(`${index}.key`)"
+              :rules="[{ required: true, message: '必填项' }]"
+            >
               <template #label>
-                <my-label label="占位内容" />
+                <my-label label="字段名称" />
               </template>
-              <el-input v-model="item.placeholder" placeholder="请输入" clearable></el-input>
+              <el-input v-model="item.key" placeholder="请输入" clearable></el-input>
             </el-form-item>
           </ResponsiveCol>
           <ResponsiveCol>
@@ -207,52 +210,7 @@ const genFormItemProp = (prop: string) => {
               </el-form-item>
             </ResponsiveCol>
           </template>
-          <ResponsiveCol>
-            <el-form-item
-              :prop="genFormItemProp(`${index}.key`)"
-              :rules="[{ required: true, message: '必填项' }]"
-            >
-              <template #label>
-                <my-label label="字段名称" />
-              </template>
-              <el-input v-model="item.key" placeholder="请输入" clearable></el-input>
-            </el-form-item>
-          </ResponsiveCol>
-          <!-- 搜索条件为Date时，设置format、valueFormat、dateType -->
-          <template v-if="item.type === 'Date'">
-            <ResponsiveCol>
-              <el-form-item :prop="genFormItemProp(`${index}.format`)">
-                <template #label>
-                  <my-label label="显示在输入框中的格式" />
-                </template>
-                <el-input v-model="item.format" placeholder="请输入" clearable></el-input>
-              </el-form-item>
-            </ResponsiveCol>
-            <ResponsiveCol>
-              <el-form-item :prop="genFormItemProp(`${index}.valueFormat`)">
-                <template #label>
-                  <my-label label="绑定值的格式" />
-                </template>
-                <el-input v-model="item.valueFormat" placeholder="请输入" clearable></el-input>
-              </el-form-item>
-            </ResponsiveCol>
-            <ResponsiveCol>
-              <el-form-item :prop="genFormItemProp(`${index}.dateType`)">
-                <template #label>
-                  <my-label label="显示类型" />
-                </template>
-                <el-select v-model="item.dateType" placeholder="请选择" clearable>
-                  <el-option
-                    v-for="item in DATE_TYPE_OPTIONS"
-                    :key="item.value"
-                    :label="`${item.label} - ${item.value}`"
-                    :value="item.value"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </ResponsiveCol>
-          </template>
+
           <!-- 搜索条件为Select、Cascader时，设置label别名、value别名、多选 -->
           <template v-if="item.type === 'Select' || item.type === 'Cascader'">
             <ResponsiveCol>
@@ -282,20 +240,14 @@ const genFormItemProp = (prop: string) => {
                 </el-form-item>
               </ResponsiveCol>
             </template>
-            <!-- 搜索条件为Select时，设置虚拟化选择器 -->
-            <template v-if="item.type === 'Select'">
-              <ResponsiveCol>
-                <el-form-item :prop="genFormItemProp(`${index}.virtualized`)">
-                  <template #label>
-                    <my-label label="虚拟化选择器" />
-                  </template>
-                  <el-radio-group v-model="item.virtualized">
-                    <el-radio-button :label="true">是</el-radio-button>
-                    <el-radio-button :label="false">否</el-radio-button>
-                  </el-radio-group>
-                </el-form-item>
-              </ResponsiveCol>
-            </template>
+            <ResponsiveCol>
+              <el-form-item :prop="genFormItemProp(`${index}.placeholder`)">
+                <template #label>
+                  <my-label label="占位内容" />
+                </template>
+                <el-input v-model="item.placeholder" placeholder="请输入" clearable></el-input>
+              </el-form-item>
+            </ResponsiveCol>
             <ResponsiveCol>
               <el-form-item :prop="genFormItemProp(`${index}.multiple`)">
                 <template #label>
@@ -333,6 +285,56 @@ const genFormItemProp = (prop: string) => {
               </ResponsiveCol>
             </template>
           </template>
+          <!-- 搜索条件为Select时，设置虚拟化选择器 -->
+          <template v-if="item.type === 'Select'">
+            <ResponsiveCol>
+              <el-form-item :prop="genFormItemProp(`${index}.virtualized`)">
+                <template #label>
+                  <my-label label="虚拟化选择器" />
+                </template>
+                <el-radio-group v-model="item.virtualized">
+                  <el-radio-button :label="true">是</el-radio-button>
+                  <el-radio-button :label="false">否</el-radio-button>
+                </el-radio-group>
+              </el-form-item>
+            </ResponsiveCol>
+          </template>
+          <!-- 搜索条件为Date时，设置format、dateType -->
+          <template v-if="item.type === 'Date'">
+            <ResponsiveCol>
+              <el-form-item :prop="genFormItemProp(`${index}.dateType`)">
+                <template #label>
+                  <my-label label="显示类型" />
+                </template>
+                <el-select v-model="item.dateType" placeholder="请选择" clearable>
+                  <el-option
+                    v-for="item in DATE_TYPE_OPTIONS"
+                    :key="item.value"
+                    :label="`${item.label} - ${item.value}`"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </ResponsiveCol>
+            <ResponsiveCol>
+              <el-form-item :prop="genFormItemProp(`${index}.format`)">
+                <template #label>
+                  <my-label label="显示在输入框中的格式" />
+                </template>
+                <el-input v-model="item.format" placeholder="请输入" clearable></el-input>
+              </el-form-item>
+            </ResponsiveCol>
+          </template>
+          <!-- 搜索条件为Time时，设置valueFormat -->
+          <ResponsiveCol v-if="['Date', 'Time'].includes(item.type!)">
+            <el-form-item :prop="genFormItemProp(`${index}.valueFormat`)">
+              <template #label>
+                <my-label label="绑定值的格式" tooltip-content="x 表示返回时间戳" />
+              </template>
+              <el-input v-model="item.valueFormat" placeholder="请输入" clearable></el-input>
+            </el-form-item>
+          </ResponsiveCol>
           <!-- 搜索条件为Select、Cascader时，设置选项数据 -->
           <el-col
             v-if="['Select', 'Cascader'].includes(item.type!)"
@@ -343,6 +345,7 @@ const genFormItemProp = (prop: string) => {
               v-if="item.optionDataType === 'dynamic_data'"
               label="选项数据接口定义"
               :prop="genFormItemProp(`${index}.apiConfig`)"
+              :rules="[{ required: true, message: '必填项' }]"
             >
               <ApiConfig
                 v-model="model[index].apiConfig"

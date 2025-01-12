@@ -102,10 +102,12 @@ function getLabel(label?: string, propLabel?: string) {
           >
           </el-button>
         </template>
-
         <el-row :gutter="ROW_GUTTER">
           <ResponsiveCol>
-            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'label']">
+            <el-form-item
+              :prop="[...getFormItemProp(index, formItemProp), 'label']"
+              :rules="[{ required: true, message: '必填项' }]"
+            >
               <template #label>
                 <my-label label="列名称" />
               </template>
@@ -113,7 +115,10 @@ function getLabel(label?: string, propLabel?: string) {
             </el-form-item>
           </ResponsiveCol>
           <ResponsiveCol>
-            <el-form-item :prop="[...getFormItemProp(index, formItemProp), 'prop']">
+            <el-form-item
+              :prop="[...getFormItemProp(index, formItemProp), 'prop']"
+              :rules="[{ required: true, message: '必填项' }]"
+            >
               <template #label>
                 <my-label label="字段名称" />
               </template>
@@ -195,7 +200,6 @@ function getLabel(label?: string, propLabel?: string) {
               </el-select>
             </el-form-item>
           </ResponsiveCol>
-
           <ResponsiveCol v-if="item.formatterType === 'static_data_transform'">
             <el-form-item
               :prop="[...getFormItemProp(index, formItemProp), 'staticDataKey']"
@@ -292,6 +296,7 @@ function getLabel(label?: string, propLabel?: string) {
               v-if="item.formatterType === 'dynamic_data_transform'"
               label="数据回显接口定义"
               :prop="[...getFormItemProp(index, formItemProp), 'apiConfig']"
+              :rules="[{ required: true, message: '必填项' }]"
             >
               <ApiConfig
                 v-model="model[index].apiConfig"

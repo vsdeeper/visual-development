@@ -47,7 +47,7 @@ export interface SearchConditionItem {
 }
 
 export interface SearchDesignDataOptions {
-  labelWidth?: string
+  labelWidth?: number
   searchConditionItems?: SearchConditionItem[]
 }
 

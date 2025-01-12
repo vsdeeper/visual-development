@@ -36,7 +36,11 @@ function onChange(key: string, data?: any) {
 
 <template>
   <div class="api-config">
-    <el-form-item :prop="`${formItemProp}.url`" label="接口地址">
+    <el-form-item
+      :prop="`${formItemProp}.url`"
+      label="接口地址"
+      :rules="[{ required: true, message: '必填项' }]"
+    >
       <el-input v-model="model.url" clearable placeholder="请输入">
         <template #prepend>
           <el-select v-model="model.method" placeholder="类型" style="width: 100px">

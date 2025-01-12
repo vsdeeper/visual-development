@@ -64,7 +64,8 @@ function mouseoutSkeleton(e: MouseEvent) {
         item-key="id"
       >
         <template #item="{ element: item }">
-          <div class="group-item" :style="genStyle(item)">
+          <!-- 后续如果需要左右排版需用 <div class="group-item" :style="genStyle(item)"> -->
+          <div class="group-item">
             <component
               :is="VdComponents[(item as MergeDesignData).type]"
               :data="item"

@@ -8,13 +8,23 @@ const formData = defineModel<MergeDesignData>({ default: () => ({ options: {} })
 <template>
   <el-row :gutter="ROW_GUTTER">
     <ResponsiveCol>
-      <IdEditor :form-data="formData"></IdEditor>
+      <el-form-item prop="id" :rules="[{ required: true, message: '必填项' }]">
+        <template #label>
+          <my-label label="唯一标识符" />
+        </template>
+        <el-input v-model="formData.id" readonly></el-input>
+      </el-form-item>
     </ResponsiveCol>
     <ResponsiveCol>
       <el-form-item label="标签长度" prop="options.labelWidth">
-        <el-input v-model="formData.options.labelWidth" placeholder="请输入" clearable>
-          <template #append>px</template>
-        </el-input>
+        <el-input-number
+          v-model="formData.options.labelWidth"
+          :min="1"
+          :max="Number.MAX_SAFE_INTEGER"
+          placeholder="请输入"
+          :step="1"
+          controls-position="right"
+        />
       </el-form-item>
     </ResponsiveCol>
     <el-col :span="24">
