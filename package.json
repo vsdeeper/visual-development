@@ -1,6 +1,6 @@
 {
   "name": "visual-development",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "type": "module",
   "module": "dist/index.js",
   "types": "dist/types/components/index.d.ts",
@@ -45,7 +45,7 @@
     "localforage": "^1.10.0",
     "nanoid": "^5.0.7",
     "radash": "^12.1.0",
-    "vswift-form": "0.0.15",
+    "vswift-form": "0.0.16",
     "vue": "^3.4.21",
     "vue3-ace-editor": "^2.2.4",
     "vuedraggable": "^4.1.0"
