@@ -6,7 +6,7 @@ import type { VAceEditorInstance } from 'vue3-ace-editor/types'
 import type { ProjectDesignData, ViewDesignData } from '../..'
 
 const emit = defineEmits<{
-  (e: 'change', val: ProjectDesignData | ViewDesignData): void
+  (event: 'import', val: string): void
 }>()
 
 const AceEditor = defineAsyncComponent({
@@ -17,23 +17,19 @@ const show = ref(false)
 const showExportDialog = ref(false)
 const form = ref<Record<string, any>>({})
 const formRef = ref<FormInstance>()
-const exportData = ref('')
-const exportDataRef = ref<VAceEditorInstance>()
-
-watch(exportData, val => {
-  emit('change', JSON.parse(val))
-})
+const model = ref('')
+const exportImportDataRef = ref<VAceEditorInstance>()
 
 function open(data: ProjectDesignData | ViewDesignData) {
   show.value = true
   configSetModuleUrl()
-  exportData.value = JSON.stringify(data, null, '  ')
+  model.value = JSON.stringify(data, null, '  ')
   form.value.fileName = `${data.options.name ?? 'unknown'}.json`
 }
 
 function onCopy() {
   try {
-    const val = exportDataRef.value?.value
+    const val = exportImportDataRef.value?.value
     navigator.clipboard.writeText(val ?? '')
     ElMessage.success('复制成功')
     show.value = false
@@ -46,11 +42,16 @@ function onExport() {
   showExportDialog.value = true
 }
 
+function onImport() {
+  emit('import', model.value)
+  show.value = false
+}
+
 async function onConfirmExport() {
   try {
     const valid = await formRef.value?.validate()
     if (!valid) return
-    const fileBlob = new Blob([exportData.value], { type: 'text/plain;charset=utf-8' })
+    const fileBlob = new Blob([model.value], { type: 'text/plain;charset=utf-8' })
     saveAs(fileBlob, form.value.fileName)
     showExportDialog.value = false
   } catch (error) {
@@ -69,11 +70,11 @@ defineExpose({
     class="adaptive-dialog"
     v-model="show"
     modal-class="export-data-overlay"
-    title="导出数据"
+    title="导出/导入数据"
   >
     <AceEditor
-      ref="exportDataRef"
-      v-model:value="exportData"
+      ref="exportImportDataRef"
+      v-model:value="model"
       class="ace-editor"
       lang="json"
       theme="chrome"
@@ -89,6 +90,7 @@ defineExpose({
       <el-button @click="show = false">取消</el-button>
       <el-button type="primary" @click="onCopy">复制</el-button>
       <el-button type="primary" @click="onExport">导出</el-button>
+      <el-button type="primary" @click="onImport">导入</el-button>
     </template>
   </el-dialog>
   <el-dialog class="adaptive-dialog-1" title="导出文件" v-model="showExportDialog">

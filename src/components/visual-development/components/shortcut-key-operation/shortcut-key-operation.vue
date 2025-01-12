@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { setActiveDesignData, designData, activeDesignData, setDialogFullscreen } from '@/stores'
+import { setActiveDesignData, designData, activeDesignData } from '@/stores'
 import {
   type ActiveDesignData,
   type AddComponentInstance,
-  type ExportDataInstance,
+  type ExportImportDataInstance,
   type ViewDesignData,
 } from '../..'
 import { type ShortcutKeyOptionItem } from '.'
 import {
   ADD_COMPONENT_REF_SYMBOL,
   DESIGN_COMPONENT_REF_SYMBOL,
-  EXPORT_DATA_REF_SYMBOL,
+  EXPORT_IMPORT_DATA_REF_SYMBOL,
 } from '@/utils/constants'
 import { deleteComponent } from '../../util'
 
@@ -27,7 +27,7 @@ const emit = defineEmits<{
 
 const addComponentRef = inject<Ref<AddComponentInstance>>(ADD_COMPONENT_REF_SYMBOL)
 const designComponentRef = inject<Ref<AddComponentInstance>>(DESIGN_COMPONENT_REF_SYMBOL)
-const exportDataRef = inject<Ref<ExportDataInstance>>(EXPORT_DATA_REF_SYMBOL)
+const exportImportDataRef = inject<Ref<ExportImportDataInstance>>(EXPORT_IMPORT_DATA_REF_SYMBOL)
 
 function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) {
   if (props.usedInRootComponent) {
@@ -49,9 +49,9 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) 
       // 删除组件
       deleteComponent(data, designData.value)
     } else if (_keysStr === 'VE') {
-      // 导出数据
+      // 导出/导入数据
       if (activeDesignData.value?.id !== data?.id) setActiveDesignData(data)
-      exportDataRef?.value.open(data as ViewDesignData)
+      exportImportDataRef?.value.open(data as ViewDesignData)
     }
   }
 }
@@ -116,6 +116,8 @@ function clickShortcutKey(item: ShortcutKeyOptionItem, data?: ActiveDesignData) 
       font-size: 10px;
       line-height: 1;
       height: 18px;
+      min-width: 18px;
+      box-sizing: border-box;
       padding: 0 6px;
       border-radius: 4px;
       color: #fff;

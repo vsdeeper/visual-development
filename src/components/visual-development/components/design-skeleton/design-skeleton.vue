@@ -4,7 +4,6 @@ import { type MergeDesignData, ShortcutKeyOperation, VdComponents } from '../..'
 import { type ShortcutKeyOptionItem } from '..'
 import { isActiveDesign } from '../../util'
 import { activeDesignData } from '@/stores'
-import { genStyle } from './util'
 
 defineProps<{
   data: MergeDesignData
@@ -64,8 +63,8 @@ function mouseoutSkeleton(e: MouseEvent) {
         item-key="id"
       >
         <template #item="{ element: item }">
-          <!-- 后续如果需要左右排版需用 <div class="group-item" :style="genStyle(item)"> -->
           <div class="group-item">
+            <!-- 后续如果需要左右排版需用 <div class="group-item" :style="genStyle(item)"> -->
             <component
               :is="VdComponents[(item as MergeDesignData).type]"
               :data="item"

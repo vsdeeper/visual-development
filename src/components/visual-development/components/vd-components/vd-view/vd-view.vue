@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { type ViewDesignData } from '.';
-import { SHORTCUR_KEY_OPTIONS_OF_CONTAINER_COMPONENT } from '../constants';
+import { type ViewDesignData } from '.'
+import { SHORTCUR_KEY_OPTIONS_OF_CONTAINER_COMPONENT } from '../constants'
 
 defineProps<{
-  data: ViewDesignData;
-}>();
+  data: ViewDesignData
+}>()
 </script>
 
 <template>

@@ -20,9 +20,9 @@ import {
   IS_PAGE_DESIGN_MODE_SYMBOL,
   ADD_COMPONENT_REF_SYMBOL,
   DESIGN_COMPONENT_REF_SYMBOL,
-  EXPORT_DATA_REF_SYMBOL,
+  EXPORT_IMPORT_DATA_REF_SYMBOL,
 } from '@/utils/constants'
-import { genId, isActiveDesign, isContainerComponent } from './util'
+import { findParentComponentOfComponent, genId, isActiveDesign, isContainerComponent } from './util'
 import { DESIGN_DATA_KEY, PRESET_DATA_KEY } from './constants'
 import {
   AddComponent,
@@ -31,7 +31,7 @@ import {
   type ShortcutKeyDescription,
   type ViewDesignData,
   type ProjectDesignData,
-  type ExportDataInstance,
+  type ExportImportDataInstance,
   type TableDesignData,
 } from './components'
 import localforage from 'localforage'
@@ -44,7 +44,7 @@ console.log('VdComponents 可视化设计组件', VdComponents)
 
 const addComponentRef = ref<AddComponentInstance>()
 const designComponentRef = ref<DesignComponentInstance>()
-const exportDataRef = ref<ExportDataInstance>()
+const exportImportDataRef = ref<ExportImportDataInstance>()
 const listOfShortcutKeysRef = ref<ListOfShortcutKeysInstance>()
 const keyCodes = ref('')
 const loading = ref(false)
@@ -53,7 +53,7 @@ const loading = ref(false)
 provide(IS_PAGE_DESIGN_MODE_SYMBOL, ref(true))
 provide(ADD_COMPONENT_REF_SYMBOL, addComponentRef)
 provide(DESIGN_COMPONENT_REF_SYMBOL, designComponentRef)
-provide(EXPORT_DATA_REF_SYMBOL, exportDataRef)
+provide(EXPORT_IMPORT_DATA_REF_SYMBOL, exportImportDataRef)
 
 onMounted(async () => {
   loading.value = true
@@ -94,8 +94,8 @@ async function handleKeydown(e: KeyboardEvent) {
     designComponentRef.value?.open()
     keyCodes.value = ''
   } else if (keyCodes.value.includes('VE')) {
-    if (exportDataRef.value?.show) return
-    exportDataRef.value?.open(activeDesignData.value as ProjectDesignData | ViewDesignData)
+    if (exportImportDataRef.value?.show) return
+    exportImportDataRef.value?.open(activeDesignData.value as ProjectDesignData | ViewDesignData)
     keyCodes.value = ''
   }
 }
@@ -218,6 +218,24 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
 function showMoreShortcutKey() {
   listOfShortcutKeysRef.value?.open()
 }
+
+function onImport(val: string) {
+  const _val = JSON.parse(val) as MergeDesignData
+  const find = findParentComponentOfComponent(activeDesignData.value!, designData.value)
+  if (Array.isArray(find)) {
+    const _find = find.find(e => e.id === activeDesignData.value!.id)
+    const _findIndex = find.findIndex(e => e.id === activeDesignData.value!.id)
+    if (JSON.stringify(_find, null, '  ') !== val) {
+      find.splice(_findIndex, 1, _val)
+    }
+  } else {
+    const _find = find?.components?.find(e => e.id === activeDesignData.value!.id)
+    const _findIndex = find?.components?.findIndex(e => e.id === activeDesignData.value!.id)
+    if (_find && JSON.stringify(_find, null, '  ') !== val) {
+      find?.components?.splice(_findIndex!, 1, _val)
+    }
+  }
+}
 </script>
 
 <template>
@@ -266,15 +284,15 @@ function showMoreShortcutKey() {
       @show-more="showMoreShortcutKey"
     />
   </div>
-  <AddComponent ref="addComponentRef" @select="onSelectComponent"></AddComponent>
+  <AddComponent ref="addComponentRef" @select="onSelectComponent" />
   <DesignComponent
     ref="designComponentRef"
     v-model="activeDesignData"
     :form-data="activeDesignData as ActiveDesignData"
     :fullscreen="dialogFullscreen"
-  ></DesignComponent>
-  <ExportData ref="exportDataRef"></ExportData>
-  <ShortcutKeyDescription ref="listOfShortcutKeysRef"></ShortcutKeyDescription>
+  />
+  <ExportImportData ref="exportImportDataRef" @import="onImport" />
+  <ShortcutKeyDescription ref="listOfShortcutKeysRef" />
 </template>
 
 <style lang="scss" scoped>

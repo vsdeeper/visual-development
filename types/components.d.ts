@@ -42,7 +42,7 @@ declare module 'vue' {
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElText: typeof import('element-plus/es')['ElText']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
-    ExportData: typeof import('./../src/components/visual-development/components/export-data/export-data.vue')['default']
+    ExportImportData: typeof import('./../src/components/visual-development/components/export-import-data/ExportImportData.vue')['default']
     FormConfig: typeof import('./../src/components/visual-development/components/design-component/components/form-config/FormConfig.vue')['default']
     GlobalApiConfig: typeof import('./../src/components/visual-development/components/design-component/components/d-project/components/GlobalApiConfig.vue')['default']
     MyColorPicker: typeof import('./../src/components/my-color-picker/my-color-picker.vue')['default']

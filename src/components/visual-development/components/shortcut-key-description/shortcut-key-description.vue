@@ -44,6 +44,8 @@ defineExpose({
     font-size: 12px;
     line-height: 1;
     height: 22px;
+    min-width: 22px;
+    box-sizing: border-box;
     padding: 0 7px;
     border-radius: 4px;
     color: #fff;
