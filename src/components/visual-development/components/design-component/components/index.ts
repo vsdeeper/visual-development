@@ -3,7 +3,6 @@ import { capitalizeFirstLetter } from '@/utils'
 import { type AsyncComponentLoader } from 'vue'
 import type { ComponentTypeOfPageDesigner } from '../..'
 
-export * from './save-as-preset'
 export * from './options-config'
 export * from './static-data-config'
 export * from './search-condition-config'

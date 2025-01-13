@@ -300,7 +300,7 @@ function getLabel(label?: string, propLabel?: string) {
             >
               <ApiConfig
                 v-model="model[index].apiConfig"
-                :form-item-prop="getFormItemProp(index, formItemProp).join('.')"
+                :form-item-prop="[...getFormItemProp(index, formItemProp), 'apiConfig'].join('.')"
               />
             </el-form-item>
           </el-col>

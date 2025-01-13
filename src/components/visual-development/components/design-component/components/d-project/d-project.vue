@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type MergeDesignData } from '../../../..'
 import { ROW_GUTTER } from '../constants'
-import { ApiDomain, GlobalApiConfig } from './components'
+import { ApiDomain } from './components'
 import { TopRight } from '@element-plus/icons-vue'
 
 const formData = defineModel<MergeDesignData>({ default: () => ({ options: {} }) })
@@ -87,14 +87,14 @@ function onGoto(key: string) {
         <CommonField v-model="formData.options.commonField" />
       </el-form-item>
     </el-col> -->
-    <el-col :span="24">
+    <!-- <el-col :span="24">
       <el-form-item prop="options.globalApiConfig">
         <template #label>
           <MyLabel label="全局接口配置" />
         </template>
         <GlobalApiConfig v-model="formData.options.globalApiConfig" />
       </el-form-item>
-    </el-col>
+    </el-col> -->
     <el-col :span="24">
       <el-form-item label="项目描述" prop="options.description">
         <el-input

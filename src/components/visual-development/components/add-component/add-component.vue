@@ -2,8 +2,8 @@
 import { type InputInstance } from 'element-plus'
 import { type AddComponentOptionItem, type AddComponentGroupOptionItem } from '.'
 import { activeDesignData } from '@/stores'
-import type { ActiveDesignData, PresetDataItem } from '../..'
-import { ADD_COMPONENT_OPTIONS, PRESET_DATA_KEY } from '../../constants'
+import type { ActiveDesignData } from '../..'
+import { ADD_COMPONENT_OPTIONS } from '../../constants'
 import localforage from 'localforage'
 
 const emit = defineEmits<{
@@ -53,20 +53,6 @@ async function filterAddComponentOptions(
   activeDesignData?: ActiveDesignData,
 ) {
   const _options: AddComponentGroupOptionItem[] = JSON.parse(JSON.stringify(options))
-  // 将预设数据加入到选项
-  const presetData: PresetDataItem[] | null = await localforage.getItem(PRESET_DATA_KEY)
-  if (presetData) {
-    const find = _options.find(e => e.id === 'MyPreset')
-    if (find) {
-      find.children = presetData.map(e => ({
-        label: e.name,
-        value: e.type,
-        presetId: e.id,
-        desc: e.desc,
-        disabled: false,
-      }))
-    }
-  }
   if (!activeDesignData /**不存在当前设计数据，即初始状态，只能添加项目组件 */) {
     _options.forEach(optionItem =>
       optionItem.id === 'ProjectContainer'

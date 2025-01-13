@@ -3,7 +3,6 @@ import { type ComponentTypeOfPageDesigner } from '../../..'
 export interface AddComponentOptionItem {
   label: string
   value: ComponentTypeOfPageDesigner
-  presetId?: string
   desc?: string
   disabled?: boolean
 }

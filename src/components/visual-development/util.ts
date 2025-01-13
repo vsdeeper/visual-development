@@ -1,62 +1,6 @@
 import { nanoid } from 'nanoid'
-import localforage from 'localforage'
 import { setActiveDesignData } from '@/stores'
-import {
-  type ActiveDesignData,
-  type MergeDesignData,
-  type ComponentTypeOfPageDesigner,
-  type PresetDataItem,
-} from '.'
-import { PRESET_DATA_KEY } from './constants'
-
-/**
- * 获取组件设计预设数据
- * @param key
- */
-export async function getPresetData(key: string): Promise<PresetDataItem[] | null | undefined> {
-  try {
-    const forageData: PresetDataItem[] | null = await localforage.getItem(key)
-    if (!forageData) return []
-    return forageData
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-/**
- * 设置组件设计预设数据
- * @param data
- */
-export async function setPresetData(data?: {
-  presetData: ActiveDesignData
-  extendData: Record<string, any>
-}) {
-  try {
-    const { presetData, extendData } = data ?? {}
-    if (!presetData) return
-    const copyPresetData: ActiveDesignData = JSON.parse(JSON.stringify(presetData))
-    const foragePresetData = await getPresetData(PRESET_DATA_KEY)
-    if (foragePresetData?.some(e => e.id === copyPresetData.id)) {
-      const find = foragePresetData.find(e => e.id === copyPresetData.id)
-      if (find) {
-        find.timestamp = +new Date()
-        find.data = copyPresetData
-      }
-    } else {
-      foragePresetData?.push({
-        id: genId(copyPresetData.type),
-        type: copyPresetData.type,
-        name: extendData?.name,
-        desc: extendData?.desc,
-        data: copyPresetData,
-        timestamp: +new Date(),
-      })
-    }
-    localforage.setItem(PRESET_DATA_KEY, foragePresetData)
-  } catch (error) {
-    console.error(error)
-  }
-}
+import { type ActiveDesignData, type MergeDesignData, type ComponentTypeOfPageDesigner } from '.'
 
 /**
  * 判断是否容器组件

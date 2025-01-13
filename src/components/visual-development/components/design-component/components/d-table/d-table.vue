@@ -183,7 +183,10 @@ const onChange = (key: string, ...args: any[]) => {
       </el-form-item>
     </ResponsiveCol>
     <el-col :span="24" style="margin-top: 18px">
-      <el-form-item prop="options.tableColumnItems">
+      <el-form-item
+        prop="options.tableColumnItems"
+        :rules="[{ required: true, message: '必填项' }]"
+      >
         <template #label>
           <MyLabel label="表列配置" />
         </template>
@@ -195,7 +198,7 @@ const onChange = (key: string, ...args: any[]) => {
       </el-form-item>
     </el-col>
     <el-col :span="24">
-      <el-form-item prop="options.apiConfig">
+      <el-form-item prop="options.apiConfig" :rules="[{ required: true, message: '必填项' }]">
         <template #label>
           <MyLabel label="列表接口配置" />
         </template>

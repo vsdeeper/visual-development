@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ElMessage, type FormInstance } from 'element-plus'
+import { type FormInstance } from 'element-plus'
 import { type ActiveDesignData } from '../..'
-import { DesignComponent, SaveAsPreset, type SaveAsPresetInstance } from './components'
-import { forEachHandlerOfComponents, genId, setPresetData } from '../../util'
+import { DesignComponent } from './components'
 
 withDefaults(
   defineProps<{
@@ -17,8 +16,6 @@ withDefaults(
 const formData = defineModel<ActiveDesignData>({ default: () => ({}) })
 const formRef = ref<FormInstance>()
 const show = ref(false)
-const SaveAsPresetRef = ref<SaveAsPresetInstance>()
-const presetData = ref<ActiveDesignData>()
 
 function open() {
   show.value = true
@@ -27,35 +24,6 @@ function open() {
 function toTitle(title: string, formData?: ActiveDesignData) {
   if (formData?.type === 'Project') return '设计项目'
   return title
-}
-
-function onSaveAsPreset(data: ActiveDesignData) {
-  presetData.value = data
-  SaveAsPresetRef.value?.open()
-}
-
-async function onConfirm(formData: Record<string, any>) {
-  await setPresetData({ presetData: refreshId(presetData.value!), extendData: formData })
-  ElMessage({
-    type: 'success',
-    message: '预设成功',
-  })
-}
-
-function showSaveAsPresetBtn(data?: ActiveDesignData) {
-  return data?.type === 'View'
-}
-
-function showCancelBtn(data?: ActiveDesignData) {
-  return data?.type === 'View'
-}
-
-function refreshId(data: ActiveDesignData) {
-  const _data: ActiveDesignData = JSON.parse(JSON.stringify(data))
-  forEachHandlerOfComponents(_data.components ?? [], item => {
-    item.id = genId(item.type)
-  })
-  return _data
 }
 
 defineExpose({
@@ -80,18 +48,7 @@ defineExpose({
         ></component>
       </el-form>
     </div>
-    <template #footer>
-      <el-button v-if="showCancelBtn(formData)" @click="show = false">取消</el-button>
-      <el-button
-        v-if="showSaveAsPresetBtn(formData)"
-        type="primary"
-        @click="onSaveAsPreset(formData)"
-      >
-        存为预设
-      </el-button>
-    </template>
   </el-dialog>
-  <SaveAsPreset ref="SaveAsPresetRef" @confirm="onConfirm" />
 </template>
 
 <style lang="scss" scoped>

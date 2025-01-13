@@ -14,7 +14,6 @@ import {
   VdComponents,
   type BaseDesignData,
   type MergeDesignData,
-  type PresetDataItem,
 } from '.'
 import {
   IS_PAGE_DESIGN_MODE_SYMBOL,
@@ -23,7 +22,7 @@ import {
   EXPORT_IMPORT_DATA_REF_SYMBOL,
 } from '@/utils/constants'
 import { findParentComponentOfComponent, genId, isActiveDesign, isContainerComponent } from './util'
-import { DESIGN_DATA_KEY, PRESET_DATA_KEY } from './constants'
+import { DESIGN_DATA_KEY } from './constants'
 import {
   AddComponent,
   ShortcutKeyOperation,
@@ -152,12 +151,6 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
       } as ProjectDesignData
     }
     case 'View': {
-      let components = []
-      if (item.presetId /** 预设数据 */) {
-        const presetData: PresetDataItem[] | null = await localforage.getItem(PRESET_DATA_KEY)
-        const find = presetData?.find(e => e.id === item.presetId)
-        components = find?.data?.components ?? []
-      }
       return {
         id: genId(item.value),
         type: item.value,
@@ -166,7 +159,7 @@ async function createDesignData(item: AddComponentOptionItem): Promise<ActiveDes
           name: 'my-view',
           saticDataConfig: [],
         },
-        components,
+        components: [],
       } as ViewDesignData
     }
     case 'Search': {
