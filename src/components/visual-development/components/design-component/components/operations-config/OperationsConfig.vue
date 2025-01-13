@@ -149,7 +149,7 @@ const onAdd = () => {
               </template>
               <ApiConfig
                 v-model="item.apiConfig"
-                :form-item-prop="`${formItemProp}.${index}.apiConfig`"
+                :form-item-prop="`${formItemProp.join('.')}.${index}.apiConfig`"
               />
             </el-form-item>
           </el-col>
