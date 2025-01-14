@@ -30,8 +30,8 @@ importers:
         specifier: ^12.1.0
         version: 12.1.0
       vswift-form:
-        specifier: 0.0.17
-        version: 0.0.17(@element-plus/icons-vue@2.3.1(vue@3.5.13(typescript@5.5.4)))(date-fns@3.6.0)(element-plus@2.7.2(vue@3.5.13(typescript@5.5.4)))(nanoid@5.0.7)(radash@12.1.0)(vue@3.5.13(typescript@5.5.4))
+        specifier: 0.0.21
+        version: 0.0.21(@element-plus/icons-vue@2.3.1(vue@3.5.13(typescript@5.5.4)))(date-fns@3.6.0)(element-plus@2.7.2(vue@3.5.13(typescript@5.5.4)))(nanoid@5.0.7)(radash@12.1.0)(vue@3.5.13(typescript@5.5.4))
       vue:
         specifier: ^3.4.21
         version: 3.5.13(typescript@5.5.4)
@@ -2386,8 +2386,8 @@ packages:
       terser:
         optional: true
 
-  vswift-form@0.0.17:
-    resolution: {integrity: sha512-reX6nnWREHSvK1ysbuTcX8WmjHCPCQj1lfligdMFr4a6gepUJ2eG6bf6o5JXjfuaWtqr/z+B1tKuUnhGR8SNFQ==}
+  vswift-form@0.0.21:
+    resolution: {integrity: sha512-v0qT7UgA3mr+0nQ9oiWkQGPfSeyJd4K6z2ttFPxtuM7cz0+vQBMNKsXLemRP+rJ65Fg7ahIKyIRpbt+vx7RX2g==}
     peerDependencies:
       '@element-plus/icons-vue': ^2.3.0
       date-fns: ^3.6.0
@@ -4993,7 +4993,7 @@ snapshots:
       fsevents: 2.3.3
       sass: 1.77.0
 
-  vswift-form@0.0.17(@element-plus/icons-vue@2.3.1(vue@3.5.13(typescript@5.5.4)))(date-fns@3.6.0)(element-plus@2.7.2(vue@3.5.13(typescript@5.5.4)))(nanoid@5.0.7)(radash@12.1.0)(vue@3.5.13(typescript@5.5.4)):
+  vswift-form@0.0.21(@element-plus/icons-vue@2.3.1(vue@3.5.13(typescript@5.5.4)))(date-fns@3.6.0)(element-plus@2.7.2(vue@3.5.13(typescript@5.5.4)))(nanoid@5.0.7)(radash@12.1.0)(vue@3.5.13(typescript@5.5.4)):
     dependencies:
       '@element-plus/icons-vue': 2.3.1(vue@3.5.13(typescript@5.5.4))
       '@vswift/utils': 1.1.2

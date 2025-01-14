@@ -77,23 +77,27 @@ watch(
 )
 
 async function handleKeydown(e: KeyboardEvent) {
+  const overlayEls = document.querySelectorAll('#app > div[class*="el-overlay"]')
+  for (const el of overlayEls) {
+    const display = (el as HTMLDivElement).style.display
+    if (display !== 'none') {
+      return
+    }
+  }
   keyCodes.value += e.key.toUpperCase()
   if (keyCodes.value.includes('VA')) {
     // V+A 键，添加组件
     if (!activeDesignData.value || isContainerComponent(activeDesignData.value.type)) {
-      if (addComponentRef.value?.show) return
       // 当前不存在设计中的组件或当前设计组件是布局容器类组件，进行添加组件操作
       addComponentRef.value?.open()
       keyCodes.value = ''
     }
   } else if (keyCodes.value.includes('VD')) {
     if (!activeDesignData.value) return
-    if (designComponentRef.value?.show) return
     // V+D 键，设计组件
     designComponentRef.value?.open()
     keyCodes.value = ''
   } else if (keyCodes.value.includes('VE')) {
-    if (exportImportDataRef.value?.show) return
     exportImportDataRef.value?.open(activeDesignData.value as ProjectDesignData | ViewDesignData)
     keyCodes.value = ''
   }
