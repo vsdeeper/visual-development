@@ -24,7 +24,8 @@ function open(data: ProjectDesignData | ViewDesignData) {
   show.value = true
   configSetModuleUrl()
   model.value = JSON.stringify(data, null, '  ')
-  form.value.fileName = `${data.options.name ?? 'unknown'}.json`
+  const name = (data.options.name ?? 'unknown').replace(/\//g, '_')
+  form.value.fileName = `${name}.json`
 }
 
 function onCopy() {
@@ -94,8 +95,17 @@ defineExpose({
     </template>
   </el-dialog>
   <el-dialog class="adaptive-dialog-1" title="导出文件" v-model="showExportDialog">
-    <el-form :model="form" ref="formRef" label-width="70px">
-      <el-form-item label="文件名" prop="fileName" :rules="[{ required: true, message: '必填项' }]">
+    <el-form :model="form" ref="formRef" label-width="90px">
+      <el-form-item
+        prop="fileName"
+        :rules="[
+          { required: true, message: '必填项' },
+          { pattern: /^(?!.*\/).+$/, message: '格式不正确' },
+        ]"
+      >
+        <template #label>
+          <MyLabel label="文件名" tooltip-content="文件名不能包含 ' / ' 斜杠" />
+        </template>
         <el-input v-model="form.fileName" />
       </el-form-item>
     </el-form>

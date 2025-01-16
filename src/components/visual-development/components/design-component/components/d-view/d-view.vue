@@ -17,7 +17,7 @@ const formData = defineModel<MergeDesignData>({ default: () => ({ options: {} })
         <template #label>
           <MyLabel
             label="视图名称"
-            tooltip-content="如果有多层，可以使用路径，例：/my-view/sub-view"
+            tooltip-content="如果有多层，可以使用路径，例：my-view/sub-view"
           />
         </template>
         <el-input v-model="formData.options.name" placeholder="例：my-view" clearable></el-input>
